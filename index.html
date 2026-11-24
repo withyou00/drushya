@@ -244,9 +244,10 @@ textarea.nt{width:100%;min-height:90px;border:1px solid var(--line);border-radiu
     <button class="tb" id="bRedo" title="ಮುಂದಕ್ಕೆ (Ctrl+Y)">↷</button>
     <div class="sp"></div>
     <button class="tb" id="bTheme">🎨 <span class="lb">ವಿನ್ಯಾಸ</span></button>
-    <button class="tb" id="bCheck" title="ಪಾಠದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಬಂದಿದೆಯೇ ಪರೀಕ್ಷಿಸಿ">✅ <span class="lb">ಮಾಹಿತಿ ಪರಿಶೀಲನೆ</span></button>
+    <button class="tb" id="bCheck" title="ಮೂಲ ಪಠ್ಯದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಬಂದಿದೆಯೇ ಪರೀಕ್ಷಿಸಿ">✅ <span class="lb">ಮಾಹಿತಿ ಪರಿಶೀಲನೆ</span></button>
     <button class="tb pri" id="bDown">⬇ <span class="lb">ಡೌನ್‌ಲೋಡ್</span></button>
     <button class="tb cta" id="bPlay">▶ <span class="lb">ಪ್ರದರ್ಶನ</span></button>
+    <button class="tb" id="bLang" title="Language / ಭಾಷೆ">🌐 <span id="langLbl">EN</span></button>
     <button class="tb" id="mtog">⚙</button>
   </div>
   <div id="main">
@@ -260,7 +261,7 @@ textarea.nt{width:100%;min-height:90px;border:1px solid var(--line);border-radiu
         <button class="ib" data-ins="shape">⬛ ಆಕಾರ</button>
         <button class="ib" data-ins="icon">😀 ಚಿಹ್ನೆ</button>
         <span style="width:1px;height:26px;background:var(--line);margin:0 4px"></span>
-        <button class="ib" id="bNew">✨ ಹೊಸ ಪಾಠ</button>
+        <button class="ib" id="bNew">✨ ಹೊಸ ಪ್ರಸ್ತುತಿ</button>
       </div>
       <div id="wrap"><div id="stage"></div></div>
     </div>
@@ -296,7 +297,15 @@ function toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.c
 /* ---------------------------------------------------------------- themes */
 const FONTS = ['Anek Kannada', 'Noto Sans Kannada', 'Baloo Tamma 2', 'Noto Serif Kannada', 'Tiro Kannada'];
 const FONT_KN = { 'Anek Kannada': 'ಆನೆಕ್ (ಆಧುನಿಕ)', 'Noto Sans Kannada': 'ನೋಟೋ ಸ್ಯಾನ್ಸ್ (ಸರಳ)', 'Baloo Tamma 2': 'ಬಾಲೂ ತಮ್ಮ (ದುಂಡು)', 'Noto Serif Kannada': 'ನೋಟೋ ಸೆರಿಫ್ (ಶಾಸ್ತ್ರೀಯ)', 'Tiro Kannada': 'ತಿರೋ (ಪುಸ್ತಕ ಶೈಲಿ)' };
-const THEMES = [
+const THEMES_RAW = [
+  { id: 'prachina', n: 'ಪ್ರಾಚೀನ ಕಾಗದ', tex: 'parchment', p: '#7A2E0E', a: '#B8862B', s: '#F8ECD2', t: '#3A2414', bg: '#F0DFB8', card: '#FBF3E0', g1: '#5C341A', g2: '#2E170A', gt: '#F8E7C2', hc: '#6B2A0E', pf: '#F6E7C6', tr: '#B8862B', sf: '#EDD7A8', nf: '#F9EFD2', hf: 'Noto Serif Kannada', bf: 'Noto Sans Kannada', head: 'scroll', hl: 'scroll', frame: 'gold', shadow: true, titlePlaque: true, art: 'warm, richly detailed realistic painting in the style of an old illustrated history book, soft golden light' },
+  { id: 'shile', n: 'ಶಿಲೆ (ಕಲ್ಲು)', tex: 'stone', p: '#F0D9A0', a: '#C9A45C', s: '#565C64', t: '#F2EDE2', bg: '#3B3F45', card: '#4B5058', g1: '#4A4E55', g2: '#2A2D31', gt: '#F7E8C4', hc: '#3A2A12', pf: '#E8DDC6', tr: '#C9A24E', sf: '#E3D2AE', nf: '#EFE3C8', hf: 'Noto Serif Kannada', bf: 'Noto Sans Kannada', head: 'plaque', hl: 'plaque', frame: 'gold', shadow: true, titlePlaque: true, art: 'photorealistic, dramatic warm lighting, ancient Indian stone architecture and sculpture, highly detailed' },
+  { id: 'maralu', n: 'ಮರಳುಗಲ್ಲು', tex: 'sandstone', p: '#8A3412', a: '#C77B30', s: '#FAE9D4', t: '#3D2414', bg: '#F3DEC4', card: '#FDF3E6', g1: '#B5582C', g2: '#6E2A10', gt: '#FFF1DF', hc: '#5A1F08', pf: '#FBF1E2', tr: '#C08A3E', sf: '#F0DAB4', nf: '#FFF2D6', hf: 'Noto Serif Kannada', bf: 'Noto Sans Kannada', head: 'plaque', hl: 'scroll', frame: 'gold', shadow: true, titlePlaque: true, art: 'warm realistic painting of ancient Karnataka, red sandstone tones, soft sunlight, highly detailed' },
+  { id: 'prayoga', n: 'ವಿಜ್ಞಾನ ಪ್ರಯೋಗಾಲಯ', tex: 'lab', p: '#0B4F8C', a: '#00A3A3', s: '#E2F1F8', t: '#13263A', bg: '#F4FAFD', card: '#FFFFFF', g1: '#0F2A4A', g2: '#08182E', gt: '#FFFFFF', hc: '#0B4F8C', pf: '#FFFFFF', tr: '#00A3A3', nf: '#FFF6BF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', head: 'ribbon', hl: 'box', frame: 'clean', shadow: true, art: 'clean, bright, realistic scientific illustration with clear details, textbook quality' },
+  { id: 'makkala', n: 'ಮಕ್ಕಳ ಬಣ್ಣ', tex: 'confetti', p: '#E4405F', a: '#FFB400', s: '#FFF1CC', t: '#2B2D42', bg: '#FFFBEF', card: '#FFFFFF', g1: '#FF6B8E', g2: '#7B5CF0', gt: '#FFFFFF', hc: '#E4405F', pf: '#FFFFFF', tr: '#FFB400', nf: '#FFF3B0', hf: 'Baloo Tamma 2', bf: 'Baloo Tamma 2', head: 'ribbon', hl: 'box', frame: 'polaroid', shadow: true, art: 'cheerful, colourful cartoon illustration for young children, soft shapes, friendly characters' },
+  { id: 'halage', n: 'ಕಪ್ಪುಹಲಗೆ', tex: 'chalk', p: '#F7D774', a: '#9BD3AE', s: '#2E5241', t: '#F4F1E6', bg: '#1F3A2E', card: '#2A4A3B', g1: '#244436', g2: '#132A20', gt: '#F7D774', hc: '#F7D774', pf: '#2A4A3B', tr: '#B07A43', nf: '#FFF3B0', hf: 'Baloo Tamma 2', bf: 'Baloo Tamma 2', head: 'plain', hl: 'box', frame: 'wood', shadow: true, art: 'chalk drawing on a green school blackboard, hand-drawn chalk style' },
+  { id: 'notebook', n: 'ನೋಟ್‌ಬುಕ್', tex: 'ruled', p: '#1D3C8C', a: '#E23B3B', s: '#EEF3FF', t: '#1E2A44', bg: '#FDFDF8', card: '#FFFFFF', g1: '#2B4FA8', g2: '#162B63', gt: '#FFFFFF', hc: '#1D3C8C', pf: '#FFFFFF', tr: '#E23B3B', nf: '#FFF3A8', hf: 'Baloo Tamma 2', bf: 'Noto Sans Kannada', head: 'plain', hl: 'box', frame: 'polaroid', shadow: true, art: 'friendly hand-drawn watercolour illustration like a children textbook' },
+  { id: 'jalavarna', n: 'ಜಲವರ್ಣ', tex: 'watercolor', p: '#1E6B52', a: '#E07A2E', s: '#E3F1EA', t: '#1D3229', bg: '#FBFAF5', card: '#FFFFFF', g1: '#2C8A6A', g2: '#14513C', gt: '#FFFFFF', hc: '#1E6B52', pf: '#FFFFFF', tr: '#E07A2E', nf: '#FFF3C4', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', head: 'ribbon', hl: 'box', frame: 'clean', shadow: true, art: 'soft watercolour painting, natural colours, gentle light' },
   { id: 'neela', n: 'ನೀಲಾಕಾಶ', p: '#1E4FA3', a: '#F5A623', s: '#E4EDFB', t: '#1B2433', bg: '#F7F9FD', card: '#FFFFFF', g1: '#1E4FA3', g2: '#0E2C66', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'circles' },
   { id: 'itihasa', n: 'ಇತಿಹಾಸ', p: '#7A3E1D', a: '#C8922E', s: '#F2E6D0', t: '#3B2A1A', bg: '#FBF6EC', card: '#FFFDF8', g1: '#7A3E1D', g2: '#3E1F0E', gt: '#FFF6E5', hf: 'Noto Serif Kannada', bf: 'Noto Sans Kannada', deco: 'corner' },
   { id: 'vana', n: 'ಹಸಿರು ವನ', p: '#1F7A4D', a: '#E9A21B', s: '#E2F1E7', t: '#183024', bg: '#F6FAF7', card: '#FFFFFF', g1: '#1F7A4D', g2: '#0F4A2E', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'band' },
@@ -310,8 +319,8 @@ const THEMES = [
   { id: 'mannu', n: 'ಮಣ್ಣು', p: '#A4462B', a: '#4F7C5B', s: '#F4E3DA', t: '#3A2018', bg: '#FCF7F3', card: '#FFFFFF', g1: '#A4462B', g2: '#5E2414', gt: '#FFFFFF', hf: 'Tiro Kannada', bf: 'Noto Sans Kannada', deco: 'corner' },
   { id: 'sarala', n: 'ಸರಳ ಬಿಳಿ', p: '#1F2430', a: '#E63946', s: '#F1F2F4', t: '#1F2430', bg: '#FFFFFF', card: '#FFFFFF', g1: '#1F2430', g2: '#3A4152', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'band' },
   { id: 'ratri', n: 'ರಾತ್ರಿ (ಕಪ್ಪು)', p: '#7FB2FF', a: '#FFC857', s: '#1E2840', t: '#E9EEF7', bg: '#121A2B', card: '#18223A', g1: '#1B2B4A', g2: '#0B1220', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'circles' },
-  { id: 'halage', n: 'ಕಪ್ಪುಹಲಗೆ', p: '#F7D774', a: '#9BD3AE', s: '#2A4A3B', t: '#F4F1E6', bg: '#1F3A2E', card: '#25443A', g1: '#244436', g2: '#132A20', gt: '#F7D774', hf: 'Baloo Tamma 2', bf: 'Baloo Tamma 2', deco: 'chalk' },
 ];
+const THEMES = THEMES_RAW.map(t => ({ hc: t.p, pf: t.card, tr: t.a, sf: '#EED9AE', rc: '#FFFFFF', nf: '#FFF3B0', head: 'plain', hl: 'box', frame: '', shadow: false, titlePlaque: false, tex: null, art: 'clean, bright, high-quality educational illustration', ...t }));
 const themeById = id => THEMES.find(t => t.id === id) || THEMES[0];
 const TOK = [['p', 'ಮುಖ್ಯ'], ['a', 'ಉಪ'], ['s', 'ತಿಳಿ'], ['t', 'ಪಠ್ಯ'], ['bg', 'ಹಿನ್ನೆಲೆ'], ['card', 'ಕಾರ್ಡ್']];
 const PALETTE = ['#FFFFFF', '#000000', '#1F2430', '#6B7285', '#D7263D', '#F46036', '#F5A623', '#FFD23F', '#2E933C', '#1B998B', '#2E86DE', '#1E4FA3', '#5B2A86', '#C2416F', '#7A3E1D', '#FBE4ED', '#E4EDFB', '#E2F1E7'];
@@ -319,6 +328,212 @@ function col(c, th) { if (!c) return null; if (c[0] === '$') return th[c.slice(1
 function famCss(ff, th) { const n = ff === 'h' ? th.hf : ff === 'b' ? th.bf : ff; return `"${n}", "Noto Sans Kannada", "Nirmala UI", "Tunga", sans-serif`; }
 function famName(ff, th) { return ff === 'h' ? th.hf : ff === 'b' ? th.bf : ff; }
 function bgCss(bg, th) { if (!bg) return th.bg; if (bg.k === 'grad') return `linear-gradient(${bg.ang || 135}deg, ${col(bg.c1, th)}, ${col(bg.c2, th)})`; return col(bg.c, th); }
+/* ---------------- textures (procedural — no image files needed) ---------------- */
+function hexRgb(h) { h = (h || '#000').replace('#', ''); if (h.length === 3) h = [...h].map(x => x + x).join(''); const n = parseInt(h.slice(0, 6), 16) || 0; return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function shade(hex, amt) { const f = v => Math.max(0, Math.min(255, Math.round(v + amt))); return '#' + hexRgb(hex).map(v => f(v).toString(16).padStart(2, '0')).join(''); }
+function rng(seed) { return () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+function mkNoise(seed) { const r = rng(seed), P = 256, g = new Float32Array(P * P); for (let i = 0; i < g.length; i++) g[i] = r(); return (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; const x0 = xi & 255, x1 = (xi + 1) & 255, y0 = (yi & 255) * P, y1 = ((yi + 1) & 255) * P; const a = g[y0 + x0], b = g[y0 + x1], c = g[y1 + x0], d = g[y1 + x1]; const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }; }
+function fbm(n, x, y, o) { let s = 0, a = .5, f = 1, t = 0; for (let i = 0; i < o; i++) { s += a * n(x * f, y * f); t += a; a *= .5; f *= 2; } return s / t; }
+const hash2 = (a, b) => { const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return s - Math.floor(s); };
+let GRAIN = null;
+function grainTile() { if (GRAIN) return GRAIN; const c = document.createElement('canvas'); c.width = c.height = 96; const x = c.getContext('2d'); const d = x.createImageData(96, 96); const r = rng(99); for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - .5) * 200; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); GRAIN = c; return c; }
+function genTex(th, v, Wd, Hd) {
+  const kind = th.tex, dark = v === 'd';
+  const cv = document.createElement('canvas'); cv.width = Wd; cv.height = Hd; const c = cv.getContext('2d');
+  const pw = Math.max(40, Math.round(Wd / 2.5)), ph = Math.max(23, Math.round(Hd / 2.5)), sc = pw / 512;
+  const pc = document.createElement('canvas'); pc.width = pw; pc.height = ph; const pctx = pc.getContext('2d'); const id = pctx.createImageData(pw, ph), d = id.data;
+  const n1 = mkNoise(7), n2 = mkNoise(19);
+  const bgL = hexRgb(th.bg), g1 = hexRgb(th.g1), g2 = hexRgb(th.g2);
+  for (let y = 0; y < ph; y++) for (let x = 0; x < pw; x++) {
+    const X = x / sc, Y = y / sc; let r, g, b;
+    const dx = (X - 256) / 256, dy = (Y - 144) / 144, vg = Math.max(0, dx * dx + dy * dy - .3);
+    if (kind === 'parchment') {
+      [r, g, b] = dark ? [96, 56, 30] : [240, 224, 186];
+      const D = (fbm(n1, X / 70, Y / 70, 4) - .5) * 50 + Math.max(0, fbm(n2, X / 18, Y / 18, 3) - .6) * 110 + vg * (dark ? 95 : 75);
+      r -= D * .8; g -= D; b -= D * 1.2;
+    } else if (kind === 'stone') {
+      [r, g, b] = dark ? [56, 59, 64] : [70, 74, 80];
+      const rowH = 48, row = Math.floor(Y / rowH), off = (row % 2) * 76, bw = 152, bx = (X + off) % bw, by = Y % rowH, bi = Math.floor((X + off) / bw);
+      let D = (fbm(n1, X / 32, Y / 32, 4) - .5) * 34 + (fbm(n2, X / 5, Y / 5, 2) - .5) * 22 + (hash2(row, bi) - .5) * 16 - vg * 30;
+      if (bx < 1.6 || by < 1.6) D -= 30; else if (bx < 3.2 || by < 3.2) D += 12;
+      r += D; g += D; b += D * 1.05;
+    } else if (kind === 'sandstone') {
+      [r, g, b] = dark ? [176, 90, 50] : [242, 220, 192];
+      const s = Math.sin(Y / 6 + fbm(n1, X / 90, Y / 30, 3) * 10), m = fbm(n2, X / 24, Y / 24, 3);
+      const D = s * (dark ? 12 : 5) + (m - .5) * (dark ? 34 : 16) - vg * (dark ? 60 : 20);
+      r += D; g += D * .85; b += D * .7;
+    } else if (kind === 'chalk') {
+      [r, g, b] = dark ? [28, 54, 40] : [33, 63, 47];
+      const D = (fbm(n1, X / 40, Y / 40, 4) - .5) * 26 + (fbm(n2, X / 4, Y / 4, 2) - .5) * 12 - vg * 18;
+      r += D * .8; g += D; b += D * .85;
+    } else {
+      const nz = (fbm(n2, X / 6, Y / 6, 2) - .5) * (dark ? 8 : 5);
+      if (dark) { const t = Math.min(1, Math.max(0, X / 512 * .6 + Y / 288 * .4)); r = g1[0] + (g2[0] - g1[0]) * t + nz; g = g1[1] + (g2[1] - g1[1]) * t + nz; b = g1[2] + (g2[2] - g1[2]) * t + nz; }
+      else { [r, g, b] = bgL; r += nz; g += nz; b += nz; }
+    }
+    const i = (y * pw + x) * 4; d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255;
+  }
+  pctx.putImageData(id, 0, 0); c.imageSmoothingQuality = 'high'; c.drawImage(pc, 0, 0, Wd, Hd);
+  const k = Wd / 1280, R = rng(42);
+  c.save();
+  if (kind === 'lab') {
+    const minor = dark ? 'rgba(255,255,255,.05)' : 'rgba(11,79,140,.07)', major = dark ? 'rgba(255,255,255,.11)' : 'rgba(11,79,140,.13)';
+    for (let i = 0; i * 24 * k < Wd; i++) { c.fillStyle = i % 5 === 0 ? major : minor; c.fillRect(i * 24 * k, 0, Math.max(1, k), Hd); }
+    for (let i = 0; i * 24 * k < Hd; i++) { c.fillStyle = i % 5 === 0 ? major : minor; c.fillRect(0, i * 24 * k, Wd, Math.max(1, k)); }
+    if (dark) {
+      c.strokeStyle = 'rgba(255,255,255,.14)'; c.lineWidth = 2 * k; const cx = Wd * .86, cy = Hd * .26;
+      for (let a = 0; a < 3; a++) { c.beginPath(); c.ellipse(cx, cy, 150 * k, 52 * k, a * Math.PI / 3, 0, Math.PI * 2); c.stroke(); }
+      c.fillStyle = 'rgba(255,255,255,.2)'; c.beginPath(); c.arc(cx, cy, 14 * k, 0, 7); c.fill();
+      for (let i = 0; i < 7; i++) { const hx = 90 * k + (i % 3) * 52 * k + (Math.floor(i / 3) % 2) * 26 * k, hy = Hd - 160 * k + Math.floor(i / 3) * 45 * k; c.beginPath(); for (let j = 0; j < 6; j++) { const a = j * Math.PI / 3; c.lineTo(hx + Math.cos(a) * 26 * k, hy + Math.sin(a) * 26 * k); } c.closePath(); c.stroke(); }
+    }
+  } else if (kind === 'confetti') {
+    const cols = [th.p, th.a, '#2EC4B6', '#7B5CF0', '#FF8C42', '#3A86FF'];
+    for (let i = 0; i < 110; i++) {
+      const x = R() * Wd, y = R() * Hd, rot = R() * 6.3, sz = 5 + R() * 9;
+      if (!dark && x > Wd * .07 && x < Wd * .93 && y > Hd * .19 && y < Hd * .9) continue;
+      c.globalAlpha = dark ? .35 : .65; c.fillStyle = c.strokeStyle = dark ? (i % 2 ? '#FFFFFF' : '#FFE066') : cols[i % cols.length];
+      const s = sz * k, t = i % 4; c.save(); c.translate(x, y); c.rotate(rot);
+      if (t === 0) { c.beginPath(); c.arc(0, 0, s, 0, 7); c.fill(); }
+      else if (t === 1) c.fillRect(-s, -s / 2.5, s * 2, s / 1.25);
+      else if (t === 2) { c.beginPath(); for (let j = 0; j < 10; j++) { const rr = j % 2 ? s * .45 : s * 1.2, a = j * Math.PI / 5; c.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); } c.closePath(); c.fill(); }
+      else { c.lineWidth = 3 * k; c.beginPath(); c.moveTo(-s * 1.5, 0); c.quadraticCurveTo(-s * .7, -s, 0, 0); c.quadraticCurveTo(s * .7, s, s * 1.5, 0); c.stroke(); }
+      c.restore();
+    }
+  } else if (kind === 'chalk') {
+    c.strokeStyle = 'rgba(255,255,255,.035)'; c.lineWidth = 46 * k; c.lineCap = 'round';
+    for (let i = 0; i < 9; i++) { c.beginPath(); const x = R() * Wd, y = R() * Hd; c.arc(x, y, (120 + R() * 220) * k, R() * 6, R() * 6 + 1.6); c.stroke(); }
+    const t = 24 * k; const wg = c.createLinearGradient(0, 0, Wd, Hd); wg.addColorStop(0, '#9A6534'); wg.addColorStop(.5, '#7A4A22'); wg.addColorStop(1, '#5E3818');
+    c.fillStyle = wg; c.beginPath(); c.rect(0, 0, Wd, Hd); c.rect(t, t, Wd - 2 * t, Hd - 2 * t); c.fill('evenodd');
+    c.strokeStyle = 'rgba(40,20,5,.3)'; c.lineWidth = Math.max(.6, k);
+    for (let i = 0; i < 30; i++) { const o = R() * t; c.beginPath(); c.moveTo(0, o); c.lineTo(Wd, o + R() * 2); c.moveTo(0, Hd - o); c.lineTo(Wd, Hd - o); c.moveTo(o, t); c.lineTo(o, Hd - t); c.moveTo(Wd - o, t); c.lineTo(Wd - o, Hd - t); c.stroke(); }
+    c.strokeStyle = 'rgba(0,0,0,.45)'; c.lineWidth = 3 * k; c.strokeRect(t, t, Wd - 2 * t, Hd - 2 * t);
+    c.fillStyle = 'rgba(255,255,255,.8)'; c.fillRect(Wd * .72, Hd - t - 7 * k, 60 * k, 7 * k); c.fillStyle = 'rgba(255,236,150,.85)'; c.fillRect(Wd * .78, Hd - t - 7 * k, 40 * k, 7 * k);
+  } else if (kind === 'ruled' && !dark) {
+    c.fillStyle = 'rgba(70,110,200,.2)'; for (let y = 112 * k; y < Hd - 10 * k; y += 38 * k) c.fillRect(0, y, Wd, Math.max(1, 1.3 * k));
+    c.fillStyle = 'rgba(226,59,59,.45)'; c.fillRect(30 * k, 0, 1.6 * k, Hd); c.fillRect(35 * k, 0, 1.6 * k, Hd);
+  } else if (kind === 'watercolor') {
+    const cols = dark ? ['#FFFFFF'] : [th.p, th.a, th.g1, '#7FB3D5'];
+    for (let i = 0; i < 9; i++) {
+      const corner = i % 4, cx = (corner % 2 ? .97 : .03) * Wd + (R() - .5) * Wd * .12, cy = (corner < 2 ? .04 : .96) * Hd + (R() - .5) * Hd * .12, rad = (130 + R() * 170) * k; c.fillStyle = cols[i % cols.length];
+      for (let j = 0; j < 26; j++) { c.globalAlpha = dark ? .025 : .022; c.beginPath(); c.arc(cx + (R() - .5) * rad * .6, cy + (R() - .5) * rad * .6, rad * (.45 + R() * .55), 0, 7); c.fill(); }
+    }
+  } else if (kind === 'parchment') {
+    c.strokeStyle = dark ? 'rgba(0,0,0,.12)' : 'rgba(120,80,30,.08)'; c.lineWidth = 2 * k; c.beginPath(); c.moveTo(Wd * .33, 0); c.lineTo(Wd * .35, Hd); c.moveTo(0, Hd * .52); c.lineTo(Wd, Hd * .5); c.stroke();
+  }
+  c.restore();
+  c.save(); c.globalCompositeOperation = 'overlay'; c.globalAlpha = ['stone', 'chalk', 'parchment', 'sandstone'].includes(kind) ? .16 : .05; c.fillStyle = c.createPattern(grainTile(), 'repeat'); c.fillRect(0, 0, Wd, Hd); c.restore();
+  return cv;
+}
+const TEXC = new Map(), TEXCSS = new Set(), TEXPV = new Map();
+function texCanvas(th, v) { const key = th.id + '-' + v; if (!TEXC.has(key)) TEXC.set(key, genTex(th, v, 1280, 720)); return TEXC.get(key); }
+function bgVariant(bg) { if (!bg) return 'l'; if (bg.k === 'solid' && bg.c === '$bg') return 'l'; if (bg.k === 'grad' && bg.c1 === '$g1' && bg.c2 === '$g2') return 'd'; return null; }
+function bgClass(bg, th) {
+  const v = th.tex && bgVariant(bg); if (!v) return '';
+  const key = th.id + '-' + v, cls = 'tx-' + key;
+  if (!TEXCSS.has(key)) { TEXCSS.add(key); let el = $('#texcss'); if (!el) { el = document.createElement('style'); el.id = 'texcss'; document.head.appendChild(el); } el.appendChild(document.createTextNode(`.${cls}{background-image:url(${texCanvas(th, v).toDataURL('image/jpeg', .86)})!important;background-size:100% 100%!important}`)); }
+  return cls;
+}
+function texPreview(th) { if (!th.tex) return ''; if (!TEXPV.has(th.id)) TEXPV.set(th.id, genTex(th, 'l', 192, 108).toDataURL('image/jpeg', .8)); return TEXPV.get(th.id); }
+
+/* ---------------- decorative shapes: plaque, scroll, note, ribbon + photo frames ---------------- */
+const FM = 28, FZS = new Map(), FANCY = ['plaque', 'scroll', 'note', 'ribbon'];
+function rrp(c, x, y, w, h, r) { r = Math.max(0, Math.min(r || 0, w / 2, h / 2)); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+function goldG(c, y0, y1, base) { const g = c.createLinearGradient(0, y0, 0, y1); g.addColorStop(0, shade(base, 55)); g.addColorStop(.42, shade(base, 12)); g.addColorStop(.5, base); g.addColorStop(.8, shade(base, -28)); g.addColorStop(1, shade(base, 20)); return g; }
+function drawFancy(c, s) {
+  const { kind, w, h } = s, fill = s.fill || '#F3E3C0', trim = s.trim || '#C9A24E';
+  c.save();
+  if (kind === 'plaque') {
+    const r = Math.min(18, h * .2), b = Math.max(5, Math.min(11, h * .09));
+    c.save(); c.shadowColor = 'rgba(0,0,0,.38)'; c.shadowBlur = 18; c.shadowOffsetY = 6; c.beginPath(); rrp(c, 0, 0, w, h, r); c.fillStyle = goldG(c, 0, h, trim); c.fill(); c.restore();
+    c.beginPath(); rrp(c, 1.5, 1.5, w - 3, h - 3, r); c.strokeStyle = shade(trim, 60); c.globalAlpha = .6; c.lineWidth = 1.5; c.stroke(); c.globalAlpha = 1;
+    c.beginPath(); rrp(c, b, b, w - 2 * b, h - 2 * b, Math.max(2, r - b * .6)); const g = c.createLinearGradient(0, b, 0, h - b); g.addColorStop(0, shade(fill, 16)); g.addColorStop(1, shade(fill, -12)); c.fillStyle = g; c.fill(); c.strokeStyle = shade(trim, -45); c.lineWidth = 1.2; c.stroke();
+    const i2 = b + 6; c.beginPath(); rrp(c, i2, i2, w - 2 * i2, h - 2 * i2, Math.max(2, r - i2 * .5)); c.strokeStyle = trim; c.globalAlpha = .8; c.lineWidth = 1.4; c.stroke(); c.globalAlpha = 1;
+    const k = Math.min(26, h * .24, w * .08), q = i2 + 4; c.strokeStyle = trim; c.fillStyle = trim; c.lineWidth = 2;
+    [[q, q, 1, 1], [w - q, q, -1, 1], [q, h - q, 1, -1], [w - q, h - q, -1, -1]].forEach(([x, y, sx, sy]) => { c.beginPath(); c.moveTo(x, y + sy * k); c.quadraticCurveTo(x, y, x + sx * k, y); c.stroke(); c.beginPath(); c.moveTo(x + sx * k * .2, y + sy * k * .65); c.quadraticCurveTo(x + sx * k * .2, y + sy * k * .2, x + sx * k * .65, y + sy * k * .2); c.stroke(); c.beginPath(); c.arc(x + sx * k * .45, y + sy * k * .45, 2.4, 0, 7); c.fill(); });
+    if (w > 220) [b / 2, h - b / 2].forEach(y => { c.beginPath(); c.moveTo(w / 2, y - 5); c.lineTo(w / 2 + 9, y); c.lineTo(w / 2, y + 5); c.lineTo(w / 2 - 9, y); c.closePath(); c.fillStyle = shade(trim, 40); c.fill(); });
+  } else if (kind === 'scroll') {
+    const R = h / 2, x0 = R * .55, x1 = w - R * .55, t = h * .13, bt = h * .87, wv = Math.min(5, h * .05);
+    c.save(); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 14; c.shadowOffsetY = 5;
+    c.beginPath(); c.moveTo(x0, t); c.bezierCurveTo(x0 + (x1 - x0) * .33, t - wv, x0 + (x1 - x0) * .66, t + wv, x1, t); c.lineTo(x1, bt); c.bezierCurveTo(x0 + (x1 - x0) * .66, bt + wv, x0 + (x1 - x0) * .33, bt - wv, x0, bt); c.closePath();
+    const g = c.createLinearGradient(0, t, 0, bt); g.addColorStop(0, shade(fill, -22)); g.addColorStop(.18, shade(fill, 8)); g.addColorStop(.55, fill); g.addColorStop(.85, shade(fill, 4)); g.addColorStop(1, shade(fill, -26)); c.fillStyle = g; c.fill(); c.restore();
+    c.strokeStyle = shade(fill, -45); c.lineWidth = 1.2; c.stroke();
+    [x0, x1].forEach((cx, side) => {
+      const rx = R * .42, ry = R * .96; const gg = c.createLinearGradient(cx - rx, 0, cx + rx, 0); gg.addColorStop(0, shade(fill, -55)); gg.addColorStop(.45, shade(fill, 14)); gg.addColorStop(1, shade(fill, -45));
+      c.save(); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 8; c.beginPath(); c.ellipse(cx, h / 2, rx, ry, 0, 0, 7); c.fillStyle = gg; c.fill(); c.restore();
+      c.strokeStyle = shade(fill, -60); c.lineWidth = 1.2; c.beginPath(); c.ellipse(cx, h / 2, rx, ry, 0, 0, 7); c.stroke();
+      const sx = side ? 1 : -1; c.beginPath(); c.ellipse(cx + sx * rx * .35, h / 2 + ry * .45, rx * .45, ry * .4, 0, 0, 7); c.fillStyle = shade(fill, -40); c.fill();
+      c.beginPath(); c.ellipse(cx + sx * rx * .35, h / 2 + ry * .45, rx * .2, ry * .18, 0, 0, 7); c.fillStyle = shade(fill, -70); c.fill();
+      c.strokeStyle = trim; c.globalAlpha = .7; c.lineWidth = 2; c.beginPath(); c.moveTo(cx, h / 2 - ry * .8); c.lineTo(cx, h / 2 + ry * .2); c.stroke(); c.globalAlpha = 1;
+    });
+  } else if (kind === 'note') {
+    const fd = Math.min(34, w * .14, h * .14);
+    c.save(); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 16; c.shadowOffsetY = 8;
+    c.beginPath(); c.moveTo(0, 0); c.lineTo(w, 0); c.lineTo(w, h - fd); c.lineTo(w - fd, h); c.lineTo(0, h); c.closePath();
+    const g = c.createLinearGradient(0, 0, 0, h); g.addColorStop(0, shade(fill, 10)); g.addColorStop(1, shade(fill, -10)); c.fillStyle = g; c.fill(); c.restore();
+    c.beginPath(); c.moveTo(w, h - fd); c.lineTo(w - fd, h - fd); c.lineTo(w - fd, h); c.closePath(); c.fillStyle = shade(fill, -30); c.fill();
+    const px = w / 2, py = 15; c.save(); c.shadowColor = 'rgba(0,0,0,.4)'; c.shadowBlur = 5; c.shadowOffsetY = 3;
+    const pg = c.createRadialGradient(px - 4, py - 4, 1, px, py, 12); pg.addColorStop(0, shade(trim, 80)); pg.addColorStop(.5, trim); pg.addColorStop(1, shade(trim, -60)); c.fillStyle = pg; c.beginPath(); c.arc(px, py, 11, 0, 7); c.fill(); c.restore();
+    c.fillStyle = 'rgba(255,255,255,.75)'; c.beginPath(); c.arc(px - 4, py - 4, 3, 0, 7); c.fill();
+  } else if (kind === 'ribbon') {
+    const bh = h * .78, dr = h * .22, tl = Math.min(h * .75, w * .1), m = tl * .55;
+    c.fillStyle = shade(fill, -35);
+    c.beginPath(); c.moveTo(0, dr); c.lineTo(tl + m, dr); c.lineTo(tl + m, dr + bh); c.lineTo(0, dr + bh); c.lineTo(tl * .4, dr + bh / 2); c.closePath(); c.fill();
+    c.beginPath(); c.moveTo(w, dr); c.lineTo(w - tl - m, dr); c.lineTo(w - tl - m, dr + bh); c.lineTo(w, dr + bh); c.lineTo(w - tl * .4, dr + bh / 2); c.closePath(); c.fill();
+    c.fillStyle = shade(fill, -65); c.beginPath(); c.moveTo(tl, bh); c.lineTo(tl + m, bh); c.lineTo(tl + m, bh + dr); c.closePath(); c.fill(); c.beginPath(); c.moveTo(w - tl, bh); c.lineTo(w - tl - m, bh); c.lineTo(w - tl - m, bh + dr); c.closePath(); c.fill();
+    c.save(); c.shadowColor = 'rgba(0,0,0,.28)'; c.shadowBlur = 12; c.shadowOffsetY = 5; c.beginPath(); c.rect(tl, 0, w - 2 * tl, bh); const g = c.createLinearGradient(0, 0, 0, bh); g.addColorStop(0, shade(fill, 22)); g.addColorStop(.5, fill); g.addColorStop(1, shade(fill, -14)); c.fillStyle = g; c.fill(); c.restore();
+    c.setLineDash([7, 5]); c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 1.5; c.strokeRect(tl + 7, 7, w - 2 * tl - 14, bh - 14); c.setLineDash([]);
+  } else if (kind === 'frame') {
+    const sub = s.sub, rad = s.rad || 0; const t = sub === 'polaroid' ? Math.max(10, Math.min(16, Math.min(w, h) * .04)) : sub === 'clean' ? 9 : Math.max(9, Math.min(18, Math.min(w, h) * .04));
+    const ring = () => { c.beginPath(); rrp(c, -t, -t, w + 2 * t, h + 2 * t, rad ? rad + t : (sub === 'gold' ? 6 : 3)); rrp(c, 0, 0, w, h, rad); };
+    let f;
+    if (sub === 'gold') f = goldG(c, -t, h + t, trim);
+    else if (sub === 'wood') { f = c.createLinearGradient(-t, -t, w + t, h + t); f.addColorStop(0, '#A06A38'); f.addColorStop(.5, '#7B4A22'); f.addColorStop(1, '#5A3416'); }
+    else if (sub === 'stone') { f = c.createLinearGradient(0, -t, 0, h + t); f.addColorStop(0, '#A2A6AC'); f.addColorStop(1, '#5D6168'); }
+    else f = '#FDFDFB';
+    c.save(); c.shadowColor = 'rgba(0,0,0,.38)'; c.shadowBlur = 18; c.shadowOffsetY = 7; ring(); c.fillStyle = f; c.fill('evenodd'); c.restore();
+    if (sub === 'gold' || sub === 'stone' || sub === 'wood') {
+      c.beginPath(); rrp(c, 0, 0, w, h, rad); c.strokeStyle = 'rgba(0,0,0,.45)'; c.lineWidth = 1.5; c.stroke();
+      c.beginPath(); rrp(c, -t + 1, -t + 1, w + 2 * t - 2, h + 2 * t - 2, rad ? rad + t : 5); c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 1.2; c.stroke();
+      if (sub === 'gold') { c.beginPath(); rrp(c, -t / 2, -t / 2, w + t, h + t, rad ? rad + t / 2 : 4); c.strokeStyle = shade(trim, -40); c.globalAlpha = .5; c.lineWidth = 1; c.stroke(); c.globalAlpha = 1; }
+      if (sub === 'wood') { c.save(); ring(); c.clip('evenodd'); c.strokeStyle = 'rgba(40,20,5,.25)'; c.lineWidth = 1; const Rr = rng(5); for (let i = 0; i < 26; i++) { const o = Rr() * t; c.beginPath(); c.moveTo(-t, -t + o); c.lineTo(w + t, -t + o + Rr() * 3); c.moveTo(-t, h + o); c.lineTo(w + t, h + o); c.moveTo(-t + o, -t); c.lineTo(-t + o, h + t); c.moveTo(w + o, -t); c.lineTo(w + o, h + t); c.stroke(); } c.restore(); }
+    }
+    if (sub === 'polaroid') { c.save(); c.translate(w / 2, -t + 2); c.rotate(-.05); c.fillStyle = 'rgba(243,231,201,.85)'; c.fillRect(-Math.min(70, w * .14), -14, Math.min(140, w * .28), 28); c.restore(); }
+  }
+  c.restore();
+}
+function fzKey(spec) { const k = [spec.kind, spec.sub || '', Math.round(spec.w), Math.round(spec.h), spec.fill || '', spec.trim || '', spec.rad || 0].join('|'); FZS.set(k, spec); return k; }
+function fzCanvasHTML(spec) { const k = fzKey(spec); return `<canvas class="fz" data-fz="${esc(k)}" style="position:absolute;left:${-FM}px;top:${-FM}px;width:${spec.w + 2 * FM}px;height:${spec.h + 2 * FM}px;pointer-events:none"></canvas>`; }
+function paintFancy(root, scale) {
+  if (!root) return; const dpr = window.devicePixelRatio || 1;
+  root.querySelectorAll('canvas.fz').forEach(cv => {
+    const s = FZS.get(cv.dataset.fz); if (!s) return; const Wd = s.w + 2 * FM, Hd = s.h + 2 * FM;
+    const k = Math.max(.05, Math.min(scale * dpr, 3000 / Wd, 3000 / Hd)); const pw = Math.max(1, Math.round(Wd * k)), ph = Math.max(1, Math.round(Hd * k));
+    if (cv.width === pw && cv.height === ph && cv.dataset.done) return;
+    cv.width = pw; cv.height = ph; const c = cv.getContext('2d'); c.scale(k, k); c.translate(FM, FM); drawFancy(c, s); cv.dataset.done = 1;
+  });
+}
+function fancySpec(e, th) { return e.t === 'shape' ? { kind: e.shape, w: e.w, h: e.h, fill: col(e.fill, th), trim: col(e.bc, th) || th.tr } : { kind: 'frame', sub: e.frame, w: e.w, h: e.h, rad: e.rad || 0, trim: th.tr }; }
+async function fancyPNG(spec) { const Wd = spec.w + 2 * FM, Hd = spec.h + 2 * FM, k = Math.min(2, 3000 / Wd, 3000 / Hd); const cv = document.createElement('canvas'); cv.width = Math.max(1, Math.round(Wd * k)); cv.height = Math.max(1, Math.round(Hd * k)); const c = cv.getContext('2d'); c.scale(k, k); c.translate(FM, FM); drawFancy(c, spec); return cvBytes(cv, 'image/png'); }
+const SHX = '<a:effectLst><a:outerShdw blurRad="152400" dist="50800" dir="5400000" algn="t" rotWithShape="0"><a:srgbClr val="000000"><a:alpha val="24000"/></a:srgbClr></a:outerShdw></a:effectLst>';
+const isTok = c => !c || c[0] === '$';
+function rotAbout(el, cx, cy, deg) { const r = deg * Math.PI / 180, ex = el.x + el.w / 2 - cx, ey = el.y + el.h / 2 - cy; el.x = Math.round(cx + ex * Math.cos(r) - ey * Math.sin(r) - el.w / 2); el.y = Math.round(cy + ex * Math.sin(r) + ey * Math.cos(r) - el.h / 2); el.rot = deg; return el; }
+function noteEls(text, x, y, w, h, deg) {
+  const n = S('note', x, y, w, h, { fill: '$nf', bc: '#D7263D', role: 'note' });
+  const t1 = T(LB().fact, x + 22, y + 34, w - 44, 40, { fs: 25, min: 16, bold: true, fc: '#7A2E0E', va: 'middle' });
+  const t2 = T(text, x + 22, y + 80, w - 44, h - 104, { fs: 24, min: 14, fc: '#2E2412' });
+  const cx = x + w / 2, cy = y + h / 2; return [n, t1, t2].map(e => rotAbout(e, cx, cy, deg));
+}
+function hlOf(sp) { return [sp.highlight ? '💡 ' + sp.highlight : '', sp.question ? '❓ ' + sp.question : ''].filter(Boolean).join('\n'); }
+function aiImgPrompt(s, th) {
+  const hdE = s.els.find(e => e.role === 'h' || e.role === 'tt') || s.els.find(e => e.t === 'text' && !e.dyn && e.text) || {};
+  const body = s.els.filter(e => e.t === 'text' && !e.dyn && e !== hdE).map(e => e.text).join(' ').replace(/\s+/g, ' ').slice(0, 600);
+  return `Create one beautiful, detailed illustration (16:9 landscape) for a school lesson slide in Karnataka, India.
+Lesson: ${D.title}
+Slide topic: ${hdE.text || D.title}
+${s.aiq ? 'Scene to show: ' + s.aiq + '\n' : ''}Slide content (for context, Kannada): ${body}
+Style: ${th.art}. Accurate to Indian history, culture and science; suitable for school children.
+VERY IMPORTANT: Do NOT put any text, letters, words, numbers, labels or captions anywhere in the image.`;
+}
 async function ensureFonts(th) {
   if (!document.fonts) return;
   const fams = new Set([th.hf, th.bf]);
@@ -380,10 +595,16 @@ function T(text, x, y, w, h, o = {}) {
 function S(shape, x, y, w, h, o = {}) { return Object.assign({ id: uid(), t: 'shape', shape, x, y, w, h, rot: 0, op: 1, fill: '$p', bc: null, bw: 0, rad: 0 }, o); }
 function I(q, x, y, w, h, o = {}) { return Object.assign({ id: uid(), t: 'img', src: '', q: q || '', x, y, w, h, rot: 0, op: 1, fit: 'cover', rad: 0, bc: null, bw: 0, credit: '' }, o); }
 function mkSlide(kind) { return { id: uid(), kind, bg: { k: 'solid', c: '$bg' }, notes: '', els: [] }; }
-const CONT = ' (ಮುಂದುವರಿದಿದೆ)';
-function hd(text) { return T(text, MX, 34, 1160, 86, { ff: 'h', fs: 44, min: 26, bold: true, fc: '$p', va: 'middle' }); }
+let SLANG = 'kn';
+const LBL = {
+  kn: { cont: ' (ಮುಂದುವರಿದಿದೆ)', obj: 'ಕಲಿಕಾ ಉದ್ದೇಶಗಳು', learned: 'ಈ ಪಾಠದಲ್ಲಿ ನಾವು ಕಲಿತದ್ದು', summary: 'ಸಾರಾಂಶ', fact: '💡 ನಿಮಗೆ ಗೊತ್ತೇ?', factIn: 'ನಿಮಗೆ ಗೊತ್ತೇ? ', cls: n => `${n}ನೇ ತರಗತಿ`, extra: 'ಹೆಚ್ಚುವರಿ ಅಂಶಗಳು', intro: 'ಪರಿಚಯ', more: 'ಮುಂದುವರಿದ ಭಾಗ', thanks: 'ಧನ್ಯವಾದಗಳು', thanksSub: 'ಪ್ರಶ್ನೆಗಳಿದ್ದರೆ ಕೇಳಿ', heading: 'ಶೀರ್ಷಿಕೆ', pts: ['ಮೊದಲ ಅಂಶ', 'ಎರಡನೇ ಅಂಶ', 'ಮೂರನೇ ಅಂಶ'], cmp: ['ಹೋಲಿಕೆ', 'ಮೊದಲನೆಯದು', 'ಎರಡನೆಯದು'], steps: ['ಹಂತಗಳು', 'ಹಂತ – ವಿವರ'], tl: ['ಕಾಲರೇಖೆ', 'ಇಸವಿ – ಘಟನೆ'], qs: ['ಪ್ರಶ್ನೆಗಳು', 'ಮೊದಲ ಪ್ರಶ್ನೆ?', 'ಎರಡನೇ ಪ್ರಶ್ನೆ?'], quote: ['ಪದ್ಯ / ಉಕ್ತಿ', 'ಮೊದಲ ಸಾಲು', 'ಎರಡನೇ ಸಾಲು', 'ಅರ್ಥ'], sec: ['ಹೊಸ ಭಾಗ', 'ಉಪಶೀರ್ಷಿಕೆ'], chap: 'ಅಧ್ಯಾಯ', writeTitle: 'ಶೀರ್ಷಿಕೆ ಬರೆಯಿರಿ', writeText: 'ಇಲ್ಲಿ ಪಠ್ಯ ಬರೆಯಿರಿ', untitled: 'ಹೊಸ ಪ್ರಸ್ತುತಿ' },
+  en: { cont: ' (contd.)', obj: 'Learning Objectives', learned: 'What We Learned', summary: 'Summary', fact: '💡 Did you know?', factIn: 'Did you know? ', cls: n => `Class ${n}`, extra: 'Additional Points', intro: 'Introduction', more: 'Continued', thanks: 'Thank You', thanksSub: 'Questions & Discussion', heading: 'Heading', pts: ['First point', 'Second point', 'Third point'], cmp: ['Comparison', 'First', 'Second'], steps: ['Steps', 'Step – details'], tl: ['Timeline', 'Year – event'], qs: ['Questions', 'First question?', 'Second question?'], quote: ['Quote', 'First line', 'Second line', 'Meaning'], sec: ['New Section', 'Subtitle'], chap: 'Chapter', writeTitle: 'Write a heading', writeText: 'Type your text here', untitled: 'New Presentation' },
+};
+const LB = () => LBL[SLANG] || LBL.kn;
+function detectLang(t) { const kn = (t.match(/[ಀ-೿]/g) || []).length, en = (t.match(/[A-Za-z]/g) || []).length; return kn >= en * .3 ? 'kn' : 'en'; }
+function hd(text) { return T(text, MX, 34, 1160, 86, { ff: 'h', fs: 44, min: 24, bold: true, fc: '$p', va: 'middle', role: 'h' }); }
 function accentBar() { return S('rect', MX, 126, 110, 6, { fill: '$a', rad: 3 }); }
-function hlBox(text, y, h) { return T('💡 ' + text, MX, y, 1160, h, { fs: 25, min: 15, fill: '$s', rad: 16, pad: 16, va: 'middle', bold: true, fc: '$t' }); }
+function hlBox(text, y, h) { return T(text, MX, y, 1160, h, { fs: 28, min: 15, fill: '$s', rad: 16, pad: 16, va: 'middle', bold: true, fc: '$t', role: 'hl', sh: true }); }
 function splitTD(s) { const m = s.match(/^(.{1,90}?)\s+[–—-]\s+(.+)$/) || s.match(/^(.{1,70}?)\s*[:：]\s+(.+)$/); return m ? [m[1].trim(), m[2].trim()] : [s.trim(), '']; }
 /* split items over slides until everything fits */
 function splitBuild(items, fn, maxPer) {
@@ -396,57 +617,82 @@ function splitBuild(items, fn, maxPer) {
   };
   go(items.length ? items : ['']); return out;
 }
-function baseSlide(sp, part) { const s = mkSlide('content'); s.notes = sp.notes || ''; s.els.push(hd((sp.heading || '') + (part ? CONT : '')), accentBar()); return s; }
+function baseSlide(sp, part) { const s = mkSlide('content'); s.notes = sp.notes || ''; s.els.push(hd((sp.heading || '') + (part ? LB().cont : ''))); return s; }
 
 /* ------------------------------------------------------- layout builders */
 function bTitle(sp, th) {
   const s = mkSlide('title'); s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 135 }; s.notes = sp.notes || '';
-  const img = sp.imageQuery || sp.image; const tx = img ? 80 : 110, tw = img ? 680 : 1060, al = img ? 'left' : 'center';
-  if (sp.subtitle) {
-    const pe = T(sp.subtitle, tx, 150, 300, 54, { fs: 24, bold: true, fill: '$a', fc: '$bg', rad: 27, pad: 10, align: 'center', va: 'middle', auto: false });
-    const w = Math.min(tw, textW(sp.subtitle, pe, th, 24) + 60); pe.w = w; if (!img) pe.x = tx + (tw - w) / 2; s.els.push(pe);
+  const qs = (sp.titleImages || []).filter(q => q && String(q).trim()).slice(0, 2);
+  if (!qs.length && (sp.imageQuery || sp.image)) qs.push(sp.imageQuery || '');
+  if (qs.length === 2) s.els.push(I(qs[0], 0, 0, 640, 720, { role: 'bgpic' }), I(qs[1], 640, 0, 640, 720, { role: 'bgpic' }), S('rect', 636, 0, 8, 720, { fill: '$tr', role: 'div' }));
+  else if (qs.length === 1) s.els.push(I(qs[0], 0, 0, 1280, 720, { role: 'bgpic', src: sp.image || '' }));
+  if (qs.length) s.els.push(S('rect', 0, 0, 1280, 720, { fill: '#000000', op: .3, lock: true, role: 'shade' }));
+  const cw = 880, cx = (W - cw) / 2;
+  const info = [sp.cls ? LB().cls(sp.cls) : '', sp.subject || '', sp.teacher || ''].filter(Boolean).join('   •   ');
+  const tags = (sp.tags || []).filter(Boolean).slice(0, 2);
+  const tt = T(sp.title || '', cx, 0, cw, 230, { ff: 'h', fs: 72, min: 34, bold: true, fc: '$hc', align: 'center', va: 'middle', lh: 1.22, role: 'tt' }); fit(tt, th); shrinkH(tt, th, 80);
+  let tl = null; if (sp.tagline) { tl = T(sp.tagline, cx + 30, 0, cw - 60, 110, { fs: 30, min: 18, fc: '$hc', align: 'center', va: 'middle', role: 'tl', op: .92 }); fit(tl, th); shrinkH(tl, th, 40); }
+  const pillH = sp.subtitle ? 50 : 0, total = (pillH ? pillH + 18 : 0) + tt.h + (tl ? 12 + tl.h : 0);
+  const bottomLimit = H - (info ? 74 : 0) - (tags.length ? 120 : 0) - 40, top = 64;
+  let y = Math.max(top, Math.round((top + bottomLimit) / 2 - total / 2));
+  if (sp.subtitle) { const pe = T(sp.subtitle, 0, y, 300, pillH, { fs: 24, bold: true, fill: '$a', fc: '#FFFFFF', rad: 25, pad: 8, align: 'center', va: 'middle', auto: false, role: 'sub' }); pe.w = Math.min(cw, textW(sp.subtitle, pe, th, 24) + 60); pe.x = Math.round((W - pe.w) / 2); s.els.push(pe); y += pillH + 18; }
+  tt.y = y; s.els.push(tt); y += tt.h;
+  if (tl) { tl.y = y + 12; s.els.push(tl); y = tl.y + tl.h; }
+  if (tags.length) {
+    const tw = 360, gap = 40, ty = y + 40 + 34, tx0 = tags.length === 2 ? (W - 2 * tw - gap) / 2 : (W - tw) / 2;
+    tags.forEach((t, i) => { const x = tx0 + i * (tw + gap); s.els.push(S('plaque', x, ty, tw, 76, { fill: '$pf', bc: '$tr', role: 'tagbg' })); const te = T(t, x + 26, ty + 10, tw - 52, 56, { fs: 28, min: 15, bold: true, fc: '$hc', align: 'center', va: 'middle', role: 'tag' }); fit(te, th); s.els.push(te); });
   }
-  const tt = T(sp.title || '', tx, 222, tw, 230, { ff: 'h', fs: 68, min: 34, bold: true, fc: '$gt', align: al, va: 'middle', lh: 1.25 }); fit(tt, th); s.els.push(tt);
-  const info = [sp.cls ? `${sp.cls}ನೇ ತರಗತಿ` : '', sp.subject || ''].filter(Boolean).join('  •  ');
-  if (info) s.els.push(T(info, tx, 470, tw, 54, { fs: 28, fc: '$gt', op: .92, align: al, va: 'middle', auto: false }));
-  if (sp.teacher) s.els.push(T(sp.teacher, tx, 530, tw, 50, { fs: 22, fc: '$gt', op: .8, align: al, va: 'middle', auto: false }));
-  if (img) { s.els.push(S('ellipse', 810, 128, 424, 424, { fill: '#FFFFFF', op: .18 })); s.els.push(I(sp.imageQuery || '', 832, 150, 380, 380, { rad: 190, src: sp.image || '', bc: '#FFFFFF', bw: 6 })); }
+  if (info) { s.els.push(S('rect', 0, 650, 1280, 70, { fill: '$pf', op: .95, role: 'band' }), S('rect', 0, 650, 1280, 4, { fill: '$tr', role: 'band' })); const b = T(info, 60, 654, 1160, 66, { fs: 27, min: 14, bold: true, fc: '$hc', align: 'center', va: 'middle', role: 'bandt' }); fit(b, th); s.els.push(b); }
   return [s];
 }
 function bSection(sp, th) {
   const s = mkSlide('section'); s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 135 }; s.notes = sp.notes || '';
-  const t = T(sp.heading || '', 110, 220, 1060, 170, { ff: 'h', fs: 62, min: 32, bold: true, fc: '$gt', align: 'center', va: 'middle', lh: 1.25 }); fit(t, th); s.els.push(t);
-  s.els.push(S('rect', 590, 400, 100, 6, { fill: '$a', rad: 3 }));
-  if (sp.subtitle) s.els.push(T(sp.subtitle, 110, 425, 1060, 70, { fs: 32, fc: '$gt', op: .92, align: 'center', va: 'middle', auto: false }));
+  if (sp.imageQuery || sp.image) s.els.push(I(sp.imageQuery || '', 0, 0, 1280, 720, { role: 'bgpic', src: sp.image || '' }), S('rect', 0, 0, 1280, 720, { fill: '#000000', op: .35, lock: true, role: 'shade' }));
+  const t = T(sp.heading || '', 170, 250, 940, 150, { ff: 'h', fs: 62, min: 30, bold: true, fc: '$gt', align: 'center', va: 'middle', lh: 1.25, role: 'tt' }); fit(t, th); shrinkH(t, th, 80); t.y = Math.round(330 - t.h / 2 - (sp.subtitle ? 20 : 0)); s.els.push(t);
+  if (sp.subtitle) s.els.push(T(sp.subtitle, 170, t.y + t.h + 26, 940, 60, { fs: 32, fc: '$gt', op: .92, align: 'center', va: 'middle', auto: false, role: 'info' }));
   return [s];
 }
 function bContent(sp, th, ctx) {
   const img = !!(sp.imageQuery || sp.image), big = sp.type === 'map';
-  const pts = (sp.points || []).filter(p => String(p).trim());
-  if (!img && pts.length >= 2 && pts.length <= 4 && pts.every(p => p.length <= 110) && !sp.highlight && ctx.n % 3 === 1) return bCards({ ...sp, type: 'cards' }, th, ctx);
+  let pts = (sp.points || []).filter(p => String(p).trim());
+  if (img && sp.fact) { if (!sp.highlight) sp = { ...sp, highlight: LB().factIn + sp.fact }; else pts = [...pts, LB().factIn + sp.fact]; }
+  if (!img && !sp.fact && pts.length >= 2 && pts.length <= 4 && pts.every(p => p.length <= 110) && !hlOf(sp) && ctx.n % 3 === 1) return bCards({ ...sp, type: 'cards' }, th, ctx);
   if (!img && pts.length >= 1 && pts.length <= 6) return bList({ ...sp, type: 'points' }, th, ctx);
   return splitBuild(pts, (arr, part) => {
-    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const bottom = hasHL ? 552 : 652; let tx;
+    const s = baseSlide(sp, part); const hasHL = part === 0 && hlOf(sp); const bottom = hasHL ? 552 : 652; let tx;
     if (img) {
-      const iw = big ? 600 : 450, ih = hasHL ? 390 : (big ? 490 : 440);
-      const right = big || (ctx.n + part) % 2 === 0; const ix = right ? W - MX - iw : MX; const tx0 = right ? MX : MX + iw + 44;
-      s.els.push(S('rect', ix + 14, 164, iw, ih, { fill: '$s', rad: 28, deco: true }));
-      s.els.push(I(sp.imageQuery || '', ix, 150, iw, ih, { rad: 24, src: sp.image || '', fit: big ? 'contain' : 'cover' }));
-      tx = T(arr.join('\n'), tx0, 152, 1160 - iw - 44, bottom - 152, { fs: 30, min: 19, bullets: true });
-    } else tx = T(arr.join('\n'), MX, 152, 1160, bottom - 152, { fs: 32, min: 19, bullets: true });
-    s.els.push(tx); if (hasHL) s.els.push(hlBox(sp.highlight, 572, 92));
+      const iw = big ? 600 : 450, cap = part === 0 && sp.caption ? 58 : 0, ih = (hasHL ? 380 : (big ? 486 : 440)) - cap;
+      const right = big || (ctx.n + part) % 2 === 0; const ix = right ? W - MX - iw : MX; const tx0 = right ? MX : MX + iw + 48;
+      s.els.push(I(sp.imageQuery || '', ix, 156, iw, ih, { rad: 16, src: sp.image || '', fit: big ? 'contain' : 'cover', role: 'pic', sh: true }));
+      if (cap) { const c = T(sp.caption, ix + 24, 156 + ih + 20, iw - 48, 46, { fill: '$card', fc: '$t', bold: true, align: 'center', va: 'middle', rad: 12, pad: 8, fs: 22, min: 13, sh: true, role: 'cap' }); fit(c, th); s.els.push(c); }
+      tx = T(arr.join('\n'), tx0, 156, 1160 - iw - 48, bottom - 156, { fs: 30, min: 19, bullets: true });
+    } else tx = T(arr.join('\n'), MX, 156, 1160, bottom - 156, { fs: 32, min: 19, bullets: true });
+    s.els.push(tx); if (hasHL) s.els.push(hlBox(hlOf(sp), 574, 90));
     return { s, ok: fit(tx, th) };
   });
+}
+function bGallery(sp, th) {
+  const s = baseSlide(sp, 0); const ims = (sp.images || []).filter(Boolean).slice(0, 3); const n = Math.max(1, ims.length);
+  const hasHL = !!hlOf(sp), pts = (sp.points || []).filter(Boolean), top = 168, bottom = hasHL ? 548 : 652;
+  const imgBottom = pts.length ? bottom - 120 : bottom; const gap = 56, iw = (1160 - gap * (n - 1)) / n, anyCap = ims.some(i => i.caption), ih = imgBottom - top - (anyCap ? 72 : 0);
+  ims.forEach((im, i) => {
+    const x = MX + i * (iw + gap);
+    s.els.push(I(im.imageQuery || '', x, top, iw, ih, { rad: 6, src: im.image || '', role: 'pic', sh: true }));
+    if (im.caption) { const c = T(im.caption, x + 26, top + ih + 24, iw - 52, 48, { fill: '$card', fc: '$t', bold: true, align: 'center', va: 'middle', rad: 12, pad: 8, fs: 24, min: 13, sh: true, role: 'cap' }); fit(c, th); s.els.push(c); }
+  });
+  if (pts.length) { const t = T(pts.join('\n'), MX, imgBottom + 10, 1160, bottom - imgBottom - 10, { bullets: true, fs: 26, min: 15 }); fit(t, th); s.els.push(t); }
+  if (hasHL) s.els.push(hlBox(hlOf(sp), 574, 90));
+  return [s];
 }
 function bCards(sp, th, ctx) {
   const mode = sp.type; const all = (sp.points || []).filter(p => String(p).trim());
   return splitBuild(all, (arr, part) => {
-    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const top = 160, bottom = hasHL ? 548 : 652;
+    const s = baseSlide(sp, part); const hasHL = part === 0 && hlOf(sp); const top = 160, bottom = hasHL ? 548 : 652;
     const n = arr.length, cols = n <= 3 ? n : (n === 4 ? 2 : 3), rows = Math.ceil(n / cols), gap = 24;
     const cw = (1160 - gap * (cols - 1)) / cols, ch = (bottom - top - gap * (rows - 1)) / rows; let ok = true;
     arr.forEach((p, i) => {
       const r = Math.floor(i / cols), c = i % cols, x = MX + c * (cw + gap), y = top + r * (ch + gap);
-      s.els.push(S('rect', x, y, cw, ch, { fill: '$card', bc: '$s', bw: 3, rad: 20 }));
+      s.els.push(S('rect', x, y, cw, ch, { fill: '$card', bc: '$s', bw: 3, rad: 20, sh: true }));
       if (mode === 'keywords') {
         const [k, v] = splitTD(p); const kh = Math.min(70, ch * .34);
         const kt = T(k, x + 22, y + 14, cw - 44, kh, { ff: 'h', fs: 34, min: 17, bold: true, fc: '$p', va: 'middle' });
@@ -458,7 +704,7 @@ function bCards(sp, th, ctx) {
         const tt = T(p, x + 22, y + 84, cw - 44, ch - 100, { fs: 30, min: 15 }); s.els.push(tt); ok = fit(tt, th) && ok;
       }
     });
-    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    if (hasHL) s.els.push(hlBox(hlOf(sp), 568, 90));
     return { s, ok };
   }, 6);
 }
@@ -467,7 +713,9 @@ function bList(sp, th, ctx) {
   const isPts = sp.type === 'points';
   const all = (sp.points || []).filter(p => String(p).trim());
   return splitBuild(all, (arr, part) => {
-    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const top = 156, bottom = hasHL ? 550 : 656;
+    const s = baseSlide(sp, part); const hasHL = part === 0 && hlOf(sp); const top = 156, bottom = hasHL ? 550 : 656;
+    const note = part === 0 && sp.fact; const LW = note ? 820 : 1160;
+    if (note) s.els.push(...noteEls(sp.fact, 922, 170, 300, Math.min(300, bottom - 190), 2.5));
     const n = arr.length, gap = 14, sh = Math.min(118, (bottom - top - gap * (n - 1)) / n); let ok = true;
     arr.forEach((p, i) => {
       const y = top + i * (sh + gap);
@@ -475,55 +723,58 @@ function bList(sp, th, ctx) {
       if (isPts) { s.els.push(S('rect', MX, y, 10, sh, { fill: '$a', rad: 5 })); }
       else s.els.push(S('ellipse', MX, y + (sh - 56) / 2, 56, 56, { fill: bc }), T(icon === '#' ? String(all.indexOf(p) + 1) : icon, MX, y + (sh - 56) / 2, 56, 56, { fs: 24, bold: true, fc: '$bg', align: 'center', va: 'middle', auto: false }));
       const tx0 = isPts ? MX + 22 : MX + 74;
-      const tt = T(p, tx0, y, 1160 - (tx0 - MX), sh, { fs: isPts ? 30 : 28, min: isPts ? 20 : 16, fill: '$s', rad: 14, pad: 16, va: 'middle' }); s.els.push(tt); ok = fit(tt, th) && ok;
+      const tt = T(p, tx0, y, LW - (tx0 - MX), sh, { fs: isPts ? 30 : 28, min: isPts ? 20 : 16, fill: '$s', rad: 14, pad: 16, va: 'middle', sh: true }); s.els.push(tt); ok = fit(tt, th) && ok;
     });
-    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    if (hasHL) s.els.push(hlBox(hlOf(sp), 568, 90));
     return { s, ok };
   }, 6);
 }
 function bCompare(sp, th) {
-  const s = baseSlide(sp, 0); const hasHL = !!sp.highlight; const bottom = hasHL ? 550 : 656;
+  const s = baseSlide(sp, 0); const hasHL = !!hlOf(sp); const bottom = hasHL ? 550 : 656;
+  const withImg = !!((sp.left && (sp.left.imageQuery || sp.left.image)) || (sp.right && (sp.right.imageQuery || sp.right.image)));
   [[sp.left, MX, '$p'], [sp.right, 660, '$a']].forEach(([c, x, f]) => {
     c = c || { title: '', points: [] };
-    const h = T(c.title || '', x, 150, 560, 72, { ff: 'h', fill: f, fc: '$bg', bold: true, align: 'center', va: 'middle', fs: 30, min: 17, rad: 16, pad: 10 }); fit(h, th);
-    const b = T((c.points || []).join('\n'), x, 236, 560, bottom - 236, { bullets: true, fill: '$card', bc: '$s', bw: 3, rad: 16, pad: 22, fs: 27, min: 14 }); fit(b, th);
-    s.els.push(h, b);
+    const h = T(c.title || '', x, 150, 560, 70, { ff: 'h', fill: f, fc: '$bg', bold: true, align: 'center', va: 'middle', fs: 30, min: 17, rad: 16, pad: 10, sh: true }); fit(h, th); s.els.push(h);
+    let by = 236;
+    if (withImg) { s.els.push(I(c.imageQuery || '', x + 16, 246, 528, 196, { rad: 8, src: c.image || '', role: 'pic', sh: true })); by = 466; }
+    const b = T((c.points || []).join('\n'), x, by, 560, bottom - by, { bullets: true, fill: '$card', bc: '$s', bw: 3, rad: 16, pad: withImg ? 16 : 22, fs: 27, min: 13, sh: true, role: 'cmpb' }); fit(b, th); s.els.push(b);
   });
-  if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+  const bs = s.els.filter(e => e.role === 'cmpb'); if (bs.length === 2 && bs.every(e => !e._over)) { const fs = Math.min(bs[0].fs, bs[1].fs); bs.forEach(e => { e.fs = fs; e.fsMax = fs; }); const need = Math.max(...bs.map(e => layoutText(e, th, fs).h + 2 * e.pad + 8)); bs.forEach(e => e.h = Math.max(Math.min(e.h, need), 150)); }
+  if (hasHL) s.els.push(hlBox(hlOf(sp), 572, 90));
   return [s];
 }
 function bFlow(sp, th) {
   return splitBuild((sp.points || []).filter(Boolean), (arr, part) => {
-    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const db = hasHL ? 550 : 652;
+    const s = baseSlide(sp, part); const hasHL = part === 0 && hlOf(sp); const db = hasHL ? 550 : 652;
     const n = arr.length, gap = 58, bw = (1160 - gap * (n - 1)) / n; let ok = true;
     arr.forEach((p, i) => {
       const [t, d] = splitTD(p); const x = MX + i * (bw + gap);
-      const b = T(t, x, 168, bw, 112, { ff: 'h', fill: '$p', fc: '$bg', bold: true, align: 'center', va: 'middle', fs: 28, min: 15, rad: 18, pad: 12 }); ok = fit(b, th) && ok; s.els.push(b);
+      const b = T(t, x, 168, bw, 112, { ff: 'h', fill: '$p', fc: '$bg', bold: true, align: 'center', va: 'middle', fs: 28, min: 15, rad: 18, pad: 12, sh: true }); ok = fit(b, th) && ok; s.els.push(b);
       if (i < n - 1) s.els.push(S('arrow', x + bw + 9, 204, gap - 18, 40, { fill: '$a' }));
-      if (d) { const dt = T(d, x, 298, bw, db - 298, { fill: '$s', rad: 16, pad: 16, fs: 28, min: 14, align: 'center' }); const f = fit(dt, th); ok = f && ok; if (f) shrinkH(dt, th, 140); s.els.push(dt); }
+      if (d) { const dt = T(d, x, 298, bw, db - 298, { fill: '$s', rad: 16, pad: 16, fs: 28, min: 14, align: 'center', sh: true }); const f = fit(dt, th); ok = f && ok; if (f) shrinkH(dt, th, 140); s.els.push(dt); }
     });
-    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    if (hasHL) s.els.push(hlBox(hlOf(sp), 568, 90));
     return { s, ok };
   }, 5);
 }
 function bTimeline(sp, th) {
   return splitBuild((sp.points || []).filter(Boolean), (arr, part) => {
-    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const db = hasHL ? 550 : 652;
+    const s = baseSlide(sp, part); const hasHL = part === 0 && hlOf(sp); const db = hasHL ? 550 : 652;
     const n = arr.length, cw = 1160 / n; let ok = true;
     s.els.push(S('rect', MX, 352, 1160, 8, { fill: '$p', op: .3, rad: 4 }));
     arr.forEach((p, i) => {
       const [y, d] = splitTD(p); const cx = MX + cw * (i + .5);
       const yt = T(y, cx - cw / 2 + 6, 236, cw - 12, 100, { ff: 'h', fs: 30, min: 16, bold: true, fc: '$p', align: 'center', va: 'bottom' }); ok = fit(yt, th) && ok;
       s.els.push(yt, S('ellipse', cx - 20, 336, 40, 40, { fill: '$a', bc: '$bg', bw: 6 }));
-      if (d) { const dt = T(d, cx - cw / 2 + 8, 394, cw - 16, db - 394, { fs: 27, min: 13, align: 'center', fill: '$card', bc: '$s', bw: 3, rad: 14, pad: 14 }); const f = fit(dt, th); ok = f && ok; if (f) shrinkH(dt, th, 110); s.els.push(dt); }
+      if (d) { const dt = T(d, cx - cw / 2 + 8, 394, cw - 16, db - 394, { fs: 27, min: 13, align: 'center', fill: '$card', bc: '$s', bw: 3, rad: 14, pad: 14, sh: true }); const f = fit(dt, th); ok = f && ok; if (f) shrinkH(dt, th, 110); s.els.push(dt); }
     });
-    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    if (hasHL) s.els.push(hlBox(hlOf(sp), 568, 90));
     return { s, ok };
   }, 5);
 }
 function bQuote(sp, th) {
   const s = baseSlide(sp, 0); const lines = (sp.lines || sp.points || []).join('\n'); const hasE = !!sp.explain;
-  const q = T(lines, 150, 156, 980, hasE ? 300 : 480, { ff: 'h', fs: 40, min: 20, bold: true, fc: '$p', fill: '$s', rad: 24, pad: 34, align: 'center', va: 'middle', lh: 1.45 }); fit(q, th);
+  const q = T(lines, 150, 156, 980, hasE ? 300 : 480, { ff: 'h', fs: 40, min: 20, bold: true, fc: '$p', fill: '$s', rad: 24, pad: 34, align: 'center', va: 'middle', lh: 1.45, sh: true }); fit(q, th);
   s.els.push(q, T('❝', 168, 166, 80, 80, { fs: 72, fc: '$a', auto: false, lh: 1, op: .8 }));
   if (hasE) { const e = T(sp.explain, 150, 474, 980, 180, { fs: 27, min: 15, align: 'center' }); fit(e, th); s.els.push(e); }
   return [s];
@@ -541,36 +792,71 @@ function buildSlides(sp, th, ctx) {
     case 'timeline': return bTimeline(sp, th);
     case 'quote': return bQuote(sp, th);
     case 'map': return bContent({ ...sp, type: 'map' }, th, ctx);
+    case 'gallery': return (sp.images || []).length ? bGallery(sp, th) : bContent(sp, th, ctx);
     default: return bContent({ ...sp, type: 'content' }, th, ctx);
   }
 }
-/* theme decorations + footer ("chrome") */
-function chromeEls(kind, th) {
-  const L = o => Object.assign(o, { chrome: true, lock: true }); const out = [];
-  const d = th.deco;
+/* theme decorations + footer ("chrome") — rebuilt whenever the theme changes */
+function decoEls(kind, th) {
+  const out = [], d = th.deco;
+  if (th.tex) return out;
   if (kind === 'content') {
     if (d === 'circles') out.push(S('ellipse', 1110, -90, 270, 270, { fill: '$s' }), S('ellipse', -50, 650, 130, 130, { fill: '$a', op: .18 }));
     if (d === 'band') out.push(S('rect', 0, 0, 16, 720, { fill: '$p' }), S('rect', 1150, 0, 130, 10, { fill: '$a' }));
     if (d === 'corner') out.push(S('rect', 1150, -110, 230, 230, { fill: '$s', rot: 45 }), S('rect', -60, 660, 120, 120, { fill: '$a', op: .25, rot: 45 }));
-    if (d === 'chalk') out.push(S('rect', 18, 18, 1244, 684, { fill: null, bc: '$a', bw: 3, rad: 14, op: .5 }));
-    out.push(T('', MX, 676, 900, 30, { fs: 15, fc: '$t', op: .55, va: 'middle', auto: false, dyn: 'title' }));
-    out.push(T('', 1120, 676, 100, 30, { fs: 15, fc: '$t', op: .55, va: 'middle', align: 'right', auto: false, dyn: 'num', bold: true }));
-  } else {
-    if (d === 'chalk') out.push(S('rect', 18, 18, 1244, 684, { fill: null, bc: '$a', bw: 3, rad: 14, op: .6 }));
-    else out.push(S('ellipse', 880, -170, 560, 560, { fill: '#FFFFFF', op: .07 }), S('ellipse', -140, 500, 360, 360, { fill: '#FFFFFF', op: .06 }), S('rect', 0, 700, 1280, 20, { fill: '$a' }));
+  } else out.push(S('ellipse', 880, -170, 560, 560, { fill: '#FFFFFF', op: .07 }), S('ellipse', -140, 500, 360, 360, { fill: '#FFFFFF', op: .06 }), S('rect', 0, 700, 1280, 20, { fill: '$a' }));
+  return out;
+}
+function textBox(e, th) { const L = layoutText(e, th, e.fs); const hh = Math.min(e.h, L.h + 2 * (e.pad || 0)); const top = e.y + (e.va === 'middle' ? (e.h - hh) / 2 : e.va === 'bottom' ? e.h - hh : 0); return [e.x, top, e.x + e.w, top + hh]; }
+function applyChromeSlide(s, th) {
+  s.els = s.els.filter(e => !e.chrome);
+  const kind = s.kind || 'content', out = [], on = !s.noChrome;
+  const fancyHead = ['plaque', 'scroll', 'ribbon'].includes(th.head);
+  for (const e of s.els) {
+    if (e.role === 'h') {
+      if (fancyHead) {
+        const tw = textW(e.text, e, th, e.fsMax || 44); const pw = clamp(tw + (th.head === 'ribbon' ? 230 : 180), 460, 1200), px = Math.round((W - pw) / 2);
+        if (th.head === 'ribbon') { Object.assign(e, { x: px + 100, w: pw - 200, y: 16, h: 74, align: 'center' }); if (isTok(e.fc)) e.fc = '$rc'; if (on) out.push(S('ribbon', px, 14, pw, 96, { fill: '$p' })); }
+        else { Object.assign(e, { x: px + 66, w: pw - 132, y: 24, h: 88, align: 'center' }); if (isTok(e.fc)) e.fc = '$hc'; if (on) out.push(S(th.head, px, 16, pw, 104, { fill: th.head === 'scroll' ? '$sf' : '$pf', bc: '$tr' })); }
+      } else { Object.assign(e, { x: MX, w: 1160, y: 34, h: 86, align: 'left' }); if (isTok(e.fc)) e.fc = '$p'; if (on) out.push(S('rect', MX, 126, 110, 6, { fill: '$a', rad: 3 })); }
+      fit(e, th);
+    } else if (e.role === 'hl') {
+      const fz = th.hl === 'scroll' || th.hl === 'plaque';
+      if (fz) { const sc = th.hl === 'scroll'; Object.assign(e, { x: MX + (sc ? 50 : 18), w: 1160 - (sc ? 100 : 36), fill: null, bw: 0, align: 'center', sh: false, pad: sc ? 6 : 12 }); if (isTok(e.fc)) e.fc = '$hc'; if (on) out.push(sc ? S('scroll', MX - 30, e.y - 10, 1220, e.h + 20, { fill: '$sf', bc: '$tr' }) : S('plaque', MX - 6, e.y - 6, 1172, e.h + 12, { fill: '$pf', bc: '$tr' })); }
+      else { Object.assign(e, { x: MX, w: 1160, fill: '$s', align: 'left', sh: true, pad: 16 }); if (isTok(e.fc)) e.fc = '$t'; }
+      fit(e, th);
+    } else if (e.role === 'pic' && !e.frameUser) { e.frame = th.frame || ''; e.bw = e.frame ? 0 : (e.bw0 || 0); }
+    else if ((e.role === 'tt' || e.role === 'info' || e.role === 'tl') && isTok(e.fc)) e.fc = (kind === 'title' || ((th.titlePlaque || s.els.some(x => x.role === 'bgpic')) && on)) ? '$hc' : '$gt';
+    else if (e.role === 'bgpic') { e.frame = ''; e.bw = 0; }
   }
-  return out.map(L);
+  if (on) {
+    out.unshift(...decoEls(kind, th));
+    if (kind === 'content') {
+      s.els.filter(e => e.role === 'pic' && !e.frame && (e.rad || 0) < Math.min(e.w, e.h) / 3).forEach(e => out.push(S('rect', e.x + 14, e.y + 14, e.w, e.h, { fill: '$s', rad: (e.rad || 0) + 4 })));
+      out.push(T('', MX, 676, 900, 30, { fs: 15, fc: '$t', op: .6, va: 'middle', auto: false, dyn: 'title' }));
+      out.push(T('', 1120, 676, 100, 30, { fs: 15, fc: '$t', op: .6, va: 'middle', align: 'right', auto: false, dyn: 'num', bold: true }));
+    } else {
+      const tt = s.els.find(e => e.role === 'tt');
+      if (kind === 'title' || th.titlePlaque || s.els.some(x => x.role === 'bgpic')) {
+        const r = s.els.filter(e => ['sub', 'tt', 'tl', 'info'].includes(e.role));
+        if (r.length) { const bx = r.map(e => e.role === 'tt' ? textBox(e, th) : [e.x, e.y, e.x + e.w, e.y + e.h]); let x0 = Math.min(...bx.map(b => b[0])) - 54, y0 = Math.min(...bx.map(b => b[1])) - 40, x1 = Math.max(...bx.map(b => b[2])) + 54, y1 = Math.max(...bx.map(b => b[3])) + 40; x0 = Math.max(24, x0); y0 = Math.max(24, y0); x1 = Math.min(1256, x1); y1 = Math.min(696, y1); out.push(S('plaque', x0, y0, x1 - x0, y1 - y0, { fill: '$pf', bc: '$tr' })); }
+      } else if (kind === 'section' && tt) { const b = textBox(tt, th); out.push(S('rect', 590, b[3] + 8, 100, 6, { fill: '$a', rad: 3 })); }
+
+    }
+  }
+  const ch = out.map(o => Object.assign(o, { chrome: true, lock: true }));
+  let at = 0; while (at < s.els.length && ['bgpic', 'shade', 'div'].includes(s.els[at].role)) at++;
+  if (at) { const deco = ch.filter(o => o.t === 'shape' && o.shape !== 'plaque'); const rest = ch.filter(o => !deco.includes(o)); s.els.unshift(...deco); s.els.splice(deco.length + at, 0, ...rest); }
+  else s.els.unshift(...ch);
 }
-function applyChrome(deck) {
-  const th = themeById(deck.theme);
-  deck.slides.forEach(s => { s.els = s.els.filter(e => !e.chrome); if (!s.noChrome) s.els.unshift(...chromeEls(s.kind || 'content', th)); });
-}
+function applyChrome(deck) { const th = thFor(deck); deck.slides.forEach(s => applyChromeSlide(s, th)); }
 async function buildDeck(spec, themeId, source) {
   const th = themeById(themeId); await ensureFonts(th);
-  const deck = { id: uid(), v: 1, title: spec.title || 'ಹೊಸ ಪ್ರಸ್ತುತಿ', theme: th.id, slides: [], assets: {}, source: source || '', created: Date.now(), updated: Date.now() };
+  SLANG = spec.lang === 'en' ? 'en' : 'kn';
+  const deck = { id: uid(), v: 1, lang: SLANG, title: spec.title || LB().untitled, theme: th.id, slides: [], assets: {}, source: source || '', created: Date.now(), updated: Date.now() };
   const ctx = { n: 0 };
-  if (spec.title && !(spec.slides || []).some(s => s.type === 'title')) bTitle(spec, th).forEach(s => { deck.slides.push(s); ctx.n++; });
-  (spec.slides || []).forEach(sp => { if (sp.type === 'title') sp = { ...spec, ...sp, title: sp.title || sp.heading || spec.title }; buildSlides(sp, th, ctx).forEach(s => { deck.slides.push(s); ctx.n++; }); });
+  if (spec.title && !(spec.slides || []).some(s => s.type === 'title')) bTitle(spec, th).forEach(s => { if (spec.imagePrompt) s.aiq = spec.imagePrompt; deck.slides.push(s); ctx.n++; });
+  (spec.slides || []).forEach(sp => { if (sp.type === 'title') sp = { ...spec, ...sp, title: sp.title || sp.heading || spec.title }; buildSlides(sp, th, ctx).forEach((s, i) => { if (i === 0 && sp.imagePrompt) s.aiq = sp.imagePrompt; deck.slides.push(s); ctx.n++; }); });
   if (!deck.slides.length) deck.slides.push(mkSlide('content'));
   applyChrome(deck); return deck;
 }
@@ -599,6 +885,7 @@ const KW = ('ಬಾದಾಮಿ:Badami cave temples|ಐಹೊಳೆ:Aihole templ
 const isKnL = ch => ch && /[\u0C80-\u0CFF]/.test(ch);
 function kwPos(txt, k) { let i = txt.indexOf(k); while (i >= 0) { if (i === 0 || !isKnL(txt[i - 1])) return i; i = txt.indexOf(k, i + 1); } return -1; }
 function guessQuery(heading, body) {
+  if (SLANG === 'en') { const h = (heading || '').replace(/\(.*?\)|\[.*?\]|\b(contd|continued|introduction|summary|the|a|an|of|and|in|on|for|to|our|we|what|how|why)\b|[^A-Za-z0-9 '-]/gi, ' ').replace(/\s+/g, ' ').trim(); return h.split(' ').slice(0, 4).join(' '); }
   for (const txt of [heading || '', body || '']) { let best = null, pos = 1e9; for (const [k, v] of KW) { const i = kwPos(txt, k); if (i >= 0 && i < pos) { pos = i; best = v; } } if (best) return best; }
   return '';
 }
@@ -609,7 +896,7 @@ function parseSections(raw) {
   const headMax = Math.min(70, Math.max(24, typ * .68));
   const bulRe = /^([•\-*●▪◦➢➤✓✔▶]|\(?\d{1,2}[.)]|\(?[೦-೯]{1,2}[.)]|[a-zA-Z][.)])\s+/;
   const sections = []; let cur = { heading: '', items: [], kind: 'content' }; let para = '';
-  const kindOf = h => /ಅಭ್ಯಾಸ|ಪ್ರಶ್ನೆ|ಉತ್ತರಿಸಿ|ಪೂರ್ಣಗೊಳಿಸಿ|ಬಿಟ್ಟ ಸ್ಥಳ/.test(h) ? 'questions' : /ಚಟುವಟಿಕೆ|ಯೋಜನೆ/.test(h) ? 'activity' : /ಕಲಿಕಾ|ಉದ್ದೇಶ|ತಿಳಿಯುವಿರಿ|ಕಲಿಯುವಿರಿ/.test(h) ? 'objectives' : 'content';
+  const kindOf = h => /ಅಭ್ಯಾಸ|ಪ್ರಶ್ನೆ|ಉತ್ತರಿಸಿ|ಪೂರ್ಣಗೊಳಿಸಿ|ಬಿಟ್ಟ ಸ್ಥಳ|\b(exercises?|questions?|answer the following|fill in the blanks|quiz)\b/i.test(h) ? 'questions' : /ಚಟುವಟಿಕೆ|ಯೋಜನೆ|\b(activit(y|ies)|projects?)\b/i.test(h) ? 'activity' : /ಕಲಿಕಾ|ಉದ್ದೇಶ|ತಿಳಿಯುವಿರಿ|ಕಲಿಯುವಿರಿ|\b(learning (objectives|outcomes)|objectives|you will learn)\b/i.test(h) ? 'objectives' : 'content';
   const flush = () => { if (para.trim()) cur.items.push(...splitSentences(para)); para = ''; };
   const newSec = (h, k) => { flush(); if (cur.items.length || cur.heading) sections.push(cur); cur = { heading: h, items: [], kind: k }; };
   let prevEnded = true;
@@ -617,8 +904,8 @@ function parseSections(raw) {
     const l = lines[i];
     if (!l) { flush(); prevEnded = true; continue; }
     const roman = l.match(/^(I{1,3}|IV|V|VI{1,3}|IX|X)[.)]\s+(.{2,70})$/);
-    if (roman || (/ತಿಳಿಯುವಿರಿ|ಕಲಿಯುವಿರಿ|ಕಲಿಕಾ ಉದ್ದೇಶ|ಕಲಿಕಾಂಶ/.test(l) && l.length < 130)) {
-      const hh = roman ? roman[2].replace(/[.:]\s*$/, '') : 'ಕಲಿಕಾ ಉದ್ದೇಶಗಳು';
+    if (roman || (/ತಿಳಿಯುವಿರಿ|ಕಲಿಯುವಿರಿ|ಕಲಿಕಾ ಉದ್ದೇಶ|ಕಲಿಕಾಂಶ|you will (learn|be able)|learning (objectives|outcomes)/i.test(l) && l.length < 130)) {
+      const hh = roman ? roman[2].replace(/[.:]\s*$/, '') : LB().obj;
       newSec(hh, roman ? (kindOf(hh) === 'content' ? 'questions' : kindOf(hh)) : 'objectives'); prevEnded = true; continue;
     }
     const isBul = bulRe.test(l);
@@ -638,10 +925,10 @@ function textToSpec(raw, meta) {
   const chapRe = /^(ಅಧ್ಯಾಯ|ಪಾಠ|ಘಟಕ|Chapter|Lesson|Unit)\s*[-–:]?\s*[0-9೦-೯]+\s*$/i;
   sections.forEach(sec => { if (!sec.items.length && chapRe.test(sec.heading) && !subtitle) subtitle = sec.heading; });
   if (!title) { const f = sections.find(sec => sec.heading && !chapRe.test(sec.heading) && sec.kind === 'content'); if (f) title = f.heading; }
-  const spec = { title: title || 'ಪಾಠ', subtitle, cls: meta.cls, subject: meta.subject, teacher: meta.teacher, imageQuery: guessQuery(title || '', ''), slides: [] };
+  const spec = { title: title || LB().untitled, subtitle, tagline: meta.tagline, cls: meta.cls, subject: meta.subject, teacher: meta.teacher, imageQuery: guessQuery(title || '', ''), lang: SLANG, mode: meta.mode, slides: [] };
   const heads = [];
   sections.forEach((sec, si) => {
-    let h = sec.heading || (si === 0 ? (title || 'ಪರಿಚಯ') : 'ಮುಂದುವರಿದ ಭಾಗ');
+    let h = sec.heading || (si === 0 ? (title || LB().intro) : LB().more);
     if (si === 0 && sec.heading && sec.heading === title && sec.items.length) h = title;
     if (!sec.items.length) return;
     if (sec.kind !== 'content') { spec.slides.push({ type: sec.kind, heading: h, points: sec.items }); return; }
@@ -655,48 +942,51 @@ function textToSpec(raw, meta) {
     items.forEach((it, i) => { const left = items.length - i; if (grp.length && (grp.length >= 4 || (wc >= target * .85 && made < k - 1) || left < (k - made - 1))) push(); grp.push(it); wc += wcs[i]; });
     push();
   });
-  spec.slides.forEach(s => { if (s._cont) s.heading += CONT; delete s._cont; });
-  if (heads.length >= 3) spec.slides.push({ type: 'summary', heading: 'ಈ ಪಾಠದಲ್ಲಿ ನಾವು ಕಲಿತದ್ದು', points: [...new Set(heads)] });
+  spec.slides.forEach(s => { if (s._cont) s.heading += LB().cont; delete s._cont; });
+  if (heads.length >= 3) spec.slides.push({ type: 'summary', heading: meta.mode === 'general' ? LB().summary : LB().learned, points: [...new Set(heads)] });
+  if (meta.thanks) spec.slides.push({ type: 'section', heading: LB().thanks, subtitle: LB().thanksSub });
   return spec;
 }
 
 /* ------------------------------------------------------- AI-help prompt */
 function aiPrompt(m) {
-  return `ನೀವು ಕರ್ನಾಟಕದ ಸರ್ಕಾರಿ ಶಾಲೆಯ ಅನುಭವಿ ಶಿಕ್ಷಕರು. ಕೆಳಗೆ ಕೊಟ್ಟಿರುವ ಪಾಠಕ್ಕೆ, ತರಗತಿಯ TV ಯಲ್ಲಿ ತೋರಿಸುವ ಪ್ರಸ್ತುತಿಯ (presentation) ಸ್ಲೈಡ್‌ಗಳ ವಿಷಯವನ್ನು JSON ರೂಪದಲ್ಲಿ ತಯಾರಿಸಿ.
+  const en = m.lang === 'en', gen = m.mode === 'general';
+  const langRule = m.lang === 'en' ? 'Write ALL slide text in clear, simple English.' : m.lang === 'kn' ? 'ಎಲ್ಲಾ ಸ್ಲೈಡ್ ಪಠ್ಯ ಶುದ್ಧ, ಸರಳ ಕನ್ನಡದಲ್ಲಿರಲಿ.' : 'Write slide text in the SAME language as the content below (Kannada content → Kannada slides, English content → English slides).';
+  const order = gen
+    ? 'Order: introduction / purpose → main content in the same order as the source (use "section" when a new part starts) → key figures, steps or process ("flow"), dates ("timeline"), comparisons ("compare") where they fit → key terms if any → summary → a closing "section" slide (thank you / questions).'
+    : 'Order: learning objectives ("objectives") → lesson content in the same order as the lesson (use "section" when a new part starts) → key words ("keywords") → timeline if there are dates → comparison if possible → ALL exercise questions from the lesson ("questions", answers in "notes") → activities ("activity") → summary.';
+  return `You are an expert presentation designer${gen ? '' : ' and an experienced school teacher in Karnataka'}. Convert the ${gen ? 'content' : 'lesson'} below into slides for a projector/TV presentation. Reply with JSON only.
 
-ಕಟ್ಟುನಿಟ್ಟಾದ ನಿಯಮಗಳು:
-1. ಪಾಠದ ಯಾವುದೇ ಮಾಹಿತಿ — ಹೆಸರು, ಇಸವಿ, ಸಂಖ್ಯೆ, ಬಿರುದು, ಕೃತಿ, ಸ್ಥಳ, ಉದಾಹರಣೆ — ಬಿಟ್ಟುಹೋಗಬಾರದು. ಸಾರಾಂಶ ಮಾಡಬೇಡಿ. ಪಾಠದ ಪ್ರತಿಯೊಂದು ವಾಕ್ಯದ ಮಾಹಿತಿಯೂ ಯಾವುದಾದರೂ ಸ್ಲೈಡ್‌ನಲ್ಲಿ ಬರಲೇಬೇಕು. ಎಷ್ಟು ಸ್ಲೈಡ್ ಬೇಕೋ ಅಷ್ಟು ಮಾಡಿ.
-2. ಪಾಠದಲ್ಲಿ ಇಲ್ಲದ ಹೊಸ ಮಾಹಿತಿಯನ್ನು ಸೇರಿಸಬೇಡಿ.
-3. ಪ್ರತಿ ಸ್ಲೈಡ್‌ನಲ್ಲಿ 3 ರಿಂದ 5 ಅಂಶಗಳು. ಪ್ರತಿ ಅಂಶ ಒಂದು ಪೂರ್ಣ, ಸರಳ ವಾಕ್ಯ. ಪಠ್ಯಪುಸ್ತಕದ ಪದಗಳನ್ನೇ ಬಳಸಿ.
-4. ಸ್ಲೈಡ್‌ಗಳ ಭಾಷೆ ಪಾಠದ ಭಾಷೆಯೇ ಆಗಿರಲಿ (ಕನ್ನಡ ಪಾಠಕ್ಕೆ ಶುದ್ಧ ಕನ್ನಡ). "imageQuery" ಮಾತ್ರ ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ — Wikimedia Commons ನಲ್ಲಿ ಚಿತ್ರ ಹುಡುಕಲು 2–4 ನಿಖರ ಪದಗಳು (ಉದಾ: "Pattadakal temple", "photosynthesis diagram"). ಚಿತ್ರ ಅಗತ್ಯವಿಲ್ಲದ ಸ್ಲೈಡ್‌ನಲ್ಲಿ imageQuery ಬಿಡಿ.
-5. ಕ್ರಮ: ಕಲಿಕಾ ಉದ್ದೇಶಗಳು → ಪಾಠದ ವಿಷಯ (ಪಾಠದ ಕ್ರಮದಲ್ಲೇ; ಹೊಸ ಭಾಗ ಶುರುವಾದರೆ "section") → ಪ್ರಮುಖ ಪದಗಳು → ಇಸವಿಗಳಿದ್ದರೆ ಕಾಲರೇಖೆ → ಹೋಲಿಕೆ ಸಾಧ್ಯವಿದ್ದರೆ ಹೋಲಿಕೆ → ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗಳು (ಪಾಠದಲ್ಲಿರುವ ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳು; ಉತ್ತರಗಳನ್ನು "notes" ನಲ್ಲಿ) → ಚಟುವಟಿಕೆಗಳು → ಸಾರಾಂಶ.
-6. ಶೀರ್ಷಿಕೆ ಸ್ಲೈಡ್ ಬೇಡ (ಅದನ್ನು ನಾವೇ ಮಾಡುತ್ತೇವೆ).
-7. ಉತ್ತರದಲ್ಲಿ JSON ಮಾತ್ರ ಇರಲಿ. ಬೇರೆ ಯಾವುದೇ ವಿವರಣೆ ಬೇಡ.
+STRICT RULES
+1. Do NOT drop any information — every name, number, year, date, title, work, place, example and fact in the source must appear on some slide. Do not summarise away details. Use as many slides as needed.
+2. Do NOT add facts that are not in the source (except optional "question" prompts for the audience).
+3. 3–5 points per slide; each point one complete, simple sentence. Keep the source wording where possible.
+4. ${langRule} Only "imageQuery" and "imagePrompt" must be in English ("imageQuery" = 2–4 precise words to search Wikimedia Commons photos, e.g. "Pattadakal temple", "photosynthesis diagram").
+5. Make it visually rich: roughly every 3–4 slides use "gallery", "compare", "flow", "timeline" or "quote". Every 2–3 slides add a "fact" (an interesting point from the source) or a "question" (a thought question for the audience). Add "imagePrompt" (English description of an illustration) for slides that need a picture.
+6. ${order}
+7. Do not create the title slide — but fill "title", "subtitle", "tagline", "tags" (1–2 short labels) and "titleImages" (1–2 English image searches for the cover).
+8. Output JSON only, no explanation.
 
-JSON ರೂಪ (type ಗಳನ್ನು ಅಗತ್ಯಕ್ಕೆ ತಕ್ಕಂತೆ ಬಳಸಿ):
+JSON FORMAT (use the types you need):
 {
- "title": "ಪಾಠದ ಹೆಸರು",
- "subtitle": "ಅಧ್ಯಾಯ ಸಂಖ್ಯೆ ಅಥವಾ ಉಪಶೀರ್ಷಿಕೆ",
- "imageQuery": "english words",
+ "title": "...", "subtitle": "chapter / short label", "tagline": "one attractive line", "tags": ["...", "..."], "titleImages": ["english words", "english words"],
  "slides": [
-  {"type":"objectives","heading":"ಕಲಿಕಾ ಉದ್ದೇಶಗಳು","points":["..."]},
-  {"type":"content","heading":"...","points":["...","..."],"highlight":"ನೆನಪಿಡಬೇಕಾದ ಮುಖ್ಯ ಅಂಶ (ಐಚ್ಛಿಕ)","imageQuery":"english words","notes":"ಶಿಕ್ಷಕರಿಗೆ ಸಲಹೆ (ಐಚ್ಛಿಕ)"},
-  {"type":"section","heading":"ಹೊಸ ಭಾಗದ ಹೆಸರು","subtitle":"..."},
-  {"type":"flow","heading":"...","points":["ಹಂತ – ವಿವರ","ಹಂತ – ವಿವರ"]},
-  {"type":"timeline","heading":"...","points":["ಇಸವಿ – ಘಟನೆ"]},
-  {"type":"compare","heading":"...","left":{"title":"...","points":["..."]},"right":{"title":"...","points":["..."]}},
-  {"type":"quote","heading":"...","lines":["ಪದ್ಯ/ಶಾಸನದ ಸಾಲು"],"explain":"ಅರ್ಥ"},
-  {"type":"keywords","heading":"ಪ್ರಮುಖ ಪದಗಳು","points":["ಪದ – ಅರ್ಥ"]},
-  {"type":"questions","heading":"ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗಳು","points":["..."],"notes":"ಉತ್ತರಗಳು: ..."},
-  {"type":"activity","heading":"ಚಟುವಟಿಕೆಗಳು","points":["..."]},
-  {"type":"summary","heading":"ಸಾರಾಂಶ","points":["..."]}
+  ${gen ? '' : '{"type":"objectives","heading":"...","points":["..."]},\n  '}{"type":"content","heading":"...","points":["...","..."],"highlight":"key point to remember (optional)","fact":"interesting fact (optional)","question":"thought question (optional)","imageQuery":"english words","caption":"image caption (optional)","imagePrompt":"English: what the illustration should show (optional)","notes":"speaker notes (optional)"},
+  {"type":"gallery","heading":"...","images":[{"imageQuery":"english words","caption":"..."},{"imageQuery":"...","caption":"..."}],"highlight":"..."},
+  {"type":"section","heading":"...","subtitle":"...","imageQuery":"(optional)"},
+  {"type":"flow","heading":"...","points":["step – detail","step – detail"]},
+  {"type":"timeline","heading":"...","points":["year – event"]},
+  {"type":"compare","heading":"...","left":{"title":"...","points":["..."],"imageQuery":"(optional)"},"right":{"title":"...","points":["..."],"imageQuery":"(optional)"}},
+  {"type":"quote","heading":"...","lines":["line"],"explain":"meaning"},
+  {"type":"keywords","heading":"...","points":["term – meaning"]},
+  ${gen ? '' : '{"type":"questions","heading":"...","points":["..."],"notes":"answers: ..."},\n  {"type":"activity","heading":"...","points":["..."]},\n  '}{"type":"summary","heading":"...","points":["..."]}
  ]
 }
-${m.cls ? 'ತರಗತಿ: ' + m.cls + '\n' : ''}${m.subject ? 'ವಿಷಯ: ' + m.subject + '\n' : ''}${m.title ? 'ಪಾಠದ ಹೆಸರು: ' + m.title + '\n' : ''}
-ಪಾಠ:
-"""
+${m.cls ? 'Class: ' + m.cls + '\n' : ''}${m.subject ? (gen ? 'Organisation / event: ' : 'Subject: ') + m.subject + '\n' : ''}${m.title ? 'Title: ' + m.title + '\n' : ''}
+${gen ? 'CONTENT' : 'LESSON'}:
+\"\"\"
 ${m.text}
-"""`;
+\"\"\"`;
 }
 function parseAI(txt) {
   let s = txt.replace(/```(?:json)?/gi, '').trim();
@@ -751,41 +1041,45 @@ function elHTML(e, th, idx, mode) {
   let inner = '';
   if (e.t === 'text') {
     const fill = col(e.fill, th), bc = col(e.bc, th);
-    const box = `background:${fill || 'transparent'};border-radius:${e.rad || 0}px;padding:${e.pad || 0}px;justify-content:${e.va === 'middle' ? 'center' : e.va === 'bottom' ? 'flex-end' : 'flex-start'};${bc && e.bw ? `box-shadow:inset 0 0 0 ${e.bw}px ${bc};` : ''}`;
-    const tx = `font-family:${famCss(e.ff, th).replace(/"/g, "'")};font-size:${e.fs}px;font-weight:${e.bold ? 700 : 400};font-style:${e.italic ? 'italic' : 'normal'};color:${col(e.fc, th)};text-align:${e.align || 'left'};line-height:${e.lh || 1.35};--bc:${th.a}`;
+    const shs = []; if (bc && e.bw) shs.push(`inset 0 0 0 ${e.bw}px ${bc}`); if (e.sh && th.shadow && fill) shs.push('0 6px 18px rgba(0,0,0,.2)');
+    const box = `background:${fill || 'transparent'};border-radius:${e.rad || 0}px;padding:${e.pad || 0}px;justify-content:${e.va === 'middle' ? 'center' : e.va === 'bottom' ? 'flex-end' : 'flex-start'};${shs.length ? `box-shadow:${shs.join(',')};` : ''}`;
+    const tx = `font-family:${famCss(e.ff, th).replace(/"/g, "'")};font-size:${e.fs}px;font-weight:${e.bold ? 700 : 400};font-style:${e.italic ? 'italic' : 'normal'};color:${col(e.fc, th)};text-align:${e.align || 'left'};line-height:${e.lh || 1.35};--bc:${th.a};${e.tsh ? 'text-shadow:0 2px 6px rgba(0,0,0,.55);' : ''}`;
     const paras = dynText(e, idx).split('\n').map(p => `<p${e.bullets && p.trim() ? ' class="b"' : ''}>${p.trim() ? esc(p.trim()) : '&nbsp;'}</p>`).join('');
     inner = `<div class="bx" style="${box}"><div class="tx" style="${tx}">${paras}</div></div>`;
+  } else if (e.t === 'shape' && FANCY.includes(e.shape)) {
+    inner = fzCanvasHTML(fancySpec(e, th));
   } else if (e.t === 'shape') {
     const fill = col(e.fill, th) || 'transparent', bc = col(e.bc, th); const pts = polyPts(e);
     let s = `position:absolute;inset:0;background:${fill};`;
     if (e.shape === 'ellipse') s += 'border-radius:50%;'; else if (!pts) s += `border-radius:${e.rad || 0}px;`;
     if (pts) s += `clip-path:polygon(${pts.map(p => `${p[0].toFixed(1)}px ${p[1].toFixed(1)}px`).join(',')});`;
-    else if (bc && e.bw) s += `box-shadow:inset 0 0 0 ${e.bw}px ${bc};`;
+    else { const shs = []; if (bc && e.bw) shs.push(`inset 0 0 0 ${e.bw}px ${bc}`); if (e.sh && th.shadow) shs.push('0 6px 18px rgba(0,0,0,.2)'); if (shs.length) s += `box-shadow:${shs.join(',')};`; }
     inner = `<div style="${s}"></div>`;
   } else if (e.t === 'img') {
     const src = srcOf(e), bc = col(e.bc, th);
     const r = `border-radius:${e.rad || 0}px;`;
-    if (src) inner = `<div class="im" style="${r}"><img src="${esc(src)}" alt="" draggable="false" style="object-fit:${e.fit || 'cover'}">${bc && e.bw ? `<div class="bd" style="${r}box-shadow:inset 0 0 0 ${e.bw}px ${bc}"></div>` : ''}${e.credit && mode !== 'thumb' ? `<div class="cr${(e.rad || 0) > Math.min(e.w, e.h) / 4 ? ' rc' : ''}">${esc(e.credit)}</div>` : ''}</div>`;
+    if (src) inner = `<div class="im" style="${r}${e.sh && th.shadow && !e.frame ? 'box-shadow:0 8px 22px rgba(0,0,0,.28);' : ''}"><img src="${esc(src)}" alt="" draggable="false" style="object-fit:${e.fit || 'cover'}">${bc && e.bw ? `<div class="bd" style="${r}box-shadow:inset 0 0 0 ${e.bw}px ${bc}"></div>` : ''}${e.credit && mode !== 'thumb' ? `<div class="cr${(e.rad || 0) > Math.min(e.w, e.h) / 4 ? ' rc' : ''}">${esc(e.credit)}</div>` : ''}</div>${e.frame ? fzCanvasHTML(fancySpec(e, th)) : ''}`;
     else inner = `<div class="im" style="${r}"><div class="ph" style="${r}">${e._loading ? '⏳<br>ಚಿತ್ರ ಹುಡುಕುತ್ತಿದೆ…' : '🖼️<br>ಚಿತ್ರ ಸೇರಿಸಲು ಎರಡು ಬಾರಿ ಒತ್ತಿ'}${e.q ? `<small>${esc(e.q)}</small>` : ''}</div></div>`;
   }
   return `<div class="${cls.join(' ')}" data-id="${e.id}" style="${st0}">${inner}</div>`;
 }
 function slideHTML(s, idx, mode) {
   const th = thNow();
-  return `<div class="sl mode-${mode === 'edit' ? 'edit' : 'view'}" style="background:${bgCss(s.bg, th)}">${s.els.map(e => elHTML(e, th, idx, mode)).join('')}</div>`;
+  return `<div class="sl mode-${mode === 'edit' ? 'edit' : 'view'} ${bgClass(s.bg, th)}" style="background:${bgCss(s.bg, th)}">${s.els.map(e => elHTML(e, th, idx, mode)).join('')}</div>`;
 }
 function layoutStage() {
   const w = $('#wrap'); if (!w) return; const r = w.getBoundingClientRect();
   const sc = Math.max(.1, Math.min((r.width - 40) / W, (r.height - 40) / H));
   st.scale = sc; const sg = $('#stage');
-  sg.style.transform = `scale(${sc})`; sg.style.left = Math.round((r.width - W * sc) / 2) + 'px'; sg.style.top = Math.round((r.height - H * sc) / 2) + 'px';
+  const changed = Math.abs((sg.dataset.sc || 0) - sc) > .01; sg.dataset.sc = sc; if (changed) $$('#stage canvas.fz').forEach(c => delete c.dataset.done);
+  sg.style.transform = `scale(${sc})`; if (changed) paintFancy(sg, sc); sg.style.left = Math.round((r.width - W * sc) / 2) + 'px'; sg.style.top = Math.round((r.height - H * sc) / 2) + 'px';
   drawSel();
 }
 function renderStage() {
   if (!D) return;
   st.cur = clamp(st.cur, 0, D.slides.length - 1);
   if (st.sel && !selEl()) st.sel = null;
-  $('#stage').innerHTML = slideHTML(curSlide(), st.cur, 'edit') + '<div id="ov"></div>';
+  $('#stage').innerHTML = slideHTML(curSlide(), st.cur, 'edit') + '<div id="ov"></div>'; paintFancy($('#stage'), st.scale);
   drawSel();
 }
 function drawSel() {
@@ -808,10 +1102,10 @@ function drawSel() {
 function renderThumbs() {
   const th = $('#thumbs'); if (!D) { th.innerHTML = ''; return; }
   th.innerHTML = D.slides.map((s, i) => `<div class="th${i === st.cur ? ' on' : ''}" data-i="${i}" draggable="true"><span class="n">${i + 1}</span><div class="box"><div class="mini">${slideHTML(s, i, 'thumb')}</div></div><div class="ta"><button data-a="dup" title="ನಕಲು">⧉</button><button data-a="del" title="ಅಳಿಸು">🗑</button></div></div>`).join('') + `<button class="addsl" id="addSlide">＋ ಹೊಸ ಸ್ಲೈಡ್</button>`;
-  const on = th.querySelector('.th.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  paintFancy(th, .12); const on = th.querySelector('.th.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 function updThumb(i = st.cur) {
-  const t = $(`#thumbs .th[data-i="${i}"] .mini`); if (t) t.innerHTML = slideHTML(D.slides[i], i, 'thumb');
+  const t = $(`#thumbs .th[data-i="${i}"] .mini`); if (t) { t.innerHTML = slideHTML(D.slides[i], i, 'thumb'); paintFancy(t, .12); }
 }
 const updThumbLater = debounce(() => updThumb(), 250);
 function renderAll() {
@@ -849,7 +1143,7 @@ const saveLater = debounce(async () => { if (!D) return; try { await DB.put(clea
 
 /* ----------------------------------------------------- open a deck */
 async function openDeck(d, { fetchImgs = true } = {}) {
-  D = d; D.assets = D.assets || {}; st.cur = 0; st.sel = null;
+  D = d; D.assets = D.assets || {}; st.cur = 0; st.sel = null; SLANG = D.lang || 'kn';
   $('#home').classList.add('hide');
   await ensureFonts(thNow());
   D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && !e.dyn) fit(e, thNow()); }));
@@ -966,7 +1260,7 @@ function initStage() {
       if (w < 20) { if (h.includes('w')) x -= 20 - w; w = 20; } if (hh < 16) { if (h.includes('n')) y -= 16 - hh; hh = 16; }
       Object.assign(e, { x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(hh) });
       if (e.t === 'text') refit(e);
-      const node = $(`#stage .el[data-id="${e.id}"]`); if (node) node.outerHTML = elHTML(e, thNow(), st.cur, 'edit');
+      const node = $(`#stage .el[data-id="${e.id}"]`); if (node) { node.outerHTML = elHTML(e, thNow(), st.cur, 'edit'); paintFancy($('#stage'), st.scale); }
       drawSel();
     } else if (d.mode === 'rot') {
       const cx = e.x + e.w / 2, cy = e.y + e.h / 2; let a = Math.atan2(p.y - cy, p.x - cx) * 180 / Math.PI + 90;
@@ -1007,6 +1301,9 @@ function swatches(key, cur, allowNone) {
 function renderPanel() {
   const P = $('#panel'); if (!D) { P.innerHTML = ''; return; }
   const e = selEl(); const s = curSlide(); let h = '';
+  const AIBOX_IMG = `<div class="pg"><label>🎨 AI ಚಿತ್ರ (NotebookLM ತರಹದ ಚಿತ್ರ ಬೇಕಾದರೆ)</label>
+      <div class="hint" style="margin-bottom:6px">① ಸೂಚನೆ copy ಆಗಿ Gemini ತೆರೆಯುತ್ತದೆ → paste ಮಾಡಿ ② ಬಂದ ಚಿತ್ರವನ್ನು download ಮಾಡಿ ③ "AI ಚಿತ್ರ ಹಾಕಿ" ಒತ್ತಿ.</div>
+      <div class="btnrow"><button class="sb" data-a="aiimg" data-u="https://gemini.google.com/app">🎨 ಸೂಚನೆ + Gemini</button><button class="sb" data-a="aiimg" data-u="https://chatgpt.com/">🎨 ಸೂಚನೆ + ChatGPT</button><button class="sb" data-a="aiup" style="grid-column:1/-1;background:#FFF0E6">⬆ AI ಚಿತ್ರ ಹಾಕಿ</button></div></div>`;
   const common = e => `
     <div class="pg"><label>ಪಾರದರ್ಶಕತೆ / ತಿರುಗಿಸು</label>
       <div class="rw">🔆 <input type="range" min="0.05" max="1" step="0.05" value="${e.op ?? 1}" data-k="op" data-n="1"></div>
@@ -1022,11 +1319,14 @@ function renderPanel() {
     const isG = s.bg && s.bg.k === 'grad';
     h = `<div class="pt">🗂️ ಸ್ಲೈಡ್ ${st.cur + 1} / ${D.slides.length}</div>
     <div class="hint" style="margin-bottom:10px">ಯಾವುದೇ ವಸ್ತುವನ್ನು ಒಂದು ಬಾರಿ ಒತ್ತಿದರೆ ಆರಿಸುತ್ತದೆ; ಎಳೆದು ಸರಿಸಿ; ಮೂಲೆಗಳಿಂದ ಗಾತ್ರ ಬದಲಿಸಿ. ಪಠ್ಯವನ್ನು <b>ಎರಡು ಬಾರಿ ಒತ್ತಿ</b> ತಿದ್ದಿ.</div>
+<div class="pg"><label>🎨 AI ಚಿತ್ರ (NotebookLM ತರಹದ ಚಿತ್ರ ಬೇಕಾದರೆ)</label>
+      <div class="hint" style="margin-bottom:6px">① ಸೂಚನೆ copy ಆಗಿ Gemini ತೆರೆಯುತ್ತದೆ → paste ಮಾಡಿ ② ಬಂದ ಚಿತ್ರವನ್ನು download ಮಾಡಿ ③ "AI ಚಿತ್ರ ಹಾಕಿ" ಒತ್ತಿ.</div>
+      <div class="btnrow"><button class="sb" data-a="aiimg" data-u="https://gemini.google.com/app">🎨 ಸೂಚನೆ + Gemini</button><button class="sb" data-a="aiimg" data-u="https://chatgpt.com/">🎨 ಸೂಚನೆ + ChatGPT</button><button class="sb" data-a="aiup" style="grid-column:1/-1;background:#FFF0E6">⬆ AI ಚಿತ್ರ ಹಾಕಿ</button></div></div>
     <div class="pg"><label>ಹಿನ್ನೆಲೆ</label>
       <div class="tabs" style="margin-bottom:8px"><button class="${!isG ? 'on' : ''}" data-a="bgsolid">ಒಂದೇ ಬಣ್ಣ</button><button class="${isG ? 'on' : ''}" data-a="bggrad">ಮಿಶ್ರ ಬಣ್ಣ</button></div>
       ${isG ? `<div class="lbl">ಮೊದಲ ಬಣ್ಣ</div>${swatches('bg1', s.bg.c1)}<div class="lbl">ಎರಡನೇ ಬಣ್ಣ</div>${swatches('bg2', s.bg.c2)}` : swatches('bg', s.bg ? s.bg.c : '$bg')}
     </div>
-    <div class="pg"><label>📝 ಶಿಕ್ಷಕರ ಟಿಪ್ಪಣಿ (ಪ್ರದರ್ಶನದಲ್ಲಿ N ಒತ್ತಿದರೆ ಕಾಣುತ್ತದೆ)</label><textarea class="nt" id="notes" placeholder="ಉದಾ: ಉತ್ತರಗಳು, ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳು…">${esc(s.notes || '')}</textarea></div>
+    <div class="pg"><label>📝 ಟಿಪ್ಪಣಿ — ಶಿಕ್ಷಕರು / ಭಾಷಣಕಾರರಿಗೆ (ಪ್ರದರ್ಶನದಲ್ಲಿ N ಒತ್ತಿದರೆ ಕಾಣುತ್ತದೆ)</label><textarea class="nt" id="notes" placeholder="ಉದಾ: ಉತ್ತರಗಳು, ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳು…">${esc(s.notes || '')}</textarea></div>
     <div class="pg"><label>ಸ್ಲೈಡ್ ಕ್ರಿಯೆಗಳು</label><div class="btnrow">
       <button class="sb" data-a="sdup">⧉ ಸ್ಲೈಡ್ ನಕಲು</button><button class="sb danger" data-a="sdel">🗑 ಸ್ಲೈಡ್ ಅಳಿಸು</button>
       <button class="sb" data-a="sup">⬆ ಮೇಲೆ ಸರಿಸು</button><button class="sb" data-a="sdown">⬇ ಕೆಳಗೆ ಸರಿಸು</button>
@@ -1047,19 +1347,24 @@ function renderPanel() {
     <div class="pg"><label>ಡಬ್ಬಿಯ ಬಣ್ಣ</label>${swatches('fill', e.fill, true)}
       <div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="80" value="${e.rad || 0}" data-k="rad" data-n="1"></div>
       <div class="rw">ಒಳ ಅಂತರ <input type="range" min="0" max="60" value="${e.pad || 0}" data-k="pad" data-n="1"></div></div>
-    <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="16" value="${e.bw || 0}" data-k="bw" data-n="1"></div></div>` + common(e);
+    <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="16" value="${e.bw || 0}" data-k="bw" data-n="1"></div>
+      <label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-k="sh" ${e.sh ? 'checked' : ''}> ಡಬ್ಬಿಗೆ ನೆರಳು</label>
+      <label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-k="tsh" ${e.tsh ? 'checked' : ''}> ಅಕ್ಷರಗಳಿಗೆ ನೆರಳು</label></div>` + common(e);
   } else if (e.t === 'img') {
     h = `<div class="pt">🖼️ ಚಿತ್ರ</div>
     <div class="pg" style="border:0;padding-top:0"><div class="btnrow"><button class="sb" data-a="imgch">🔍 ಚಿತ್ರ ಬದಲಿಸು</button><button class="sb" data-a="imgup">⬆ ನನ್ನ ಚಿತ್ರ</button></div>
     ${e.q ? `<div class="lbl" style="margin-top:10px">ಇತರ ಸಲಹೆಗಳು: "${esc(e.q)}"</div><div class="sugg" id="sugg"><span class="hint">⏳</span></div>` : ''}</div>
     <div class="pg"><label>ಹೊಂದಿಸುವಿಕೆ</label><div class="rw"><button class="sb${e.fit !== 'contain' ? ' on' : ''}" data-s="fit" data-v="cover">ಡಬ್ಬಿ ತುಂಬಿಸು</button><button class="sb${e.fit === 'contain' ? ' on' : ''}" data-s="fit" data-v="contain">ಪೂರ್ತಿ ತೋರಿಸು</button></div>
       <div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="${Math.round(Math.min(e.w, e.h) / 2)}" value="${e.rad || 0}" data-k="rad" data-n="1"></div>
-      <div class="rw"><button class="sb" data-a="circle">⚪ ವೃತ್ತಾಕಾರ</button><button class="sb" data-a="nocredit">${e.credit ? 'ಮೂಲ ಹೆಸರು ಮರೆಮಾಡು' : ''}</button></div></div>
+      <div class="rw"><button class="sb" data-a="circle">⚪ ವೃತ್ತಾಕಾರ</button>${e.credit ? '<button class="sb" data-a="nocredit">ಮೂಲ ಹೆಸರು ಮರೆಮಾಡು</button>' : ''}</div></div>
+    <div class="pg"><label>ಚೌಕಟ್ಟು (frame)</label><div class="rw">${[['', 'ಇಲ್ಲ'], ['gold', 'ಚಿನ್ನ'], ['wood', 'ಮರ'], ['stone', 'ಕಲ್ಲು'], ['clean', 'ಬಿಳಿ'], ['polaroid', 'ಫೋಟೋ']].map(([k, n]) => `<button class="sb${(e.frame || '') === k ? ' on' : ''}" data-fr="${k}">${n}</button>`).join('')}</div>
+      <label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-k="sh" ${e.sh ? 'checked' : ''}> ನೆರಳು (ಚಿತ್ರಾತ್ಮಕ ವಿನ್ಯಾಸಗಳಲ್ಲಿ)</label></div>
+    ${AIBOX_IMG}
     <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="20" value="${e.bw || 0}" data-k="bw" data-n="1"></div></div>` + common(e);
   } else {
     h = `<div class="pt">⬛ ಆಕಾರ</div>
-    <div class="pg" style="border:0;padding-top:0"><label>ಆಕಾರ</label><div class="rw">${[['rect', '▭'], ['ellipse', '◯'], ['triangle', '△'], ['arrow', '➜'], ['star', '☆']].map(([k, i]) => `<button class="sb${e.shape === k ? ' on' : ''}" data-s="shape" data-v="${k}">${i}</button>`).join('')}</div></div>
-    <div class="pg"><label>ಬಣ್ಣ</label>${swatches('fill', e.fill, true)}<div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="120" value="${e.rad || 0}" data-k="rad" data-n="1"></div></div>
+    <div class="pg" style="border:0;padding-top:0"><label>ಆಕಾರ</label><div class="rw">${[['rect', '▭'], ['ellipse', '◯'], ['triangle', '△'], ['arrow', '➜'], ['star', '☆'], ['plaque', '🏷️'], ['scroll', '📜'], ['note', '📌'], ['ribbon', '🎀']].map(([k, i]) => `<button class="sb${e.shape === k ? ' on' : ''}" data-s="shape" data-v="${k}">${i}</button>`).join('')}</div></div>
+    <div class="pg"><label>ಬಣ್ಣ</label>${swatches('fill', e.fill, true)}${FANCY.includes(e.shape) ? '<div class="hint">ಅಂಚಿನ ಬಣ್ಣ = ಚಿನ್ನದ ಅಂಚು / ಪಿನ್ ಬಣ್ಣ</div>' : ''}<div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="120" value="${e.rad || 0}" data-k="rad" data-n="1"></div></div>
     <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="20" value="${e.bw || 0}" data-k="bw" data-n="1"></div></div>` + common(e);
   }
   P.innerHTML = h;
@@ -1090,6 +1395,7 @@ function initPanel() {
     if (b.dataset.c) { applyColor(b.dataset.c, b.dataset.v || null); return; }
     if (b.dataset.t && e) { setProp(b.dataset.t, !e[b.dataset.t]); return; }
     if (b.dataset.s && e) { setProp(b.dataset.s, b.dataset.v); return; }
+    if (b.dataset.fr != null && e) { e.frame = b.dataset.fr; e.frameUser = true; if (e.frame) e.bw = 0; renderStage(); renderPanel(); commit(); return; }
     const a = b.dataset.a; if (!a) return;
     if (a === 'fs-' || a === 'fs+') { setProp('fs', clamp(e.fs + (a === 'fs+' ? 2 : -2), 8, 200)); return; }
     if (a === 'cx') { e.x = Math.round((W - e.w) / 2); renderStage(); renderPanel(); commit(); return; }
@@ -1103,8 +1409,10 @@ function initPanel() {
     if (a === 'bggrad') { s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 135 }; renderStage(); renderPanel(); commit(); return; }
     if (a === 'sdup') return slideOp('dup', st.cur); if (a === 'sdel') return slideOp('del', st.cur);
     if (a === 'sup') return slideOp('up', st.cur); if (a === 'sdown') return slideOp('down', st.cur);
-    if (a === 'chrome') { s.noChrome = !s.noChrome; s.els = s.els.filter(x => !x.chrome); if (!s.noChrome) s.els.unshift(...chromeEls(s.kind || 'content', thNow())); renderStage(); renderPanel(); commit(); return; }
+    if (a === 'chrome') { s.noChrome = !s.noChrome; applyChromeSlide(s, thNow()); renderStage(); renderPanel(); commit(); return; }
     if (a === 'imgs') return openImageDialog(null);
+    if (a === 'aiimg') { copyText(aiImgPrompt(s, thNow())).then(ok => toast(ok ? '✅ ಚಿತ್ರದ ಸೂಚನೆ copy ಆಯಿತು → paste ಮಾಡಿ → ಚಿತ್ರ download → "⬆ AI ಚಿತ್ರ ಹಾಕಿ"' : '⚠️ Copy ಆಗಲಿಲ್ಲ', 6000)); window.open(b.dataset.u, '_blank', 'noopener'); return; }
+    if (a === 'aiup') { imgTarget = (e && e.t === 'img') ? e : (s.els.find(x => x.t === 'img' && !x.src) || s.els.find(x => x.t === 'img' && x.role === 'pic') || null); $('#fImg').click(); return; }
   });
 }
 function applyColor(key, v, live) {
@@ -1138,26 +1446,28 @@ function initThumbs() {
   T0.addEventListener('dragend', () => { dragI = null; $$('.th.drop', T0).forEach(x => x.classList.remove('drop')); });
 }
 const NEWSL = [
-  ['blank', '⬜ ಖಾಲಿ ಸ್ಲೈಡ್'], ['content', '📄 ಶೀರ್ಷಿಕೆ + ಅಂಶಗಳು'], ['contentimg', '🖼️ ಅಂಶಗಳು + ಚಿತ್ರ'], ['cards', '🗃️ ಕಾರ್ಡ್‌ಗಳು'], ['compare', '⚖️ ಹೋಲಿಕೆ'], ['flow', '➡️ ಹಂತಗಳು (ಕ್ರಮ)'], ['timeline', '📅 ಕಾಲರೇಖೆ'], ['questions', '❓ ಪ್ರಶ್ನೆಗಳು'], ['quote', '❝ ಪದ್ಯ / ಉಕ್ತಿ'], ['section', '🔖 ಹೊಸ ಭಾಗ'], ['title', '🏷️ ಮುಖಪುಟ ಸ್ಲೈಡ್']];
+  ['blank', '⬜ ಖಾಲಿ ಸ್ಲೈಡ್'], ['content', '📄 ಶೀರ್ಷಿಕೆ + ಅಂಶಗಳು'], ['contentimg', '🖼️ ಅಂಶಗಳು + ಚಿತ್ರ'], ['gallery', '🖼️🖼️ ಚಿತ್ರ ಗ್ಯಾಲರಿ'], ['cards', '🗃️ ಕಾರ್ಡ್‌ಗಳು'], ['compare', '⚖️ ಹೋಲಿಕೆ'], ['flow', '➡️ ಹಂತಗಳು (ಕ್ರಮ)'], ['timeline', '📅 ಕಾಲರೇಖೆ'], ['questions', '❓ ಪ್ರಶ್ನೆಗಳು'], ['quote', '❝ ಪದ್ಯ / ಉಕ್ತಿ'], ['section', '🔖 ಹೊಸ ಭಾಗ'], ['thanks', '🙏 ಧನ್ಯವಾದ ಸ್ಲೈಡ್'], ['title', '🏷️ ಮುಖಪುಟ ಸ್ಲೈಡ್']];
 function addSlideMenu(anchor) {
   popMenu(anchor, NEWSL.map(([k, n]) => ({ label: n, fn: () => addSlide(k) })));
 }
 function addSlide(k) {
   const th = thNow(); let sl;
-  const P = ['ಮೊದಲ ಅಂಶ', 'ಎರಡನೇ ಅಂಶ', 'ಮೂರನೇ ಅಂಶ'];
+  const L = LB(), P = L.pts, Hh = L.heading;
   const ctx = { n: st.cur + 1 };
   if (k === 'blank') { sl = [mkSlide('content')]; }
-  else if (k === 'content') sl = bContent({ type: 'content', heading: 'ಶೀರ್ಷಿಕೆ', points: P }, th, { n: 0 });
-  else if (k === 'contentimg') sl = bContent({ type: 'content', heading: 'ಶೀರ್ಷಿಕೆ', points: P, imageQuery: ' ' }, th, ctx);
-  else if (k === 'cards') sl = bCards({ type: 'cards', heading: 'ಶೀರ್ಷಿಕೆ', points: P }, th, ctx);
-  else if (k === 'compare') sl = bCompare({ heading: 'ಹೋಲಿಕೆ', left: { title: 'ಮೊದಲನೆಯದು', points: P.slice(0, 2) }, right: { title: 'ಎರಡನೆಯದು', points: P.slice(0, 2) } }, th);
-  else if (k === 'flow') sl = bFlow({ heading: 'ಹಂತಗಳು', points: ['ಹಂತ 1 – ವಿವರ', 'ಹಂತ 2 – ವಿವರ', 'ಹಂತ 3 – ವಿವರ'] }, th);
-  else if (k === 'timeline') sl = bTimeline({ heading: 'ಕಾಲರೇಖೆ', points: ['ಇಸವಿ – ಘಟನೆ', 'ಇಸವಿ – ಘಟನೆ', 'ಇಸವಿ – ಘಟನೆ'] }, th);
-  else if (k === 'questions') sl = bList({ type: 'questions', heading: 'ಪ್ರಶ್ನೆಗಳು', points: ['ಮೊದಲ ಪ್ರಶ್ನೆ?', 'ಎರಡನೇ ಪ್ರಶ್ನೆ?'] }, th, ctx);
-  else if (k === 'quote') sl = bQuote({ heading: 'ಪದ್ಯ', lines: ['ಮೊದಲ ಸಾಲು', 'ಎರಡನೇ ಸಾಲು'], explain: 'ಅರ್ಥ' }, th);
-  else if (k === 'section') sl = bSection({ heading: 'ಹೊಸ ಭಾಗ', subtitle: 'ಉಪಶೀರ್ಷಿಕೆ' }, th);
-  else sl = bTitle({ title: D.title, subtitle: 'ಅಧ್ಯಾಯ' }, th);
-  sl.forEach(s => { s.els.forEach(e => { if (e.t === 'img' && e.q === ' ') e.q = ''; }); if (!s.noChrome) s.els.unshift(...chromeEls(s.kind, th)); });
+  else if (k === 'content') sl = bContent({ type: 'content', heading: Hh, points: P }, th, { n: 0 });
+  else if (k === 'contentimg') sl = bContent({ type: 'content', heading: Hh, points: P, imageQuery: ' ' }, th, ctx);
+  else if (k === 'cards') sl = bCards({ type: 'cards', heading: Hh, points: P }, th, ctx);
+  else if (k === 'gallery') sl = bGallery({ heading: Hh, images: [{ imageQuery: ' ', caption: L.pts[0] }, { imageQuery: ' ', caption: L.pts[1] }] }, th);
+  else if (k === 'compare') sl = bCompare({ heading: L.cmp[0], left: { title: L.cmp[1], points: P.slice(0, 2) }, right: { title: L.cmp[2], points: P.slice(0, 2) } }, th);
+  else if (k === 'flow') sl = bFlow({ heading: L.steps[0], points: [1, 2, 3].map(n => L.steps[1].replace(/^(\S+)/, '$1 ' + n)) }, th);
+  else if (k === 'timeline') sl = bTimeline({ heading: L.tl[0], points: [L.tl[1], L.tl[1], L.tl[1]] }, th);
+  else if (k === 'questions') sl = bList({ type: 'questions', heading: L.qs[0], points: L.qs.slice(1) }, th, ctx);
+  else if (k === 'quote') sl = bQuote({ heading: L.quote[0], lines: L.quote.slice(1, 3), explain: L.quote[3] }, th);
+  else if (k === 'section') sl = bSection({ heading: L.sec[0], subtitle: L.sec[1] }, th);
+  else if (k === 'thanks') sl = bSection({ heading: L.thanks, subtitle: L.thanksSub }, th);
+  else sl = bTitle({ title: D.title, subtitle: L.chap }, th);
+  sl.forEach(s => { s.els.forEach(e => { if (e.t === 'img' && e.q === ' ') e.q = ''; }); applyChromeSlide(s, th); });
   D.slides.splice(st.cur + 1, 0, ...sl); st.cur++; st.sel = null; renderThumbs(); renderStage(); renderPanel(); commit({ noThumb: true });
 }
 
@@ -1184,12 +1494,12 @@ const EMO = {
 };
 function insertMenu(kind, anchor) {
   if (!D) return; const th = thNow();
-  if (kind === 'title') return addEl(T('ಶೀರ್ಷಿಕೆ ಬರೆಯಿರಿ', 140, 300, 1000, 100, { ff: 'h', fs: 52, bold: true, fc: '$p', align: 'center', va: 'middle', auto: false }));
-  if (kind === 'text') return addEl(T('ಇಲ್ಲಿ ಪಠ್ಯ ಬರೆಯಿರಿ', 340, 320, 600, 80, { fs: 30, auto: false }));
-  if (kind === 'bullets') return addEl(T('ಮೊದಲ ಅಂಶ\nಎರಡನೇ ಅಂಶ\nಮೂರನೇ ಅಂಶ', 300, 240, 680, 240, { fs: 30, bullets: true, auto: false }));
+  if (kind === 'title') return addEl(T(LB().writeTitle, 140, 300, 1000, 100, { ff: 'h', fs: 52, bold: true, fc: '$p', align: 'center', va: 'middle', auto: false }));
+  if (kind === 'text') return addEl(T(LB().writeText, 340, 320, 600, 80, { fs: 30, auto: false }));
+  if (kind === 'bullets') return addEl(T(LB().pts.join('\n'), 300, 240, 680, 240, { fs: 30, bullets: true, auto: false }));
   if (kind === 'image') return openImageDialog(null);
-  if (kind === 'shape') return popMenu(anchor, [['rect', '▭ ಆಯತ'], ['round', '▢ ದುಂಡು ಮೂಲೆ'], ['ellipse', '◯ ವೃತ್ತ'], ['triangle', '△ ತ್ರಿಭುಜ'], ['arrow', '➜ ಬಾಣ'], ['star', '☆ ನಕ್ಷತ್ರ'], ['line', '― ಗೆರೆ']].map(([k, n]) => ({
-    label: n, fn: () => addEl(k === 'line' ? S('rect', 440, 356, 400, 8, { fill: '$p', rad: 4 }) : k === 'round' ? S('rect', 490, 260, 300, 200, { fill: '$a', rad: 28 }) : S(k, 520, 240, k === 'arrow' ? 260 : 240, k === 'arrow' ? 120 : 240, { fill: k === 'star' ? '$a' : '$p' }))
+  if (kind === 'shape') return popMenu(anchor, [['rect', '▭ ಆಯತ'], ['round', '▢ ದುಂಡು ಮೂಲೆ'], ['ellipse', '◯ ವೃತ್ತ'], ['triangle', '△ ತ್ರಿಭುಜ'], ['arrow', '➜ ಬಾಣ'], ['star', '☆ ನಕ್ಷತ್ರ'], ['line', '― ಗೆರೆ'], ['plaque', '🏷️ ಅಲಂಕೃತ ಫಲಕ'], ['scroll', '📜 ಸುರುಳಿ ಪಟ್ಟಿ'], ['note', '📌 ಪಿನ್ ಚೀಟಿ'], ['ribbon', '🎀 ರಿಬ್ಬನ್']].map(([k, n]) => ({
+    label: n, fn: () => addEl(k === 'plaque' ? S('plaque', 340, 280, 600, 140, { fill: '$pf', bc: '$tr' }) : k === 'scroll' ? S('scroll', 240, 300, 800, 120, { fill: '$sf', bc: '$tr' }) : k === 'note' ? S('note', 500, 220, 280, 260, { fill: '$nf', bc: '#D7263D', rot: 3 }) : k === 'ribbon' ? S('ribbon', 340, 300, 600, 110, { fill: '$p' }) : k === 'line' ? S('rect', 440, 356, 400, 8, { fill: '$p', rad: 4 }) : k === 'round' ? S('rect', 490, 260, 300, 200, { fill: '$a', rad: 28 }) : S(k, 520, 240, k === 'arrow' ? 260 : 240, k === 'arrow' ? 120 : 240, { fill: k === 'star' ? '$a' : '$p' }))
   })));
   if (kind === 'icon') {
     let h = '<div class="emg">'; for (const c in EMO) { h += `<div class="emh">${c}</div>`; (SEG ? [...SEG.segment(EMO[c])].map(x => x.segment) : [...EMO[c]]).forEach(g => h += `<button data-em="${g}">${g}</button>`); } h += '</div>';
@@ -1252,13 +1562,14 @@ function readImageFile(file) {
 }
 
 /* ----------------------------------------------------- themes dialog */
-function themeCard(t, on) { return `<button class="thc${on ? ' on' : ''}" data-th="${t.id}"><div class="pv" style="background:${t.bg}"><i style="background:${t.p}"></i><b style="background:${t.a}"></b><u style="background:linear-gradient(135deg,${t.g1},${t.g2})"></u></div><span>${t.n}</span></button>`; }
+function themeCard(t, on) { const pv = texPreview(t); return `<button class="thc${on ? ' on' : ''}" data-th="${t.id}"><div class="pv" style="background:${pv ? `url(${pv}) center/cover` : t.bg}"><i style="background:${t.p}"></i><b style="background:${t.a}"></b><u style="background:linear-gradient(135deg,${t.g1},${t.g2})"></u></div><span>${t.n}</span></button>`; }
 function openThemes() {
   if (!D) return;
-  const m = modal('🎨 ವಿನ್ಯಾಸ ಆರಿಸಿ', `<p class="hint" style="margin-top:0">ಒಂದು ಕ್ಲಿಕ್‌ನಲ್ಲಿ ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಬಣ್ಣ, ಅಕ್ಷರ ಶೈಲಿ ಮತ್ತು ಅಲಂಕಾರ ಬದಲಾಗುತ್ತದೆ. ನೀವು ಕೈಯಾರೆ ಆರಿಸಿದ ಬಣ್ಣಗಳು ಹಾಗೆಯೇ ಉಳಿಯುತ್ತವೆ.</p><div class="thg">${THEMES.map(t => themeCard(t, t.id === D.theme)).join('')}</div>
+  const m = modal('🎨 ವಿನ್ಯಾಸ ಆರಿಸಿ', `<p class="hint" style="margin-top:0">ಒಂದು ಕ್ಲಿಕ್‌ನಲ್ಲಿ ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಬಣ್ಣ, ಅಕ್ಷರ ಶೈಲಿ ಮತ್ತು ಅಲಂಕಾರ ಬದಲಾಗುತ್ತದೆ. ನೀವು ಕೈಯಾರೆ ಆರಿಸಿದ ಬಣ್ಣಗಳು ಹಾಗೆಯೇ ಉಳಿಯುತ್ತವೆ.</p><div class="lbl">✨ ಚಿತ್ರಾತ್ಮಕ ವಿನ್ಯಾಸಗಳು (ಫಲಕ, ಸುರುಳಿ ಪಟ್ಟಿ, ಚೌಕಟ್ಟು ಸಹಿತ)</div><div class="thg">${THEMES.filter(t => t.tex).map(t => themeCard(t, t.id === D.theme)).join('')}</div>
+  <div class="lbl" style="margin-top:14px">ಸರಳ ವಿನ್ಯಾಸಗಳು</div><div class="thg">${THEMES.filter(t => !t.tex).map(t => themeCard(t, t.id === D.theme)).join('')}</div>
   <div class="pg" style="margin-top:14px"><label>ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಅಕ್ಷರ ಶೈಲಿ</label><div class="g2"><div class="fld"><label>ಶೀರ್ಷಿಕೆ ಫಾಂಟ್</label><select id="hfS">${FONTS.map(f => `<option value="${f}">${FONT_KN[f]}</option>`).join('')}</select></div><div class="fld"><label>ಪಠ್ಯ ಫಾಂಟ್</label><select id="bfS">${FONTS.map(f => `<option value="${f}">${FONT_KN[f]}</option>`).join('')}</select></div></div></div>`, '<button class="btn" data-close>ಮುಚ್ಚಿ</button>', { w: 760 });
   const th = thNow(); $('#hfS', m).value = D.fonts && D.fonts.hf || th.hf; $('#bfS', m).value = D.fonts && D.fonts.bf || th.bf;
-  m.querySelector('.thg').onclick = async ev => { const b = ev.target.closest('[data-th]'); if (!b) return; $$('.thc', m).forEach(x => x.classList.toggle('on', x === b)); await setTheme(b.dataset.th); $('#hfS', m).value = thNow().hf; $('#bfS', m).value = thNow().bf; };
+  m.querySelector('.mb').onclick = async ev => { const b = ev.target.closest('[data-th]'); if (!b) return; $$('.thc', m).forEach(x => x.classList.toggle('on', x === b)); await setTheme(b.dataset.th); $('#hfS', m).value = thNow().hf; $('#bfS', m).value = thNow().bf; };
   const fch = async () => { D.fonts = { hf: $('#hfS', m).value, bf: $('#bfS', m).value }; await setTheme(D.theme, true); };
   $('#hfS', m).onchange = fch; $('#bfS', m).onchange = fch;
 }
@@ -1276,51 +1587,71 @@ function thFor(d) { const b = baseTheme(d.theme); return d.fonts ? { ...b, hf: d
 const SUBJ = ['ಕನ್ನಡ', 'ಇಂಗ್ಲಿಷ್', 'ಹಿಂದಿ', 'ಗಣಿತ', 'ವಿಜ್ಞಾನ', 'ಸಮಾಜ ವಿಜ್ಞಾನ', 'ಪರಿಸರ ಅಧ್ಯಯನ', 'ದೈಹಿಕ ಶಿಕ್ಷಣ', 'ಇತರೆ'];
 function openGenerate(mode = 'auto') {
   const last = (() => { try { return JSON.parse(localStorage.getItem('dp_meta') || '{}'); } catch (e) { return {}; } })();
-  let themeSel = last.theme || 'neela';
-  const m = modal('✨ ಹೊಸ ಪಾಠದ ಪ್ರಸ್ತುತಿ', `
+  let themeSel = last.theme || 'prachina', kind = last.kind || 'lesson';
+  const m = modal('✨ ಹೊಸ ಪ್ರಸ್ತುತಿ ತಯಾರಿಸಿ', `
     <div class="tabs"><button data-m="auto" class="${mode === 'auto' ? 'on' : ''}">📄 ಪಠ್ಯದಿಂದ ತಕ್ಷಣ (AI ಇಲ್ಲದೆ)</button><button data-m="ai" class="${mode === 'ai' ? 'on' : ''}">✨ AI ಸಹಾಯದಿಂದ (ಉಚಿತ)</button></div>
-    <div class="g2"><div class="fld"><label>ಪಾಠದ ಹೆಸರು</label><input id="gTitle" placeholder="ಉದಾ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು"></div>
-    <div class="fld"><label>ಅಧ್ಯಾಯ / ಉಪಶೀರ್ಷಿಕೆ (ಐಚ್ಛಿಕ)</label><input id="gSub" placeholder="ಉದಾ: ಅಧ್ಯಾಯ–19"></div></div>
-    <div class="g3"><div class="fld"><label>ತರಗತಿ</label><select id="gCls"><option value="">—</option>${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => `<option>${n}</option>`).join('')}</select></div>
-    <div class="fld"><label>ವಿಷಯ</label><select id="gSubj"><option value="">—</option>${SUBJ.map(s => `<option>${s}</option>`).join('')}</select></div>
-    <div class="fld"><label>ಶಿಕ್ಷಕರು / ಶಾಲೆ (ಐಚ್ಛಿಕ)</label><input id="gTeach" placeholder="ಉದಾ: ಸ.ಹಿ.ಪ್ರಾ. ಶಾಲೆ, …"></div></div>
-    <div class="fld"><label>ವಿನ್ಯಾಸ</label><div class="thg" id="gTh">${THEMES.map(t => themeCard(t, t.id === themeSel)).join('')}</div></div>
-    <div data-pm="auto"><div class="fld"><label>ಪಾಠದ ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ)</label><textarea id="gText" placeholder="ಪಾಠದ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ paste ಮಾಡಿ.\nಚಿಕ್ಕ ಸಾಲುಗಳನ್ನು (ಉಪಶೀರ್ಷಿಕೆ) ತಾನೇ ಗುರುತಿಸಿ ಪ್ರತ್ಯೇಕ ಸ್ಲೈಡ್ ಮಾಡುತ್ತದೆ.\nಯಾವ ವಾಕ್ಯವೂ ಬಿಟ್ಟುಹೋಗುವುದಿಲ್ಲ."></textarea></div>
+    <div class="g3">
+      <div class="fld"><label>ಪ್ರಸ್ತುತಿಯ ಪ್ರಕಾರ</label><select id="gKind"><option value="lesson">🏫 ಶಾಲಾ ಪಾಠ</option><option value="general">💼 ಸಾಮಾನ್ಯ (ಸಭೆ, ತರಬೇತಿ, ವರದಿ, ಕಾರ್ಯಕ್ರಮ, ಉಪನ್ಯಾಸ…)</option></select></div>
+      <div class="fld"><label>ಸ್ಲೈಡ್‌ಗಳ ಭಾಷೆ</label><select id="gLang"><option value="auto">ಸ್ವಯಂ (ಪಠ್ಯದ ಭಾಷೆ)</option><option value="kn">ಕನ್ನಡ</option><option value="en">English</option></select></div>
+      <div class="fld"><label>ಶೀರ್ಷಿಕೆ</label><input id="gTitle" placeholder="ಉದಾ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು"></div>
+    </div>
+    <div class="g3">
+      <div class="fld"><label>ಉಪಶೀರ್ಷಿಕೆ / ಅಧ್ಯಾಯ (ಐಚ್ಛಿಕ)</label><input id="gSub" placeholder="ಉದಾ: ಅಧ್ಯಾಯ–19"></div>
+      <div class="fld" style="grid-column:span 2"><label>ಒಂದು ಸಾಲಿನ ಆಕರ್ಷಕ ವಿವರಣೆ (ಮುಖಪುಟಕ್ಕೆ, ಐಚ್ಛಿಕ)</label><input id="gTag" placeholder="ಉದಾ: ದಕ್ಷಿಣ ಭಾರತದ ಎರಡು ಶ್ರೇಷ್ಠ ರಾಜವಂಶಗಳ ಪರಿಚಯ"></div>
+    </div>
+    <div class="g3">
+      <div class="fld" data-k="lesson"><label>ತರಗತಿ</label><select id="gCls"><option value="">—</option>${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => `<option>${n}</option>`).join('')}</select></div>
+      <div class="fld" data-k="lesson"><label>ವಿಷಯ</label><select id="gSubj"><option value="">—</option>${SUBJ.map(s => `<option>${s}</option>`).join('')}</select></div>
+      <div class="fld hide" data-k="general"><label>ಸಂಸ್ಥೆ / ಕಾರ್ಯಕ್ರಮ</label><input id="gOrg" placeholder="ಉದಾ: ಶಾಲಾ ಅಭಿವೃದ್ಧಿ ಸಮಿತಿ ಸಭೆ"></div>
+      <div class="fld hide" data-k="general"><label>ದಿನಾಂಕ / ಸ್ಥಳ (ಐಚ್ಛಿಕ)</label><input id="gDate" placeholder="ಉದಾ: 26 ನವೆಂಬರ್ 2026"></div>
+      <div class="fld"><label>ಪ್ರಸ್ತುತಪಡಿಸುವವರು / ಶಾಲೆ (ಐಚ್ಛಿಕ)</label><input id="gTeach" placeholder="ಉದಾ: ಸ.ಹಿ.ಪ್ರಾ. ಶಾಲೆ, …"></div>
+    </div>
+    <div class="fld"><label>ವಿನ್ಯಾಸ (ನಂತರವೂ ಒಂದು click ನಲ್ಲಿ ಬದಲಿಸಬಹುದು)</label><div class="thg" id="gTh">${THEMES.map(t => themeCard(t, t.id === themeSel)).join('')}</div></div>
+    <div data-pm="auto"><div class="fld"><label>ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ)</label><textarea id="gText" placeholder="ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ paste ಮಾಡಿ — ಕನ್ನಡ ಅಥವಾ English.\nಚಿಕ್ಕ ಸಾಲುಗಳನ್ನು (ಉಪಶೀರ್ಷಿಕೆ) ತಾನೇ ಗುರುತಿಸಿ ಪ್ರತ್ಯೇಕ ಸ್ಲೈಡ್ ಮಾಡುತ್ತದೆ.\nಯಾವ ವಾಕ್ಯವೂ ಬಿಟ್ಟುಹೋಗುವುದಿಲ್ಲ."></textarea></div>
+      <label style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><input type="checkbox" id="gThanks"> ಕೊನೆಯಲ್ಲಿ "ಧನ್ಯವಾದಗಳು" ಸ್ಲೈಡ್ ಸೇರಿಸಿ</label>
       <p class="hint">💡 ಉಪಶೀರ್ಷಿಕೆಗಳನ್ನು ಪ್ರತ್ಯೇಕ ಸಾಲಿನಲ್ಲಿ ಬರೆದರೆ ಸ್ಲೈಡ್‌ಗಳು ಇನ್ನೂ ಚೆನ್ನಾಗಿ ವಿಂಗಡಣೆಯಾಗುತ್ತವೆ. ಪ್ಯಾರಾಗಳ ನಡುವೆ ಒಂದು ಖಾಲಿ ಸಾಲು ಬಿಡಿ.</p></div>
     <div data-pm="ai" class="hide">
-      <div class="step"><h4>① ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gTextAI" placeholder="ಪಾಠದ ಪೂರ್ಣ ಪಠ್ಯ (ಪ್ರಶ್ನೆಗಳು, ಚಟುವಟಿಕೆಗಳೂ ಸೇರಿ)" style="min-height:140px"></textarea></div></div>
+      <div class="step"><h4>① ಪೂರ್ಣ ಪಠ್ಯವನ್ನು paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gTextAI" placeholder="ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪೂರ್ಣ ಪಠ್ಯ (ಕನ್ನಡ ಅಥವಾ English)" style="min-height:140px"></textarea></div></div>
       <div class="step"><h4>② ಒಂದು button ಒತ್ತಿ — ಸೂಚನೆ copy ಆಗಿ AI ತೆರೆಯುತ್ತದೆ. ಅಲ್ಲಿ paste (Ctrl+V) ಮಾಡಿ Enter ಒತ್ತಿ.</h4>
         <div class="rw"><button class="btn cta" data-ai="https://gemini.google.com/app">📋 Copy + Gemini ತೆರೆಯಿರಿ</button><button class="btn" data-ai="https://chatgpt.com/">📋 Copy + ChatGPT</button><button class="btn" data-ai="https://claude.ai/new">📋 Copy + Claude</button><button class="btn" data-ai="">📋 Copy ಮಾತ್ರ</button></div></div>
       <div class="step"><h4>③ AI ಕೊಟ್ಟ ಉತ್ತರವನ್ನು (ಸಂಪೂರ್ಣ) copy ಮಾಡಿ ಇಲ್ಲಿ paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gReply" placeholder='{ "title": ..., "slides": [ ... ] }' style="min-height:120px;font-family:monospace;font-size:12px"></textarea></div></div>
-    </div>`, `<button class="btn" data-close>ರದ್ದು</button><button class="btn cta" id="gGo">🚀 ಸ್ಲೈಡ್‌ಗಳನ್ನು ತಯಾರಿಸಿ</button>`, { w: 980, sticky: true });
+    </div>`, `<button class="btn" data-close>ರದ್ದು</button><button class="btn cta" id="gGo">🚀 ಸ್ಲೈಡ್‌ಗಳನ್ನು ತಯಾರಿಸಿ</button>`, { w: 1000, sticky: true });
   const f = id => $('#' + id, m);
-  f('gCls').value = last.cls || ''; f('gSubj').value = last.subject || ''; f('gTeach').value = last.teacher || '';
+  f('gCls').value = last.cls || ''; f('gSubj').value = last.subject || ''; f('gTeach').value = last.teacher || ''; f('gLang').value = last.lang || 'auto'; f('gOrg').value = last.org || '';
+  const setK = v => { kind = v; f('gKind').value = v; $$('[data-k]', m).forEach(x => x.classList.toggle('hide', x.dataset.k !== v)); f('gThanks').checked = v === 'general'; };
+  setK(kind); f('gKind').onchange = () => setK(f('gKind').value);
   let md = mode; const setM = v => { md = v; $$('[data-m]', m).forEach(b => b.classList.toggle('on', b.dataset.m === v)); $$('[data-pm]', m).forEach(p => p.classList.toggle('hide', p.dataset.pm !== v)); };
   setM(mode); $$('[data-m]', m).forEach(b => b.onclick = () => { const a = f('gText'), b2 = f('gTextAI'); if (b.dataset.m === 'ai' && !b2.value) b2.value = a.value; if (b.dataset.m === 'auto' && !a.value) a.value = b2.value; setM(b.dataset.m); });
   f('gTh').onclick = ev => { const b = ev.target.closest('[data-th]'); if (!b) return; themeSel = b.dataset.th; $$('#gTh .thc', m).forEach(x => x.classList.toggle('on', x === b)); };
-  const meta = () => ({ title: f('gTitle').value.trim(), subtitle: f('gSub').value.trim(), cls: f('gCls').value, subject: f('gSubj').value, teacher: f('gTeach').value.trim() });
+  const meta = () => {
+    const gen = kind === 'general';
+    return { mode: kind, title: f('gTitle').value.trim(), subtitle: f('gSub').value.trim(), tagline: f('gTag').value.trim(), cls: gen ? '' : f('gCls').value, subject: gen ? [f('gOrg').value.trim(), f('gDate').value.trim()].filter(Boolean).join(' • ') : f('gSubj').value, teacher: f('gTeach').value.trim(), thanks: f('gThanks').checked, langSel: f('gLang').value };
+  };
+  const langOf = (mt, text) => mt.langSel === 'auto' ? detectLang(text || mt.title) : mt.langSel;
   $$('[data-ai]', m).forEach(b => b.onclick = async () => {
-    const txt = f('gTextAI').value.trim(); if (!txt) { toast('ಮೊದಲು ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿ'); f('gTextAI').focus(); return; }
-    const ok = await copyText(aiPrompt({ ...meta(), text: txt }));
+    const txt = f('gTextAI').value.trim(); if (!txt) { toast('ಮೊದಲು ಪಠ್ಯ paste ಮಾಡಿ'); f('gTextAI').focus(); return; }
+    const mt = meta(); const ok = await copyText(aiPrompt({ ...mt, lang: mt.langSel, text: txt }));
     toast(ok ? '✅ ಸೂಚನೆ copy ಆಯಿತು. AI ನಲ್ಲಿ paste ಮಾಡಿ.' : '⚠️ Copy ಆಗಲಿಲ್ಲ — ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ', 4000);
     if (b.dataset.ai) window.open(b.dataset.ai, '_blank', 'noopener');
   });
   f('gGo').onclick = async () => {
-    const mt = meta(); try { localStorage.setItem('dp_meta', JSON.stringify({ cls: mt.cls, subject: mt.subject, teacher: mt.teacher, theme: themeSel })); } catch (e) { }
+    const mt = meta(); try { localStorage.setItem('dp_meta', JSON.stringify({ cls: f('gCls').value, subject: f('gSubj').value, teacher: mt.teacher, theme: themeSel, kind, lang: mt.langSel, org: f('gOrg').value })); } catch (e) { }
     let spec, src;
     try {
       if (md === 'auto') {
-        src = f('gText').value.trim(); if (!src) { toast('ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿ'); return; }
-        spec = textToSpec(src, mt);
+        src = f('gText').value.trim(); if (!src) { toast('ಪಠ್ಯವನ್ನು paste ಮಾಡಿ'); return; }
+        SLANG = langOf(mt, src); spec = textToSpec(src, mt);
       } else {
         const rep = f('gReply').value.trim(); if (!rep) { toast('AI ಉತ್ತರವನ್ನು ③ ರಲ್ಲಿ paste ಮಾಡಿ'); return; }
         try { spec = parseAI(rep); } catch (e) { toast('⚠️ AI ಉತ್ತರ ಸರಿಯಾಗಿ copy ಆಗಿಲ್ಲ. ಉತ್ತರದ ಸಂಪೂರ್ಣ ಭಾಗವನ್ನು copy ಮಾಡಿ (ಮೊದಲ { ಯಿಂದ ಕೊನೆಯ } ವರೆಗೆ).', 6000); return; }
         if (!Array.isArray(spec.slides)) { toast('⚠️ ಉತ್ತರದಲ್ಲಿ "slides" ಇಲ್ಲ'); return; }
-        if (mt.title) spec.title = mt.title; if (mt.subtitle) spec.subtitle = mt.subtitle;
-        spec.cls = mt.cls; spec.subject = mt.subject; spec.teacher = mt.teacher; src = f('gTextAI').value.trim();
+        src = f('gTextAI').value.trim();
+        ['title', 'subtitle', 'tagline'].forEach(k => { if (mt[k]) spec[k] = mt[k]; });
+        spec.cls = mt.cls; spec.subject = mt.subject; spec.teacher = mt.teacher; spec.mode = kind;
+        spec.lang = mt.langSel === 'auto' ? detectLang(JSON.stringify(spec.slides).slice(0, 4000)) : mt.langSel;
       }
     } catch (e) { console.error(e); toast('⚠️ ದೋಷ: ' + e.message, 5000); return; }
-    f('gGo').disabled = true; f('gGo').textContent = '⏳ ತಯಾರಾಗುತ್ತಿದೆ…';
+    f('gGo').disabled = true; f('gGo').textContent = '⏳ …';
     const d = await buildDeck(spec, themeSel, src); m.close();
     await openDeck(d);
     if (src) setTimeout(() => showCoverage(true), 300);
@@ -1332,15 +1663,15 @@ async function copyText(t) {
 }
 function showCoverage(auto) {
   if (!D) return;
-  if (!D.source) { modal('✅ ಮಾಹಿತಿ ಪರಿಶೀಲನೆ', `<p>ಈ ಪ್ರಸ್ತುತಿಗೆ ಮೂಲ ಪಾಠದ ಪಠ್ಯ ಜೋಡಣೆಯಾಗಿಲ್ಲ. ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿದರೆ, ಅದರ ಪ್ರತಿಯೊಂದು ವಾಕ್ಯ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆಯೇ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ.</p><div class="fld"><textarea id="cvSrc" placeholder="ಮೂಲ ಪಾಠದ ಪಠ್ಯ"></textarea></div>`, '<button class="btn" data-close>ಮುಚ್ಚಿ</button><button class="btn pri" id="cvGo">ಪರೀಕ್ಷಿಸಿ</button>').querySelector('#cvGo').onclick = ev => { const v = $('#cvSrc').value.trim(); if (!v) return; D.source = v; saveLater(); ev.target.closest('.mbg').close(); showCoverage(); }; return; }
+  if (!D.source) { modal('✅ ಮಾಹಿತಿ ಪರಿಶೀಲನೆ', `<p>ಈ ಪ್ರಸ್ತುತಿಗೆ ಮೂಲ ಪಠ್ಯ ಜೋಡಣೆಯಾಗಿಲ್ಲ. ಮೂಲ ಪಠ್ಯವನ್ನು paste ಮಾಡಿದರೆ, ಅದರ ಪ್ರತಿಯೊಂದು ವಾಕ್ಯ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆಯೇ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ.</p><div class="fld"><textarea id="cvSrc" placeholder="ಮೂಲ ಪಠ್ಯ"></textarea></div>`, '<button class="btn" data-close>ಮುಚ್ಚಿ</button><button class="btn pri" id="cvGo">ಪರೀಕ್ಷಿಸಿ</button>').querySelector('#cvGo').onclick = ev => { const v = $('#cvSrc').value.trim(); if (!v) return; D.source = v; saveLater(); ev.target.closest('.mbg').close(); showCoverage(); }; return; }
   const c = coverage(D.source, D); const ok = c.pct >= 98 && !c.missNums.length;
   const m = modal('✅ ಮಾಹಿತಿ ಪೂರ್ಣತೆ ಪರಿಶೀಲನೆ', `
-   <div class="cov ${ok ? 'ok' : 'warn'}"><div class="big">${c.pct}%</div><div>ಪಾಠದ ${c.tot} ವಾಕ್ಯಗಳಲ್ಲಿ ${c.tot - c.miss.length} ವಾಕ್ಯಗಳ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಇದೆ.</div>
-   ${ok ? '<div style="margin-top:6px">🎉 ಪಾಠದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆ.</div>' : ''}</div>
+   <div class="cov ${ok ? 'ok' : 'warn'}"><div class="big">${c.pct}%</div><div>ಮೂಲ ಪಠ್ಯದ ${c.tot} ವಾಕ್ಯಗಳಲ್ಲಿ ${c.tot - c.miss.length} ವಾಕ್ಯಗಳ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಇದೆ.</div>
+   ${ok ? '<div style="margin-top:6px">🎉 ಮೂಲ ಪಠ್ಯದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆ.</div>' : ''}</div>
    ${c.missNums.length ? `<p><b>⚠️ ಈ ಸಂಖ್ಯೆ/ಇಸವಿಗಳು ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ:</b> ${c.missNums.map(esc).join(', ')}</p>` : ''}
    ${c.miss.length ? `<p><b>ಈ ವಾಕ್ಯಗಳು ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ (ಅಥವಾ ಬೇರೆ ಪದಗಳಲ್ಲಿ ಬರೆಯಲಾಗಿದೆ) — ಪರಿಶೀಲಿಸಿ:</b></p><ol class="miss">${c.miss.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}`,
     `<button class="btn" data-close>ಸರಿ</button>${c.miss.length ? '<button class="btn cta" id="cvAdd">➕ ಇವುಗಳನ್ನು ಹೊಸ ಸ್ಲೈಡ್‌ಗಳಿಗೆ ಸೇರಿಸಿ</button>' : ''}`, { w: 760 });
-  const a = $('#cvAdd', m); if (a) a.onclick = () => { const th = thNow(); const sl = bContent({ type: 'content', heading: 'ಹೆಚ್ಚುವರಿ ಅಂಶಗಳು', points: c.miss }, th, { n: 0 }); sl.forEach(s => s.els.unshift(...chromeEls('content', th))); const at = D.slides.length; D.slides.push(...sl); st.cur = at; m.close(); renderAll(); commit({ noThumb: true }); toast(`✅ ${sl.length} ಹೊಸ ಸ್ಲೈಡ್ ಸೇರಿತು (ಕೊನೆಯಲ್ಲಿ). ಬೇಕಾದ ಜಾಗಕ್ಕೆ ಎಳೆದು ಸರಿಸಿ.`, 4500); };
+  const a = $('#cvAdd', m); if (a) a.onclick = () => { const th = thNow(); const sl = bContent({ type: 'content', heading: LB().extra, points: c.miss }, th, { n: 0 }); sl.forEach(s => applyChromeSlide(s, th)); const at = D.slides.length; D.slides.push(...sl); st.cur = at; m.close(); renderAll(); commit({ noThumb: true }); toast(`✅ ${sl.length} ಹೊಸ ಸ್ಲೈಡ್ ಸೇರಿತು (ಕೊನೆಯಲ್ಲಿ). ಬೇಕಾದ ಜಾಗಕ್ಕೆ ಎಳೆದು ಸರಿಸಿ.`, 4500); };
   if (auto && ok) { setTimeout(() => { if (document.body.contains(m)) m.close(); }, 2600); }
 }
 
@@ -1348,7 +1679,7 @@ function showCoverage(auto) {
 const PR = { on: false, i: 0, notes: false, t: null };
 function presLayout() { const s = Math.min(innerWidth / W, innerHeight / H); const p = $('#pst'); p.style.transform = `scale(${s})`; p.style.left = (innerWidth - W * s) / 2 + 'px'; p.style.top = (innerHeight - H * s) / 2 + 'px'; }
 function presShow() {
-  const s = D.slides[PR.i]; $('#pst').innerHTML = slideHTML(s, PR.i, 'view');
+  const s = D.slides[PR.i]; $('#pst').innerHTML = slideHTML(s, PR.i, 'view'); paintFancy($('#pst'), Math.min(innerWidth / W, innerHeight / H));
   const sl = $('#pst .sl'); sl.style.opacity = 0; requestAnimationFrame(() => sl.style.opacity = 1);
   $('#pnum').textContent = `${PR.i + 1} / ${D.slides.length}`; $('#pbar').style.width = ((PR.i + 1) / D.slides.length * 100) + '%';
   const n = $('#pnotes'); n.textContent = s.notes || '(ಈ ಸ್ಲೈಡ್‌ಗೆ ಟಿಪ್ಪಣಿ ಇಲ್ಲ)'; n.style.display = PR.notes ? 'block' : 'none';
@@ -1387,19 +1718,23 @@ function cssGradPts(ang, w, h) { const a = ang * Math.PI / 180, dx = Math.sin(a)
 async function drawSlide(c, s, idx, th) {
   if (s.bg && s.bg.k === 'grad') { const g = c.createLinearGradient(...cssGradPts(s.bg.ang || 135, W, H)); g.addColorStop(0, col(s.bg.c1, th)); g.addColorStop(1, col(s.bg.c2, th)); c.fillStyle = g; } else c.fillStyle = col(s.bg && s.bg.c || '$bg', th);
   c.fillRect(0, 0, W, H);
+  const tv = th.tex && bgVariant(s.bg); if (tv) c.drawImage(texCanvas(th, tv), 0, 0, W, H);
+  const SH = on => { if (on) { c.shadowColor = 'rgba(0,0,0,.22)'; c.shadowBlur = 18; c.shadowOffsetY = 6; } else { c.shadowColor = 'transparent'; c.shadowBlur = 0; c.shadowOffsetY = 0; } };
   for (const e of s.els) {
     c.save(); c.globalAlpha = e.op ?? 1;
     if (e.rot) { c.translate(e.x + e.w / 2, e.y + e.h / 2); c.rotate(e.rot * Math.PI / 180); c.translate(-(e.x + e.w / 2), -(e.y + e.h / 2)); }
-    if (e.t === 'shape') {
+    if (e.t === 'shape' && FANCY.includes(e.shape)) { c.translate(e.x, e.y); drawFancy(c, fancySpec(e, th)); }
+    else if (e.t === 'shape') {
       const pts = polyPts(e); c.beginPath();
       if (e.shape === 'ellipse') c.ellipse(e.x + e.w / 2, e.y + e.h / 2, e.w / 2, e.h / 2, 0, 0, Math.PI * 2);
       else if (pts) { c.moveTo(e.x + pts[0][0], e.y + pts[0][1]); pts.slice(1).forEach(p => c.lineTo(e.x + p[0], e.y + p[1])); c.closePath(); }
       else rrPath(c, e.x, e.y, e.w, e.h, e.rad);
-      const f = col(e.fill, th); if (f) { c.fillStyle = f; c.fill(); }
+      const f = col(e.fill, th); if (f) { SH(e.sh && th.shadow && !pts); c.fillStyle = f; c.fill(); SH(false); }
       const bc = col(e.bc, th); if (bc && e.bw && !pts) { c.save(); c.clip(); c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); c.restore(); }
     } else if (e.t === 'img') {
       const src = srcOf(e); const im = await loadImg(src);
       if (im) {
+        if (e.sh && th.shadow && !e.frame) { c.save(); SH(true); rrPath(c, e.x, e.y, e.w, e.h, e.rad); c.fillStyle = '#FFFFFF'; c.fill(); c.restore(); }
         c.save(); rrPath(c, e.x, e.y, e.w, e.h, e.rad); c.clip();
         const iw = im.naturalWidth, ih = im.naturalHeight;
         if (e.fit === 'contain') { const k = Math.min(e.w / iw, e.h / ih); c.drawImage(im, e.x + (e.w - iw * k) / 2, e.y + (e.h - ih * k) / 2, iw * k, ih * k); }
@@ -1407,13 +1742,15 @@ async function drawSlide(c, s, idx, th) {
         const bc = col(e.bc, th); if (bc && e.bw) { c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); }
         if (e.credit) { c.font = '11px "Noto Sans Kannada", sans-serif'; const tw = Math.min(c.measureText(e.credit).width, e.w * .9); const rc = (e.rad || 0) > Math.min(e.w, e.h) / 4; const bx = rc ? e.x + (e.w - tw) / 2 - 6 : e.x + e.w - tw - 18, by = rc ? e.y + e.h * .86 - 18 : e.y + e.h - 23; c.fillStyle = 'rgba(0,0,0,.45)'; rrPath(c, bx, by, tw + 12, 18, 6); c.fill(); c.fillStyle = '#fff'; c.textBaseline = 'middle'; c.fillText(e.credit, bx + 6, by + 9, tw); }
         c.restore();
+        if (e.frame) { c.save(); c.translate(e.x, e.y); drawFancy(c, fancySpec(e, th)); c.restore(); }
       }
     } else if (e.t === 'text') {
       const f = col(e.fill, th), bc = col(e.bc, th);
-      if (f || (bc && e.bw)) { rrPath(c, e.x, e.y, e.w, e.h, e.rad); if (f) { c.fillStyle = f; c.fill(); } if (bc && e.bw) { c.save(); c.clip(); c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); c.restore(); } }
+      if (f || (bc && e.bw)) { rrPath(c, e.x, e.y, e.w, e.h, e.rad); if (f) { SH(e.sh && th.shadow); c.fillStyle = f; c.fill(); SH(false); } if (bc && e.bw) { c.save(); c.clip(); c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); c.restore(); } }
       const L = layoutText(e, th, e.fs, c, idx); const pad = e.pad || 0, iw = e.w - 2 * pad, ih = e.h - 2 * pad;
       let oy = e.y + pad; if (L.h < ih) oy += (ih - L.h) * (e.va === 'middle' ? .5 : e.va === 'bottom' ? 1 : 0);
       c.font = fontStr(e, th, e.fs); c.textBaseline = 'middle'; const fc = col(e.fc, th);
+      if (e.tsh) { c.shadowColor = 'rgba(0,0,0,.55)'; c.shadowBlur = 6; c.shadowOffsetY = 2; }
       for (const ln of L.lines) {
         const y = oy + ln.y + L.lh / 2; const w = c.measureText(ln.t).width; const avail = iw - ln.ind;
         let x = e.x + pad + ln.x; if (e.align === 'center') x += (avail - w) / 2; else if (e.align === 'right') x += avail - w;
@@ -1494,8 +1831,9 @@ function parasX(e, th, idx) {
     const ppr = `<a:pPr algn="${algn}"${bul ? ` marL="${EMU(fs * 1.1)}" indent="-${EMU(fs * 1.1)}"` : ' marL="0" indent="0"'}>${ln}<a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="${i < paras.length - 1 ? Math.round(fs * .35 * 75) : 0}"/></a:spcAft>${bul ? `<a:buClr><a:srgbClr val="${hx(th.a)}"/></a:buClr><a:buFont typeface="Arial"/><a:buChar char="•"/>` : '<a:buNone/>'}</a:pPr>`;
     const rpr = `lang="kn-IN" altLang="en-US" sz="${sz}" b="${e.bold ? 1 : 0}" i="${e.italic ? 1 : 0}" dirty="0"`;
     const font = `<a:latin typeface="${fam}"/><a:ea typeface="${fam}"/><a:cs typeface="${fam}"/>`;
+    const eff = e.tsh ? '<a:effectLst><a:outerShdw blurRad="76200" dist="25400" dir="5400000" algn="t" rotWithShape="0"><a:srgbClr val="000000"><a:alpha val="55000"/></a:srgbClr></a:outerShdw></a:effectLst>' : '';
     if (!t) return `<a:p>${ppr}<a:endParaRPr ${rpr}>${solid(fc)}${font}</a:endParaRPr></a:p>`;
-    return `<a:p>${ppr}<a:r><a:rPr ${rpr}>${solid(fc)}${font}</a:rPr><a:t>${xe(t)}</a:t></a:r></a:p>`;
+    return `<a:p>${ppr}<a:r><a:rPr ${rpr}>${solid(fc)}${eff}${font}</a:rPr><a:t>${xe(t)}</a:t></a:r></a:p>`;
   }).join('');
 }
 async function imgBytesFor(e, scale = 2) {
@@ -1527,13 +1865,19 @@ async function buildPPTX(asImages, progress) {
     } else {
       if (s.bg && s.bg.k === 'grad') { const ang = ((((s.bg.ang || 135) - 90) % 360) + 360) % 360; bg = `<a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:srgbClr val="${hx(col(s.bg.c1, th))}"/></a:gs><a:gs pos="100000"><a:srgbClr val="${hx(col(s.bg.c2, th))}"/></a:gs></a:gsLst><a:lin ang="${ang * 60000}" scaled="0"/></a:gradFill>`; }
       else bg = solid(col(s.bg && s.bg.c || '$bg', th));
+      const tv = th.tex && bgVariant(s.bg);
+      if (tv) { const data = await cvBytes(texCanvas(th, tv), 'image/jpeg', .88); media++; const rid = 'rId' + (rels.length + 1); files.push({ name: `ppt/media/image${media}.jpeg`, data }); rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image${media}.jpeg"/>`); bg = `<a:blipFill dpi="0" rotWithShape="1"><a:blip r:embed="${rid}"/><a:srcRect/><a:stretch><a:fillRect/></a:stretch></a:blipFill>`; }
+      const addPic = async (data, ext, x, y, w, h, rot, name) => { media++; const rid = 'rId' + (rels.length + 1); files.push({ name: `ppt/media/image${media}.${ext}`, data }); rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image${media}.${ext}"/>`); const nid = id++; tree += `<p:pic><p:nvPicPr><p:cNvPr id="${nid}" name="${name} ${nid}"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="${rid}"/><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>${xfrm({ x, y, w, h, rot })}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>`; };
       for (const e of s.els) {
-        const op = e.op ?? 1; const nid = id++;
+        const op = e.op ?? 1;
+        if (e.t === 'shape' && FANCY.includes(e.shape)) { await addPic(await fancyPNG(fancySpec(e, th)), 'png', e.x - FM, e.y - FM, e.w + 2 * FM, e.h + 2 * FM, e.rot, 'Decoration'); continue; }
+        const nid = id++;
         if (e.t === 'img') {
           if (!srcOf(e)) continue; const b = await imgBytesFor(e); if (!b) { failed++; continue; }
           media++; const rid = 'rId' + (rels.length + 1); files.push({ name: `ppt/media/image${media}.${b.ext}`, data: b.data });
           rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image${media}.${b.ext}"/>`);
-          tree += `<p:pic><p:nvPicPr><p:cNvPr id="${nid}" name="Picture ${nid}"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="${rid}">${op < 1 ? `<a:alphaModFix amt="${Math.round(op * 100000)}"/>` : ''}</a:blip><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>${xfrm(e)}${geom(e)}${lineX(e, th)}</p:spPr></p:pic>`;
+          tree += `<p:pic><p:nvPicPr><p:cNvPr id="${nid}" name="Picture ${nid}"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="${rid}">${op < 1 ? `<a:alphaModFix amt="${Math.round(op * 100000)}"/>` : ''}</a:blip><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>${xfrm(e)}${geom(e)}${lineX(e, th)}${e.sh && th.shadow && !e.frame ? SHX : ''}</p:spPr></p:pic>`;
+          if (e.frame) await addPic(await fancyPNG(fancySpec(e, th)), 'png', e.x - FM, e.y - FM, e.w + 2 * FM, e.h + 2 * FM, e.rot, 'Frame');
           if (e.credit) tree += `<p:sp><p:nvSpPr><p:cNvPr id="${id++}" name="Credit"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${EMU(e.x + 6)}" y="${EMU(e.y + e.h - 24)}"/><a:ext cx="${EMU(e.w - 12)}" cy="${EMU(20)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" anchor="b"><a:noAutofit/></a:bodyPr><a:lstStyle/><a:p><a:pPr algn="r"/><a:r><a:rPr lang="en-US" sz="800" dirty="0">${solid('#FFFFFF')}</a:rPr><a:t>${xe(e.credit)}</a:t></a:r></a:p></p:txBody></p:sp>`;
           continue;
         }
@@ -1543,7 +1887,7 @@ async function buildPPTX(asImages, progress) {
         if (isT) { const pad = EMU(e.pad || 0); body = `<p:txBody><a:bodyPr wrap="square" lIns="${pad}" tIns="${pad}" rIns="${pad}" bIns="${pad}" anchor="${e.va === 'middle' ? 'ctr' : e.va === 'bottom' ? 'b' : 't'}" rtlCol="0"><a:noAutofit/></a:bodyPr><a:lstStyle/>${parasX(e, th, i)}</p:txBody>`; }
         else body = `<p:txBody><a:bodyPr rtlCol="0" anchor="ctr"/><a:lstStyle/><a:p><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody>`;
         let ln = lineX(e, th); if (op < 1 && col(e.bc, th) && e.bw) ln = `<a:ln w="${EMU(e.bw)}">${solid(col(e.bc, th), op)}</a:ln>`;
-        tree += `<p:sp><p:nvSpPr><p:cNvPr id="${nid}" name="${isT ? 'Text' : 'Shape'} ${nid}"/><p:cNvSpPr${isT ? ' txBox="1"' : ''}/><p:nvPr/></p:nvSpPr><p:spPr>${xfrm(e)}${geom(e)}${fillX}${ln}</p:spPr>${body}</p:sp>`;
+        tree += `<p:sp><p:nvSpPr><p:cNvPr id="${nid}" name="${isT ? 'Text' : 'Shape'} ${nid}"/><p:cNvSpPr${isT ? ' txBox="1"' : ''}/><p:nvPr/></p:nvSpPr><p:spPr>${xfrm(e)}${geom(e)}${fillX}${ln}${e.sh && th.shadow && fill && !polyPts(e) ? SHX : ''}</p:spPr>${body}</p:sp>`;
       }
     }
     files.push({ name: `ppt/slides/slide${i + 1}.xml`, data: XH + `<p:sld ${NS}><p:cSld><p:bg><p:bgPr>${bg}<a:effectLst/></p:bgPr></p:bg><p:spTree>${GRP}${tree}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>` });
@@ -1606,18 +1950,22 @@ async function renderHome() {
   let rec = []; try { rec = (await DB.all()) || []; } catch (e) { }
   rec.sort((a, b) => (b.updated || 0) - (a.updated || 0));
   $('#home').innerHTML = `<div class="hin">
-   <div class="hhead"><div class="lg">📽️</div><div><h1>ದೃಶ್ಯಪಾಠ</h1><p>ಪಾಠದಿಂದ ಆಕರ್ಷಕ ಪ್ರಸ್ತುತಿ — ಮಾಹಿತಿ ಒಂದೂ ಬಿಡದೆ · ಸಂಪೂರ್ಣ ಉಚಿತ</p></div></div>
-   <div class="hero">ಇಂದು ಯಾವ ಪಾಠ ಮಾಡೋಣ?</div>
+   <div class="hhead"><div class="lg">📽️</div><div style="flex:1"><h1>ದೃಶ್ಯಪಾಠ <small style="font-size:16px;color:var(--mut);font-weight:600">Drushyapaata</small></h1><p>ಯಾವುದೇ ಪಠ್ಯದಿಂದ ಆಕರ್ಷಕ ಪ್ರಸ್ತುತಿ — ಮಾಹಿತಿ ಒಂದೂ ಬಿಡದೆ · ಸಂಪೂರ್ಣ ಉಚಿತ</p></div><button class="btn" id="hLang" style="border:1px solid var(--line)">🌐 ${UIL === 'en' ? 'ಕನ್ನಡ' : 'English'}</button></div>
+   <div class="hero">ಇಂದು ಯಾವ ಪ್ರಸ್ತುತಿ ಮಾಡೋಣ?</div>
    <div class="cards">
-    <button class="hc" data-h="auto"><div class="ic" style="background:#FFF0E6">📄</div><h3>ಪಾಠದ ಪಠ್ಯದಿಂದ ತಕ್ಷಣ</h3><p>ಪಾಠವನ್ನು paste ಮಾಡಿ. ಪ್ರತಿ ವಾಕ್ಯವೂ ಸ್ಲೈಡ್‌ಗೆ ಬರುತ್ತದೆ, ಚಿತ್ರಗಳು ತಾನಾಗಿಯೇ ಸೇರುತ್ತವೆ. AI ಬೇಕಿಲ್ಲ.</p></button>
-    <button class="hc" data-h="ai"><div class="ic" style="background:#ECEBFF">✨</div><h3>AI ಸಹಾಯದಿಂದ</h3><p>Gemini/ChatGPT ಉಚಿತ website ಬಳಸಿ — ಉದ್ದೇಶಗಳು, ಪ್ರಮುಖ ಪದಗಳು, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳು ಸಹಿತ. API key ಬೇಕಿಲ್ಲ.</p></button>
-    <button class="hc" data-h="blank"><div class="ic" style="background:#E7F6EE">🎨</div><h3>ಖಾಲಿ ಪ್ರಸ್ತುತಿ</h3><p>Canva ತರಹ ನೀವೇ ವಿನ್ಯಾಸ ಮಾಡಿ — ಪಠ್ಯ, ಚಿತ್ರ, ಆಕಾರ, ಚಿಹ್ನೆ, ಬಣ್ಣ ಎಲ್ಲವೂ ಕೈಯಾರೆ.</p></button>
+    <button class="hc" data-h="auto"><div class="ic" style="background:#FFF0E6">📄</div><h3>ಪಠ್ಯದಿಂದ ತಕ್ಷಣ</h3><p>ಪಾಠ, ವರದಿ, ಭಾಷಣ, ತರಬೇತಿ — ಯಾವುದೇ ಪಠ್ಯ (ಕನ್ನಡ / English) paste ಮಾಡಿ. ಪ್ರತಿ ವಾಕ್ಯವೂ ಸ್ಲೈಡ್‌ಗೆ ಬರುತ್ತದೆ, ಚಿತ್ರಗಳು ತಾನಾಗಿಯೇ ಸೇರುತ್ತವೆ. AI ಬೇಕಿಲ್ಲ.</p></button>
+    <button class="hc" data-h="ai"><div class="ic" style="background:#ECEBFF">✨</div><h3>AI ಸಹಾಯದಿಂದ</h3><p>Gemini/ChatGPT ಉಚಿತ website ಬಳಸಿ — ಗ್ಯಾಲರಿ, ಹಂತಗಳು, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳು ಸಹಿತ ಸುಂದರ ಸ್ಲೈಡ್‌ಗಳು. API key ಬೇಕಿಲ್ಲ.</p></button>
+    <button class="hc" data-h="blank"><div class="ic" style="background:#E7F6EE">🎨</div><h3>ಖಾಲಿ ಪ್ರಸ್ತುತಿ</h3><p>Canva ತರಹ ನೀವೇ ವಿನ್ಯಾಸ ಮಾಡಿ — ಪಠ್ಯ, ಚಿತ್ರ, ಆಕಾರ, ಫಲಕ, ಚಿಹ್ನೆ, ಬಣ್ಣ ಎಲ್ಲವೂ ಕೈಯಾರೆ.</p></button>
     <button class="hc" data-h="open"><div class="ic" style="background:#E9F1FF">📂</div><h3>ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ</h3><p>ಹಿಂದೆ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ".drushyapaata.json" ಯೋಜನೆ ಫೈಲ್ ತೆರೆದು ಮುಂದುವರಿಸಿ.</p></button>
    </div>
-   <button class="sample" data-h="sample"><span class="ic">🛕</span><div><b>ಮಾದರಿ ನೋಡಿ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು</b><span>8ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ, ಅಧ್ಯಾಯ–19 · ಪಾಠದ ಎಲ್ಲಾ ಅಂಶಗಳು, ನಕ್ಷೆ, ತ್ರಿಪದಿ, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗಳ ಸಹಿತ</span></div></button>
-   ${rec.length ? `<div class="recent"><h3>🕘 ಇತ್ತೀಚಿನ ಪ್ರಸ್ತುತಿಗಳು (ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿದಿವೆ)</h3><div class="rl">${rec.map(r => `<div class="ri"><div class="t" data-open="${r.id}"><b>${esc(r.title)}</b><small>${(r.slides || []).length} ಸ್ಲೈಡ್ · ${new Date(r.updated || r.created).toLocaleString('kn-IN')}</small></div><button data-delp="${r.id}" title="ಅಳಿಸು">🗑</button></div>`).join('')}</div></div>` : ''}
-   <div class="foot">💡 ಸಲಹೆಗಳು: ಪ್ರದರ್ಶನದಲ್ಲಿ ← → ಬಾಣದ ಗುರುತು ಅಥವಾ ಪರದೆಯ ಮೇಲೆ ಒತ್ತಿ ಮುಂದಿನ ಸ್ಲೈಡ್; N = ಶಿಕ್ಷಕರ ಟಿಪ್ಪಣಿ; B = ಕಪ್ಪು ಪರದೆ; Esc = ನಿರ್ಗಮನ.<br>ನಿಮ್ಮ ಪ್ರಸ್ತುತಿಗಳು ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಉಳಿಯುತ್ತವೆ — ಯಾವುದೇ server ಗೆ ಹೋಗುವುದಿಲ್ಲ. ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ಗೆ ತೆಗೆದುಕೊಂಡು ಹೋಗಲು "ಯೋಜನೆ ಫೈಲ್" ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.</div>
+   <div class="g2" style="margin-bottom:26px">
+    <button class="sample" data-h="sample" style="margin:0"><span class="ic">🛕</span><div><b>ಮಾದರಿ ನೋಡಿ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು</b><span>ಕನ್ನಡ ಮಾದರಿ · 8ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ · ಗ್ಯಾಲರಿ, ತ್ರಿಪದಿ, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳ ಸಹಿತ</span></div></button>
+    <button class="sample" data-h="sample-en" style="margin:0;background:linear-gradient(135deg,#0B4F8C,#08182E)"><span class="ic">🌿</span><div><b>English sample: Photosynthesis</b><span>ಇಂಗ್ಲಿಷ್ ಮಾದರಿ · ವಿಜ್ಞಾನ ಪ್ರಯೋಗಾಲಯ ವಿನ್ಯಾಸ</span></div></button>
+   </div>
+   ${rec.length ? `<div class="recent"><h3>🕘 ಇತ್ತೀಚಿನ ಪ್ರಸ್ತುತಿಗಳು (ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿದಿವೆ)</h3><div class="rl">${rec.map(r => `<div class="ri"><div class="t" data-open="${r.id}"><b class="noi">${esc(r.title)}</b><small>${(r.slides || []).length} ${UIL === 'en' ? 'slides' : 'ಸ್ಲೈಡ್'} · ${new Date(r.updated || r.created).toLocaleString(UIL === 'en' ? 'en-IN' : 'kn-IN')}</small></div><button data-delp="${r.id}" title="ಅಳಿಸು">🗑</button></div>`).join('')}</div></div>` : ''}
+   <div class="foot">💡 ಸಲಹೆಗಳು: ಪ್ರದರ್ಶನದಲ್ಲಿ ← → ಬಾಣದ ಗುರುತು ಅಥವಾ ಪರದೆಯ ಮೇಲೆ ಒತ್ತಿ ಮುಂದಿನ ಸ್ಲೈಡ್; N = ಟಿಪ್ಪಣಿ; B = ಕಪ್ಪು ಪರದೆ; Esc = ನಿರ್ಗಮನ.<br>ನಿಮ್ಮ ಪ್ರಸ್ತುತಿಗಳು ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಉಳಿಯುತ್ತವೆ — ಯಾವುದೇ server ಗೆ ಹೋಗುವುದಿಲ್ಲ. ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ಗೆ ತೆಗೆದುಕೊಂಡು ಹೋಗಲು "ಯೋಜನೆ ಫೈಲ್" ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.</div>
   </div>`;
+  $('#hLang').onclick = switchUILang;
 }
 function showHome() { closePop(); $('#home').classList.remove('hide'); renderHome(); }
 function initHome() {
@@ -1629,7 +1977,8 @@ function initHome() {
     if (h === 'auto' || h === 'ai') openGenerate(h);
     if (h === 'blank') { const d = await buildDeck({ title: 'ಹೊಸ ಪ್ರಸ್ತುತಿ', subtitle: '', slides: [] }, 'neela'); openDeck(d, { fetchImgs: false }); }
     if (h === 'open') $('#fProj').click();
-    if (h === 'sample') { toast('⏳ ಮಾದರಿ ತಯಾರಾಗುತ್ತಿದೆ…', 0); const d = await buildDeck(JSON.parse(JSON.stringify(SAMPLE)), 'itihasa'); toast('', 1); openDeck(d); }
+    if (h === 'sample-en') { toast('⏳ …', 0); const d = await buildDeck(JSON.parse(JSON.stringify(SAMPLE_EN)), 'prayoga'); toast('', 1); openDeck(d); }
+    if (h === 'sample') { toast('⏳ ಮಾದರಿ ತಯಾರಾಗುತ್ತಿದೆ…', 0); const d = await buildDeck(JSON.parse(JSON.stringify(SAMPLE)), 'maralu'); toast('', 1); openDeck(d); }
   });
 }
 
@@ -1667,10 +2016,135 @@ function initKeys() {
 }
 const commitLater = debounce(() => { renderPanel(); commit(); }, 400);
 
+/* ----------------------------------------------------- interface language (ಕನ್ನಡ / English) */
+let UIL = (() => { try { return localStorage.getItem('dp_uil') || 'kn'; } catch (e) { return 'kn'; } })();
+const EN = {
+  'ದೃಶ್ಯಪಾಠ': 'Drushyapaata', 'ಮುಖಪುಟ': 'Home', 'ಪ್ರಸ್ತುತಿಯ ಹೆಸರು': 'Presentation name', 'ಹಿಂದಕ್ಕೆ (Ctrl+Z)': 'Undo (Ctrl+Z)', 'ಮುಂದಕ್ಕೆ (Ctrl+Y)': 'Redo (Ctrl+Y)',
+  'ವಿನ್ಯಾಸ': 'Design', 'ಮಾಹಿತಿ ಪರಿಶೀಲನೆ': 'Content check', 'ಮೂಲ ಪಠ್ಯದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಬಂದಿದೆಯೇ ಪರೀಕ್ಷಿಸಿ': 'Check that all information from the source is on the slides', 'ಡೌನ್‌ಲೋಡ್': 'Download', 'ಪ್ರದರ್ಶನ': 'Present',
+  'ಶೀರ್ಷಿಕೆ': 'Heading', 'ಪಠ್ಯ': 'Text', 'ಅಂಶಗಳ ಪಟ್ಟಿ': 'Bullet list', 'ಚಿತ್ರ': 'Image', 'ಆಕಾರ': 'Shape', 'ಚಿಹ್ನೆ': 'Icon', 'ಹೊಸ ಪ್ರಸ್ತುತಿ': 'New presentation',
+  'ಯಾವುದೇ ಪಠ್ಯದಿಂದ ಆಕರ್ಷಕ ಪ್ರಸ್ತುತಿ — ಮಾಹಿತಿ ಒಂದೂ ಬಿಡದೆ · ಸಂಪೂರ್ಣ ಉಚಿತ': 'Beautiful presentations from any text — without losing a single fact · completely free',
+  'ಇಂದು ಯಾವ ಪ್ರಸ್ತುತಿ ಮಾಡೋಣ?': 'What shall we present today?', 'ಪಠ್ಯದಿಂದ ತಕ್ಷಣ': 'Instantly from text',
+  'ಪಾಠ, ವರದಿ, ಭಾಷಣ, ತರಬೇತಿ — ಯಾವುದೇ ಪಠ್ಯ (ಕನ್ನಡ / English) paste ಮಾಡಿ. ಪ್ರತಿ ವಾಕ್ಯವೂ ಸ್ಲೈಡ್‌ಗೆ ಬರುತ್ತದೆ, ಚಿತ್ರಗಳು ತಾನಾಗಿಯೇ ಸೇರುತ್ತವೆ. AI ಬೇಕಿಲ್ಲ.': 'Lesson, report, speech, training — paste any text (Kannada / English). Every sentence reaches a slide and pictures are added automatically. No AI needed.',
+  'AI ಸಹಾಯದಿಂದ': 'With AI help', 'Gemini/ChatGPT ಉಚಿತ website ಬಳಸಿ — ಗ್ಯಾಲರಿ, ಹಂತಗಳು, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳು ಸಹಿತ ಸುಂದರ ಸ್ಲೈಡ್‌ಗಳು. API key ಬೇಕಿಲ್ಲ.': 'Use the free Gemini/ChatGPT website — rich slides with galleries, steps, timelines, comparisons and questions. No API key needed.',
+  'ಖಾಲಿ ಪ್ರಸ್ತುತಿ': 'Blank presentation', 'Canva ತರಹ ನೀವೇ ವಿನ್ಯಾಸ ಮಾಡಿ — ಪಠ್ಯ, ಚಿತ್ರ, ಆಕಾರ, ಫಲಕ, ಚಿಹ್ನೆ, ಬಣ್ಣ ಎಲ್ಲವೂ ಕೈಯಾರೆ.': 'Design it yourself like Canva — text, images, shapes, plaques, icons and colours.',
+  'ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ': 'Open a saved file', 'ಹಿಂದೆ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ".drushyapaata.json" ಯೋಜನೆ ಫೈಲ್ ತೆರೆದು ಮುಂದುವರಿಸಿ.': 'Open a ".drushyapaata.json" project file you downloaded earlier and continue.',
+  'ಮಾದರಿ ನೋಡಿ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು': 'Kannada sample: Badami Chalukyas and Kanchi Pallavas', 'ಕನ್ನಡ ಮಾದರಿ · 8ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ · ಗ್ಯಾಲರಿ, ತ್ರಿಪದಿ, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳ ಸಹಿತ': 'Kannada · Class 8 Social Science · galleries, poem, timeline, comparison, questions',
+  'ಇಂಗ್ಲಿಷ್ ಮಾದರಿ · ವಿಜ್ಞಾನ ಪ್ರಯೋಗಾಲಯ ವಿನ್ಯಾಸ': 'English · Science-lab design', 'ಇತ್ತೀಚಿನ ಪ್ರಸ್ತುತಿಗಳು (ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿದಿವೆ)': 'Recent presentations (saved in this browser)',
+  'ಸಲಹೆಗಳು: ಪ್ರದರ್ಶನದಲ್ಲಿ ← → ಬಾಣದ ಗುರುತು ಅಥವಾ ಪರದೆಯ ಮೇಲೆ ಒತ್ತಿ ಮುಂದಿನ ಸ್ಲೈಡ್; N = ಟಿಪ್ಪಣಿ; B = ಕಪ್ಪು ಪರದೆ; Esc = ನಿರ್ಗಮನ.': 'Tips: while presenting use ← → or tap the screen for the next slide; N = notes; B = black screen; Esc = exit.',
+  'ನಿಮ್ಮ ಪ್ರಸ್ತುತಿಗಳು ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಉಳಿಯುತ್ತವೆ — ಯಾವುದೇ server ಗೆ ಹೋಗುವುದಿಲ್ಲ. ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ಗೆ ತೆಗೆದುಕೊಂಡು ಹೋಗಲು "ಯೋಜನೆ ಫೈಲ್" ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.': 'Your presentations stay in your own browser — nothing goes to any server. To move to another computer, download the "project file".',
+  'ಅಳಿಸು': 'Delete', 'ನಕಲು': 'Duplicate', 'ಹೊಸ ಸ್ಲೈಡ್': 'New slide',
+  // generate dialog
+  'ಹೊಸ ಪ್ರಸ್ತುತಿ ತಯಾರಿಸಿ': 'Create a new presentation', 'ಪಠ್ಯದಿಂದ ತಕ್ಷಣ (AI ಇಲ್ಲದೆ)': 'Instantly from text (no AI)', 'AI ಸಹಾಯದಿಂದ (ಉಚಿತ)': 'With AI help (free)',
+  'ಪ್ರಸ್ತುತಿಯ ಪ್ರಕಾರ': 'Type of presentation', 'ಶಾಲಾ ಪಾಠ': 'School lesson', 'ಸಾಮಾನ್ಯ (ಸಭೆ, ತರಬೇತಿ, ವರದಿ, ಕಾರ್ಯಕ್ರಮ, ಉಪನ್ಯಾಸ…)': 'General (meeting, training, report, event, talk…)',
+  'ಸ್ಲೈಡ್‌ಗಳ ಭಾಷೆ': 'Slide language', 'ಸ್ವಯಂ (ಪಠ್ಯದ ಭಾಷೆ)': 'Automatic (language of the text)', 'ಕನ್ನಡ': 'Kannada', 'ಉಪಶೀರ್ಷಿಕೆ / ಅಧ್ಯಾಯ (ಐಚ್ಛಿಕ)': 'Subtitle / chapter (optional)',
+  'ಒಂದು ಸಾಲಿನ ಆಕರ್ಷಕ ವಿವರಣೆ (ಮುಖಪುಟಕ್ಕೆ, ಐಚ್ಛಿಕ)': 'One-line tagline for the cover (optional)', 'ತರಗತಿ': 'Class', 'ವಿಷಯ': 'Subject', 'ಸಂಸ್ಥೆ / ಕಾರ್ಯಕ್ರಮ': 'Organisation / event', 'ದಿನಾಂಕ / ಸ್ಥಳ (ಐಚ್ಛಿಕ)': 'Date / place (optional)',
+  'ಪ್ರಸ್ತುತಪಡಿಸುವವರು / ಶಾಲೆ (ಐಚ್ಛಿಕ)': 'Presenter / school (optional)', 'ವಿನ್ಯಾಸ (ನಂತರವೂ ಒಂದು click ನಲ್ಲಿ ಬದಲಿಸಬಹುದು)': 'Design (can be changed later with one click)',
+  'ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ)': 'Full text (copy–paste)', 'ಕೊನೆಯಲ್ಲಿ "ಧನ್ಯವಾದಗಳು" ಸ್ಲೈಡ್ ಸೇರಿಸಿ': 'Add a "Thank you" slide at the end',
+  '💡 ಉಪಶೀರ್ಷಿಕೆಗಳನ್ನು ಪ್ರತ್ಯೇಕ ಸಾಲಿನಲ್ಲಿ ಬರೆದರೆ ಸ್ಲೈಡ್‌ಗಳು ಇನ್ನೂ ಚೆನ್ನಾಗಿ ವಿಂಗಡಣೆಯಾಗುತ್ತವೆ. ಪ್ಯಾರಾಗಳ ನಡುವೆ ಒಂದು ಖಾಲಿ ಸಾಲು ಬಿಡಿ.': '💡 Put sub-headings on their own lines and leave a blank line between paragraphs for the best slides.',
+  '① ಪೂರ್ಣ ಪಠ್ಯವನ್ನು paste ಮಾಡಿ': '① Paste the full text', '② ಒಂದು button ಒತ್ತಿ — ಸೂಚನೆ copy ಆಗಿ AI ತೆರೆಯುತ್ತದೆ. ಅಲ್ಲಿ paste (Ctrl+V) ಮಾಡಿ Enter ಒತ್ತಿ.': '② Press a button — the instructions are copied and the AI opens. Paste there (Ctrl+V) and press Enter.',
+  'Copy + Gemini ತೆರೆಯಿರಿ': 'Copy + open Gemini', 'Copy ಮಾತ್ರ': 'Copy only', '③ AI ಕೊಟ್ಟ ಉತ್ತರವನ್ನು (ಸಂಪೂರ್ಣ) copy ಮಾಡಿ ಇಲ್ಲಿ paste ಮಾಡಿ': '③ Copy the complete AI answer and paste it here',
+  'ರದ್ದು': 'Cancel', 'ಸ್ಲೈಡ್‌ಗಳನ್ನು ತಯಾರಿಸಿ': 'Create slides', 'ಇಂಗ್ಲಿಷ್': 'English', 'ಹಿಂದಿ': 'Hindi', 'ಗಣಿತ': 'Mathematics', 'ವಿಜ್ಞಾನ': 'Science', 'ಸಮಾಜ ವಿಜ್ಞಾನ': 'Social Science', 'ಪರಿಸರ ಅಧ್ಯಯನ': 'Environmental Studies', 'ದೈಹಿಕ ಶಿಕ್ಷಣ': 'Physical Education', 'ಇತರೆ': 'Other',
+  'ಉದಾ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು': 'e.g. Photosynthesis', 'ಉದಾ: ಅಧ್ಯಾಯ–19': 'e.g. Chapter 3', 'ಉದಾ: ದಕ್ಷಿಣ ಭಾರತದ ಎರಡು ಶ್ರೇಷ್ಠ ರಾಜವಂಶಗಳ ಪರಿಚಯ': 'e.g. How green plants make their own food', 'ಉದಾ: ಶಾಲಾ ಅಭಿವೃದ್ಧಿ ಸಮಿತಿ ಸಭೆ': 'e.g. Annual review meeting', 'ಉದಾ: 26 ನವೆಂಬರ್ 2026': 'e.g. 26 November 2026', 'ಉದಾ: ಸ.ಹಿ.ಪ್ರಾ. ಶಾಲೆ, …': 'e.g. Govt. Higher Primary School, …',
+  'ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ paste ಮಾಡಿ — ಕನ್ನಡ ಅಥವಾ English.\nಚಿಕ್ಕ ಸಾಲುಗಳನ್ನು (ಉಪಶೀರ್ಷಿಕೆ) ತಾನೇ ಗುರುತಿಸಿ ಪ್ರತ್ಯೇಕ ಸ್ಲೈಡ್ ಮಾಡುತ್ತದೆ.\nಯಾವ ವಾಕ್ಯವೂ ಬಿಟ್ಟುಹೋಗುವುದಿಲ್ಲ.': 'Paste the lesson / report / speech text here — Kannada or English.\nShort lines (sub-headings) become separate slides automatically.\nNo sentence is left out.',
+  'ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪೂರ್ಣ ಪಠ್ಯ (ಕನ್ನಡ ಅಥವಾ English)': 'Full text of the lesson / report / speech (Kannada or English)',
+  // editor panel
+  'ಯಾವುದೇ ವಸ್ತುವನ್ನು ಒಂದು ಬಾರಿ ಒತ್ತಿದರೆ ಆರಿಸುತ್ತದೆ; ಎಳೆದು ಸರಿಸಿ; ಮೂಲೆಗಳಿಂದ ಗಾತ್ರ ಬದಲಿಸಿ. ಪಠ್ಯವನ್ನು': 'Click any item to select it; drag to move; resize from the corners. Text:', 'ಎರಡು ಬಾರಿ ಒತ್ತಿ': 'double-click', 'ತಿದ್ದಿ.': 'to edit.',
+  'AI ಚಿತ್ರ (NotebookLM ತರಹದ ಚಿತ್ರ ಬೇಕಾದರೆ)': 'AI picture (for NotebookLM-style illustrations)', '① ಸೂಚನೆ copy ಆಗಿ Gemini ತೆರೆಯುತ್ತದೆ → paste ಮಾಡಿ ② ಬಂದ ಚಿತ್ರವನ್ನು download ಮಾಡಿ ③ "AI ಚಿತ್ರ ಹಾಕಿ" ಒತ್ತಿ.': '① The prompt is copied and Gemini opens → paste ② download the picture ③ press "Insert AI picture".',
+  'ಸೂಚನೆ + Gemini': 'Prompt + Gemini', 'ಸೂಚನೆ + ChatGPT': 'Prompt + ChatGPT', 'AI ಚಿತ್ರ ಹಾಕಿ': 'Insert AI picture',
+  'ಹಿನ್ನೆಲೆ': 'Background', 'ಒಂದೇ ಬಣ್ಣ': 'Solid colour', 'ಮಿಶ್ರ ಬಣ್ಣ': 'Gradient', 'ಮೊದಲ ಬಣ್ಣ': 'First colour', 'ಎರಡನೇ ಬಣ್ಣ': 'Second colour',
+  'ಟಿಪ್ಪಣಿ — ಶಿಕ್ಷಕರು / ಭಾಷಣಕಾರರಿಗೆ (ಪ್ರದರ್ಶನದಲ್ಲಿ N ಒತ್ತಿದರೆ ಕಾಣುತ್ತದೆ)': 'Notes — for the teacher / speaker (press N while presenting)', 'ಉದಾ: ಉತ್ತರಗಳು, ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳು…': 'e.g. answers, questions to ask…',
+  'ಸ್ಲೈಡ್ ಕ್ರಿಯೆಗಳು': 'Slide actions', 'ಸ್ಲೈಡ್ ನಕಲು': 'Duplicate slide', 'ಸ್ಲೈಡ್ ಅಳಿಸು': 'Delete slide', 'ಮೇಲೆ ಸರಿಸು': 'Move up', 'ಕೆಳಗೆ ಸರಿಸು': 'Move down', 'ಅಲಂಕಾರ ತೆಗೆ': 'Remove decoration', 'ಅಲಂಕಾರ ಹಾಕು': 'Add decoration', 'ಚಿತ್ರ ಹುಡುಕು': 'Find image',
+  'ಪ್ರತಿ ಹೊಸ ಸಾಲು = ಹೊಸ ಅಂಶ.': 'Each new line = a new point.', 'ಅಕ್ಷರ ಶೈಲಿ': 'Font', 'ವಿನ್ಯಾಸದ ಶೀರ್ಷಿಕೆ ಫಾಂಟ್': "Design's heading font", 'ವಿನ್ಯಾಸದ ಪಠ್ಯ ಫಾಂಟ್': "Design's body font",
+  'ಆನೆಕ್ (ಆಧುನಿಕ)': 'Anek (modern)', 'ನೋಟೋ ಸ್ಯಾನ್ಸ್ (ಸರಳ)': 'Noto Sans (simple)', 'ಬಾಲೂ ತಮ್ಮ (ದುಂಡು)': 'Baloo Tamma (rounded)', 'ನೋಟೋ ಸೆರಿಫ್ (ಶಾಸ್ತ್ರೀಯ)': 'Noto Serif (classic)', 'ತಿರೋ (ಪುಸ್ತಕ ಶೈಲಿ)': 'Tiro (book style)',
+  'ಗಾತ್ರ': 'Size', 'ಸ್ವಯಂ ಗಾತ್ರ (ಡಬ್ಬಿಗೆ ಹೊಂದುವಂತೆ)': 'Auto size (fit the box)', 'ಅಂಶ': 'Points', 'ಲಂಬ:': 'Vertical:', 'ಮೇಲೆ': 'Top', 'ಮಧ್ಯ': 'Middle', 'ಕೆಳಗೆ': 'Bottom', 'ಸಾಲು ಅಂತರ': 'Line spacing',
+  'ಅಕ್ಷರದ ಬಣ್ಣ': 'Text colour', 'ಡಬ್ಬಿಯ ಬಣ್ಣ': 'Box colour', 'ಮೂಲೆ ದುಂಡು': 'Corner radius', 'ಒಳ ಅಂತರ': 'Padding', 'ಅಂಚು (border)': 'Border', 'ದಪ್ಪ': 'Width', 'ಡಬ್ಬಿಗೆ ನೆರಳು': 'Box shadow', 'ಅಕ್ಷರಗಳಿಗೆ ನೆರಳು': 'Text shadow',
+  'ಪಾರದರ್ಶಕತೆ / ತಿರುಗಿಸು': 'Opacity / rotate', 'ಸ್ಥಾನ ಮತ್ತು ಗಾತ್ರ': 'Position and size', 'ಅ': 'W', 'ಎ': 'H', 'ಮಧ್ಯಕ್ಕೆ': 'Centre', 'ಪದರ (ಮುಂದೆ / ಹಿಂದೆ)': 'Layer (front / back)', 'ಎಲ್ಲಕ್ಕಿಂತ ಮುಂದೆ': 'Bring to front', 'ಎಲ್ಲಕ್ಕಿಂತ ಹಿಂದೆ': 'Send to back', 'ಒಂದು ಮುಂದೆ': 'Forward', 'ಒಂದು ಹಿಂದೆ': 'Backward',
+  'ಚಿತ್ರ ಬದಲಿಸು': 'Change image', 'ನನ್ನ ಚಿತ್ರ': 'My image', 'ಹೊಂದಿಸುವಿಕೆ': 'Fit', 'ಡಬ್ಬಿ ತುಂಬಿಸು': 'Fill box', 'ಪೂರ್ತಿ ತೋರಿಸು': 'Show whole', 'ವೃತ್ತಾಕಾರ': 'Circle', 'ಮೂಲ ಹೆಸರು ಮರೆಮಾಡು': 'Hide credit',
+  'ಚೌಕಟ್ಟು (frame)': 'Frame', 'ಇಲ್ಲ': 'None', 'ಚಿನ್ನ': 'Gold', 'ಮರ': 'Wood', 'ಕಲ್ಲು': 'Stone', 'ಬಿಳಿ': 'White', 'ಫೋಟೋ': 'Photo', 'ನೆರಳು (ಚಿತ್ರಾತ್ಮಕ ವಿನ್ಯಾಸಗಳಲ್ಲಿ)': 'Shadow (in textured designs)',
+  'ಬಣ್ಣ': 'Colour', 'ಬಣ್ಣ ಇಲ್ಲ': 'No colour', 'ಬೇರೆ ಬಣ್ಣ': 'Other colour', 'ಅಂಚಿನ ಬಣ್ಣ = ಚಿನ್ನದ ಅಂಚು / ಪಿನ್ ಬಣ್ಣ': 'Border colour = gold trim / pin colour',
+  'ವಿನ್ಯಾಸದ ಮುಖ್ಯ ಬಣ್ಣ': "Design's main colour", 'ವಿನ್ಯಾಸದ ಉಪ ಬಣ್ಣ': "Design's accent colour", 'ವಿನ್ಯಾಸದ ತಿಳಿ ಬಣ್ಣ': "Design's light colour", 'ವಿನ್ಯಾಸದ ಪಠ್ಯ ಬಣ್ಣ': "Design's text colour", 'ವಿನ್ಯಾಸದ ಹಿನ್ನೆಲೆ ಬಣ್ಣ': "Design's background colour", 'ವಿನ್ಯಾಸದ ಕಾರ್ಡ್ ಬಣ್ಣ': "Design's card colour",
+  'ಸ್ಥಳ': 'Place',
+  // menus
+  'ಆಯತ': 'Rectangle', 'ದುಂಡು ಮೂಲೆ': 'Rounded', 'ವೃತ್ತ': 'Circle', 'ತ್ರಿಭುಜ': 'Triangle', 'ಬಾಣ': 'Arrow', 'ನಕ್ಷತ್ರ': 'Star', 'ಗೆರೆ': 'Line', 'ಅಲಂಕೃತ ಫಲಕ': 'Ornate plaque', 'ಸುರುಳಿ ಪಟ್ಟಿ': 'Scroll banner', 'ಪಿನ್ ಚೀಟಿ': 'Pinned note', 'ರಿಬ್ಬನ್': 'Ribbon',
+  'ಶಾಲೆ': 'School', 'ಪ್ರಕೃತಿ': 'Nature', 'ಇತಿಹಾಸ / ಸ್ಥಳ': 'History / places', 'ಚಿಹ್ನೆಗಳು': 'Symbols',
+  'ಖಾಲಿ ಸ್ಲೈಡ್': 'Blank slide', 'ಶೀರ್ಷಿಕೆ + ಅಂಶಗಳು': 'Heading + points', 'ಅಂಶಗಳು + ಚಿತ್ರ': 'Points + image', 'ಚಿತ್ರ ಗ್ಯಾಲರಿ': 'Image gallery', 'ಕಾರ್ಡ್‌ಗಳು': 'Cards', 'ಹೋಲಿಕೆ': 'Comparison', 'ಹಂತಗಳು (ಕ್ರಮ)': 'Steps (process)', 'ಕಾಲರೇಖೆ': 'Timeline', 'ಪ್ರಶ್ನೆಗಳು': 'Questions', 'ಪದ್ಯ / ಉಕ್ತಿ': 'Poem / quote', 'ಹೊಸ ಭಾಗ': 'New section', 'ಧನ್ಯವಾದ ಸ್ಲೈಡ್': 'Thank-you slide', 'ಮುಖಪುಟ ಸ್ಲೈಡ್': 'Cover slide',
+  'PPT (ಚಿತ್ರ ರೂಪ)': 'PPT (picture slides)', 'ಯಾವ ಕಂಪ್ಯೂಟರ್/TV ಯಲ್ಲೂ ಒಂದೇ ತರಹ ಕಾಣುತ್ತದೆ — ತರಗತಿಗೆ ಉತ್ತಮ': 'Looks identical on every computer/TV — best for presenting', 'PPT (ತಿದ್ದಬಹುದಾದ)': 'PPT (editable)', 'PowerPoint ನಲ್ಲಿ ಪಠ್ಯ ತಿದ್ದಬಹುದು; ಫಾಂಟ್ ಬದಲಾಗಬಹುದು': 'Text editable in PowerPoint; fonts may change',
+  'ಮುದ್ರಣಕ್ಕೆ / WhatsApp ನಲ್ಲಿ ಕಳುಹಿಸಲು': 'For printing / sharing on WhatsApp', 'ಈ ಸ್ಲೈಡ್ ಚಿತ್ರವಾಗಿ (PNG)': 'This slide as a picture (PNG)', 'ಯೋಜನೆ ಫೈಲ್ ಉಳಿಸಿ (.json)': 'Save project file (.json)', 'ನಂತರ ಅಥವಾ ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಮತ್ತೆ ತಿದ್ದಲು': 'To edit again later or on another computer',
+  // dialogs
+  'ವಿನ್ಯಾಸ ಆರಿಸಿ': 'Choose a design', 'ಒಂದು ಕ್ಲಿಕ್‌ನಲ್ಲಿ ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಬಣ್ಣ, ಅಕ್ಷರ ಶೈಲಿ ಮತ್ತು ಅಲಂಕಾರ ಬದಲಾಗುತ್ತದೆ. ನೀವು ಕೈಯಾರೆ ಆರಿಸಿದ ಬಣ್ಣಗಳು ಹಾಗೆಯೇ ಉಳಿಯುತ್ತವೆ.': 'One click changes the colours, fonts and decoration of every slide. Colours you picked by hand are kept.',
+  'ಚಿತ್ರಾತ್ಮಕ ವಿನ್ಯಾಸಗಳು (ಫಲಕ, ಸುರುಳಿ ಪಟ್ಟಿ, ಚೌಕಟ್ಟು ಸಹಿತ)': 'Textured designs (with plaques, scrolls and frames)', 'ಸರಳ ವಿನ್ಯಾಸಗಳು': 'Simple designs', 'ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಅಕ್ಷರ ಶೈಲಿ': 'Fonts for all slides', 'ಶೀರ್ಷಿಕೆ ಫಾಂಟ್': 'Heading font', 'ಪಠ್ಯ ಫಾಂಟ್': 'Body font', 'ಮುಚ್ಚಿ': 'Close',
+  'ಪ್ರಾಚೀನ ಕಾಗದ': 'Ancient parchment', 'ಶಿಲೆ (ಕಲ್ಲು)': 'Stone', 'ಮರಳುಗಲ್ಲು': 'Sandstone', 'ವಿಜ್ಞಾನ ಪ್ರಯೋಗಾಲಯ': 'Science lab', 'ಮಕ್ಕಳ ಬಣ್ಣ': 'Kids colours', 'ಕಪ್ಪುಹಲಗೆ': 'Blackboard', 'ನೋಟ್‌ಬುಕ್': 'Notebook', 'ಜಲವರ್ಣ': 'Watercolour',
+  'ನೀಲಾಕಾಶ': 'Blue sky', 'ಇತಿಹಾಸ': 'History', 'ಹಸಿರು ವನ': 'Green forest', 'ಕೇಸರಿ': 'Saffron', 'ಸಾಗರ': 'Ocean', 'ರಾಜ ನೇರಳೆ': 'Royal purple', 'ಗುಲಾಬಿ': 'Rose', 'ಬಿಸಿಲು': 'Sunshine', 'ಮಣ್ಣು': 'Earth', 'ಸರಳ ಬಿಳಿ': 'Plain white', 'ರಾತ್ರಿ (ಕಪ್ಪು)': 'Night (dark)',
+  'ಚಿತ್ರ ಸೇರಿಸಿ': 'Add an image', 'ಹುಡುಕಿ (Wikimedia)': 'Search (Wikimedia)', 'ನಮ್ಮ ಚಿತ್ರ ಸಂಗ್ರಹ': 'Our image library', 'ನಿಮ್ಮ ಫೋನ್/ಕಂಪ್ಯೂಟರ್‌ನಿಂದ': 'From your phone/computer', 'ಹುಡುಕು': 'Search',
+  'ಇಂಗ್ಲಿಷ್ ಪದ ಬರೆದರೆ ಹೆಚ್ಚು ಚಿತ್ರಗಳು ಸಿಗುತ್ತವೆ (ಉದಾ: Badami temple)': 'English words find more pictures (e.g. Badami temple)', 'ಚಿತ್ರಗಳು Wikimedia Commons ನಿಂದ (ಉಚಿತ ಪರವಾನಗಿ). ಸ್ಲೈಡ್‌ನಲ್ಲಿ ಮೂಲದ ಹೆಸರು ಚಿಕ್ಕದಾಗಿ ತಾನೇ ಬರುತ್ತದೆ.': 'Pictures come from Wikimedia Commons (free licences). A small credit is added to the slide automatically.',
+  'ಫೋನ್ ಅಥವಾ ಕಂಪ್ಯೂಟರ್‌ನಿಂದ ಯಾವುದೇ ಚಿತ್ರ ಆರಿಸಿ': 'Choose any picture from your phone or computer', 'ಚಿತ್ರ ಆರಿಸಿ': 'Choose picture', 'ನಿಮ್ಮದೇ ಚಿತ್ರ ಸಂಗ್ರಹ ಹೇಗೆ ಮಾಡುವುದು?': 'How to make your own image library?',
+  '1) GitHub repo ದಲ್ಲಿ': '1) In the GitHub repo create a folder named', 'ಎಂಬ folder ಮಾಡಿ ಚಿತ್ರಗಳನ್ನು upload ಮಾಡಿ.': 'and upload your pictures.', '2) ಅದೇ folder ನಲ್ಲಿ': '2) In the same folder create a', 'ಫೈಲ್ ಮಾಡಿ, ಹೀಗೆ ಬರೆಯಿರಿ:': 'file like this:', '3) ನಂತರ ಇಲ್ಲಿ ಎಲ್ಲಾ ಶಿಕ್ಷಕರಿಗೂ ಆ ಚಿತ್ರಗಳು ಕಾಣುತ್ತವೆ.': '3) The pictures then appear here for everyone.',
+  'ಎಲ್ಲಾ': 'All', 'ಚಿತ್ರಗಳಿಲ್ಲ': 'No pictures', 'ಹುಡುಕುತ್ತಿದೆ…': 'Searching…', 'ಚಿತ್ರಗಳು ಸಿಗಲಿಲ್ಲ. ಬೇರೆ ಪದ (ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ) ಪ್ರಯತ್ನಿಸಿ.': 'No pictures found. Try other (English) words.', 'ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಸಿಗಲಿಲ್ಲ.': 'No internet connection.', 'ಸಲಹೆಗಳು ಸಿಗಲಿಲ್ಲ': 'No suggestions', 'ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದಿರುವಂತಿದೆ': 'Seems to be offline',
+  'ಮಾಹಿತಿ ಪೂರ್ಣತೆ ಪರಿಶೀಲನೆ': 'Content completeness check', 'ಈ ಪ್ರಸ್ತುತಿಗೆ ಮೂಲ ಪಠ್ಯ ಜೋಡಣೆಯಾಗಿಲ್ಲ. ಮೂಲ ಪಠ್ಯವನ್ನು paste ಮಾಡಿದರೆ, ಅದರ ಪ್ರತಿಯೊಂದು ವಾಕ್ಯ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆಯೇ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ.': 'No source text is attached to this presentation. Paste the source text and every sentence will be checked against the slides.',
+  'ಮೂಲ ಪಠ್ಯ': 'Source text', 'ಪರೀಕ್ಷಿಸಿ': 'Check', 'ಸರಿ': 'OK', '🎉 ಮೂಲ ಪಠ್ಯದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆ.': '🎉 All information from the source is on the slides.',
+  '⚠️ ಈ ಸಂಖ್ಯೆ/ಇಸವಿಗಳು ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ:': '⚠️ These numbers/years are not on the slides:', 'ಈ ವಾಕ್ಯಗಳು ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ (ಅಥವಾ ಬೇರೆ ಪದಗಳಲ್ಲಿ ಬರೆಯಲಾಗಿದೆ) — ಪರಿಶೀಲಿಸಿ:': 'These sentences are not on the slides (or are worded differently) — please check:', 'ಇವುಗಳನ್ನು ಹೊಸ ಸ್ಲೈಡ್‌ಗಳಿಗೆ ಸೇರಿಸಿ': 'Add these to new slides',
+  'ಶಿಕ್ಷಕರ ಟಿಪ್ಪಣಿ (N)': 'Notes (N)', 'ಪೂರ್ಣ ಪರದೆ (F)': 'Full screen (F)', 'ನಿರ್ಗಮಿಸಿ': 'Exit', '(ಈ ಸ್ಲೈಡ್‌ಗೆ ಟಿಪ್ಪಣಿ ಇಲ್ಲ)': '(no notes for this slide)',
+  'ಚಿತ್ರ ಸೇರಿಸಲು ಎರಡು ಬಾರಿ ಒತ್ತಿ': 'Double-click to add an image', 'ಚಿತ್ರ ಹುಡುಕುತ್ತಿದೆ…': 'Finding a picture…', 'ಪಠ್ಯ': 'Text', 'ಚಿತ್ರ ಗ್ಯಾಲರಿ': 'Image gallery',
+  // toasts
+  'ಮಾದರಿ ತಯಾರಾಗುತ್ತಿದೆ…': 'Preparing the sample…', 'ಕನಿಷ್ಠ ಒಂದು ಸ್ಲೈಡ್ ಇರಬೇಕು': 'There must be at least one slide', 'ಮೊದಲು ಪಠ್ಯ paste ಮಾಡಿ': 'Paste the text first', 'ಪಠ್ಯವನ್ನು paste ಮಾಡಿ': 'Paste the text', 'AI ಉತ್ತರವನ್ನು ③ ರಲ್ಲಿ paste ಮಾಡಿ': 'Paste the AI answer in ③',
+  '✅ ಸೂಚನೆ copy ಆಯಿತು. AI ನಲ್ಲಿ paste ಮಾಡಿ.': '✅ Instructions copied. Paste them in the AI.', '⚠️ Copy ಆಗಲಿಲ್ಲ — ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ': '⚠️ Could not copy — try again', '⚠️ Copy ಆಗಲಿಲ್ಲ': '⚠️ Could not copy',
+  '✅ ಚಿತ್ರದ ಸೂಚನೆ copy ಆಯಿತು → paste ಮಾಡಿ → ಚಿತ್ರ download → "⬆ AI ಚಿತ್ರ ಹಾಕಿ"': '✅ Picture prompt copied → paste it → download the picture → "⬆ Insert AI picture"',
+  '⚠️ AI ಉತ್ತರ ಸರಿಯಾಗಿ copy ಆಗಿಲ್ಲ. ಉತ್ತರದ ಸಂಪೂರ್ಣ ಭಾಗವನ್ನು copy ಮಾಡಿ (ಮೊದಲ { ಯಿಂದ ಕೊನೆಯ } ವರೆಗೆ).': '⚠️ The AI answer was not copied fully. Copy the whole answer (from the first { to the last }).',
+  '✅ PDF ಡೌನ್‌ಲೋಡ್ ಆಯಿತು': '✅ PDF downloaded', '✅ PPT ಡೌನ್‌ಲೋಡ್ ಆಯಿತು': '✅ PPT downloaded', '✅ ಚಿತ್ರ ಡೌನ್‌ಲೋಡ್ ಆಯಿತು': '✅ Picture downloaded', '✅ ಫೈಲ್ ತೆರೆಯಿತು': '✅ File opened', '⚠️ ಇದು ದೃಶ್ಯಪಾಠ ಯೋಜನೆ ಫೈಲ್ ಅಲ್ಲ': '⚠️ This is not a Drushyapaata project file', '⚠️ ಚಿತ್ರ ತೆರೆಯಲು ಆಗಲಿಲ್ಲ': '⚠️ Could not open the picture',
+  '✅ ಯೋಜನೆ ಫೈಲ್ ಉಳಿಯಿತು. ನಂತರ "ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ" ಮೂಲಕ ಮತ್ತೆ ತಿದ್ದಬಹುದು.': '✅ Project file saved. Open it later with "Open a saved file" to keep editing.',
+  '⚠️ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲದಿರುವಂತಿದೆ — ಚಿತ್ರಗಳನ್ನು ನಂತರ ಸೇರಿಸಬಹುದು (ಚಿತ್ರದ ಜಾಗವನ್ನು ಎರಡು ಬಾರಿ ಒತ್ತಿ).': '⚠️ Seems to be offline — add pictures later (double-click the picture box).',
+  '⚠️ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿಸಲು ಆಗಲಿಲ್ಲ. "ಡೌನ್‌ಲೋಡ್ → ಯೋಜನೆ ಫೈಲ್" ಬಳಸಿ ಉಳಿಸಿ.': '⚠️ Could not save in the browser. Use "Download → Project file".',
+  '⚠️ ಉತ್ತರದಲ್ಲಿ "slides" ಇಲ್ಲ': '⚠️ The answer has no "slides"', 'ಈ ಪ್ರಸ್ತುತಿಯನ್ನು ಅಳಿಸಬೇಕೇ?': 'Delete this presentation?',
+};
+const ENRX = [
+  [/^ಸ್ಲೈಡ್ (\d+) \/ (\d+)$/, 'Slide $1 / $2'],
+  [/^✅ (\d+) ಚಿತ್ರಗಳು ಸೇರಿದವು\..*$/, '✅ $1 pictures added. Click a picture → other suggestions on the right.'],
+  [/^🖼️ ಚಿತ್ರಗಳನ್ನು ಹುಡುಕುತ್ತಿದೆ… (\d+)\/(\d+)$/, '🖼️ Finding pictures… $1/$2'],
+  [/^⏳ ತಯಾರಾಗುತ್ತಿದೆ… (\d+)\/(\d+)$/, '⏳ Preparing… $1/$2'],
+  [/^ಇತರ ಸಲಹೆಗಳು: (.*)$/, 'Other suggestions: $1'],
+  [/^ಮೂಲ ಪಠ್ಯದ (\d+) ವಾಕ್ಯಗಳಲ್ಲಿ (\d+) ವಾಕ್ಯಗಳ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಇದೆ\.$/, '$2 of the $1 sentences of the source are on the slides.'],
+  [/^✅ (\d+) ಹೊಸ ಸ್ಲೈಡ್ ಸೇರಿತು.*$/, '✅ $1 new slide(s) added at the end. Drag them where you want.'],
+  [/^✅ PPT ಡೌನ್‌ಲೋಡ್ ಆಯಿತು \(⚠️ (\d+) ಚಿತ್ರ ಸೇರಿಸಲು ಆಗಲಿಲ್ಲ\)$/, '✅ PPT downloaded (⚠️ $1 picture(s) could not be added)'],
+  [/^⚠️ ಡೌನ್‌ಲೋಡ್‌ನಲ್ಲಿ ದೋಷ: (.*)$/, '⚠️ Download error: $1'],
+  [/^⚠️ ದೋಷ: (.*)$/, '⚠️ Error: $1'],
+];
+const PREFIX = /^([^ಀ-೿A-Za-z0-9"(]+)([\s\S]+)$/;
+function trS(t) {
+  const k = t.trim(); if (!k || !/[ಀ-೿]/.test(k)) return null;
+  if (EN[k]) return t.replace(k, EN[k]);
+  for (const [r, v] of ENRX) if (r.test(k)) return t.replace(k, k.replace(r, v));
+  const m = k.match(PREFIX); if (m) { const rest = m[2].trim(); if (EN[rest]) return t.replace(k, m[1] + EN[rest]); for (const [r, v] of ENRX) if (r.test(rest)) return t.replace(k, m[1] + rest.replace(r, v)); }
+  return null;
+}
+const NOI = '.sl,#pst,.mini,.miss,.noi,textarea,script,style,#tedit,.ri .t b';
+function trNode(root) {
+  if (UIL !== 'en' || !root) return;
+  if (root.nodeType === 3) { if (root.parentElement && root.parentElement.closest(NOI)) return; const r = trS(root.nodeValue); if (r != null && r !== root.nodeValue) root.nodeValue = r; return; }
+  if (root.nodeType !== 1 || root.closest(NOI)) return;
+  const fix = el => { ['placeholder', 'title'].forEach(a => { const v = el.getAttribute(a); if (v) { const r = trS(v); if (r != null && r !== v) el.setAttribute(a, r); } }); };
+  fix(root); root.querySelectorAll('[placeholder],[title]').forEach(el => { if (!el.closest(NOI) || el.tagName === 'TEXTAREA') fix(el); });
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement && n.parentElement.closest(NOI) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+  const list = []; while (w.nextNode()) list.push(w.currentNode); list.forEach(n => { const r = trS(n.nodeValue); if (r != null && r !== n.nodeValue) n.nodeValue = r; });
+}
+function startI18n() {
+  document.documentElement.lang = UIL === 'en' ? 'en' : 'kn';
+  if (UIL !== 'en') return;
+  trNode(document.body);
+  new MutationObserver(ms => ms.forEach(m => { if (m.type === 'characterData') trNode(m.target); else m.addedNodes.forEach(n => trNode(n)); })).observe(document.body, { childList: true, subtree: true, characterData: true });
+  const oc = window.confirm; window.confirm = msg => oc(trS(msg) || msg);
+}
+async function switchUILang() {
+  const nl = UIL === 'en' ? 'kn' : 'en';
+  try { localStorage.setItem('dp_uil', nl); } catch (e) { }
+  try { if (D && !$('#home').classList.contains('hide')) { } else if (D) { await DB.put(cleanDeck(D)); sessionStorage.setItem('dp_reopen', D.id); } } catch (e) { }
+  location.reload();
+}
+
 /* ----------------------------------------------------- init */
 async function init() {
   initStage(); initPanel(); initThumbs(); initPres(); initKeys(); initHome();
-  $('#goHome').onclick = showHome;
+  $('#goHome').onclick = showHome; $('#bLang').onclick = switchUILang; $('#langLbl').textContent = UIL === 'en' ? 'ಕನ್ನಡ' : 'EN';
+  startI18n();
   $('#bUndo').onclick = undo; $('#bRedo').onclick = redo;
   $('#bTheme').onclick = openThemes; $('#bCheck').onclick = () => showCoverage(false);
   $('#bDown').onclick = ev => downMenu(ev.currentTarget); $('#bPlay').onclick = () => presStart(0);
@@ -1685,23 +2159,24 @@ async function init() {
   new ResizeObserver(layoutStage).observe($('#wrap'));
   if (document.fonts) document.fonts.addEventListener('loadingdone', debounce(() => { if (!D) return; D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && e.auto && !e.dyn) fit(e, thNow()); })); renderStage(); renderThumbs(); }, 300));
   await renderHome();
+  try { const ro = sessionStorage.getItem('dp_reopen'); if (ro) { sessionStorage.removeItem('dp_reopen'); const d = await DB.get(ro); if (d) openDeck(d, { fetchImgs: false }); } } catch (e) { }
 }
 </script>
 <script id="sample-data">
 /* ============ ಮಾದರಿ ಪಾಠ: 8ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ ಭಾಗ–2, ಅಧ್ಯಾಯ–19 ============ */
 const SAMPLE = {
-  title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಅಧ್ಯಾಯ–19', cls: '8', subject: 'ಸಮಾಜ ವಿಜ್ಞಾನ – ಇತಿಹಾಸ', imageQuery: 'Pattadakal temples',
+  title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಅಧ್ಯಾಯ–19', cls: '8', subject: 'ಸಮಾಜ ವಿಜ್ಞಾನ – ಇತಿಹಾಸ', lang: 'kn', titleImages: ['Badami cave temples', 'Shore Temple Mahabalipuram'], tagline: 'ದಕ್ಷಿಣ ಭಾರತದ ಎರಡು ಶ್ರೇಷ್ಠ ರಾಜವಂಶಗಳ ಪರಿಚಯ', tags: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', 'ಕಂಚಿಯ ಪಲ್ಲವರು'],
   slides: [
     { type: 'objectives', heading: 'ಈ ಅಧ್ಯಾಯದಲ್ಲಿ ನಾವು ತಿಳಿಯುವುದು', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆರಂಭ, ಪ್ರಸಿದ್ಧ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ಕಾಲದಲ್ಲಿನ ಸಾಮ್ರಾಜ್ಯ ವಿಸ್ತರಣೆ.', 'ಧಾರ್ಮಿಕ, ಸಾಮಾಜಿಕ, ಸೇನಾಡಳಿತ ಹಾಗೂ ನ್ಯಾಯಾಡಳಿತ ವ್ಯವಸ್ಥೆ.', 'ಭೂಪಟದಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ವ್ಯಾಪ್ತಿಯನ್ನು ಗುರುತಿಸುವುದು.', 'ಕಂಚಿಯ ಪಲ್ಲವರು ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣ ಕ್ಷೇತ್ರಕ್ಕೆ ನೀಡಿದ ಕೊಡುಗೆಗಳು.'] },
-    { type: 'section', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', subtitle: 'ಸಾ.ಶ. 540 – 753' },
+    { type: 'section', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', subtitle: 'ಸಾ.ಶ. 540 – 753', imageQuery: 'Badami fort cave temples' },
     { type: 'content', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು – ಪರಿಚಯ', imageQuery: 'Badami cave temples', points: ['ಸಾ.ಶ. 6ನೇ ಶತಮಾನದಲ್ಲಿ ಕರ್ನಾಟಕದಲ್ಲಿ ಮಹಾನ್ ಶಕ್ತಿಶಾಲಿ ರಾಜರುಗಳು ಆಳಿದರು. ಅವರೇ ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು.', 'ಕರ್ನಾಟಕದಲ್ಲಿ ತಮ್ಮ ಸಾರ್ವಭೌಮಾಧಿಕಾರವನ್ನು ಸ್ಥಾಪಿಸಿ ಸುಮಾರು ಎರಡು ಶತಮಾನಗಳ ಕಾಲ ಅವಿಚ್ಛಿನ್ನವಾಗಿ, ಅಪಾರ ವೈಭವದಿಂದ ರಾಜ್ಯಭಾರ ಮಾಡಿದರು.', 'ದಕ್ಷಿಣ ಭಾರತದ ಇತಿಹಾಸದಲ್ಲಿ ಪ್ರಮುಖ ಪಾತ್ರ ವಹಿಸಿದ ಚಾಳುಕ್ಯ ರಾಜಮನೆತನವು ಭಾರತದ ಪ್ರಬಲ ರಾಜಮನೆತನಗಳಲ್ಲೊಂದು.', 'ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರನೆಯ ಶತಮಾನದಿಂದ ಆರಂಭಗೊಂಡು ಎಂಟನೆಯ ಶತಮಾನದ ಮಧ್ಯಭಾಗದಲ್ಲಿ ಕೊನೆಗೊಂಡಿತು.'] },
     { type: 'content', heading: 'ಸ್ಥಾಪಕ ಮತ್ತು ಪ್ರಸಿದ್ಧ ಚಕ್ರವರ್ತಿ', imageQuery: 'Pulakeshin II', highlight: 'ಸಂಸ್ಥಾಪಕ: ರಾಜಾ ಜಯಸಿಂಹ  •  ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಚಕ್ರವರ್ತಿ: ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', points: ['ರಾಜಾ ಜಯಸಿಂಹನು ಈ ವಂಶದ ಸಂಸ್ಥಾಪಕನು.', 'ಈ ರಾಜವಂಶದ ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಮತ್ತು ಹೆಸರಾಂತ ಚಕ್ರವರ್ತಿಯೆಂದರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ.', 'ಗಂಗರು, ಕದಂಬರು ಮತ್ತು ಅಳುಪರನ್ನು ಗೆದ್ದು, ಈತನು ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವನ್ನು ವಿಸ್ತರಿಸಿದನು.'] },
-    { type: 'content', heading: 'ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ವಿಜಯಗಳು', imageQuery: 'Narmada river', points: ['ದಕ್ಷಿಣ ದಖ್ಖನ್ನಿನಲ್ಲಿ ಪಲ್ಲವರು ತಮ್ಮ ವೈಭವ ಕಾಲದಲ್ಲಿದ್ದರು.', 'ದೊರೆ ಮಹೇಂದ್ರವರ್ಮನು ಪುಲಕೇಶಿಯ ಪರಮಾಧಿಕಾರತ್ವವನ್ನು ಒಪ್ಪಿಕೊಳ್ಳದ ಕಾರಣ ಪುಲಕೇಶಿಯು ಆತನನ್ನು ಸೋಲಿಸಿದನು.', 'ಉತ್ತರ ಭಾರತವನ್ನು ಆಳುತ್ತಿದ್ದ ಹರ್ಷವರ್ಧನನನ್ನು ನರ್ಮದಾ ನದಿಯ ದಂಡೆಯಲ್ಲಿ ತಡೆಗಟ್ಟಿ ಸೋಲಿಸಿದನು.'], highlight: 'ಬಿರುದುಗಳು: ‘ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ’, ‘ತ್ರಿಸಾಗರಗಳಿಂದಾವೃತವಾದ ಪ್ರದೇಶದ ಅಧಿಪತಿ’' },
+    { type: 'content', heading: 'ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ವಿಜಯಗಳು', imageQuery: 'Narmada river', imagePrompt: 'Two ancient Indian armies with war elephants facing each other across the wide Narmada river, 7th century, epic historical painting', caption: 'ನರ್ಮದಾ ನದಿ', points: ['ದಕ್ಷಿಣ ದಖ್ಖನ್ನಿನಲ್ಲಿ ಪಲ್ಲವರು ತಮ್ಮ ವೈಭವ ಕಾಲದಲ್ಲಿದ್ದರು.', 'ದೊರೆ ಮಹೇಂದ್ರವರ್ಮನು ಪುಲಕೇಶಿಯ ಪರಮಾಧಿಕಾರತ್ವವನ್ನು ಒಪ್ಪಿಕೊಳ್ಳದ ಕಾರಣ ಪುಲಕೇಶಿಯು ಆತನನ್ನು ಸೋಲಿಸಿದನು.', 'ಉತ್ತರ ಭಾರತವನ್ನು ಆಳುತ್ತಿದ್ದ ಹರ್ಷವರ್ಧನನನ್ನು ನರ್ಮದಾ ನದಿಯ ದಂಡೆಯಲ್ಲಿ ತಡೆಗಟ್ಟಿ ಸೋಲಿಸಿದನು.'], highlight: 'ಬಿರುದುಗಳು: ‘ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ’, ‘ತ್ರಿಸಾಗರಗಳಿಂದಾವೃತವಾದ ಪ್ರದೇಶದ ಅಧಿಪತಿ’' },
     { type: 'content', heading: 'ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಗೆ ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವೆಲ್ಲವನ್ನೂ ಒಂದೇ ಕೇಂದ್ರದಿಂದ ಆಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.', 'ಆದುದರಿಂದ ತನ್ನ ತಮ್ಮನಾದ ಕುಬ್ಜ ವಿಷ್ಣುವರ್ಧನನನ್ನು ವೆಂಗಿಗೆ ಮತ್ತು ಜಯಸಿಂಹನನ್ನು ಗುಜರಾತ್ ಪ್ರಾಂತ್ಯಕ್ಕೆ ಅಧಿಕಾರಿಗಳನ್ನಾಗಿ ನೇಮಿಸಿದನು.', 'ಮುಂದಿನ ವರ್ಷಗಳಲ್ಲಿ ಇದು ‘ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು’ ಎನ್ನುವ ಹೆಸರಿನಲ್ಲಿ ಸುಮಾರು ಐದು ಶತಮಾನಗಳ ಕಾಲ ರಾಜ್ಯಭಾರ ನಡೆಸಿತು.'] },
-    { type: 'content', heading: 'ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನ ವಿವರಣೆ', imageQuery: 'Xuanzang', points: ['ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಚಾಳುಕ್ಯ ರಾಜಧಾನಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು. ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ ಮತ್ತು ಚಾಳುಕ್ಯ ರಾಜ್ಯದ ಬಗ್ಗೆ ವಿವರಣೆಗಳನ್ನು ನೀಡಿದ್ದಾನೆ.', 'ದೊರೆಯು ನ್ಯಾಯವಾದಿ ಹಾಗೂ ಕರುಣಾಳುವಾಗಿದ್ದನು.', 'ಸೈನ್ಯವು ಶಿಸ್ತಿನಿಂದ ಕೂಡಿದ್ದು, ಸೈನಿಕರು ಮರಣಕ್ಕೆ ಹೆದರದೆ ಕಾದಾಡುವ ಯೋಧರಾಗಿದ್ದರು.', 'ಪ್ರಜೆಗಳು ಸತ್ಯಪ್ರಿಯರು, ಸಂತೋಷಚಿತ್ತರು, ಸ್ವಾಭಿಮಾನಿಗಳು, ಸಂಪದ್ಭರಿತರು, ಗೌರವ ಪ್ರಿಯರು ಮತ್ತು ರಾಜನಿಷ್ಠರಾಗಿದ್ದರು.', 'ರಾಜನಲ್ಲಿ ಅತ್ಯಂತ ಗೌರವ, ಅಂತೆಯೇ ರಾಜನಿಗೆ ಪ್ರಜೆಗಳಲ್ಲಿ ಅಪಾರ ಪ್ರೀತಿ ಇದ್ದಿತು ಎಂದು ಬರೆದಿದ್ದಾನೆ.'] },
+    { type: 'content', heading: 'ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನ ವಿವರಣೆ', imageQuery: 'Xuanzang', imagePrompt: 'A 7th-century Chinese Buddhist traveller monk carrying scrolls, being welcomed at the royal court of a Chalukya king, red sandstone cliffs of Badami behind', caption: 'ಚೀನಾ ಯಾತ್ರಿಕ ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗ್', points: ['ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಚಾಳುಕ್ಯ ರಾಜಧಾನಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು. ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ ಮತ್ತು ಚಾಳುಕ್ಯ ರಾಜ್ಯದ ಬಗ್ಗೆ ವಿವರಣೆಗಳನ್ನು ನೀಡಿದ್ದಾನೆ.', 'ದೊರೆಯು ನ್ಯಾಯವಾದಿ ಹಾಗೂ ಕರುಣಾಳುವಾಗಿದ್ದನು.', 'ಸೈನ್ಯವು ಶಿಸ್ತಿನಿಂದ ಕೂಡಿದ್ದು, ಸೈನಿಕರು ಮರಣಕ್ಕೆ ಹೆದರದೆ ಕಾದಾಡುವ ಯೋಧರಾಗಿದ್ದರು.', 'ಪ್ರಜೆಗಳು ಸತ್ಯಪ್ರಿಯರು, ಸಂತೋಷಚಿತ್ತರು, ಸ್ವಾಭಿಮಾನಿಗಳು, ಸಂಪದ್ಭರಿತರು, ಗೌರವ ಪ್ರಿಯರು ಮತ್ತು ರಾಜನಿಷ್ಠರಾಗಿದ್ದರು.', 'ರಾಜನಲ್ಲಿ ಅತ್ಯಂತ ಗೌರವ, ಅಂತೆಯೇ ರಾಜನಿಗೆ ಪ್ರಜೆಗಳಲ್ಲಿ ಅಪಾರ ಪ್ರೀತಿ ಇದ್ದಿತು ಎಂದು ಬರೆದಿದ್ದಾನೆ.'] },
     { type: 'content', heading: 'ವಿದೇಶಿ ಸಂಬಂಧಗಳು ಮತ್ತು ಚಾಳುಕ್ಯರ ಪತನ', imageQuery: 'Ajanta Persian embassy painting', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಆಶಾವಾದಿ ಚಕ್ರವರ್ತಿಯಾಗಿದ್ದನು. ವಿದೇಶಿ ದೊರೆಗಳೊಂದಿಗೂ ಸ್ನೇಹಮಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಪರ್ಷಿಯನ್ ದೊರೆಯಾದ ಇಮ್ಮಡಿ ಖುಸ್ರುವಿನೊಡನೆ ರಾಯಭಾರಿ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನೆಂದು ಅರಬ್ ಇತಿಹಾಸಕಾರರು ತಿಳಿಸುತ್ತಾರೆ.', 'ತಂದೆ ಮಹೇಂದ್ರವರ್ಮನಿಗೆ ಉಂಟಾದ ಸೋಲಿಗೆ ಪಲ್ಲವರ ದೊರೆಯಾದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಸೇಡು ತೀರಿಸಿಕೊಂಡನು; ಚಾಳುಕ್ಯ ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.', 'ಚಾಳುಕ್ಯರ ಕಡೆಯ ದೊರೆ ಕೀರ್ತಿವರ್ಮನ ಕಾಲದಲ್ಲಿ ರಾಷ್ಟ್ರಕೂಟರು ಈ ಸಾಮ್ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿದರು.'] },
     { type: 'map', heading: 'ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ನಕ್ಷೆ', imageQuery: 'Chalukya Empire map', points: ['ಭೂಪಟದಲ್ಲಿ ಗುರುತಿಸಿ: ಬಾದಾಮಿ (ವಾತಾಪಿ), ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು', 'ವೆಂಗಿ – ವೆಂಗಿಯ ಚಾಳುಕ್ಯರ ಕೇಂದ್ರ', 'ನರ್ಮದಾ ನದಿ – ಹರ್ಷವರ್ಧನನನ್ನು ತಡೆದ ಸ್ಥಳ', 'ಕಂಚಿ – ಪಲ್ಲವರ ರಾಜಧಾನಿ'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಪುಟ 20 ರ ನಕ್ಷೆಯನ್ನೂ ಮಕ್ಕಳಿಗೆ ತೋರಿಸಿ. ಮಕ್ಕಳಿಂದಲೇ ಸ್ಥಳಗಳನ್ನು ಗುರುತಿಸುವಂತೆ ಹೇಳಿ.' },
-    { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕೊಡುಗೆಗಳು', points: ['ಕನ್ನಡ ನಾಡು, ನುಡಿ, ಸಂಸ್ಕೃತಿಗಳನ್ನು ಬೆಳೆಸಿ, ಪೋಷಿಸಿ, ರಕ್ಷಿಸಿ, ಧರ್ಮ, ಸಾಹಿತ್ಯ, ಕಲೆ, ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಅಗಾಧ ಕೊಡುಗೆ ನೀಡಿದವರು.', 'ಅವರ ಸೈನ್ಯವನ್ನು ‘ಕರ್ಣಾಟಬಲ’ ಎಂದು ಕರೆಯಲಾಗಿತ್ತು.', 'ಕರ್ನಾಟಕ ಚರಿತ್ರೆಯಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಅತ್ಯಂತ ಶ್ರೇಷ್ಠವೂ ವೈಭವಯುಕ್ತವೂ ಆದ ಒಂದು ಯುಗ.', 'ಈ ಯುಗವು ಸೈನಿಕ ಕ್ಷೇತ್ರದಲ್ಲಿ ಅಲ್ಲದೆ ಕಲೆ ಮತ್ತು ಸಾಹಿತ್ಯ ರಂಗಗಳಲ್ಲಿಯೂ ಹಾಗೆಯೇ ಗಮನಾರ್ಹವಾದುದು.'] },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕೊಡುಗೆಗಳು', question: 'ಸೈನ್ಯಕ್ಕೆ ‘ಕರ್ಣಾಟಬಲ’ ಎಂಬ ಹೆಸರು ಏಕೆ ಹೆಮ್ಮೆಯ ಹೆಸರು? ಯೋಚಿಸಿ.', points: ['ಕನ್ನಡ ನಾಡು, ನುಡಿ, ಸಂಸ್ಕೃತಿಗಳನ್ನು ಬೆಳೆಸಿ, ಪೋಷಿಸಿ, ರಕ್ಷಿಸಿ, ಧರ್ಮ, ಸಾಹಿತ್ಯ, ಕಲೆ, ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಅಗಾಧ ಕೊಡುಗೆ ನೀಡಿದವರು.', 'ಅವರ ಸೈನ್ಯವನ್ನು ‘ಕರ್ಣಾಟಬಲ’ ಎಂದು ಕರೆಯಲಾಗಿತ್ತು.', 'ಕರ್ನಾಟಕ ಚರಿತ್ರೆಯಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಅತ್ಯಂತ ಶ್ರೇಷ್ಠವೂ ವೈಭವಯುಕ್ತವೂ ಆದ ಒಂದು ಯುಗ.', 'ಈ ಯುಗವು ಸೈನಿಕ ಕ್ಷೇತ್ರದಲ್ಲಿ ಅಲ್ಲದೆ ಕಲೆ ಮತ್ತು ಸಾಹಿತ್ಯ ರಂಗಗಳಲ್ಲಿಯೂ ಹಾಗೆಯೇ ಗಮನಾರ್ಹವಾದುದು.'] },
     { type: 'flow', heading: 'ಚಾಳುಕ್ಯರ ಆಡಳಿತ ವ್ಯವಸ್ಥೆ', points: ['ರಾಜ – ಸಕ್ರಿಯವಾಗಿ ಆಡಳಿತದಲ್ಲಿ ಭಾಗವಹಿಸುತ್ತಿದ್ದನು', 'ವಿಷಯ (ಜಿಲ್ಲೆ) – ರಾಜ್ಯವನ್ನು ವಿಷಯಗಳಾಗಿ ವಿಂಗಡಿಸಲಾಗಿತ್ತು; ವಿಷಯಾಧಿಪತಿಯು ಉಸ್ತುವಾರಿ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದನು', 'ಗ್ರಾಮ – ಆಡಳಿತ ಘಟಕಗಳಲ್ಲಿ ಅತ್ಯಂತ ಚಿಕ್ಕದು; ಗ್ರಾಮ ಮುಖ್ಯಸ್ಥರು ಲೆಕ್ಕಪತ್ರಗಳ ವಹಿವಾಟನ್ನು ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದರು'], highlight: 'ಚಾಳುಕ್ಯರು ಸುಮಾರು 200 ವರ್ಷಗಳ ಕಾಲ ಆಡಳಿತ ನಡೆಸಿದರು.' },
     { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕಾಲದ ಧರ್ಮ', imageQuery: 'Meguti Jain temple Aihole', points: ['ಚಾಳುಕ್ಯರು ಶೈವ, ವೈಷ್ಣವ, ಜೈನ ಮುಂತಾದ ಎಲ್ಲ ಪಂಥಗಳ ಸಂಪ್ರದಾಯಗಳನ್ನು ಪ್ರೋತ್ಸಾಹಿಸಿದರು.', 'ಜೈನ ದೇವಾಲಯಗಳ ನಿರ್ಮಾಣಕ್ಕೆ ಇವರು ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.', 'ಬೌದ್ಧ ವಿಹಾರಗಳೂ ಕೂಡ ಪ್ರೋತ್ಸಾಹಿಸಲ್ಪಟ್ಟವು.'] },
     { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕಾಲದ ಸಾಹಿತ್ಯ', imageQuery: 'Kappe Arabhatta inscription Badami', points: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಸಾಹಿತ್ಯಕ್ಕೆ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು. ಕನ್ನಡ ಹಾಗೂ ಸಂಸ್ಕೃತ ಭಾಷೆಗಳು ಚೆನ್ನಾಗಿ ಬೆಳೆದವು.', 'ಕನ್ನಡವು ಅವರ ದೇಶ ಭಾಷೆಯಾಗಿತ್ತು.', 'ಈ ಕಾಲದ ಕಾವ್ಯದಲ್ಲಿ ತ್ರಿಪದಿ ಶೈಲಿಯು ಬೆಳವಣಿಗೆಯಾಯಿತು.', 'ಕನ್ನಡದಲ್ಲಿ ಕೃತಿಗಳು ಇಲ್ಲವಾದರೂ ಅನೇಕ ಶಾಸನಗಳು ಕನ್ನಡದಲ್ಲಿ ಬರೆಯಲ್ಪಟ್ಟಿವೆ.', 'ಬಾದಾಮಿಯ ಕಪ್ಪೆ ಅರಭಟ್ಟನ ಶಾಸನದ ಒಂದು ಪದ್ಯವು ತ್ರಿಪದಿ ಶೈಲಿಯಲ್ಲಿರುವುದು ಕಂಡುಬರುತ್ತದೆ.'] },
@@ -1709,22 +2184,24 @@ const SAMPLE = {
     { type: 'keywords', heading: 'ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು ಮತ್ತು ನಾಟಕಗಳು', points: ['ರವಿಕೀರ್ತಿ, ವಿಜ್ಜಿಕ, ಅಕಳಂಕ – ಈ ಕಾಲದ ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು', 'ವಿಜ್ಜಿಕ – ಎರಡನೇ ಪುಲಕೇಶಿಯ ಸೊಸೆಯಾದ ಕವಯಿತ್ರಿ; ‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’ ಬರೆದವಳು', 'ಶಿವಭಟ್ಟಾರಕ – ‘ಹರ ಪಾರ್ವತೀಯ’ ಬರೆದವನು', '‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’, ‘ಹರ ಪಾರ್ವತೀಯ’ – ಮುಖ್ಯವಾದ ಸಂಸ್ಕೃತ ನಾಟಕಗಳು'] },
     { type: 'content', heading: 'ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ', imageQuery: 'Badami cave temple sculpture', points: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮಹಾನ್ ನಿರ್ಮಾಪಕರು ಹಾಗೂ ಕಲಾ ಪ್ರೇಮಿಗಳೂ ಆಗಿದ್ದರು.', 'ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲುಗಳಲ್ಲಿ ಸೊಗಸಾದ ಅತ್ಯುತ್ಕೃಷ್ಟವಾದ ದೇವಾಲಯಗಳನ್ನು ನಿರ್ಮಿಸಿದರು.', 'ಇವರು ‘ಚಾಳುಕ್ಯ ಶೈಲಿ’ ಅಥವಾ ‘ವೇಸರ ಶೈಲಿ’ ಎಂಬ ವಿಶಿಷ್ಟ ಶಿಲ್ಪಕಲಾ ಶೈಲಿಯನ್ನು ಭಾರತೀಯ ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿದರು.', 'ಬಾದಾಮಿಯಲ್ಲಿರುವ ಶಿಲೆಯಲ್ಲಿ ಕೊರೆದ ಗುಹಾಂತರ ದೇವಾಲಯಗಳನ್ನು ಇವರು ನಿರ್ಮಿಸಿದರು.', 'ಅನೇಕ ಕಲಾವಿದರು ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಕಲಾಕಾರರಿಗೆ ಇವರು ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.'] },
     { type: 'content', heading: 'ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲು', imageQuery: 'Durga temple Aihole', points: ['ಚಾಳುಕ್ಯ ಶೈಲಿಯ ಅತ್ಯುತ್ತಮ ದೇವಾಲಯಗಳು ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿವೆ.', 'ದೇವಾಲಯ ವಾಸ್ತುಶಿಲ್ಪದ ತೊಟ್ಟಿಲುಗಳಲ್ಲಿ ಐಹೊಳೆಯು ಒಂದಾಗಿದೆ.', 'ದೇವಾಲಯ ವಾಸ್ತುಶಿಲ್ಪದ ಕ್ರಮ ಸರಣಿಯ ವಿಕಾಸದಲ್ಲಿನ ಪ್ರಯೋಗಗಳನ್ನು ಇಲ್ಲಿ ನಡೆಸಲಾಯಿತು.', 'ಈ ಶೈಲಿಯು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿ ಸಂಪೂರ್ಣ ವಿಕಾಸ ಹೊಂದಿತು.'] },
+    { type: 'gallery', heading: 'ಚಾಳುಕ್ಯರ ಕಲಾ ವೈಭವ', images: [{ imageQuery: 'Badami cave temple', caption: 'ಬಾದಾಮಿ – ಗುಹಾಂತರ ದೇವಾಲಯ' }, { imageQuery: 'Durga temple Aihole', caption: 'ಐಹೊಳೆ – ವಾಸ್ತುಶಿಲ್ಪದ ತೊಟ್ಟಿಲು' }, { imageQuery: 'Virupaksha Temple Pattadakal', caption: 'ಪಟ್ಟದಕಲ್ಲು – ವಿರೂಪಾಕ್ಷ ದೇವಾಲಯ' }], highlight: '‘ಚಾಳುಕ್ಯ ಶೈಲಿ’ = ‘ವೇಸರ ಶೈಲಿ’' },
     { type: 'content', heading: 'ಪ್ರಸಿದ್ಧ ದೇವಾಲಯಗಳು ಮತ್ತು ವಿಗ್ರಹಗಳು', imageQuery: 'Virupaksha Temple Pattadakal', points: ['ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿ ಲೋಕೇಶ್ವರ (ವಿರೂಪಾಕ್ಷ) ಮತ್ತು ತ್ರೈಲೋಕೇಶ್ವರ (ಮಲ್ಲಿಕಾರ್ಜುನ) ಮುಂತಾದ ಪ್ರಸಿದ್ಧ ದೇವಾಲಯಗಳನ್ನು ಕಾಣಬಹುದು.', 'ಬಾದಾಮಿಯ ಗುಹೆಗಳಲ್ಲಿರುವ ವಿಷ್ಣು, ವರಾಹ, ಹರಿಹರ, ಅರ್ಧನಾರೀಶ್ವರರ ಎತ್ತರದ ವಿಗ್ರಹಗಳು ಚಾಳುಕ್ಯರ ಕಲಾತ್ಮಕ ಸಾಧನೆಯ ಅತ್ಯುತ್ತಮ ಕುರುಹುಗಳಾಗಿವೆ.', 'ಚಿತ್ರಕಲೆಗೂ ಇಲ್ಲಿ ಪ್ರೋತ್ಸಾಹ ಸಿಕ್ಕಿತು.'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಚಿತ್ರ: ವಿರೂಪಾಕ್ಷ ದೇವಾಲಯ, ಪಟ್ಟದಕಲ್ಲು (ಪುಟ 21).' },
-    { type: 'section', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಸಾ.ಶ. 350 – 895' },
+    { type: 'section', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಸಾ.ಶ. 350 – 895', imageQuery: 'Kailasanathar Temple Kanchipuram' },
     { type: 'content', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು – ಪರಿಚಯ', imageQuery: 'Kanchipuram Kailasanathar temple', points: ['ಪಲ್ಲವರು ತಮಿಳುನಾಡಿನ ಪ್ರಪ್ರಥಮ ರಾಜರುಗಳು. ದಕ್ಷಿಣ ಭಾರತವನ್ನು ಆಳಿದ ವಂಶಗಳಲ್ಲಿ ಇವರಿಗೆ ವಿಶೇಷ ಸ್ಥಾನವಿದೆ.', 'ಸಾ.ಶ. 4ನೇ ಶತಮಾನದಿಂದ ಸಾ.ಶ. 9ನೇ ಶತಮಾನದವರೆಗೆ ಆಳಿದರು.', 'ಪ್ರಾರಂಭದಲ್ಲಿ ಇವರು ಶಾತವಾಹನರ ಅಧಿಕಾರಿಗಳಾಗಿದ್ದರು. ಶಾತವಾಹನ ರಾಜ್ಯವು ಅವನತಿಯಾದಾಗ ಪಲ್ಲವರು ತಮ್ಮನ್ನು ತಾವೇ ಸ್ಥಳೀಯ ರಾಜರುಗಳೆಂದು ಘೋಷಿಸಿಕೊಂಡರು.', 'ಶಿವಸ್ಕಂದವರ್ಮನು ಈ ಸಂತತಿಯ ಮೊದಲ ದೊರೆ ಹಾಗೂ ಈ ವಂಶದ ಆಳ್ವಿಕೆಯ ಸ್ಥಾಪಕನು.'] },
-    { type: 'content', heading: 'ಚಾಳುಕ್ಯ – ಪಲ್ಲವ ಸಂಘರ್ಷ', points: ['ಪಲ್ಲವರು ಮತ್ತು ಕದಂಬರು ನಿರಂತರ ವೈರ ಹೊಂದಿದ್ದರು.', 'ಚಾಳುಕ್ಯ ವಂಶದ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಪಲ್ಲವರ ಮಹೇಂದ್ರವರ್ಮನನ್ನು ಸೋಲಿಸಿದನು.', 'ಮುಂದೆ ಬಂದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಪಲ್ಲವ ರಾಜರುಗಳಲ್ಲಿ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧನು.', 'ತನಗೆ ಚಾಳುಕ್ಯರ ಮೇಲಿದ್ದ ಸೇಡನ್ನು ತೀರಿಸಿಕೊಂಡು, ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯನ್ನು ಸೋಲಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.'] },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯ – ಪಲ್ಲವ ಸಂಘರ್ಷ', fact: 'ವಾತಾಪಿ ಎಂಬುದು ಬಾದಾಮಿಯ ಹಳೆಯ ಹೆಸರು. ಅದನ್ನು ವಶಪಡಿಸಿಕೊಂಡದ್ದರಿಂದಲೇ ನರಸಿಂಹವರ್ಮನಿಗೆ ‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದು ಬಂತು.', points: ['ಪಲ್ಲವರು ಮತ್ತು ಕದಂಬರು ನಿರಂತರ ವೈರ ಹೊಂದಿದ್ದರು.', 'ಚಾಳುಕ್ಯ ವಂಶದ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಪಲ್ಲವರ ಮಹೇಂದ್ರವರ್ಮನನ್ನು ಸೋಲಿಸಿದನು.', 'ಮುಂದೆ ಬಂದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಪಲ್ಲವ ರಾಜರುಗಳಲ್ಲಿ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧನು.', 'ತನಗೆ ಚಾಳುಕ್ಯರ ಮೇಲಿದ್ದ ಸೇಡನ್ನು ತೀರಿಸಿಕೊಂಡು, ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯನ್ನು ಸೋಲಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.'] },
     { type: 'content', heading: 'ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', imageQuery: 'Mahabalipuram monuments', highlight: 'ಬಿರುದುಗಳು: ‘ಮಹಾಮಲ್ಲ’ ಮತ್ತು ‘ವಾತಾಪಿಕೊಂಡ’', points: ['ಈತನು ‘ಮಹಾಮಲ್ಲ’ ಮತ್ತು ‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದುಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಈತನ ಆಳ್ವಿಕೆಯ ಕಾಲದಲ್ಲಿ ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಕಂಚಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು.', 'ಕಂಚಿ ಬಳಿಯಲ್ಲಿನ ಸಮುದ್ರ ತೀರದಲ್ಲಿ ನರಸಿಂಹವರ್ಮನು ಒಂದು ನಗರವನ್ನು ನಿರ್ಮಿಸಿ, ಅದಕ್ಕೆ ‘ಮಹಾಬಲಿಪುರಂ’ ಎಂಬ ಹೆಸರನ್ನು ಇಟ್ಟನು.', 'ಅನೇಕ ಏಕಶಿಲಾ ದೇವಾಲಯಗಳು ಈತನಿಂದ ನಿರ್ಮಾಣವಾದವು.', 'ಅಪರಾಜಿತ ಪಲ್ಲವನ ಆಳ್ವಿಕೆಯ ಕಾಲದಲ್ಲಿ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯ ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಕೊನೆಗೊಂಡಿತು.'] },
     { type: 'content', heading: 'ಪಲ್ಲವರ ಕೊಡುಗೆಗಳು – ಆಡಳಿತ', points: ['ಪಲ್ಲವರು ತಮಿಳುನಾಡಿನಲ್ಲಿ ಆಡಳಿತವನ್ನು ವ್ಯವಸ್ಥೆಗೊಳಿಸಿದ್ದರು.', 'ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣಗಳಲ್ಲಿ ಇವರ ಕಾಣಿಕೆಯು ಗಮನಾರ್ಹವಾದುದು.', 'ವಾತಾಪಿಯಲ್ಲಿ ಚಾಳುಕ್ಯರೂ, ಕಂಚಿಯಲ್ಲಿ ಪಲ್ಲವರೂ ಆಳುತ್ತಿದ್ದ ಕಾಲವೇ ದಕ್ಷಿಣದಲ್ಲಿ ವೀರಯುಗ.', 'ಇವರ ರಾಜ್ಯವು ಸದೃಢ, ಸುವ್ಯವಸ್ಥಿತವಾಗಿದ್ದು, ಮಂತ್ರಿ ಮತ್ತು ಪ್ರಾಂತಾಧಿಕಾರಿಗಳಿದ್ದರು.'] },
     { type: 'flow', heading: 'ಪಲ್ಲವರ ಆಡಳಿತ ವಿಭಾಗಗಳು', points: ['ರಾಜ್ಯ – ಮಂತ್ರಿ ಮತ್ತು ಪ್ರಾಂತಾಧಿಕಾರಿಗಳಿದ್ದರು', 'ಮಂಡಲ – ರಾಜ್ಯದ ದೊಡ್ಡ ವಿಭಾಗ', 'ನಾಡು – ಮಂಡಲದ ಉಪವಿಭಾಗ', 'ಗ್ರಾಮ – ಗ್ರಾಮ ಸಭೆಯು ಗ್ರಾಮದ ಸಮಸ್ಯೆಗಳನ್ನು ಗಮನಿಸುತ್ತಿತ್ತು; ಗ್ರಾಮಭೋಜಕ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದನು'], highlight: 'ರಾಜ್ಯವನ್ನು ಮಂಡಲ, ನಾಡು ಮತ್ತು ಗ್ರಾಮಗಳಾಗಿ ವಿಭಾಗಿಸಿದ್ದರು.' },
     { type: 'keywords', heading: 'ಪಲ್ಲವರ ಕಾಲದ ಸಾಹಿತ್ಯ', highlight: 'ಪಲ್ಲವರು ಸಂಸ್ಕೃತ ಮತ್ತು ತಮಿಳು ಭಾಷೆಗಳೆರಡಕ್ಕೂ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು. ಕಂಚಿಯು ಸಂಸ್ಕೃತ ಸಾಹಿತ್ಯದ ಕೇಂದ್ರವಾಗಿತ್ತು.', points: ['ಭಾರವಿ – ಪಲ್ಲವರ ಆಸ್ಥಾನ ಕವಿ; ‘ಕಿರಾತಾರ್ಜುನೀಯ’ ಕೃತಿಯ ಕರ್ತೃ', 'ದಂಡಿ – ಪಲ್ಲವರ ಆಸ್ಥಾನ ಕವಿ; ‘ದಶಕುಮಾರ ಚರಿತ’ ಕೃತಿಯ ಕರ್ತೃ', 'ರಾಜ ಮಹೇಂದ್ರವರ್ಮ – ಸ್ವತಃ ‘ಮತ್ತ ವಿಲಾಸ ಪ್ರಹಸನ’ ಎಂಬ ಸಾಮಾಜಿಕ ನಾಟಕವನ್ನು ಹಾಗೂ ‘ಭಗವದಜ್ಜುಕಂ’ ಗ್ರಂಥವನ್ನು ರಚಿಸಿದ್ದಾನೆ'] },
-    { type: 'content', heading: 'ಪಲ್ಲವರ ಕಾಲದ ಧರ್ಮ', points: ['ಪಲ್ಲವರು ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೂ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.', 'ಮೊದಲು ಪಲ್ಲವ ದೊರೆಗಳು ಬೌದ್ಧಧರ್ಮೀಯರಾಗಿದ್ದರು.', 'ನಳಂದ ವಿದ್ಯಾನಿಲಯದ ಮಹಾನ್ ವಿದ್ವಾಂಸ ಧರ್ಮಪಾಲನು ಕಂಚಿಯಲ್ಲಿ ಜನಿಸಿದವನು.', 'ಮಹೇಂದ್ರವರ್ಮನು ಜೈನ ಧರ್ಮಾವಲಂಬಿಯಾದುದರಿಂದ ನಾಡಿನಲ್ಲಿ ಅನೇಕ ಜೈನರಿದ್ದರು.'] },
+    { type: 'content', heading: 'ಪಲ್ಲವರ ಕಾಲದ ಧರ್ಮ', fact: 'ನಳಂದ ವಿದ್ಯಾನಿಲಯದ ಮಹಾನ್ ವಿದ್ವಾಂಸ ಧರ್ಮಪಾಲನು ಕಂಚಿಯಲ್ಲಿ ಜನಿಸಿದವನು.', points: ['ಪಲ್ಲವರು ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೂ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.', 'ಮೊದಲು ಪಲ್ಲವ ದೊರೆಗಳು ಬೌದ್ಧಧರ್ಮೀಯರಾಗಿದ್ದರು.', 'ಮಹೇಂದ್ರವರ್ಮನು ಜೈನ ಧರ್ಮಾವಲಂಬಿಯಾದುದರಿಂದ ನಾಡಿನಲ್ಲಿ ಅನೇಕ ಜೈನರಿದ್ದರು.'] },
     { type: 'compare', heading: 'ಭಕ್ತಿ ಚಳುವಳಿ – ಶೈವ ಮತ್ತು ವೈಷ್ಣವ', left: { title: 'ನಾಯನ್ನಾರರು', points: ['63 ಯತಿ ಶ್ರೇಷ್ಠರು', 'ಶೈವ ಮತವನ್ನು ಪ್ರಚಾರಗೊಳಿಸಿದರು'] }, right: { title: 'ಆಳ್ವಾರರು', points: ['12 ಮಂದಿ ಆಳ್ವಾರರುಗಳು', 'ವೈಷ್ಣವ ಮತವನ್ನು ಪ್ರಚಾರಗೊಳಿಸಿದರು'] }, highlight: '7ನೇ ಶತಮಾನದಲ್ಲಿ ಶೈವ – ವೈಷ್ಣವ ಭಕ್ತಿ ಪಂಥಗಳು ಜನಪ್ರಿಯವಾದವು.' },
     { type: 'content', heading: 'ಭಕ್ತಿ ಚಳುವಳಿಯ ಪರಿಣಾಮ', points: ['ಈ ಯುಗವು ಭಕ್ತಿ ಚಳುವಳಿಯ ಉದಯವನ್ನು ಕಂಡಿತು.', 'ವೈದಿಕ ಧರ್ಮದ ಪುನರುಜ್ಜೀವನಕ್ಕೂ ಸಹಾಯ ಮಾಡಿತು.', 'ತಮಿಳಿನಲ್ಲಿ ಶ್ಲೋಕಗಳು ರಚನೆಯಾದವು. ಇದೇ ತಮಿಳು ಸಾಹಿತ್ಯದ ನಿಧಿಯಾಗಿದೆ.'] },
     { type: 'content', heading: 'ಪಲ್ಲವರ ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ', imageQuery: 'Pancha Rathas Mahabalipuram', points: ['ಪಲ್ಲವರು ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪದ ಪ್ರೇಮಿಗಳಾಗಿದ್ದರು. ತಮ್ಮ ರಾಜ್ಯದಲ್ಲಿ ಇವರು ಅನೇಕ ದೇವಾಲಯಗಳನ್ನು ನಿರ್ಮಿಸಿದರು.', 'ಈ ದೇವಾಲಯಗಳಲ್ಲಿ ಅತ್ಯುತ್ತಮ ಕಲಾಕೌಶಲತೆಯನ್ನು ಕಾಣಬಹುದು.', 'ಪಲ್ಲವರ ವಾಸ್ತುಶಿಲ್ಪವನ್ನು ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದು ಮಾಡಿದ ದೇವಾಲಯಗಳು ಮತ್ತು ರಚನಾ ವಿನ್ಯಾಸದ ದೇವಾಲಯಗಳು ಎಂಬುದಾಗಿ ವಿಂಗಡಿಸಬಹುದು.'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಚಿತ್ರ: ಮಹಾಬಲಿಪುರ ಪಂಚರಥಗಳು (ಪುಟ 23).' },
     { type: 'content', heading: 'ಮಹಾಬಲಿಪುರದ ಶಿಲ್ಪಕಲೆ', imageQuery: "Arjuna's Penance Mahabalipuram", points: ['ಮಹಾಬಲಿಪುರದಲ್ಲಿ ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದು ಮಾಡಿದ ಅನೇಕ ದೇವಾಲಯಗಳನ್ನು ಕಾಣಬಹುದು.', 'ಏಕಶಿಲೆಗಳಲ್ಲಿ ಅದ್ಭುತ ವಿಗ್ರಹಗಳನ್ನು ಕೆತ್ತಿ, ಬಿಡಿಸಲಾಗಿದೆ. ಇವುಗಳು ಮಹಾಭಾರತದ ಹಾಗೂ ಭಾಗವತದ ಕಥೆಗಳನ್ನು ಹೊಂದಿವೆ.', 'ಇಲ್ಲಿನ ಪಂಚ ರಥಗಳು ಸುಪ್ರಸಿದ್ಧ ಏಕಶಿಲಾ ದೇವಾಲಯಗಳಾಗಿವೆ.', '‘ಅರ್ಜುನನ ತಪಸ್ಸು’ ಎನ್ನುವ ಕೆತ್ತನೆ ದೃಶ್ಯವು ಅತ್ಯುತ್ತಮ ಕಲಾಕೃತಿಯಾಗಿದೆ.'] },
+    { type: 'gallery', heading: 'ಕಲ್ಲಿನಲ್ಲಿ ಅರಳಿದ ಕಲೆ: ಮಹಾಬಲಿಪುರ', images: [{ imageQuery: 'Pancha Rathas Mahabalipuram', caption: 'ಪಂಚ ರಥಗಳು – ಏಕಶಿಲಾ ದೇವಾಲಯಗಳು' }, { imageQuery: "Arjuna's Penance Mahabalipuram", caption: 'ಅರ್ಜುನನ ತಪಸ್ಸು – ಅದ್ಭುತ ಕೆತ್ತನೆ' }], highlight: 'ನರಸಿಂಹವರ್ಮನು ಸಮುದ್ರ ತೀರದಲ್ಲಿ ನಿರ್ಮಿಸಿದ ನಗರ – ‘ಮಹಾಬಲಿಪುರಂ’' },
     { type: 'content', heading: 'ಪ್ರಾಚೀನ ವಾಸ್ತುಶಿಲ್ಪದ ಅತ್ಯುತ್ತಮ ನಿದರ್ಶನಗಳು', imageQuery: 'Shore Temple Mahabalipuram', points: ['ಕಂಚಿಯಲ್ಲಿನ ಕೈಲಾಸನಾಥ, ಏಕಾಂಬರನಾಥ ಮತ್ತು ವೈಕುಂಠ ಪೆರುಮಾಳರ ದೇವಾಲಯಗಳು', 'ಮಹಾಬಲಿಪುರದ ಕಡಲದಂಡೆಯ ದೇವಾಲಯ', 'ಇವು ಪ್ರಾಚೀನ ಭಾರತ ವಾಸ್ತುಶಿಲ್ಪದ ಅತ್ಯುತ್ತಮ ನಿದರ್ಶನಗಳಾಗಿವೆ.'] },
-    { type: 'content', heading: 'ದೇವಾಲಯಗಳು – ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳು', imageQuery: 'Ekambareswarar Temple Kanchipuram', points: ['ದೇವಾಲಯಗಳು ಧಾರ್ಮಿಕ ಹಾಗೂ ಕಲಾತ್ಮಕ ಚಟುವಟಿಕೆಗಳ ಕೇಂದ್ರಗಳಾದವು.', 'ದೇವಾಲಯದ ಅಂಗಳಗಳಲ್ಲಿ ಸಂಜೆ ಸಮಯದಲ್ಲಿ ಗ್ರಾಮೀಣ ಜನರು ಕಲೆತು ಅನೇಕ ವಿಷಯಗಳನ್ನು ಚರ್ಚಿಸುತ್ತಿದ್ದರು.', 'ವಿರಾಮ ವೇಳೆಯಲ್ಲಿ ಜನರು ಇಲ್ಲಿ ಸಭೆ ಸೇರುತ್ತಿದ್ದು ಹಾಗೂ ಪುರಾಣ ಕೇಳುವುದು ಮತ್ತು ಭಕ್ತಿ ಗೀತೆಗಳನ್ನು ಹಾಡುತ್ತಿದ್ದರು.', 'ಹೀಗಾಗಿ ದೇವಾಲಯಗಳು ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳಾಗಿದ್ದವು.'] },
-    { type: 'content', heading: 'ನೌಕಾಬಲ ಮತ್ತು ವಿದೇಶಿ ವ್ಯಾಪಾರ', imageQuery: 'Southeast Asia map', points: ['ಪಲ್ಲವರು ಒಳ್ಳೆಯ ನೌಕಾಬಲವನ್ನು ಹೊಂದಿದ್ದರು.', 'ಇಲ್ಲಿನ ವರ್ತಕರು ಮಲಯ, ಇಂಡೋನೇಷಿಯಾ ಹಾಗೂ ಇತರ ಆಗ್ನೇಯ ಏಷ್ಯಾ ರಾಷ್ಟ್ರಗಳೊಡನೆ ವಾಣಿಜ್ಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದರು.', 'ಭಾರತೀಯ ಭಾಷೆ, ಧರ್ಮ, ಸಂಪ್ರದಾಯ, ಸಂಸ್ಕೃತಿಗಳು ಆ ದೇಶಗಳಲ್ಲಿಯೂ ಪ್ರಭಾವ ಬೀರಿರುವುದನ್ನು ಕಾಣಬಹುದು.'] },
+    { type: 'content', heading: 'ದೇವಾಲಯಗಳು – ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳು', imageQuery: 'Ekambareswarar Temple Kanchipuram', question: 'ಇಂದು ನಮ್ಮ ಊರಿನ ಜನರು ಒಟ್ಟಾಗಿ ಸೇರಿ ಚರ್ಚಿಸುವ ಸ್ಥಳ ಯಾವುದು?', points: ['ದೇವಾಲಯಗಳು ಧಾರ್ಮಿಕ ಹಾಗೂ ಕಲಾತ್ಮಕ ಚಟುವಟಿಕೆಗಳ ಕೇಂದ್ರಗಳಾದವು.', 'ದೇವಾಲಯದ ಅಂಗಳಗಳಲ್ಲಿ ಸಂಜೆ ಸಮಯದಲ್ಲಿ ಗ್ರಾಮೀಣ ಜನರು ಕಲೆತು ಅನೇಕ ವಿಷಯಗಳನ್ನು ಚರ್ಚಿಸುತ್ತಿದ್ದರು.', 'ವಿರಾಮ ವೇಳೆಯಲ್ಲಿ ಜನರು ಇಲ್ಲಿ ಸಭೆ ಸೇರುತ್ತಿದ್ದು ಹಾಗೂ ಪುರಾಣ ಕೇಳುವುದು ಮತ್ತು ಭಕ್ತಿ ಗೀತೆಗಳನ್ನು ಹಾಡುತ್ತಿದ್ದರು.', 'ಹೀಗಾಗಿ ದೇವಾಲಯಗಳು ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳಾಗಿದ್ದವು.'] },
+    { type: 'content', heading: 'ನೌಕಾಬಲ ಮತ್ತು ವಿದೇಶಿ ವ್ಯಾಪಾರ', imageQuery: 'Southeast Asia map', question: 'ಇಂದು ಭಾರತದ ಹಡಗುಗಳು ಯಾವ ಯಾವ ದೇಶಗಳಿಗೆ ವ್ಯಾಪಾರಕ್ಕೆ ಹೋಗುತ್ತವೆ?', points: ['ಪಲ್ಲವರು ಒಳ್ಳೆಯ ನೌಕಾಬಲವನ್ನು ಹೊಂದಿದ್ದರು.', 'ಇಲ್ಲಿನ ವರ್ತಕರು ಮಲಯ, ಇಂಡೋನೇಷಿಯಾ ಹಾಗೂ ಇತರ ಆಗ್ನೇಯ ಏಷ್ಯಾ ರಾಷ್ಟ್ರಗಳೊಡನೆ ವಾಣಿಜ್ಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದರು.', 'ಭಾರತೀಯ ಭಾಷೆ, ಧರ್ಮ, ಸಂಪ್ರದಾಯ, ಸಂಸ್ಕೃತಿಗಳು ಆ ದೇಶಗಳಲ್ಲಿಯೂ ಪ್ರಭಾವ ಬೀರಿರುವುದನ್ನು ಕಾಣಬಹುದು.'] },
     { type: 'timeline', heading: 'ಕಾಲರೇಖೆ', points: ['ಸಾ.ಶ. 350 – ಕಂಚಿಯ ಪಲ್ಲವರ ಆಳ್ವಿಕೆ ಆರಂಭ', 'ಸಾ.ಶ. 540 – ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರಂಭ', '7ನೇ ಶತಮಾನ – ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ, ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ; ಭಕ್ತಿ ಪಂಥಗಳು ಜನಪ್ರಿಯ', 'ಸಾ.ಶ. 753 – ರಾಷ್ಟ್ರಕೂಟರಿಂದ ಚಾಳುಕ್ಯ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ', 'ಸಾ.ಶ. 895 – ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ'] },
     { type: 'compare', heading: 'ಹೋಲಿಸಿ ನೋಡೋಣ', left: { title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', points: ['ಕಾಲ: ಸಾ.ಶ. 540 – 753', 'ಸ್ಥಾಪಕ: ಜಯಸಿಂಹ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', 'ಆಡಳಿತ: ವಿಷಯ (ಜಿಲ್ಲೆ), ಗ್ರಾಮ', 'ಶೈಲಿ: ಚಾಳುಕ್ಯ / ವೇಸರ ಶೈಲಿ', 'ಕೇಂದ್ರಗಳು: ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು'] }, right: { title: 'ಕಂಚಿಯ ಪಲ್ಲವರು', points: ['ಕಾಲ: ಸಾ.ಶ. 350 – 895', 'ಸ್ಥಾಪಕ: ಶಿವಸ್ಕಂದವರ್ಮ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', 'ಆಡಳಿತ: ಮಂಡಲ, ನಾಡು, ಗ್ರಾಮ', 'ಶೈಲಿ: ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದ ಮತ್ತು ರಚನಾ ದೇವಾಲಯಗಳು', 'ಕೇಂದ್ರಗಳು: ಕಂಚಿ, ಮಹಾಬಲಿಪುರ'] } },
     { type: 'keywords', heading: 'ಪ್ರಮುಖ ಪದಗಳು ಮತ್ತು ಬಿರುದುಗಳು', points: ['ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ – ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ಬಿರುದು', 'ಕರ್ಣಾಟಬಲ – ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸೈನ್ಯದ ಹೆಸರು', 'ವೇಸರ ಶೈಲಿ – ಚಾಳುಕ್ಯರು ಪ್ರಾರಂಭಿಸಿದ ಶಿಲ್ಪಕಲಾ ಶೈಲಿ', 'ತ್ರಿಪದಿ – ಈ ಕಾಲದಲ್ಲಿ ಬೆಳೆದ ಕನ್ನಡ ಕಾವ್ಯ ಶೈಲಿ', 'ಮಹಾಮಲ್ಲ, ವಾತಾಪಿಕೊಂಡ – ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನ ಬಿರುದುಗಳು', 'ಗ್ರಾಮಭೋಜಕ – ಪಲ್ಲವರ ಕಾಲದಲ್ಲಿ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದವನು'] },
@@ -1734,6 +2211,21 @@ const SAMPLE = {
     { type: 'summary', heading: 'ಸಾರಾಂಶ', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು (540–753): ಸ್ಥಾಪಕ ಜಯಸಿಂಹ; ಶ್ರೇಷ್ಠ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', 'ಕರ್ಣಾಟಬಲ ಸೈನ್ಯ; ವಿಷಯ–ಗ್ರಾಮ ಆಡಳಿತ; ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೆ ಪ್ರೋತ್ಸಾಹ', 'ಕನ್ನಡ ಶಾಸನಗಳು, ತ್ರಿಪದಿ; ವೇಸರ ಶೈಲಿಯ ದೇವಾಲಯಗಳು', 'ಕಂಚಿಯ ಪಲ್ಲವರು (350–895): ಶಿವಸ್ಕಂದವರ್ಮ ಸ್ಥಾಪಕ; ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ ಪ್ರಸಿದ್ಧ', 'ಸಂಸ್ಕೃತ–ತಮಿಳು ಸಾಹಿತ್ಯ, ಭಕ್ತಿ ಚಳುವಳಿ (ನಾಯನ್ನಾರರು, ಆಳ್ವಾರರು)', 'ಮಹಾಬಲಿಪುರ, ಕಂಚಿಯ ದೇವಾಲಯಗಳು; ನೌಕಾಬಲ ಮತ್ತು ಆಗ್ನೇಯ ಏಷ್ಯಾ ವ್ಯಾಪಾರ'] },
   ],
 };
+const SAMPLE_EN = {
+  title: 'Photosynthesis', subtitle: 'Science • Chapter 1', cls: '7', subject: 'Science', lang: 'en', tagline: 'How green plants make their own food', tags: ['Sunlight', 'Chlorophyll'], titleImages: ['green leaf sunlight', 'chloroplasts'],
+  slides: [
+    { type: 'objectives', heading: 'Learning Objectives', points: ['Explain what photosynthesis is.', 'Name the raw materials and products of photosynthesis.', 'Describe the role of chlorophyll and sunlight.', 'Understand why photosynthesis is important for all living things.'] },
+    { type: 'content', heading: 'What is Photosynthesis?', imageQuery: 'green leaf sunlight', caption: 'Leaves are the food factories of a plant', points: ['Photosynthesis is the process by which green plants make their own food.', 'It takes place mainly in the leaves.', 'Plants use sunlight, water and carbon dioxide to make glucose.', 'Oxygen is released as a by-product.'], fact: 'The word "photosynthesis" means "putting together with light".' },
+    { type: 'flow', heading: 'How Does it Work?', points: ['Water – absorbed by the roots from the soil', 'Carbon dioxide – enters the leaf through stomata', 'Sunlight – trapped by chlorophyll', 'Glucose + Oxygen – food is made and oxygen is released'], highlight: 'Carbon dioxide + Water → Glucose + Oxygen (in sunlight, with chlorophyll)' },
+    { type: 'gallery', heading: 'Inside the Leaf', images: [{ imageQuery: 'chloroplasts microscope', caption: 'Chloroplasts' }, { imageQuery: 'leaf stomata microscope', caption: 'Stomata' }], points: ['Chloroplasts contain the green pigment chlorophyll.', 'Stomata are tiny pores that let gases in and out of the leaf.'] },
+    { type: 'quote', heading: 'The Word Equation', lines: ['Carbon dioxide + Water', '→ Glucose + Oxygen'], explain: 'This happens only in the presence of sunlight and chlorophyll.' },
+    { type: 'content', heading: 'Why is Photosynthesis Important?', points: ['It produces food for plants and, through food chains, for animals too.', 'It releases the oxygen that we breathe.', 'It removes carbon dioxide from the air.'], question: 'What would happen to animals if there were no green plants?' },
+    { type: 'keywords', heading: 'Key Words', points: ['Chlorophyll – green pigment that traps sunlight', 'Stomata – tiny pores on the surface of leaves', 'Glucose – simple sugar made by plants', 'By-product – something extra produced in a process'] },
+    { type: 'questions', heading: 'Check Your Understanding', points: ['Where does photosynthesis mainly take place?', 'Name the gas released during photosynthesis.', 'What is the role of chlorophyll?'], notes: 'Answers: 1) In the leaves  2) Oxygen  3) It traps sunlight.' },
+    { type: 'summary', heading: 'Summary', points: ['Plants make food by photosynthesis', 'Raw materials: water, carbon dioxide', 'Needs sunlight and chlorophyll', 'Products: glucose and oxygen', 'Gases move through stomata', 'All life depends on it'] },
+  ],
+};
+
 init();
 </script>
 </body>
