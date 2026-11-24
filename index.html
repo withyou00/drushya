@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ದೃಶ್ಯಪಾಠ — ಪಾಠದ ಪ್ರಸ್ತುತಿ ತಯಾರಕ</title>
+<meta name="description" content="ದೃಶ್ಯಪಾಠ: ಪಾಠದ ಪಠ್ಯದಿಂದ ಆಕರ್ಷಕ ಪ್ರಸ್ತುತಿ (PPT) ತಯಾರಿಸುವ ಉಚಿತ ಸಾಧನ — ಮಾಹಿತಿ ಒಂದೂ ಬಿಡದೆ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Kannada:wght@400;600;700&family=Baloo+Tamma+2:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif+Kannada:wght@400;700&family=Tiro+Kannada&display=swap" rel="stylesheet">
+<style>
+:root{--ui:#4F5BD5;--ui2:#3B46B8;--cta:#F26B1D;--ink:#1D2233;--mut:#6B7285;--line:#E2E5EE;--bgc:#EEF0F6}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:'Noto Sans Kannada','Nirmala UI','Tunga',system-ui,sans-serif;background:var(--bgc);color:var(--ink);overflow:hidden;font-size:14px}
+button{font-family:inherit;font-size:14px;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:14px}
+.hide{display:none!important}
+
+/* ---------- top bar ---------- */
+#top{height:56px;display:flex;align-items:center;gap:6px;padding:0 10px;background:#151A2D;color:#fff;position:relative;z-index:20}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:20px;font-family:'Anek Kannada','Noto Sans Kannada',sans-serif;cursor:pointer;white-space:nowrap}
+.brand .lg{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#FF8A3D,#F2385A);display:grid;place-items:center;font-size:18px}
+#deckTitle{background:transparent;border:1px solid transparent;color:#fff;font-size:15px;padding:6px 8px;border-radius:8px;min-width:120px;flex:1;max-width:420px}
+#deckTitle:hover,#deckTitle:focus{border-color:#3A4160;outline:none;background:#1E2440}
+.tb{background:#242B45;color:#fff;border:0;border-radius:9px;padding:8px 11px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.tb:hover{background:#2F3757}
+.tb.cta{background:var(--cta)}
+.tb.cta:hover{background:#DB5B10}
+.tb.pri{background:var(--ui)}
+.tb.pri:hover{background:var(--ui2)}
+.tb:disabled{opacity:.4;cursor:default}
+.sp{flex:1}
+
+/* ---------- layout ---------- */
+#app{height:100vh;display:flex;flex-direction:column}
+#main{flex:1;display:grid;grid-template-columns:190px 1fr 300px;min-height:0}
+#thumbs{background:#fff;border-right:1px solid var(--line);overflow:auto;padding:10px 10px 80px}
+#center{display:flex;flex-direction:column;min-width:0;min-height:0}
+#ins{height:50px;display:flex;align-items:center;gap:6px;padding:0 12px;background:#fff;border-bottom:1px solid var(--line);overflow-x:auto}
+.ib{background:#F3F4F9;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:7px 11px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.ib:hover{background:#E8EAF5;border-color:#CDD2E5}
+.ib:disabled{opacity:.4}
+#wrap{flex:1;position:relative;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;box-shadow:0 10px 40px rgba(20,25,50,.18);touch-action:none}
+#panel{background:#fff;border-left:1px solid var(--line);overflow:auto;padding:14px 14px 90px}
+
+/* ---------- slide rendering ---------- */
+.sl{position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden}
+.el{position:absolute;user-select:none;-webkit-user-select:none}
+.el .bx{position:absolute;inset:0;display:flex;flex-direction:column}
+.el .tx{overflow-wrap:anywhere;word-break:normal}
+.el .tx p{margin:0 0 .35em}
+.el .tx p:last-child{margin-bottom:0}
+.el .tx p.b{position:relative;padding-left:1.1em}
+.el .tx p.b::before{content:'•';position:absolute;left:.15em;top:0;color:var(--bc)}
+.el .im{position:absolute;inset:0;overflow:hidden}
+.el .im img{width:100%;height:100%;display:block;pointer-events:none}
+.el .im .bd{position:absolute;inset:0;pointer-events:none}
+.el .cr.rc{right:auto;left:50%;transform:translateX(-50%);bottom:14%}
+.el .cr{position:absolute;right:6px;bottom:5px;font:11px/1.2 'Noto Sans Kannada',sans-serif;color:#fff;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:6px;max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.el .ph{position:absolute;inset:0;border:3px dashed #9AA3BF;border-radius:inherit;background:rgba(240,242,250,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#5A6383;font:22px/1.5 'Noto Sans Kannada',sans-serif;padding:10px}
+.el .ph small{font-size:16px;opacity:.75}
+.mode-view .el .ph{display:none}
+.mode-edit .el:not(.lk){cursor:move}
+.mode-edit .el.over{outline:3px dashed #E5484D;outline-offset:2px}
+.mode-edit .el.lk{pointer-events:none}
+
+/* selection */
+#ov{position:absolute;inset:0;pointer-events:none}
+.selbox{position:absolute;outline:2px solid #3D7BFF;pointer-events:none}
+.hd{position:absolute;background:#fff;border:2px solid #3D7BFF;border-radius:50%;pointer-events:auto;touch-action:none}
+.hd.rt{background:#3D7BFF;cursor:grab}
+.guide{position:absolute;background:#FF2E93;pointer-events:none}
+#tedit{position:absolute;border:2px solid #3D7BFF;background:rgba(255,255,255,.96);color:#111;resize:none;outline:none;z-index:5;padding:6px;margin:0}
+
+/* thumbs */
+.th{position:relative;margin:0 0 12px 22px;border-radius:8px;cursor:pointer}
+.th .n{position:absolute;left:-20px;top:2px;font-size:12px;color:var(--mut);width:16px;text-align:right}
+.th .box{width:150px;height:84.375px;border-radius:7px;overflow:hidden;position:relative;border:2px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,.12);background:#fff}
+.th.on .box{border-color:var(--ui)}
+.th .mini{position:absolute;left:0;top:0;width:1280px;height:720px;transform:scale(.1171875);transform-origin:0 0;pointer-events:none}
+.th .ta{position:absolute;right:4px;top:4px;display:none;gap:3px}
+.th:hover .ta,.th.on .ta{display:flex}
+.th .ta button{border:0;background:rgba(20,25,45,.75);color:#fff;border-radius:6px;width:24px;height:24px;font-size:12px;padding:0}
+.th.drop{box-shadow:0 -4px 0 var(--cta)}
+.addsl{width:150px;margin-left:22px;border:2px dashed #C9CEE0;background:#F7F8FC;border-radius:8px;padding:10px;color:var(--ui);font-weight:600}
+
+/* panel */
+.pt{font-weight:700;font-size:15px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.pg{border-top:1px solid var(--line);padding:12px 0 4px}
+.pg>label,.lbl{display:block;font-size:12px;color:var(--mut);margin:0 0 6px;font-weight:600}
+.rw{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.rw input[type=number]{width:70px;padding:6px;border:1px solid var(--line);border-radius:8px}
+.rw input[type=range]{flex:1;min-width:100px}
+.rw select{flex:1;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.sb{border:1px solid var(--line);background:#F5F6FA;border-radius:8px;padding:6px 9px;min-width:34px}
+.sb:hover{background:#ECEEF6}
+.sb.on{background:var(--ui);color:#fff;border-color:var(--ui)}
+.sw{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.sw button{width:24px;height:24px;border-radius:6px;border:1px solid rgba(0,0,0,.15);padding:0}
+.sw button.on{outline:2px solid var(--ui);outline-offset:2px}
+.sw .none{background:linear-gradient(135deg,#fff 45%,#E5484D 47%,#E5484D 53%,#fff 55%)}
+.sw input[type=color]{width:28px;height:26px;border:0;padding:0;background:none}
+textarea.nt{width:100%;min-height:90px;border:1px solid var(--line);border-radius:8px;padding:8px;resize:vertical}
+.btnrow{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.btnrow .sb{text-align:center}
+.danger{color:#C62828}
+.hint{font-size:12px;color:var(--mut);line-height:1.6}
+.sugg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.sugg img{width:100%;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
+.sugg img:hover{border-color:var(--ui)}
+
+/* popover menu */
+.pop{position:fixed;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(20,25,50,.2);padding:6px;z-index:60;min-width:200px;max-height:70vh;overflow:auto}
+.pop button.mi{display:flex;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;gap:10px;align-items:center;color:var(--ink)}
+.pop button.mi:hover{background:#F0F2FA}
+.pop .sep{height:1px;background:var(--line);margin:5px 4px}
+.emg{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;width:330px}
+.emg button{font-size:24px;border:0;background:none;padding:4px;border-radius:8px}
+.emg button:hover{background:#F0F2FA}
+.emh{font-size:12px;color:var(--mut);font-weight:700;padding:6px 6px 2px;grid-column:1/-1}
+
+/* modal */
+.mbg{position:fixed;inset:0;background:rgba(14,18,35,.55);z-index:70;display:flex;align-items:center;justify-content:center;padding:16px}
+.mdl{background:#fff;border-radius:18px;width:min(900px,100%);max-height:calc(100vh - 32px);display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.mh{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.mh h2{margin:0;font-size:19px;flex:1;font-family:'Anek Kannada','Noto Sans Kannada',sans-serif}
+.mx{border:0;background:#F0F2F8;width:34px;height:34px;border-radius:10px;font-size:16px}
+.mb{padding:18px 20px;overflow:auto}
+.mf{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-weight:600;font-size:13px;margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:9px 11px;border:1px solid #D5D9E6;border-radius:10px;background:#fff}
+.fld textarea{min-height:200px;resize:vertical;line-height:1.6}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;background:#EEF0F7;color:var(--ink)}
+.btn:hover{background:#E3E6F2}
+.btn.pri{background:var(--ui);color:#fff}
+.btn.pri:hover{background:var(--ui2)}
+.btn.cta{background:var(--cta);color:#fff}
+.btn.cta:hover{background:#DB5B10}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:#F6F7FB;border-radius:999px;padding:8px 14px;font-weight:600}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.step{background:#F7F8FC;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.step h4{margin:0 0 8px;font-size:15px}
+.thg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.thc{border:2px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;background:#fff;padding:0;text-align:left}
+.thc.on{border-color:var(--ui);box-shadow:0 0 0 3px rgba(79,91,213,.2)}
+.thc .pv{height:64px;position:relative}
+.thc .pv i{position:absolute;left:10px;top:12px;width:60%;height:9px;border-radius:5px}
+.thc .pv b{position:absolute;left:10px;top:28px;width:28px;height:4px;border-radius:2px}
+.thc .pv u{position:absolute;right:10px;bottom:9px;width:30px;height:30px;border-radius:50%}
+.thc span{display:block;padding:6px 9px;font-size:13px;font-weight:600}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.igrid .it{border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid transparent;background:#F2F3F8;position:relative}
+.igrid .it:hover{border-color:var(--ui)}
+.igrid img{width:100%;height:110px;object-fit:cover;display:block}
+.igrid .it span{display:block;font-size:11px;padding:4px 6px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srch{display:flex;gap:8px;margin-bottom:12px}
+.srch input{flex:1;padding:10px 12px;border:1px solid #D5D9E6;border-radius:10px}
+.cov{border-radius:14px;padding:16px;margin-bottom:12px}
+.cov.ok{background:#E9F8EF;border:1px solid #A6DFBB}
+.cov.warn{background:#FFF6E6;border:1px solid #F5CF85}
+.cov .big{font-size:30px;font-weight:800}
+.miss{max-height:240px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:10px}
+.miss li{margin:4px 0;line-height:1.6}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#151A2D;color:#fff;padding:11px 18px;border-radius:12px;z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:90vw;transition:opacity .25s;opacity:0;pointer-events:none}
+#toast.on{opacity:1}
+
+/* home */
+#home{position:fixed;inset:0;z-index:40;overflow:auto;background:radial-gradient(1200px 600px at 10% -10%,#FFE3CF 0,transparent 60%),radial-gradient(900px 600px at 100% 0,#DCE2FF 0,transparent 60%),#F6F7FB}
+.hin{max-width:1060px;margin:0 auto;padding:28px 20px 60px}
+.hhead{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.hhead .lg{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#FF8A3D,#F2385A);display:grid;place-items:center;font-size:28px;box-shadow:0 8px 24px rgba(242,56,90,.35)}
+.hhead h1{margin:0;font-size:34px;font-family:'Anek Kannada','Noto Sans Kannada',sans-serif;line-height:1.1}
+.hhead p{margin:2px 0 0;color:var(--mut)}
+.hero{font-size:22px;font-weight:700;margin:0 0 6px;font-family:'Anek Kannada','Noto Sans Kannada',sans-serif}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:16px 0 26px}
+.hc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;text-align:left;box-shadow:0 4px 18px rgba(30,40,80,.06);transition:transform .15s,box-shadow .15s}
+.hc:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(30,40,80,.12)}
+.hc .ic{font-size:30px;width:54px;height:54px;border-radius:14px;display:grid;place-items:center;margin-bottom:12px}
+.hc h3{margin:0 0 6px;font-size:17px}
+.hc p{margin:0;color:var(--mut);font-size:13px;line-height:1.6}
+.sample{display:flex;gap:16px;align-items:center;background:linear-gradient(135deg,#7A3E1D,#3E1F0E);color:#FFF6E5;border-radius:18px;padding:18px 22px;border:0;width:100%;text-align:left;margin-bottom:26px}
+.sample:hover{filter:brightness(1.08)}
+.sample .ic{font-size:34px}
+.sample b{display:block;font-size:18px;font-family:'Noto Serif Kannada','Noto Sans Kannada',serif}
+.sample span{opacity:.85;font-size:13px}
+.recent h3{margin:0 0 10px}
+.rl{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.ri{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.ri .t{flex:1;min-width:0;cursor:pointer}
+.ri .t b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri .t small{color:var(--mut)}
+.ri button{border:0;background:#F6E8E8;color:#B42318;border-radius:8px;padding:6px 8px}
+.foot{margin-top:30px;color:var(--mut);font-size:12px;line-height:1.8}
+
+/* present */
+#pres{position:fixed;inset:0;background:#000;z-index:100;display:none;cursor:none}
+#pres.on{display:block}
+#pres.cur{cursor:default}
+#pst{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0}
+#pst .sl{transition:opacity .35s}
+#pnav{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(20,22,35,.75);color:#fff;padding:6px 10px;border-radius:12px;opacity:0;transition:opacity .3s}
+#pres.cur #pnav{opacity:1}
+#pnav button{background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:8px;padding:7px 11px}
+#pnotes{position:absolute;left:0;right:0;bottom:0;background:rgba(15,18,30,.92);color:#fff;padding:14px 22px 60px;font-size:20px;line-height:1.6;display:none;max-height:40%;overflow:auto;white-space:pre-wrap}
+#pbar{position:absolute;left:0;top:0;height:4px;background:var(--cta);transition:width .3s}
+#pblack{position:absolute;inset:0;background:#000;display:none}
+
+/* responsive */
+#mtog{display:none}
+@media (max-width:980px){
+  #main{grid-template-columns:1fr}
+  #thumbs{position:fixed;left:0;right:0;bottom:0;height:118px;border-right:0;border-top:1px solid var(--line);display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;padding:10px;z-index:15}
+  .th{margin:0;flex:0 0 auto}
+  .th .n{display:none}
+  .addsl{margin:0;flex:0 0 auto;height:88px}
+  #panel{position:fixed;right:0;top:56px;bottom:118px;width:min(320px,92vw);z-index:16;box-shadow:-10px 0 30px rgba(0,0,0,.15);transform:translateX(105%);transition:transform .2s}
+  #panel.open{transform:none}
+  #mtog{display:inline-flex}
+  #wrap{margin-bottom:118px}
+  .tb .lb{display:none}
+  .g2,.g3{grid-template-columns:1fr}
+  #deckTitle{min-width:0;flex:1 1 40px}
+  #top{gap:4px;padding:0 6px}
+  .brand span:last-child{display:none}
+  .tb{padding:8px 9px}
+  #bUndo,#bRedo{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="top">
+    <div class="brand" id="goHome" title="ಮುಖಪುಟ"><span class="lg">📽️</span><span>ದೃಶ್ಯಪಾಠ</span></div>
+    <input id="deckTitle" placeholder="ಪ್ರಸ್ತುತಿಯ ಹೆಸರು">
+    <button class="tb" id="bUndo" title="ಹಿಂದಕ್ಕೆ (Ctrl+Z)">↶</button>
+    <button class="tb" id="bRedo" title="ಮುಂದಕ್ಕೆ (Ctrl+Y)">↷</button>
+    <div class="sp"></div>
+    <button class="tb" id="bTheme">🎨 <span class="lb">ವಿನ್ಯಾಸ</span></button>
+    <button class="tb" id="bCheck" title="ಪಾಠದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಬಂದಿದೆಯೇ ಪರೀಕ್ಷಿಸಿ">✅ <span class="lb">ಮಾಹಿತಿ ಪರಿಶೀಲನೆ</span></button>
+    <button class="tb pri" id="bDown">⬇ <span class="lb">ಡೌನ್‌ಲೋಡ್</span></button>
+    <button class="tb cta" id="bPlay">▶ <span class="lb">ಪ್ರದರ್ಶನ</span></button>
+    <button class="tb" id="mtog">⚙</button>
+  </div>
+  <div id="main">
+    <div id="thumbs"></div>
+    <div id="center">
+      <div id="ins">
+        <button class="ib" data-ins="title">🔠 ಶೀರ್ಷಿಕೆ</button>
+        <button class="ib" data-ins="text">✏️ ಪಠ್ಯ</button>
+        <button class="ib" data-ins="bullets">☰ ಅಂಶಗಳ ಪಟ್ಟಿ</button>
+        <button class="ib" data-ins="image">🖼️ ಚಿತ್ರ</button>
+        <button class="ib" data-ins="shape">⬛ ಆಕಾರ</button>
+        <button class="ib" data-ins="icon">😀 ಚಿಹ್ನೆ</button>
+        <span style="width:1px;height:26px;background:var(--line);margin:0 4px"></span>
+        <button class="ib" id="bNew">✨ ಹೊಸ ಪಾಠ</button>
+      </div>
+      <div id="wrap"><div id="stage"></div></div>
+    </div>
+    <div id="panel"></div>
+  </div>
+</div>
+
+<div id="home"></div>
+<div id="pres"><div id="pst"></div><div id="pblack"></div><div id="pbar"></div><div id="pnotes"></div>
+  <div id="pnav"><button data-p="prev">◀</button><span id="pnum"></span><button data-p="next">▶</button><button data-p="notes" title="ಶಿಕ್ಷಕರ ಟಿಪ್ಪಣಿ (N)">📝</button><button data-p="fs" title="ಪೂರ್ಣ ಪರದೆ (F)">⛶</button><button data-p="exit">✕ ನಿರ್ಗಮಿಸಿ</button></div>
+</div>
+<div id="toast"></div>
+<input type="file" id="fImg" accept="image/*" class="hide">
+<input type="file" id="fProj" accept=".json,application/json" class="hide">
+
+<script>
+'use strict';
+/* =====================================================================
+   ದೃಶ್ಯಪಾಠ — ಪಾಠದ ಪ್ರಸ್ತುತಿ ತಯಾರಕ
+   ಒಂದೇ HTML ಫೈಲ್. GitHub Pages ನಲ್ಲಿ ಉಚಿತವಾಗಿ ಹಾಕಬಹುದು.
+   ===================================================================== */
+const W = 1280, H = 720, MX = 60;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+let toastT;
+function toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); if (ms) toastT = setTimeout(() => t.classList.remove('on'), ms); }
+
+/* ---------------------------------------------------------------- themes */
+const FONTS = ['Anek Kannada', 'Noto Sans Kannada', 'Baloo Tamma 2', 'Noto Serif Kannada', 'Tiro Kannada'];
+const FONT_KN = { 'Anek Kannada': 'ಆನೆಕ್ (ಆಧುನಿಕ)', 'Noto Sans Kannada': 'ನೋಟೋ ಸ್ಯಾನ್ಸ್ (ಸರಳ)', 'Baloo Tamma 2': 'ಬಾಲೂ ತಮ್ಮ (ದುಂಡು)', 'Noto Serif Kannada': 'ನೋಟೋ ಸೆರಿಫ್ (ಶಾಸ್ತ್ರೀಯ)', 'Tiro Kannada': 'ತಿರೋ (ಪುಸ್ತಕ ಶೈಲಿ)' };
+const THEMES = [
+  { id: 'neela', n: 'ನೀಲಾಕಾಶ', p: '#1E4FA3', a: '#F5A623', s: '#E4EDFB', t: '#1B2433', bg: '#F7F9FD', card: '#FFFFFF', g1: '#1E4FA3', g2: '#0E2C66', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'circles' },
+  { id: 'itihasa', n: 'ಇತಿಹಾಸ', p: '#7A3E1D', a: '#C8922E', s: '#F2E6D0', t: '#3B2A1A', bg: '#FBF6EC', card: '#FFFDF8', g1: '#7A3E1D', g2: '#3E1F0E', gt: '#FFF6E5', hf: 'Noto Serif Kannada', bf: 'Noto Sans Kannada', deco: 'corner' },
+  { id: 'vana', n: 'ಹಸಿರು ವನ', p: '#1F7A4D', a: '#E9A21B', s: '#E2F1E7', t: '#183024', bg: '#F6FAF7', card: '#FFFFFF', g1: '#1F7A4D', g2: '#0F4A2E', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'band' },
+  { id: 'kesari', n: 'ಕೇಸರಿ', p: '#C94F0A', a: '#1F5FA8', s: '#FCE9DA', t: '#3A2416', bg: '#FFF9F4', card: '#FFFFFF', g1: '#E8731C', g2: '#A93A06', gt: '#FFFFFF', hf: 'Baloo Tamma 2', bf: 'Noto Sans Kannada', deco: 'circles' },
+  { id: 'sagara', n: 'ಸಾಗರ', p: '#0F6E7A', a: '#EE5D4B', s: '#DCEFF1', t: '#12303A', bg: '#F3FAFA', card: '#FFFFFF', g1: '#0F6E7A', g2: '#0A3F4D', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'corner' },
+  { id: 'raja', n: 'ರಾಜ ನೇರಳೆ', p: '#5B2A86', a: '#E09A2D', s: '#EEE4F6', t: '#261A33', bg: '#FAF7FC', card: '#FFFFFF', g1: '#5B2A86', g2: '#2E1247', gt: '#FFFFFF', hf: 'Noto Serif Kannada', bf: 'Noto Sans Kannada', deco: 'band' },
+  { id: 'gulabi', n: 'ಗುಲಾಬಿ', p: '#B83266', a: '#2F8F7E', s: '#FBE4ED', t: '#3A1A27', bg: '#FFF7FA', card: '#FFFFFF', g1: '#C2416F', g2: '#7A1D42', gt: '#FFFFFF', hf: 'Baloo Tamma 2', bf: 'Noto Sans Kannada', deco: 'circles' },
+  { id: 'bisilu', n: 'ಬಿಸಿಲು', p: '#8A5300', a: '#E85D04', s: '#FFF0BF', t: '#33260A', bg: '#FFFBEB', card: '#FFFFFF', g1: '#F4A300', g2: '#C76A00', gt: '#2B1D00', hf: 'Baloo Tamma 2', bf: 'Noto Sans Kannada', deco: 'corner' },
+  { id: 'makkalu', n: 'ಮಕ್ಕಳ ಬಣ್ಣ', p: '#D7336A', a: '#14A89B', s: '#FFE6EE', t: '#2B2D42', bg: '#FFFDF6', card: '#FFFFFF', g1: '#FF6B8E', g2: '#7B5CF0', gt: '#FFFFFF', hf: 'Baloo Tamma 2', bf: 'Baloo Tamma 2', deco: 'circles' },
+  { id: 'vijnana', n: 'ವಿಜ್ಞಾನ', p: '#3442A0', a: '#00A88F', s: '#E3E7FA', t: '#1A1F3D', bg: '#F7F8FE', card: '#FFFFFF', g1: '#3442A0', g2: '#0A8C78', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'band' },
+  { id: 'mannu', n: 'ಮಣ್ಣು', p: '#A4462B', a: '#4F7C5B', s: '#F4E3DA', t: '#3A2018', bg: '#FCF7F3', card: '#FFFFFF', g1: '#A4462B', g2: '#5E2414', gt: '#FFFFFF', hf: 'Tiro Kannada', bf: 'Noto Sans Kannada', deco: 'corner' },
+  { id: 'sarala', n: 'ಸರಳ ಬಿಳಿ', p: '#1F2430', a: '#E63946', s: '#F1F2F4', t: '#1F2430', bg: '#FFFFFF', card: '#FFFFFF', g1: '#1F2430', g2: '#3A4152', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'band' },
+  { id: 'ratri', n: 'ರಾತ್ರಿ (ಕಪ್ಪು)', p: '#7FB2FF', a: '#FFC857', s: '#1E2840', t: '#E9EEF7', bg: '#121A2B', card: '#18223A', g1: '#1B2B4A', g2: '#0B1220', gt: '#FFFFFF', hf: 'Anek Kannada', bf: 'Noto Sans Kannada', deco: 'circles' },
+  { id: 'halage', n: 'ಕಪ್ಪುಹಲಗೆ', p: '#F7D774', a: '#9BD3AE', s: '#2A4A3B', t: '#F4F1E6', bg: '#1F3A2E', card: '#25443A', g1: '#244436', g2: '#132A20', gt: '#F7D774', hf: 'Baloo Tamma 2', bf: 'Baloo Tamma 2', deco: 'chalk' },
+];
+const themeById = id => THEMES.find(t => t.id === id) || THEMES[0];
+const TOK = [['p', 'ಮುಖ್ಯ'], ['a', 'ಉಪ'], ['s', 'ತಿಳಿ'], ['t', 'ಪಠ್ಯ'], ['bg', 'ಹಿನ್ನೆಲೆ'], ['card', 'ಕಾರ್ಡ್']];
+const PALETTE = ['#FFFFFF', '#000000', '#1F2430', '#6B7285', '#D7263D', '#F46036', '#F5A623', '#FFD23F', '#2E933C', '#1B998B', '#2E86DE', '#1E4FA3', '#5B2A86', '#C2416F', '#7A3E1D', '#FBE4ED', '#E4EDFB', '#E2F1E7'];
+function col(c, th) { if (!c) return null; if (c[0] === '$') return th[c.slice(1)] || '#000000'; return c; }
+function famCss(ff, th) { const n = ff === 'h' ? th.hf : ff === 'b' ? th.bf : ff; return `"${n}", "Noto Sans Kannada", "Nirmala UI", "Tunga", sans-serif`; }
+function famName(ff, th) { return ff === 'h' ? th.hf : ff === 'b' ? th.bf : ff; }
+function bgCss(bg, th) { if (!bg) return th.bg; if (bg.k === 'grad') return `linear-gradient(${bg.ang || 135}deg, ${col(bg.c1, th)}, ${col(bg.c2, th)})`; return col(bg.c, th); }
+async function ensureFonts(th) {
+  if (!document.fonts) return;
+  const fams = new Set([th.hf, th.bf]);
+  if (D) D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text') fams.add(famName(e.ff, th)); }));
+  const jobs = [];
+  fams.forEach(f => { jobs.push(document.fonts.load(`400 32px "${f}"`, 'ಕನ್ನಡ Ab'), document.fonts.load(`700 32px "${f}"`, 'ಕನ್ನಡ Ab')); });
+  await Promise.race([Promise.allSettled(jobs), sleep(3500)]);
+}
+
+/* ------------------------------------------------- text measurement & fit */
+const mcv = document.createElement('canvas'); const mctx = mcv.getContext('2d');
+const SEG = (typeof Intl !== 'undefined' && Intl.Segmenter) ? new Intl.Segmenter('kn', { granularity: 'grapheme' }) : null;
+function fontStr(e, th, fs) { return `${e.italic ? 'italic ' : ''}${e.bold ? 700 : 400} ${fs}px ${famCss(e.ff, th)}`; }
+function dynText(e, idx) { if (e.dyn === 'num') return String((idx ?? 0) + 1); if (e.dyn === 'title') return D ? D.title : ''; return e.text || ''; }
+function wrap(ctx, text, maxW) {
+  text = text.trim(); if (!text) return [''];
+  const words = text.split(/ +/), lines = []; let cur = '';
+  for (const w of words) {
+    const tryL = cur ? cur + ' ' + w : w;
+    if (ctx.measureText(tryL).width <= maxW || !cur) {
+      if (!cur && ctx.measureText(w).width > maxW) { // very long word: break by letters
+        const gs = SEG ? [...SEG.segment(w)].map(x => x.segment) : [...w]; let part = '';
+        for (const g of gs) { if (ctx.measureText(part + g).width > maxW && part) { lines.push(part); part = g; } else part += g; }
+        cur = part;
+      } else cur = tryL;
+    } else { lines.push(cur); cur = w; if (ctx.measureText(w).width > maxW) { const gs = SEG ? [...SEG.segment(w)].map(x => x.segment) : [...w]; let part = ''; for (const g of gs) { if (ctx.measureText(part + g).width > maxW && part) { lines.push(part); part = g; } else part += g; } cur = part; } }
+  }
+  lines.push(cur); return lines;
+}
+function layoutText(e, th, fs, ctx, idx) {
+  ctx = ctx || mctx; ctx.font = fontStr(e, th, fs);
+  const pad = e.pad || 0, iw = Math.max(10, e.w - 2 * pad);
+  const paras = dynText(e, idx).split('\n'), lh = fs * (e.lh || 1.35), gap = fs * 0.35;
+  const lines = []; let h = 0;
+  paras.forEach((p, pi) => {
+    const bul = e.bullets && p.trim() !== ''; const ind = bul ? fs * 1.1 : 0;
+    wrap(ctx, p, iw - ind).forEach((l, li) => { lines.push({ t: l, x: ind, y: h, bul: bul && li === 0, ind }); h += lh; });
+    if (pi < paras.length - 1) h += gap;
+  });
+  return { lines, h, lh };
+}
+function fit(e, th) {
+  if (e.t !== 'text') return true;
+  const ih = e.h - 2 * (e.pad || 0);
+  if (!e.auto) { e._over = layoutText(e, th, e.fs).h > ih + 2; return !e._over; }
+  const max = e.fsMax || e.fs, min = e.fsMin || 16;
+  for (let f = max; f >= min; f--) { if (layoutText(e, th, f).h <= ih) { e.fs = f; e._over = false; return true; } }
+  e.fs = min; e._over = true; return false;
+}
+function shrinkH(e, th, minH) { const L = layoutText(e, th, e.fs); e.h = Math.max(minH || 0, Math.ceil(L.h + 2 * (e.pad || 0) + 4)); }
+function textW(str, e, th, fs) { mctx.font = fontStr(e, th, fs); return mctx.measureText(str).width; }
+
+/* ------------------------------------------------------- element makers */
+function T(text, x, y, w, h, o = {}) {
+  const e = { id: uid(), t: 'text', text, x, y, w, h, rot: 0, op: 1, fs: o.fs || 28, fsMax: o.fs || 28, fsMin: o.min || 16, ff: 'b', fc: '$t', bold: false, italic: false, align: 'left', va: 'top', lh: 1.35, bullets: false, fill: null, bc: null, bw: 0, rad: 0, pad: 0, auto: true };
+  for (const k in o) if (k !== 'min') e[k] = o[k];
+  if (o.fs) e.fsMax = o.fs; return e;
+}
+function S(shape, x, y, w, h, o = {}) { return Object.assign({ id: uid(), t: 'shape', shape, x, y, w, h, rot: 0, op: 1, fill: '$p', bc: null, bw: 0, rad: 0 }, o); }
+function I(q, x, y, w, h, o = {}) { return Object.assign({ id: uid(), t: 'img', src: '', q: q || '', x, y, w, h, rot: 0, op: 1, fit: 'cover', rad: 0, bc: null, bw: 0, credit: '' }, o); }
+function mkSlide(kind) { return { id: uid(), kind, bg: { k: 'solid', c: '$bg' }, notes: '', els: [] }; }
+const CONT = ' (ಮುಂದುವರಿದಿದೆ)';
+function hd(text) { return T(text, MX, 34, 1160, 86, { ff: 'h', fs: 44, min: 26, bold: true, fc: '$p', va: 'middle' }); }
+function accentBar() { return S('rect', MX, 126, 110, 6, { fill: '$a', rad: 3 }); }
+function hlBox(text, y, h) { return T('💡 ' + text, MX, y, 1160, h, { fs: 25, min: 15, fill: '$s', rad: 16, pad: 16, va: 'middle', bold: true, fc: '$t' }); }
+function splitTD(s) { const m = s.match(/^(.{1,90}?)\s+[–—-]\s+(.+)$/) || s.match(/^(.{1,70}?)\s*[:：]\s+(.+)$/); return m ? [m[1].trim(), m[2].trim()] : [s.trim(), '']; }
+/* split items over slides until everything fits */
+function splitBuild(items, fn, maxPer) {
+  const out = [];
+  const go = arr => {
+    if (maxPer && arr.length > maxPer) { const parts = Math.ceil(arr.length / maxPer), m = Math.ceil(arr.length / parts); for (let i = 0; i < arr.length; i += m) go(arr.slice(i, i + m)); return; }
+    const r = fn(arr, out.length);
+    if (r.ok || arr.length <= 1) { out.push(r.s); return; }
+    const m = Math.ceil(arr.length / 2); go(arr.slice(0, m)); go(arr.slice(m));
+  };
+  go(items.length ? items : ['']); return out;
+}
+function baseSlide(sp, part) { const s = mkSlide('content'); s.notes = sp.notes || ''; s.els.push(hd((sp.heading || '') + (part ? CONT : '')), accentBar()); return s; }
+
+/* ------------------------------------------------------- layout builders */
+function bTitle(sp, th) {
+  const s = mkSlide('title'); s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 135 }; s.notes = sp.notes || '';
+  const img = sp.imageQuery || sp.image; const tx = img ? 80 : 110, tw = img ? 680 : 1060, al = img ? 'left' : 'center';
+  if (sp.subtitle) {
+    const pe = T(sp.subtitle, tx, 150, 300, 54, { fs: 24, bold: true, fill: '$a', fc: '$bg', rad: 27, pad: 10, align: 'center', va: 'middle', auto: false });
+    const w = Math.min(tw, textW(sp.subtitle, pe, th, 24) + 60); pe.w = w; if (!img) pe.x = tx + (tw - w) / 2; s.els.push(pe);
+  }
+  const tt = T(sp.title || '', tx, 222, tw, 230, { ff: 'h', fs: 68, min: 34, bold: true, fc: '$gt', align: al, va: 'middle', lh: 1.25 }); fit(tt, th); s.els.push(tt);
+  const info = [sp.cls ? `${sp.cls}ನೇ ತರಗತಿ` : '', sp.subject || ''].filter(Boolean).join('  •  ');
+  if (info) s.els.push(T(info, tx, 470, tw, 54, { fs: 28, fc: '$gt', op: .92, align: al, va: 'middle', auto: false }));
+  if (sp.teacher) s.els.push(T(sp.teacher, tx, 530, tw, 50, { fs: 22, fc: '$gt', op: .8, align: al, va: 'middle', auto: false }));
+  if (img) { s.els.push(S('ellipse', 810, 128, 424, 424, { fill: '#FFFFFF', op: .18 })); s.els.push(I(sp.imageQuery || '', 832, 150, 380, 380, { rad: 190, src: sp.image || '', bc: '#FFFFFF', bw: 6 })); }
+  return [s];
+}
+function bSection(sp, th) {
+  const s = mkSlide('section'); s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 135 }; s.notes = sp.notes || '';
+  const t = T(sp.heading || '', 110, 220, 1060, 170, { ff: 'h', fs: 62, min: 32, bold: true, fc: '$gt', align: 'center', va: 'middle', lh: 1.25 }); fit(t, th); s.els.push(t);
+  s.els.push(S('rect', 590, 400, 100, 6, { fill: '$a', rad: 3 }));
+  if (sp.subtitle) s.els.push(T(sp.subtitle, 110, 425, 1060, 70, { fs: 32, fc: '$gt', op: .92, align: 'center', va: 'middle', auto: false }));
+  return [s];
+}
+function bContent(sp, th, ctx) {
+  const img = !!(sp.imageQuery || sp.image), big = sp.type === 'map';
+  const pts = (sp.points || []).filter(p => String(p).trim());
+  if (!img && pts.length >= 2 && pts.length <= 4 && pts.every(p => p.length <= 110) && !sp.highlight && ctx.n % 3 === 1) return bCards({ ...sp, type: 'cards' }, th, ctx);
+  if (!img && pts.length >= 1 && pts.length <= 6) return bList({ ...sp, type: 'points' }, th, ctx);
+  return splitBuild(pts, (arr, part) => {
+    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const bottom = hasHL ? 552 : 652; let tx;
+    if (img) {
+      const iw = big ? 600 : 450, ih = hasHL ? 390 : (big ? 490 : 440);
+      const right = big || (ctx.n + part) % 2 === 0; const ix = right ? W - MX - iw : MX; const tx0 = right ? MX : MX + iw + 44;
+      s.els.push(S('rect', ix + 14, 164, iw, ih, { fill: '$s', rad: 28, deco: true }));
+      s.els.push(I(sp.imageQuery || '', ix, 150, iw, ih, { rad: 24, src: sp.image || '', fit: big ? 'contain' : 'cover' }));
+      tx = T(arr.join('\n'), tx0, 152, 1160 - iw - 44, bottom - 152, { fs: 30, min: 19, bullets: true });
+    } else tx = T(arr.join('\n'), MX, 152, 1160, bottom - 152, { fs: 32, min: 19, bullets: true });
+    s.els.push(tx); if (hasHL) s.els.push(hlBox(sp.highlight, 572, 92));
+    return { s, ok: fit(tx, th) };
+  });
+}
+function bCards(sp, th, ctx) {
+  const mode = sp.type; const all = (sp.points || []).filter(p => String(p).trim());
+  return splitBuild(all, (arr, part) => {
+    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const top = 160, bottom = hasHL ? 548 : 652;
+    const n = arr.length, cols = n <= 3 ? n : (n === 4 ? 2 : 3), rows = Math.ceil(n / cols), gap = 24;
+    const cw = (1160 - gap * (cols - 1)) / cols, ch = (bottom - top - gap * (rows - 1)) / rows; let ok = true;
+    arr.forEach((p, i) => {
+      const r = Math.floor(i / cols), c = i % cols, x = MX + c * (cw + gap), y = top + r * (ch + gap);
+      s.els.push(S('rect', x, y, cw, ch, { fill: '$card', bc: '$s', bw: 3, rad: 20 }));
+      if (mode === 'keywords') {
+        const [k, v] = splitTD(p); const kh = Math.min(70, ch * .34);
+        const kt = T(k, x + 22, y + 14, cw - 44, kh, { ff: 'h', fs: 34, min: 17, bold: true, fc: '$p', va: 'middle' });
+        const vt = T(v, x + 22, y + 14 + kh + 16, cw - 44, ch - kh - 46, { fs: 30, min: 14 });
+        s.els.push(kt, S('rect', x + 22, y + 14 + kh + 4, 56, 4, { fill: '$a', rad: 2 }), vt); ok = fit(kt, th) && fit(vt, th) && ok;
+      } else {
+        const num = mode === 'summary' ? '✓' : String(all.indexOf(p) + 1);
+        s.els.push(S('ellipse', x + 20, y + 20, 50, 50, { fill: '$a' }), T(num, x + 20, y + 20, 50, 50, { fs: 23, bold: true, fc: '$bg', align: 'center', va: 'middle', auto: false }));
+        const tt = T(p, x + 22, y + 84, cw - 44, ch - 100, { fs: 30, min: 15 }); s.els.push(tt); ok = fit(tt, th) && ok;
+      }
+    });
+    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    return { s, ok };
+  }, 6);
+}
+function bList(sp, th, ctx) {
+  const icon = { objectives: '✓', questions: '#', activity: '✎', summary: '★' }[sp.type] || '';
+  const isPts = sp.type === 'points';
+  const all = (sp.points || []).filter(p => String(p).trim());
+  return splitBuild(all, (arr, part) => {
+    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const top = 156, bottom = hasHL ? 550 : 656;
+    const n = arr.length, gap = 14, sh = Math.min(118, (bottom - top - gap * (n - 1)) / n); let ok = true;
+    arr.forEach((p, i) => {
+      const y = top + i * (sh + gap);
+      const bc = sp.type === 'questions' ? '$p' : '$a';
+      if (isPts) { s.els.push(S('rect', MX, y, 10, sh, { fill: '$a', rad: 5 })); }
+      else s.els.push(S('ellipse', MX, y + (sh - 56) / 2, 56, 56, { fill: bc }), T(icon === '#' ? String(all.indexOf(p) + 1) : icon, MX, y + (sh - 56) / 2, 56, 56, { fs: 24, bold: true, fc: '$bg', align: 'center', va: 'middle', auto: false }));
+      const tx0 = isPts ? MX + 22 : MX + 74;
+      const tt = T(p, tx0, y, 1160 - (tx0 - MX), sh, { fs: isPts ? 30 : 28, min: isPts ? 20 : 16, fill: '$s', rad: 14, pad: 16, va: 'middle' }); s.els.push(tt); ok = fit(tt, th) && ok;
+    });
+    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    return { s, ok };
+  }, 6);
+}
+function bCompare(sp, th) {
+  const s = baseSlide(sp, 0); const hasHL = !!sp.highlight; const bottom = hasHL ? 550 : 656;
+  [[sp.left, MX, '$p'], [sp.right, 660, '$a']].forEach(([c, x, f]) => {
+    c = c || { title: '', points: [] };
+    const h = T(c.title || '', x, 150, 560, 72, { ff: 'h', fill: f, fc: '$bg', bold: true, align: 'center', va: 'middle', fs: 30, min: 17, rad: 16, pad: 10 }); fit(h, th);
+    const b = T((c.points || []).join('\n'), x, 236, 560, bottom - 236, { bullets: true, fill: '$card', bc: '$s', bw: 3, rad: 16, pad: 22, fs: 27, min: 14 }); fit(b, th);
+    s.els.push(h, b);
+  });
+  if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+  return [s];
+}
+function bFlow(sp, th) {
+  return splitBuild((sp.points || []).filter(Boolean), (arr, part) => {
+    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const db = hasHL ? 550 : 652;
+    const n = arr.length, gap = 58, bw = (1160 - gap * (n - 1)) / n; let ok = true;
+    arr.forEach((p, i) => {
+      const [t, d] = splitTD(p); const x = MX + i * (bw + gap);
+      const b = T(t, x, 168, bw, 112, { ff: 'h', fill: '$p', fc: '$bg', bold: true, align: 'center', va: 'middle', fs: 28, min: 15, rad: 18, pad: 12 }); ok = fit(b, th) && ok; s.els.push(b);
+      if (i < n - 1) s.els.push(S('arrow', x + bw + 9, 204, gap - 18, 40, { fill: '$a' }));
+      if (d) { const dt = T(d, x, 298, bw, db - 298, { fill: '$s', rad: 16, pad: 16, fs: 28, min: 14, align: 'center' }); const f = fit(dt, th); ok = f && ok; if (f) shrinkH(dt, th, 140); s.els.push(dt); }
+    });
+    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    return { s, ok };
+  }, 5);
+}
+function bTimeline(sp, th) {
+  return splitBuild((sp.points || []).filter(Boolean), (arr, part) => {
+    const s = baseSlide(sp, part); const hasHL = part === 0 && sp.highlight; const db = hasHL ? 550 : 652;
+    const n = arr.length, cw = 1160 / n; let ok = true;
+    s.els.push(S('rect', MX, 352, 1160, 8, { fill: '$p', op: .3, rad: 4 }));
+    arr.forEach((p, i) => {
+      const [y, d] = splitTD(p); const cx = MX + cw * (i + .5);
+      const yt = T(y, cx - cw / 2 + 6, 236, cw - 12, 100, { ff: 'h', fs: 30, min: 16, bold: true, fc: '$p', align: 'center', va: 'bottom' }); ok = fit(yt, th) && ok;
+      s.els.push(yt, S('ellipse', cx - 20, 336, 40, 40, { fill: '$a', bc: '$bg', bw: 6 }));
+      if (d) { const dt = T(d, cx - cw / 2 + 8, 394, cw - 16, db - 394, { fs: 27, min: 13, align: 'center', fill: '$card', bc: '$s', bw: 3, rad: 14, pad: 14 }); const f = fit(dt, th); ok = f && ok; if (f) shrinkH(dt, th, 110); s.els.push(dt); }
+    });
+    if (hasHL) s.els.push(hlBox(sp.highlight, 568, 90));
+    return { s, ok };
+  }, 5);
+}
+function bQuote(sp, th) {
+  const s = baseSlide(sp, 0); const lines = (sp.lines || sp.points || []).join('\n'); const hasE = !!sp.explain;
+  const q = T(lines, 150, 156, 980, hasE ? 300 : 480, { ff: 'h', fs: 40, min: 20, bold: true, fc: '$p', fill: '$s', rad: 24, pad: 34, align: 'center', va: 'middle', lh: 1.45 }); fit(q, th);
+  s.els.push(q, T('❝', 168, 166, 80, 80, { fs: 72, fc: '$a', auto: false, lh: 1, op: .8 }));
+  if (hasE) { const e = T(sp.explain, 150, 474, 980, 180, { fs: 27, min: 15, align: 'center' }); fit(e, th); s.els.push(e); }
+  return [s];
+}
+function buildSlides(sp, th, ctx) {
+  const t = (sp.type || 'content').toLowerCase();
+  switch (t) {
+    case 'title': return bTitle(sp, th);
+    case 'section': return bSection(sp, th);
+    case 'cards': case 'keywords': return bCards({ ...sp, type: t }, th, ctx);
+    case 'summary': return (sp.points || []).length <= 6 ? bCards({ ...sp, type: 'summary' }, th, ctx) : bList(sp, th, ctx);
+    case 'objectives': case 'questions': case 'activity': return bList({ ...sp, type: t }, th, ctx);
+    case 'compare': return bCompare(sp, th);
+    case 'flow': return bFlow(sp, th);
+    case 'timeline': return bTimeline(sp, th);
+    case 'quote': return bQuote(sp, th);
+    case 'map': return bContent({ ...sp, type: 'map' }, th, ctx);
+    default: return bContent({ ...sp, type: 'content' }, th, ctx);
+  }
+}
+/* theme decorations + footer ("chrome") */
+function chromeEls(kind, th) {
+  const L = o => Object.assign(o, { chrome: true, lock: true }); const out = [];
+  const d = th.deco;
+  if (kind === 'content') {
+    if (d === 'circles') out.push(S('ellipse', 1110, -90, 270, 270, { fill: '$s' }), S('ellipse', -50, 650, 130, 130, { fill: '$a', op: .18 }));
+    if (d === 'band') out.push(S('rect', 0, 0, 16, 720, { fill: '$p' }), S('rect', 1150, 0, 130, 10, { fill: '$a' }));
+    if (d === 'corner') out.push(S('rect', 1150, -110, 230, 230, { fill: '$s', rot: 45 }), S('rect', -60, 660, 120, 120, { fill: '$a', op: .25, rot: 45 }));
+    if (d === 'chalk') out.push(S('rect', 18, 18, 1244, 684, { fill: null, bc: '$a', bw: 3, rad: 14, op: .5 }));
+    out.push(T('', MX, 676, 900, 30, { fs: 15, fc: '$t', op: .55, va: 'middle', auto: false, dyn: 'title' }));
+    out.push(T('', 1120, 676, 100, 30, { fs: 15, fc: '$t', op: .55, va: 'middle', align: 'right', auto: false, dyn: 'num', bold: true }));
+  } else {
+    if (d === 'chalk') out.push(S('rect', 18, 18, 1244, 684, { fill: null, bc: '$a', bw: 3, rad: 14, op: .6 }));
+    else out.push(S('ellipse', 880, -170, 560, 560, { fill: '#FFFFFF', op: .07 }), S('ellipse', -140, 500, 360, 360, { fill: '#FFFFFF', op: .06 }), S('rect', 0, 700, 1280, 20, { fill: '$a' }));
+  }
+  return out.map(L);
+}
+function applyChrome(deck) {
+  const th = themeById(deck.theme);
+  deck.slides.forEach(s => { s.els = s.els.filter(e => !e.chrome); if (!s.noChrome) s.els.unshift(...chromeEls(s.kind || 'content', th)); });
+}
+async function buildDeck(spec, themeId, source) {
+  const th = themeById(themeId); await ensureFonts(th);
+  const deck = { id: uid(), v: 1, title: spec.title || 'ಹೊಸ ಪ್ರಸ್ತುತಿ', theme: th.id, slides: [], assets: {}, source: source || '', created: Date.now(), updated: Date.now() };
+  const ctx = { n: 0 };
+  if (spec.title && !(spec.slides || []).some(s => s.type === 'title')) bTitle(spec, th).forEach(s => { deck.slides.push(s); ctx.n++; });
+  (spec.slides || []).forEach(sp => { if (sp.type === 'title') sp = { ...spec, ...sp, title: sp.title || sp.heading || spec.title }; buildSlides(sp, th, ctx).forEach(s => { deck.slides.push(s); ctx.n++; }); });
+  if (!deck.slides.length) deck.slides.push(mkSlide('content'));
+  applyChrome(deck); return deck;
+}
+
+/* ------------------------------------------- plain-text → slides (no AI) */
+function graphemes(str) { return SEG ? [...SEG.segment(str)].length : [...str].length; }
+const ABBR = new Set(['ಶ್ರೀ', 'ಡಾ', 'ಪ್ರೊ', 'ಕ್ರಿ', 'ಸಾ', 'ಶ', 'ಮಿ', 'ಸ', 'ಉದಾ', 'ಇ', 'ಕು', 'ಸೌ', 'ನಂ', 'ಪು', 'Dr', 'Mr', 'Mrs', 'St', 'No', 'e.g', 'i.e', 'etc']);
+function splitSentences(p) {
+  const toks = p.split(/(\s+)/), out = []; let cur = '';
+  for (let i = 0; i < toks.length; i++) {
+    const tk = toks[i]; cur += tk;
+    if (i % 2 === 1 || i + 1 >= toks.length) continue;
+    const bare = tk.replace(/["'”’)\]]+$/, '');
+    if (!/[.!?।|]$/.test(bare)) continue;
+    if (/[!?।|]$/.test(bare)) { out.push(cur.trim()); cur = ''; continue; }
+    const core = bare.replace(/\.+$/, '');
+    if (core.includes('.')) continue;                  // ಸಾ.ಶ. / ಕ್ರಿ.ಪೂ.
+    if (ABBR.has(core) || graphemes(core) <= 1) continue;
+    if (/^\(?\d+$/.test(core) && cur.trim() === tk) continue; // list number "1."
+    out.push(cur.trim()); cur = '';
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out.filter(Boolean);
+}
+const KW = ('ಬಾದಾಮಿ:Badami cave temples|ಐಹೊಳೆ:Aihole temples|ಪಟ್ಟದಕಲ್ಲ:Pattadakal|ಹಂಪಿ:Hampi|ವಿಜಯನಗರ:Vijayanagara Hampi|ಬೇಲೂರ:Belur Chennakeshava temple|ಹಳೇಬೀಡ:Halebidu Hoysaleswara|ಶ್ರವಣಬೆಳಗೊಳ:Shravanabelagola Gommateshwara|ಗೋಮಟೇಶ್ವರ:Gommateshwara statue|ಮೈಸೂರ:Mysore Palace|ಬೆಂಗಳೂರ:Bengaluru|ಕಂಚಿ:Kanchipuram temple|ಮಹಾಬಲಿಪುರ:Mahabalipuram|ಪಂಚರಥ:Pancha Rathas|ಪಂಚ ರಥ:Pancha Rathas|ತಂಜಾವೂರ:Brihadeeswarar Temple|ಅಜಂತ:Ajanta Caves|ಎಲ್ಲೋರ:Ellora Caves|ಕೆಂಪುಕೋಟೆ:Red Fort Delhi|ತಾಜ್:Taj Mahal|ಕುತುಬ್:Qutb Minar|ಸಾಂಚಿ:Sanchi Stupa|ಹರಪ್ಪ:Harappa|ಮೊಹೆಂಜೊದಾರೊ:Mohenjo-daro|ಸಿಂಧೂ:Indus Valley Civilisation|ಚಾಳುಕ್ಯ:Chalukya temple|ಪಲ್ಲವ:Pallava architecture|ಹೊಯ್ಸಳ:Hoysala temple|ರಾಷ್ಟ್ರಕೂಟ:Rashtrakuta Ellora|ಕದಂಬ:Kadamba Banavasi|ಮೌರ್ಯ:Maurya Empire|ಗುಪ್ತ:Gupta Empire|ಚೋಳ:Chola temple|ಶಾತವಾಹನ:Satavahana|ಮೊಘಲ:Mughal architecture|ವಿರೂಪಾಕ್ಷ:Virupaksha Temple Pattadakal|ದುರ್ಗಾ ದೇವಾಲಯ:Durga temple Aihole|ಕೈಲಾಸನಾಥ:Kailasanathar Temple Kanchipuram|ಕಡಲದಂಡೆಯ ದೇವಾಲಯ:Shore Temple Mahabalipuram|ಶಾಸನ:ancient inscription Karnataka|ಹ್ಯೂಯೆನ್:Xuanzang|ಗಾಂಧಿ:Mahatma Gandhi|ಅಂಬೇಡ್ಕರ:B. R. Ambedkar|ನೆಹರೂ:Jawaharlal Nehru|ಅಶೋಕ:Ashoka pillar|ಬುದ್ಧ:Buddha statue|ಮಹಾವೀರ:Mahavira statue|ಬಸವಣ್ಣ:Basavanna|ಚೆನ್ನಮ್ಮ:Kittur Chennamma|ಟಿಪ್ಪು:Tipu Sultan|ಶಿವಾಜಿ:Shivaji|ಅಕ್ಬರ:Akbar|ಕೃಷ್ಣದೇವರಾಯ:Krishnadevaraya|ಕುವೆಂಪು:Kuvempu|ವಿವೇಕಾನಂದ:Swami Vivekananda|ಸಂವಿಧಾನ:Constitution of India|ಸಂಸತ್ತು:Parliament House New Delhi|ಚುನಾವಣೆ:Indian election voting|ಪಂಚಾಯಿತಿ:gram panchayat India|ನ್ಯಾಯಾಲಯ:Supreme Court of India|ರಾಷ್ಟ್ರಧ್ವಜ:Flag of India|ಭೂಪಟ:map of India|ನಕ್ಷೆ:map of India|ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ:photosynthesis diagram|ಜೀವಕೋಶ:cell biology diagram|ಹೃದಯ:human heart diagram|ಮೆದುಳು:human brain|ಶ್ವಾಸಕೋಶ:human lungs|ಅಸ್ಥಿಪಂಜರ:human skeleton|ಜೀರ್ಣಾಂಗ:human digestive system|ರಕ್ತ:blood cells|ಹಲ್ಲು:human teeth|ಸೌರವ್ಯೂಹ:Solar System|ಗ್ರಹ:planets Solar System|ಸೂರ್ಯ:Sun|ಭೂಮಿ:Earth from space|ನಕ್ಷತ್ರ:night sky stars|ಗ್ರಹಣ:solar eclipse|ಜ್ವಾಲಾಮುಖಿ:volcano|ಭೂಕಂಪ:earthquake damage|ಮಳೆಬಿಲ್ಲು:rainbow|ಮಳೆ:rain|ಮೋಡ:clouds sky|ಜಲಚಕ್ರ:water cycle diagram|ನದಿ:river India|ಕಾವೇರಿ:Kaveri river|ಗಂಗಾ:Ganges river|ಹಿಮಾಲಯ:Himalayas|ಪಶ್ಚಿಮ ಘಟ್ಟ:Western Ghats|ಸಮುದ್ರ:sea coast|ಸಾಗರ:ocean|ಪರ್ವತ:mountain|ಅರಣ್ಯ:forest|ಕಾಡು:forest India|ಮರುಭೂಮಿ:desert|ಜಲಪಾತ:waterfall Karnataka|ಜೋಗ:Jog Falls|ಮಣ್ಣು:soil|ಶಿಲೆ:rocks|ಸಸ್ಯ:plant|ಎಲೆ:leaf|ಬೇರು:plant roots|ಹೂವು:flower|ಬೀಜ:seeds|ಹಣ್ಣು:fruits|ತರಕಾರಿ:vegetables|ಪ್ರಾಣಿ:animals|ಪಕ್ಷಿ:birds|ಕೀಟ:insect|ಚಿಟ್ಟೆ:butterfly|ಮೀನು:fish|ಆನೆ:Indian elephant|ಹುಲಿ:Bengal tiger|ನವಿಲು:Indian peafowl|ಹಸು:cow India|ಕಪ್ಪೆ:frog|ಹಾವು:snake|ವಿದ್ಯುತ್:electric circuit|ಅಯಸ್ಕಾಂತ:magnet|ಬೆಳಕು:light rays|ಶಬ್ದ:sound waves|ಶಾಖ:heat transfer|ಘರ್ಷಣೆ:friction|ಯಂತ್ರ:simple machines|ಸನ್ನೆ:lever|ಆಮ್ಲ:acid chemistry|ಲೋಹ:metals|ಆಮ್ಲಜನಕ:oxygen|ನೀರು:water drop|ಗಾಳಿ:wind|ವಾಯುಮಾಲಿನ್ಯ:air pollution|ಮಾಲಿನ್ಯ:pollution|ಪ್ಲಾಸ್ಟಿಕ್:plastic waste|ಕೃಷಿ:agriculture India|ರೈತ:Indian farmer|ಭತ್ತ:paddy field|ಗೋಧಿ:wheat field|ಹತ್ತಿ:cotton plant|ಕಬ್ಬು:sugarcane|ರೇಷ್ಮೆ:silk|ಕಾಫಿ:coffee plantation|ಆಹಾರ:healthy food|ಆರೋಗ್ಯ:health|ಸ್ವಚ್ಛತೆ:hand washing|ಯೋಗ:yoga|ಕ್ರೀಡೆ:sports|ಹಬ್ಬ:Indian festival|ಯಕ್ಷಗಾನ:Yakshagana|ಮೈಸೂರು ದಸರಾ:Mysore Dasara|ಹಳ್ಳಿ:Indian village|ನಗರ:Indian city|ರೈಲು:Indian railways|ಬಸ್:bus|ಅಂಚೆ:post office India|ಬ್ಯಾಂಕ್:bank|ನಾಣ್ಯ:ancient coins|ತ್ರಿಭುಜ:triangle geometry|ವೃತ್ತ:circle geometry|ಚೌಕ:square shape|ಆಯತ:rectangle|ಭಿನ್ನರಾಶಿ:fractions|ಗಡಿಯಾರ:clock|ಕ್ಯಾಲೆಂಡರ್:calendar|ಕಂಪ್ಯೂಟರ್:computer|ಪುಸ್ತಕ:books|ಶಾಲೆ:school India|ಗ್ರಂಥಾಲಯ:library|ದೇವಾಲಯ:Hindu temple Karnataka|ಕೋಟೆ:fort India|ಅರಮನೆ:palace India|ಗುಹೆ:cave temple|ವಿಗ್ರಹ:sculpture India|ಶಿಲ್ಪ:stone sculpture India|ಚಿತ್ರಕಲೆ:ancient painting India|ಹಡಗು:ancient ship|ನೌಕೆ:ship|ವ್ಯಾಪಾರ:ancient trade').split('|').map(s => s.split(':'));
+const isKnL = ch => ch && /[\u0C80-\u0CFF]/.test(ch);
+function kwPos(txt, k) { let i = txt.indexOf(k); while (i >= 0) { if (i === 0 || !isKnL(txt[i - 1])) return i; i = txt.indexOf(k, i + 1); } return -1; }
+function guessQuery(heading, body) {
+  for (const txt of [heading || '', body || '']) { let best = null, pos = 1e9; for (const [k, v] of KW) { const i = kwPos(txt, k); if (i >= 0 && i < pos) { pos = i; best = v; } } if (best) return best; }
+  return '';
+}
+function parseSections(raw) {
+  const lines = raw.replace(/\r/g, '').split('\n').map(s => s.replace(/[\t ]+/g, ' ').trim());
+  const lens = lines.filter(Boolean).map(l => l.length).sort((x, y) => x - y);
+  const typ = lens.length ? lens[Math.floor(lens.length * .8)] : 80;   // typical full line length
+  const headMax = Math.min(70, Math.max(24, typ * .68));
+  const bulRe = /^([•\-*●▪◦➢➤✓✔▶]|\(?\d{1,2}[.)]|\(?[೦-೯]{1,2}[.)]|[a-zA-Z][.)])\s+/;
+  const sections = []; let cur = { heading: '', items: [], kind: 'content' }; let para = '';
+  const kindOf = h => /ಅಭ್ಯಾಸ|ಪ್ರಶ್ನೆ|ಉತ್ತರಿಸಿ|ಪೂರ್ಣಗೊಳಿಸಿ|ಬಿಟ್ಟ ಸ್ಥಳ/.test(h) ? 'questions' : /ಚಟುವಟಿಕೆ|ಯೋಜನೆ/.test(h) ? 'activity' : /ಕಲಿಕಾ|ಉದ್ದೇಶ|ತಿಳಿಯುವಿರಿ|ಕಲಿಯುವಿರಿ/.test(h) ? 'objectives' : 'content';
+  const flush = () => { if (para.trim()) cur.items.push(...splitSentences(para)); para = ''; };
+  const newSec = (h, k) => { flush(); if (cur.items.length || cur.heading) sections.push(cur); cur = { heading: h, items: [], kind: k }; };
+  let prevEnded = true;
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (!l) { flush(); prevEnded = true; continue; }
+    const roman = l.match(/^(I{1,3}|IV|V|VI{1,3}|IX|X)[.)]\s+(.{2,70})$/);
+    if (roman || (/ತಿಳಿಯುವಿರಿ|ಕಲಿಯುವಿರಿ|ಕಲಿಕಾ ಉದ್ದೇಶ|ಕಲಿಕಾಂಶ/.test(l) && l.length < 130)) {
+      const hh = roman ? roman[2].replace(/[.:]\s*$/, '') : 'ಕಲಿಕಾ ಉದ್ದೇಶಗಳು';
+      newSec(hh, roman ? (kindOf(hh) === 'content' ? 'questions' : kindOf(hh)) : 'objectives'); prevEnded = true; continue;
+    }
+    const isBul = bulRe.test(l);
+    const words = l.split(' ').length;
+    const isHead = !isBul && l.length <= headMax && words <= 9 && (prevEnded || !para) && (!/[.!?।,;]$/.test(l) || /:$/.test(l));
+    if (isHead) { newSec(l.replace(/[:：]\s*$/, ''), kindOf(l)); prevEnded = true; continue; }
+    if (isBul) { flush(); para = l.replace(bulRe, '').trim(); prevEnded = /[.!?।:]$/.test(l); continue; }
+    para += (para ? ' ' : '') + l; prevEnded = /[.!?।:]$/.test(l);
+  }
+  flush(); if (cur.items.length || cur.heading) sections.push(cur);
+  return sections;
+}
+function textToSpec(raw, meta) {
+  const sections = parseSections(raw);
+  // the first heading may be the lesson name itself
+  let title = meta.title, subtitle = meta.subtitle;
+  const chapRe = /^(ಅಧ್ಯಾಯ|ಪಾಠ|ಘಟಕ|Chapter|Lesson|Unit)\s*[-–:]?\s*[0-9೦-೯]+\s*$/i;
+  sections.forEach(sec => { if (!sec.items.length && chapRe.test(sec.heading) && !subtitle) subtitle = sec.heading; });
+  if (!title) { const f = sections.find(sec => sec.heading && !chapRe.test(sec.heading) && sec.kind === 'content'); if (f) title = f.heading; }
+  const spec = { title: title || 'ಪಾಠ', subtitle, cls: meta.cls, subject: meta.subject, teacher: meta.teacher, imageQuery: guessQuery(title || '', ''), slides: [] };
+  const heads = [];
+  sections.forEach((sec, si) => {
+    let h = sec.heading || (si === 0 ? (title || 'ಪರಿಚಯ') : 'ಮುಂದುವರಿದ ಭಾಗ');
+    if (si === 0 && sec.heading && sec.heading === title && sec.items.length) h = title;
+    if (!sec.items.length) return;
+    if (sec.kind !== 'content') { spec.slides.push({ type: sec.kind, heading: h, points: sec.items }); return; }
+    heads.push(h);
+    // merge very short sentences into the previous point, then split evenly (≤4 points / ~70 words per slide)
+    const items = []; sec.items.forEach(it => { if (items.length && it.split(' ').length <= 4) items[items.length - 1] += ' ' + it; else items.push(it); });
+    const wcs = items.map(it => it.split(' ').length), total = wcs.reduce((a, b) => a + b, 0);
+    const k = Math.max(1, Math.ceil(items.length / 4), Math.ceil(total / 70)), target = total / k;
+    let grp = [], wc = 0, first = true, made = 0;
+    const push = () => { if (!grp.length) return; const q = guessQuery(h, grp.join(' ')); spec.slides.push({ type: 'content', heading: h, points: grp, imageQuery: q, _cont: !first }); first = false; grp = []; wc = 0; made++; };
+    items.forEach((it, i) => { const left = items.length - i; if (grp.length && (grp.length >= 4 || (wc >= target * .85 && made < k - 1) || left < (k - made - 1))) push(); grp.push(it); wc += wcs[i]; });
+    push();
+  });
+  spec.slides.forEach(s => { if (s._cont) s.heading += CONT; delete s._cont; });
+  if (heads.length >= 3) spec.slides.push({ type: 'summary', heading: 'ಈ ಪಾಠದಲ್ಲಿ ನಾವು ಕಲಿತದ್ದು', points: [...new Set(heads)] });
+  return spec;
+}
+
+/* ------------------------------------------------------- AI-help prompt */
+function aiPrompt(m) {
+  return `ನೀವು ಕರ್ನಾಟಕದ ಸರ್ಕಾರಿ ಶಾಲೆಯ ಅನುಭವಿ ಶಿಕ್ಷಕರು. ಕೆಳಗೆ ಕೊಟ್ಟಿರುವ ಪಾಠಕ್ಕೆ, ತರಗತಿಯ TV ಯಲ್ಲಿ ತೋರಿಸುವ ಪ್ರಸ್ತುತಿಯ (presentation) ಸ್ಲೈಡ್‌ಗಳ ವಿಷಯವನ್ನು JSON ರೂಪದಲ್ಲಿ ತಯಾರಿಸಿ.
+
+ಕಟ್ಟುನಿಟ್ಟಾದ ನಿಯಮಗಳು:
+1. ಪಾಠದ ಯಾವುದೇ ಮಾಹಿತಿ — ಹೆಸರು, ಇಸವಿ, ಸಂಖ್ಯೆ, ಬಿರುದು, ಕೃತಿ, ಸ್ಥಳ, ಉದಾಹರಣೆ — ಬಿಟ್ಟುಹೋಗಬಾರದು. ಸಾರಾಂಶ ಮಾಡಬೇಡಿ. ಪಾಠದ ಪ್ರತಿಯೊಂದು ವಾಕ್ಯದ ಮಾಹಿತಿಯೂ ಯಾವುದಾದರೂ ಸ್ಲೈಡ್‌ನಲ್ಲಿ ಬರಲೇಬೇಕು. ಎಷ್ಟು ಸ್ಲೈಡ್ ಬೇಕೋ ಅಷ್ಟು ಮಾಡಿ.
+2. ಪಾಠದಲ್ಲಿ ಇಲ್ಲದ ಹೊಸ ಮಾಹಿತಿಯನ್ನು ಸೇರಿಸಬೇಡಿ.
+3. ಪ್ರತಿ ಸ್ಲೈಡ್‌ನಲ್ಲಿ 3 ರಿಂದ 5 ಅಂಶಗಳು. ಪ್ರತಿ ಅಂಶ ಒಂದು ಪೂರ್ಣ, ಸರಳ ವಾಕ್ಯ. ಪಠ್ಯಪುಸ್ತಕದ ಪದಗಳನ್ನೇ ಬಳಸಿ.
+4. ಸ್ಲೈಡ್‌ಗಳ ಭಾಷೆ ಪಾಠದ ಭಾಷೆಯೇ ಆಗಿರಲಿ (ಕನ್ನಡ ಪಾಠಕ್ಕೆ ಶುದ್ಧ ಕನ್ನಡ). "imageQuery" ಮಾತ್ರ ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ — Wikimedia Commons ನಲ್ಲಿ ಚಿತ್ರ ಹುಡುಕಲು 2–4 ನಿಖರ ಪದಗಳು (ಉದಾ: "Pattadakal temple", "photosynthesis diagram"). ಚಿತ್ರ ಅಗತ್ಯವಿಲ್ಲದ ಸ್ಲೈಡ್‌ನಲ್ಲಿ imageQuery ಬಿಡಿ.
+5. ಕ್ರಮ: ಕಲಿಕಾ ಉದ್ದೇಶಗಳು → ಪಾಠದ ವಿಷಯ (ಪಾಠದ ಕ್ರಮದಲ್ಲೇ; ಹೊಸ ಭಾಗ ಶುರುವಾದರೆ "section") → ಪ್ರಮುಖ ಪದಗಳು → ಇಸವಿಗಳಿದ್ದರೆ ಕಾಲರೇಖೆ → ಹೋಲಿಕೆ ಸಾಧ್ಯವಿದ್ದರೆ ಹೋಲಿಕೆ → ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗಳು (ಪಾಠದಲ್ಲಿರುವ ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳು; ಉತ್ತರಗಳನ್ನು "notes" ನಲ್ಲಿ) → ಚಟುವಟಿಕೆಗಳು → ಸಾರಾಂಶ.
+6. ಶೀರ್ಷಿಕೆ ಸ್ಲೈಡ್ ಬೇಡ (ಅದನ್ನು ನಾವೇ ಮಾಡುತ್ತೇವೆ).
+7. ಉತ್ತರದಲ್ಲಿ JSON ಮಾತ್ರ ಇರಲಿ. ಬೇರೆ ಯಾವುದೇ ವಿವರಣೆ ಬೇಡ.
+
+JSON ರೂಪ (type ಗಳನ್ನು ಅಗತ್ಯಕ್ಕೆ ತಕ್ಕಂತೆ ಬಳಸಿ):
+{
+ "title": "ಪಾಠದ ಹೆಸರು",
+ "subtitle": "ಅಧ್ಯಾಯ ಸಂಖ್ಯೆ ಅಥವಾ ಉಪಶೀರ್ಷಿಕೆ",
+ "imageQuery": "english words",
+ "slides": [
+  {"type":"objectives","heading":"ಕಲಿಕಾ ಉದ್ದೇಶಗಳು","points":["..."]},
+  {"type":"content","heading":"...","points":["...","..."],"highlight":"ನೆನಪಿಡಬೇಕಾದ ಮುಖ್ಯ ಅಂಶ (ಐಚ್ಛಿಕ)","imageQuery":"english words","notes":"ಶಿಕ್ಷಕರಿಗೆ ಸಲಹೆ (ಐಚ್ಛಿಕ)"},
+  {"type":"section","heading":"ಹೊಸ ಭಾಗದ ಹೆಸರು","subtitle":"..."},
+  {"type":"flow","heading":"...","points":["ಹಂತ – ವಿವರ","ಹಂತ – ವಿವರ"]},
+  {"type":"timeline","heading":"...","points":["ಇಸವಿ – ಘಟನೆ"]},
+  {"type":"compare","heading":"...","left":{"title":"...","points":["..."]},"right":{"title":"...","points":["..."]}},
+  {"type":"quote","heading":"...","lines":["ಪದ್ಯ/ಶಾಸನದ ಸಾಲು"],"explain":"ಅರ್ಥ"},
+  {"type":"keywords","heading":"ಪ್ರಮುಖ ಪದಗಳು","points":["ಪದ – ಅರ್ಥ"]},
+  {"type":"questions","heading":"ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗಳು","points":["..."],"notes":"ಉತ್ತರಗಳು: ..."},
+  {"type":"activity","heading":"ಚಟುವಟಿಕೆಗಳು","points":["..."]},
+  {"type":"summary","heading":"ಸಾರಾಂಶ","points":["..."]}
+ ]
+}
+${m.cls ? 'ತರಗತಿ: ' + m.cls + '\n' : ''}${m.subject ? 'ವಿಷಯ: ' + m.subject + '\n' : ''}${m.title ? 'ಪಾಠದ ಹೆಸರು: ' + m.title + '\n' : ''}
+ಪಾಠ:
+"""
+${m.text}
+"""`;
+}
+function parseAI(txt) {
+  let s = txt.replace(/```(?:json)?/gi, '').trim();
+  const a = s.indexOf('{'), b = s.lastIndexOf('}'); if (a < 0 || b < a) throw new Error('JSON ಸಿಗಲಿಲ್ಲ');
+  s = s.slice(a, b + 1);
+  try { return JSON.parse(s); } catch (e) { }
+  s = s.replace(/[“”]/g, '"').replace(/,\s*([}\]])/g, '$1');
+  return JSON.parse(s);
+}
+
+/* ------------------------------------------------- coverage checker */
+function deckAllText(deck) {
+  const out = [];
+  deck.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && !e.dyn) out.push(e.text); }));
+  return out.join(' ');
+}
+function coverage(source, deck) {
+  const norm = s => s.replace(/[^ಀ-೿a-zA-Z0-9]+/g, ' ').trim();
+  const dset = new Set();
+  norm(deckAllText(deck)).split(' ').forEach(w => { for (let k = 3; k <= Math.min(6, w.length); k++) dset.add(w.slice(0, k)); if (w.length < 3) dset.add(w); });
+  const sents = parseSections(source).flatMap(sec => sec.items);
+  const miss = []; let tot = 0, hit = 0;
+  sents.forEach(s => {
+    const ws = norm(s).split(' ').filter(w => w.length >= 3); if (ws.length < 3) return;
+    tot++; const k = ws.filter(w => dset.has(w.slice(0, Math.min(6, w.length)))).length;
+    if (k / ws.length >= 0.6) hit++; else miss.push(s);
+  });
+  const deckNums = new Set((deckAllText(deck).match(/\d+/g) || []));
+  const missNums = [...new Set((source.match(/\d+/g) || []).filter(n => !deckNums.has(n)))];
+  return { pct: tot ? Math.round(hit / tot * 100) : 100, tot, miss, missNums };
+}
+
+/* ======================================================= application state */
+let D = null;                        // current deck
+const st = { cur: 0, sel: null, scale: 1, hist: [], hi: -1, drag: null, editing: null };
+const thNow = () => thFor(D);
+const curSlide = () => D.slides[st.cur];
+const selEl = () => st.sel ? curSlide().els.find(e => e.id === st.sel) : null;
+function srcOf(e) { if (!e.src) return ''; if (e.src.startsWith('asset:')) return D.assets[e.src.slice(6)] || ''; return e.src; }
+
+/* ----------------------------------------------------- DOM rendering */
+function polyPts(e) {
+  if (e.shape === 'triangle') return [[e.w / 2, 0], [e.w, e.h], [0, e.h]];
+  if (e.shape === 'arrow') { const hl = Math.min(e.w, e.h) * .5, x = e.w - hl; return [[0, e.h * .25], [x, e.h * .25], [x, 0], [e.w, e.h / 2], [x, e.h], [x, e.h * .75], [0, e.h * .75]]; }
+  if (e.shape === 'star') { const p = [], cx = e.w / 2, cy = e.h / 2; for (let i = 0; i < 10; i++) { const r = i % 2 ? .4 : 1, a = -Math.PI / 2 + i * Math.PI / 5; p.push([cx + Math.cos(a) * cx * r, cy + Math.sin(a) * cy * r]); } return p; }
+  return null;
+}
+function elHTML(e, th, idx, mode) {
+  const cls = ['el']; if (e.lock) cls.push('lk'); if (e._over && mode === 'edit') cls.push('over');
+  let st0 = `left:${e.x}px;top:${e.y}px;width:${e.w}px;height:${e.h}px;opacity:${e.op ?? 1};`;
+  if (e.rot) st0 += `transform:rotate(${e.rot}deg);`;
+  let inner = '';
+  if (e.t === 'text') {
+    const fill = col(e.fill, th), bc = col(e.bc, th);
+    const box = `background:${fill || 'transparent'};border-radius:${e.rad || 0}px;padding:${e.pad || 0}px;justify-content:${e.va === 'middle' ? 'center' : e.va === 'bottom' ? 'flex-end' : 'flex-start'};${bc && e.bw ? `box-shadow:inset 0 0 0 ${e.bw}px ${bc};` : ''}`;
+    const tx = `font-family:${famCss(e.ff, th).replace(/"/g, "'")};font-size:${e.fs}px;font-weight:${e.bold ? 700 : 400};font-style:${e.italic ? 'italic' : 'normal'};color:${col(e.fc, th)};text-align:${e.align || 'left'};line-height:${e.lh || 1.35};--bc:${th.a}`;
+    const paras = dynText(e, idx).split('\n').map(p => `<p${e.bullets && p.trim() ? ' class="b"' : ''}>${p.trim() ? esc(p.trim()) : '&nbsp;'}</p>`).join('');
+    inner = `<div class="bx" style="${box}"><div class="tx" style="${tx}">${paras}</div></div>`;
+  } else if (e.t === 'shape') {
+    const fill = col(e.fill, th) || 'transparent', bc = col(e.bc, th); const pts = polyPts(e);
+    let s = `position:absolute;inset:0;background:${fill};`;
+    if (e.shape === 'ellipse') s += 'border-radius:50%;'; else if (!pts) s += `border-radius:${e.rad || 0}px;`;
+    if (pts) s += `clip-path:polygon(${pts.map(p => `${p[0].toFixed(1)}px ${p[1].toFixed(1)}px`).join(',')});`;
+    else if (bc && e.bw) s += `box-shadow:inset 0 0 0 ${e.bw}px ${bc};`;
+    inner = `<div style="${s}"></div>`;
+  } else if (e.t === 'img') {
+    const src = srcOf(e), bc = col(e.bc, th);
+    const r = `border-radius:${e.rad || 0}px;`;
+    if (src) inner = `<div class="im" style="${r}"><img src="${esc(src)}" alt="" draggable="false" style="object-fit:${e.fit || 'cover'}">${bc && e.bw ? `<div class="bd" style="${r}box-shadow:inset 0 0 0 ${e.bw}px ${bc}"></div>` : ''}${e.credit && mode !== 'thumb' ? `<div class="cr${(e.rad || 0) > Math.min(e.w, e.h) / 4 ? ' rc' : ''}">${esc(e.credit)}</div>` : ''}</div>`;
+    else inner = `<div class="im" style="${r}"><div class="ph" style="${r}">${e._loading ? '⏳<br>ಚಿತ್ರ ಹುಡುಕುತ್ತಿದೆ…' : '🖼️<br>ಚಿತ್ರ ಸೇರಿಸಲು ಎರಡು ಬಾರಿ ಒತ್ತಿ'}${e.q ? `<small>${esc(e.q)}</small>` : ''}</div></div>`;
+  }
+  return `<div class="${cls.join(' ')}" data-id="${e.id}" style="${st0}">${inner}</div>`;
+}
+function slideHTML(s, idx, mode) {
+  const th = thNow();
+  return `<div class="sl mode-${mode === 'edit' ? 'edit' : 'view'}" style="background:${bgCss(s.bg, th)}">${s.els.map(e => elHTML(e, th, idx, mode)).join('')}</div>`;
+}
+function layoutStage() {
+  const w = $('#wrap'); if (!w) return; const r = w.getBoundingClientRect();
+  const sc = Math.max(.1, Math.min((r.width - 40) / W, (r.height - 40) / H));
+  st.scale = sc; const sg = $('#stage');
+  sg.style.transform = `scale(${sc})`; sg.style.left = Math.round((r.width - W * sc) / 2) + 'px'; sg.style.top = Math.round((r.height - H * sc) / 2) + 'px';
+  drawSel();
+}
+function renderStage() {
+  if (!D) return;
+  st.cur = clamp(st.cur, 0, D.slides.length - 1);
+  if (st.sel && !selEl()) st.sel = null;
+  $('#stage').innerHTML = slideHTML(curSlide(), st.cur, 'edit') + '<div id="ov"></div>';
+  drawSel();
+}
+function drawSel() {
+  const ov = $('#ov'); if (!ov) return; ov.innerHTML = '';
+  const e = selEl(); if (!e || st.editing) return;
+  const hs = 14 / st.scale;
+  const box = document.createElement('div'); box.className = 'selbox';
+  Object.assign(box.style, { left: e.x + 'px', top: e.y + 'px', width: e.w + 'px', height: e.h + 'px', transform: e.rot ? `rotate(${e.rot}deg)` : '', outlineWidth: (2 / st.scale) + 'px' });
+  const H8 = { nw: [0, 0], n: [.5, 0], ne: [1, 0], e: [1, .5], se: [1, 1], s: [.5, 1], sw: [0, 1], w: [0, .5] };
+  const cur = { nw: 'nwse', se: 'nwse', ne: 'nesw', sw: 'nesw', n: 'ns', s: 'ns', e: 'ew', w: 'ew' };
+  for (const k in H8) {
+    const h = document.createElement('div'); h.className = 'hd'; h.dataset.h = k;
+    Object.assign(h.style, { width: hs + 'px', height: hs + 'px', left: (H8[k][0] * e.w - hs / 2) + 'px', top: (H8[k][1] * e.h - hs / 2) + 'px', cursor: cur[k] + '-resize', borderWidth: (2 / st.scale) + 'px' });
+    box.appendChild(h);
+  }
+  const r = document.createElement('div'); r.className = 'hd rt'; r.dataset.h = 'rot';
+  Object.assign(r.style, { width: hs * 1.2 + 'px', height: hs * 1.2 + 'px', left: (e.w / 2 - hs * .6) + 'px', top: (-hs * 3) + 'px' });
+  box.appendChild(r); ov.appendChild(box);
+}
+function renderThumbs() {
+  const th = $('#thumbs'); if (!D) { th.innerHTML = ''; return; }
+  th.innerHTML = D.slides.map((s, i) => `<div class="th${i === st.cur ? ' on' : ''}" data-i="${i}" draggable="true"><span class="n">${i + 1}</span><div class="box"><div class="mini">${slideHTML(s, i, 'thumb')}</div></div><div class="ta"><button data-a="dup" title="ನಕಲು">⧉</button><button data-a="del" title="ಅಳಿಸು">🗑</button></div></div>`).join('') + `<button class="addsl" id="addSlide">＋ ಹೊಸ ಸ್ಲೈಡ್</button>`;
+  const on = th.querySelector('.th.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+function updThumb(i = st.cur) {
+  const t = $(`#thumbs .th[data-i="${i}"] .mini`); if (t) t.innerHTML = slideHTML(D.slides[i], i, 'thumb');
+}
+const updThumbLater = debounce(() => updThumb(), 250);
+function renderAll() {
+  if (!D) return;
+  $('#deckTitle').value = D.title;
+  renderThumbs(); renderStage(); renderPanel(); updUndo();
+}
+
+/* ----------------------------------------------------- history & storage */
+const snap = () => JSON.stringify({ title: D.title, theme: D.theme, slides: D.slides });
+function resetHist() { st.hist = [snap()]; st.hi = 0; updUndo(); }
+function commit(opts = {}) {
+  if (!D) return;
+  const s = snap(); if (st.hist[st.hi] === s) return;
+  st.hist = st.hist.slice(0, st.hi + 1); st.hist.push(s); if (st.hist.length > 80) st.hist.shift(); st.hi = st.hist.length - 1;
+  D.updated = Date.now(); saveLater(); updUndo();
+  if (!opts.noThumb) updThumbLater();
+}
+function restore(s) { const o = JSON.parse(s); D.title = o.title; D.theme = o.theme; D.slides = o.slides; st.sel = null; renderAll(); saveLater(); }
+function undo() { if (st.hi > 0) { st.hi--; restore(st.hist[st.hi]); } }
+function redo() { if (st.hi < st.hist.length - 1) { st.hi++; restore(st.hist[st.hi]); } }
+function updUndo() { $('#bUndo').disabled = st.hi <= 0; $('#bRedo').disabled = st.hi >= st.hist.length - 1; }
+
+const DB = {
+  db: null,
+  open() { if (this.db) return Promise.resolve(this.db); return new Promise((res, rej) => { try { const r = indexedDB.open('drushyapaata', 1); r.onupgradeneeded = () => r.result.createObjectStore('projects', { keyPath: 'id' }); r.onsuccess = () => { this.db = r.result; res(this.db); }; r.onerror = () => rej(r.error); } catch (e) { rej(e); } }); },
+  async tx(mode, fn) { const db = await this.open(); return new Promise((res, rej) => { const t = db.transaction('projects', mode); const s = t.objectStore('projects'); const r = fn(s); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); },
+  put(d) { return this.tx('readwrite', s => s.put(d)); },
+  del(id) { return this.tx('readwrite', s => s.delete(id)); },
+  all() { return this.tx('readonly', s => s.getAll()); },
+  get(id) { return this.tx('readonly', s => s.get(id)); },
+};
+function cleanDeck(d) { return JSON.parse(JSON.stringify(d, (k, v) => (k === '_loading' ? undefined : v))); }
+const saveLater = debounce(async () => { if (!D) return; try { await DB.put(cleanDeck(D)); try { localStorage.setItem('dp_last', D.id); } catch (e) { } } catch (e) { console.warn(e); toast('⚠️ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿಸಲು ಆಗಲಿಲ್ಲ. "ಡೌನ್‌ಲೋಡ್ → ಯೋಜನೆ ಫೈಲ್" ಬಳಸಿ ಉಳಿಸಿ.', 5000); } }, 700);
+
+/* ----------------------------------------------------- open a deck */
+async function openDeck(d, { fetchImgs = true } = {}) {
+  D = d; D.assets = D.assets || {}; st.cur = 0; st.sel = null;
+  $('#home').classList.add('hide');
+  await ensureFonts(thNow());
+  D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && !e.dyn) fit(e, thNow()); }));
+  resetHist(); renderAll(); requestAnimationFrame(layoutStage); saveLater();
+  if (fetchImgs) autoImages();
+}
+
+/* ----------------------------------------------------- Wikimedia images */
+const wcache = {};
+async function wikiSearch(q) {
+  q = (q || '').trim(); if (!q) return [];
+  if (wcache[q]) return wcache[q];
+  const u = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=30&gsrsearch=' + encodeURIComponent(q) + '&prop=imageinfo&iiprop=url|mime|extmetadata&iiextmetadatafilter=Artist|LicenseShortName&iiurlwidth=960';
+  const r = await fetch(u); if (!r.ok) throw new Error('net'); const j = await r.json();
+  const pages = Object.values((j.query && j.query.pages) || {}).sort((a, b) => (a.index || 0) - (b.index || 0));
+  const res = pages.map(p => {
+    const ii = p.imageinfo && p.imageinfo[0]; if (!ii || !/image\/(jpeg|png|webp|gif|svg\+xml)/.test(ii.mime || '')) return null;
+    const full = ii.thumburl || ii.url; const thumb = full.includes('/960px-') ? full.replace('/960px-', '/330px-') : full;
+    const md = ii.extmetadata || {}; const artist = (md.Artist && md.Artist.value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
+    const lic = md.LicenseShortName && md.LicenseShortName.value || '';
+    return { full, thumb, title: p.title.replace(/^File:/, ''), credit: ['ಚಿತ್ರ: Wikimedia Commons', artist, lic].filter(Boolean).join(' · ') };
+  }).filter(Boolean);
+  wcache[q] = res; return res;
+}
+let autoRun = 0;
+async function autoImages() {
+  if (!D) return; const run = ++autoRun; const deckId = D.id;
+  const jobs = []; D.slides.forEach((s, si) => s.els.forEach(e => { if (e.t === 'img' && !e.src && e.q) jobs.push([si, e]); }));
+  if (!jobs.length) return;
+  const used = new Set(); D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'img' && e.src) used.add(e.src); }));
+  jobs.forEach(([, e]) => e._loading = true); renderStage(); renderThumbs();
+  let done = 0, okc = 0, fail = 0; toast(`🖼️ ಚಿತ್ರಗಳನ್ನು ಹುಡುಕುತ್ತಿದೆ… 0/${jobs.length}`, 0);
+  const worker = async () => {
+    while (jobs.length) {
+      const [si, e] = jobs.shift(); if (run !== autoRun || !D || D.id !== deckId) return;
+      try { const res = await wikiSearch(e.q); const pick = res.find(r => !used.has(r.full)) || res[0]; if (pick) { e.src = pick.full; e.credit = pick.credit; used.add(pick.full); okc++; } }
+      catch (err) { fail++; }
+      e._loading = false; done++;
+      toast(`🖼️ ಚಿತ್ರಗಳನ್ನು ಹುಡುಕುತ್ತಿದೆ… ${done}/${done + jobs.length}`, 0);
+      if (si === st.cur) renderStage(); updThumb(si);
+    }
+  };
+  await Promise.all([worker(), worker(), worker()]);
+  if (run !== autoRun) return;
+  renderStage(); renderPanel(); commit();
+  if (fail && !okc) toast('⚠️ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಇಲ್ಲದಿರುವಂತಿದೆ — ಚಿತ್ರಗಳನ್ನು ನಂತರ ಸೇರಿಸಬಹುದು (ಚಿತ್ರದ ಜಾಗವನ್ನು ಎರಡು ಬಾರಿ ಒತ್ತಿ).', 6000);
+  else toast(`✅ ${okc} ಚಿತ್ರಗಳು ಸೇರಿದವು. ಬದಲಿಸಲು ಚಿತ್ರವನ್ನು ಒತ್ತಿ → ಬಲಭಾಗದಲ್ಲಿ ಇತರ ಸಲಹೆಗಳು.`, 4500);
+}
+
+/* ----------------------------------------------------- editing helpers */
+function addEl(e, select = true) {
+  const s = curSlide(); s.els.push(e); if (e.t === 'text') fit(e, thNow());
+  if (select) st.sel = e.id; renderStage(); renderPanel(); commit();
+}
+function delSel() { const s = curSlide(); const e = selEl(); if (!e) return; s.els = s.els.filter(x => x.id !== e.id); st.sel = null; renderStage(); renderPanel(); commit(); }
+function dupSel() { const e = selEl(); if (!e) return; const c = JSON.parse(JSON.stringify(e)); c.id = uid(); c.x += 24; c.y += 24; delete c.lock; delete c.chrome; addEl(c); }
+let clip = null;
+function refit(e) { if (e && e.t === 'text') fit(e, thNow()); }
+function setProp(k, v, live) {
+  const e = selEl(); if (!e) return;
+  e[k] = v;
+  if (k === 'fs') { e.auto = false; e.fsMax = v; }
+  if (e.t === 'text' && ['fs', 'ff', 'bold', 'italic', 'pad', 'lh', 'bullets', 'text', 'auto'].includes(k)) { if (k === 'auto' && v) e.fsMax = Math.max(e.fsMax || e.fs, e.fs); refit(e); }
+  renderStage(); if (!live) { renderPanel(); commit(); } else updThumbLater();
+}
+function layer(dir) {
+  const s = curSlide(); const e = selEl(); if (!e) return; const i = s.els.indexOf(e); s.els.splice(i, 1);
+  const nc = s.els.filter(x => x.chrome).length;
+  let j = dir === 'front' ? s.els.length : dir === 'back' ? nc : dir === 'up' ? Math.min(s.els.length, i + 1) : Math.max(nc, i - 1);
+  s.els.splice(j, 0, e); renderStage(); commit();
+}
+
+/* ----------------------------------------------------- stage interactions */
+function stagePt(ev) { const r = $('#stage').getBoundingClientRect(); return { x: (ev.clientX - r.left) / st.scale, y: (ev.clientY - r.top) / st.scale }; }
+function showGuides(gs) { const ov = $('#ov'); if (!ov) return; $$('.guide', ov).forEach(g => g.remove()); gs.forEach(g => { const d = document.createElement('div'); d.className = 'guide'; const t = 2 / st.scale; Object.assign(d.style, g.v ? { left: g.p - t / 2 + 'px', top: 0, width: t + 'px', height: H + 'px' } : { top: g.p - t / 2 + 'px', left: 0, height: t + 'px', width: W + 'px' }); ov.appendChild(d); }); }
+function initStage() {
+  const sg = $('#stage');
+  sg.addEventListener('pointerdown', ev => {
+    if (st.editing) return;
+    if (ev.button !== 0 && ev.pointerType === 'mouse') return;
+    const p = stagePt(ev); const hdl = ev.target.closest('.hd');
+    if (hdl && selEl()) {
+      const e = selEl(); ev.preventDefault(); sg.setPointerCapture(ev.pointerId);
+      st.drag = { mode: hdl.dataset.h === 'rot' ? 'rot' : 'rs', h: hdl.dataset.h, p0: p, o: { x: e.x, y: e.y, w: e.w, h: e.h, rot: e.rot || 0 }, moved: false };
+      return;
+    }
+    const elD = ev.target.closest('.el');
+    const e = elD ? curSlide().els.find(x => x.id === elD.dataset.id) : null;
+    if (!e || e.lock) { if (st.sel) { st.sel = null; drawSel(); renderPanel(); } return; }
+    if (st.sel !== e.id) { st.sel = e.id; drawSel(); renderPanel(); }
+    ev.preventDefault(); sg.setPointerCapture(ev.pointerId);
+    st.drag = { mode: 'mv', p0: p, o: { x: e.x, y: e.y }, moved: false };
+  });
+  sg.addEventListener('pointermove', ev => {
+    const d = st.drag; if (!d) return; const e = selEl(); if (!e) return;
+    const p = stagePt(ev); let dx = p.x - d.p0.x, dy = p.y - d.p0.y;
+    if (!d.moved && Math.abs(dx) + Math.abs(dy) < 3) return; d.moved = true;
+    if (d.mode === 'mv') {
+      let nx = d.o.x + dx, ny = d.o.y + dy; const gs = []; const T6 = 7;
+      const cx = nx + e.w / 2, cy = ny + e.h / 2;
+      if (Math.abs(cx - W / 2) < T6) { nx = W / 2 - e.w / 2; gs.push({ v: 1, p: W / 2 }); }
+      else if (Math.abs(nx - MX) < T6) { nx = MX; gs.push({ v: 1, p: MX }); }
+      else if (Math.abs(nx + e.w - (W - MX)) < T6) { nx = W - MX - e.w; gs.push({ v: 1, p: W - MX }); }
+      if (Math.abs(cy - H / 2) < T6) { ny = H / 2 - e.h / 2; gs.push({ v: 0, p: H / 2 }); }
+      e.x = Math.round(nx); e.y = Math.round(ny);
+      const node = $(`#stage .el[data-id="${e.id}"]`); if (node) { node.style.left = e.x + 'px'; node.style.top = e.y + 'px'; }
+      drawSel(); showGuides(gs);
+    } else if (d.mode === 'rs') {
+      const o = d.o, h = d.h; let x = o.x, y = o.y, w = o.w, hh = o.h;
+      if (h.includes('e')) w = o.w + dx; if (h.includes('s')) hh = o.h + dy;
+      if (h.includes('w')) { w = o.w - dx; x = o.x + dx; } if (h.includes('n')) { hh = o.h - dy; y = o.y + dy; }
+      const keep = (e.t === 'img' || ev.shiftKey) && h.length === 2;
+      if (keep) { const r = o.w / o.h; if (Math.abs(w / o.w) > Math.abs(hh / o.h)) { hh = w / r; } else { w = hh * r; } if (h.includes('w')) x = o.x + o.w - w; if (h.includes('n')) y = o.y + o.h - hh; }
+      if (w < 20) { if (h.includes('w')) x -= 20 - w; w = 20; } if (hh < 16) { if (h.includes('n')) y -= 16 - hh; hh = 16; }
+      Object.assign(e, { x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(hh) });
+      if (e.t === 'text') refit(e);
+      const node = $(`#stage .el[data-id="${e.id}"]`); if (node) node.outerHTML = elHTML(e, thNow(), st.cur, 'edit');
+      drawSel();
+    } else if (d.mode === 'rot') {
+      const cx = e.x + e.w / 2, cy = e.y + e.h / 2; let a = Math.atan2(p.y - cy, p.x - cx) * 180 / Math.PI + 90;
+      a = ((a % 360) + 360) % 360; if (a > 180) a -= 360; if (ev.shiftKey) a = Math.round(a / 15) * 15; else if (Math.abs(a) < 4) a = 0;
+      e.rot = Math.round(a); const node = $(`#stage .el[data-id="${e.id}"]`); if (node) node.style.transform = e.rot ? `rotate(${e.rot}deg)` : ''; drawSel();
+    }
+  });
+  const end = () => { const d = st.drag; st.drag = null; showGuides([]); if (d && d.moved) { renderStage(); renderPanel(); commit(); } };
+  sg.addEventListener('pointerup', end); sg.addEventListener('pointercancel', end);
+  sg.addEventListener('dblclick', ev => {
+    const elD = document.elementsFromPoint(ev.clientX, ev.clientY).find(n => n.classList && n.classList.contains('el') && !n.classList.contains('lk') && n.closest('#stage')); if (!elD) return; const e = curSlide().els.find(x => x.id === elD.dataset.id); if (!e || e.lock) return;
+    if (e.t === 'text' && !e.dyn) startTextEdit(e); else if (e.t === 'img') openImageDialog(e);
+  });
+}
+function startTextEdit(e) {
+  const th = thNow(); st.editing = e.id; st.sel = e.id; drawSel();
+  const ta = document.createElement('textarea'); ta.id = 'tedit'; ta.value = e.text;
+  Object.assign(ta.style, { left: e.x + 'px', top: e.y + 'px', width: Math.max(e.w, 160) + 'px', height: Math.max(e.h, 60) + 'px', fontFamily: famCss(e.ff, th), fontSize: e.fs + 'px', fontWeight: e.bold ? 700 : 400, lineHeight: e.lh || 1.35, textAlign: e.align || 'left', transform: e.rot ? `rotate(${e.rot}deg)` : '' });
+  $('#stage').appendChild(ta);
+  const node = $(`#stage .el[data-id="${e.id}"]`); if (node) node.style.visibility = 'hidden';
+  ta.focus(); ta.select();
+  const done = () => { if (st.editing !== e.id) return; st.editing = null; e.text = ta.value; refit(e); ta.remove(); renderStage(); renderPanel(); commit(); };
+  ta.addEventListener('blur', done);
+  ta.addEventListener('keydown', ev => { if (ev.key === 'Escape') { ev.preventDefault(); ta.blur(); } ev.stopPropagation(); });
+  ta.addEventListener('pointerdown', ev => ev.stopPropagation());
+}
+
+/* ----------------------------------------------------- properties panel */
+function swatches(key, cur, allowNone) {
+  const th = thNow(); let h = '<div class="sw">';
+  if (allowNone) h += `<button class="none${!cur ? ' on' : ''}" data-c="${key}" data-v="" title="ಬಣ್ಣ ಇಲ್ಲ"></button>`;
+  TOK.forEach(([k, n]) => { h += `<button style="background:${th[k]}" class="${cur === '$' + k ? 'on' : ''}" data-c="${key}" data-v="$${k}" title="ವಿನ್ಯಾಸದ ${n} ಬಣ್ಣ"></button>`; });
+  PALETTE.forEach(c => { h += `<button style="background:${c}" class="${cur === c ? 'on' : ''}" data-c="${key}" data-v="${c}"></button>`; });
+  const hex = col(cur, th) || '#ffffff';
+  h += `<input type="color" data-cc="${key}" value="${/^#[0-9a-f]{6}$/i.test(hex) ? hex : '#ffffff'}" title="ಬೇರೆ ಬಣ್ಣ"></div>`;
+  return h;
+}
+function renderPanel() {
+  const P = $('#panel'); if (!D) { P.innerHTML = ''; return; }
+  const e = selEl(); const s = curSlide(); let h = '';
+  const common = e => `
+    <div class="pg"><label>ಪಾರದರ್ಶಕತೆ / ತಿರುಗಿಸು</label>
+      <div class="rw">🔆 <input type="range" min="0.05" max="1" step="0.05" value="${e.op ?? 1}" data-k="op" data-n="1"></div>
+      <div class="rw">↻ <input type="range" min="-180" max="180" step="1" value="${e.rot || 0}" data-k="rot" data-n="1"><input type="number" value="${e.rot || 0}" data-k="rot" data-n="1"></div></div>
+    <div class="pg"><label>ಸ್ಥಾನ ಮತ್ತು ಗಾತ್ರ</label>
+      <div class="rw">X <input type="number" value="${Math.round(e.x)}" data-k="x" data-n="1"> Y <input type="number" value="${Math.round(e.y)}" data-k="y" data-n="1"></div>
+      <div class="rw">ಅ <input type="number" value="${Math.round(e.w)}" data-k="w" data-n="1"> ಎ <input type="number" value="${Math.round(e.h)}" data-k="h" data-n="1"></div>
+      <div class="btnrow"><button class="sb" data-a="cx">↔ ಮಧ್ಯಕ್ಕೆ</button><button class="sb" data-a="cy">↕ ಮಧ್ಯಕ್ಕೆ</button></div></div>
+    <div class="pg"><label>ಪದರ (ಮುಂದೆ / ಹಿಂದೆ)</label>
+      <div class="btnrow"><button class="sb" data-a="front">⏫ ಎಲ್ಲಕ್ಕಿಂತ ಮುಂದೆ</button><button class="sb" data-a="back">⏬ ಎಲ್ಲಕ್ಕಿಂತ ಹಿಂದೆ</button><button class="sb" data-a="up">🔼 ಒಂದು ಮುಂದೆ</button><button class="sb" data-a="down">🔽 ಒಂದು ಹಿಂದೆ</button></div></div>
+    <div class="pg"><div class="btnrow"><button class="sb" data-a="dup">⧉ ನಕಲು</button><button class="sb danger" data-a="del">🗑 ಅಳಿಸು</button></div></div>`;
+  if (!e) {
+    const isG = s.bg && s.bg.k === 'grad';
+    h = `<div class="pt">🗂️ ಸ್ಲೈಡ್ ${st.cur + 1} / ${D.slides.length}</div>
+    <div class="hint" style="margin-bottom:10px">ಯಾವುದೇ ವಸ್ತುವನ್ನು ಒಂದು ಬಾರಿ ಒತ್ತಿದರೆ ಆರಿಸುತ್ತದೆ; ಎಳೆದು ಸರಿಸಿ; ಮೂಲೆಗಳಿಂದ ಗಾತ್ರ ಬದಲಿಸಿ. ಪಠ್ಯವನ್ನು <b>ಎರಡು ಬಾರಿ ಒತ್ತಿ</b> ತಿದ್ದಿ.</div>
+    <div class="pg"><label>ಹಿನ್ನೆಲೆ</label>
+      <div class="tabs" style="margin-bottom:8px"><button class="${!isG ? 'on' : ''}" data-a="bgsolid">ಒಂದೇ ಬಣ್ಣ</button><button class="${isG ? 'on' : ''}" data-a="bggrad">ಮಿಶ್ರ ಬಣ್ಣ</button></div>
+      ${isG ? `<div class="lbl">ಮೊದಲ ಬಣ್ಣ</div>${swatches('bg1', s.bg.c1)}<div class="lbl">ಎರಡನೇ ಬಣ್ಣ</div>${swatches('bg2', s.bg.c2)}` : swatches('bg', s.bg ? s.bg.c : '$bg')}
+    </div>
+    <div class="pg"><label>📝 ಶಿಕ್ಷಕರ ಟಿಪ್ಪಣಿ (ಪ್ರದರ್ಶನದಲ್ಲಿ N ಒತ್ತಿದರೆ ಕಾಣುತ್ತದೆ)</label><textarea class="nt" id="notes" placeholder="ಉದಾ: ಉತ್ತರಗಳು, ಕೇಳಬೇಕಾದ ಪ್ರಶ್ನೆಗಳು…">${esc(s.notes || '')}</textarea></div>
+    <div class="pg"><label>ಸ್ಲೈಡ್ ಕ್ರಿಯೆಗಳು</label><div class="btnrow">
+      <button class="sb" data-a="sdup">⧉ ಸ್ಲೈಡ್ ನಕಲು</button><button class="sb danger" data-a="sdel">🗑 ಸ್ಲೈಡ್ ಅಳಿಸು</button>
+      <button class="sb" data-a="sup">⬆ ಮೇಲೆ ಸರಿಸು</button><button class="sb" data-a="sdown">⬇ ಕೆಳಗೆ ಸರಿಸು</button>
+      <button class="sb" data-a="chrome">${s.noChrome ? '✨ ಅಲಂಕಾರ ಹಾಕು' : '🧹 ಅಲಂಕಾರ ತೆಗೆ'}</button><button class="sb" data-a="imgs">🖼️ ಚಿತ್ರ ಹುಡುಕು</button>
+    </div></div>`;
+  } else if (e.t === 'text') {
+    h = `<div class="pt">✏️ ಪಠ್ಯ</div>
+    <div class="pg" style="border:0;padding-top:0"><textarea class="nt" id="etext" style="min-height:110px">${esc(e.text)}</textarea><div class="hint">ಪ್ರತಿ ಹೊಸ ಸಾಲು = ಹೊಸ ಅಂಶ. ${e._over ? '<b class="danger">⚠️ ಪಠ್ಯ ಡಬ್ಬಿಗಿಂತ ಹೆಚ್ಚಾಗಿದೆ — ಗಾತ್ರ ದೊಡ್ಡದು ಮಾಡಿ ಅಥವಾ "ಸ್ವಯಂ ಗಾತ್ರ" ಆರಿಸಿ.</b>' : ''}</div></div>
+    <div class="pg"><label>ಅಕ್ಷರ ಶೈಲಿ</label>
+      <div class="rw"><select data-k="ff"><option value="h"${e.ff === 'h' ? ' selected' : ''}>ವಿನ್ಯಾಸದ ಶೀರ್ಷಿಕೆ ಫಾಂಟ್</option><option value="b"${e.ff === 'b' ? ' selected' : ''}>ವಿನ್ಯಾಸದ ಪಠ್ಯ ಫಾಂಟ್</option>${FONTS.map(f => `<option value="${f}"${e.ff === f ? ' selected' : ''}>${FONT_KN[f]}</option>`).join('')}</select></div>
+      <div class="rw">ಗಾತ್ರ <button class="sb" data-a="fs-">A−</button><input type="number" min="8" max="200" value="${e.fs}" data-k="fs" data-n="1"><button class="sb" data-a="fs+">A+</button></div>
+      <div class="rw"><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" data-k="auto" ${e.auto ? 'checked' : ''}> ಸ್ವಯಂ ಗಾತ್ರ (ಡಬ್ಬಿಗೆ ಹೊಂದುವಂತೆ)</label></div>
+      <div class="rw"><button class="sb${e.bold ? ' on' : ''}" data-t="bold"><b>B</b></button><button class="sb${e.italic ? ' on' : ''}" data-t="italic"><i>I</i></button><button class="sb${e.bullets ? ' on' : ''}" data-t="bullets">• ಅಂಶ</button>
+      <button class="sb${e.align === 'left' ? ' on' : ''}" data-s="align" data-v="left">⯇</button><button class="sb${e.align === 'center' ? ' on' : ''}" data-s="align" data-v="center">≡</button><button class="sb${e.align === 'right' ? ' on' : ''}" data-s="align" data-v="right">⯈</button></div>
+      <div class="rw">ಲಂಬ: <button class="sb${e.va === 'top' ? ' on' : ''}" data-s="va" data-v="top">ಮೇಲೆ</button><button class="sb${e.va === 'middle' ? ' on' : ''}" data-s="va" data-v="middle">ಮಧ್ಯ</button><button class="sb${e.va === 'bottom' ? ' on' : ''}" data-s="va" data-v="bottom">ಕೆಳಗೆ</button></div>
+      <div class="rw">ಸಾಲು ಅಂತರ <input type="range" min="1" max="2.2" step="0.05" value="${e.lh || 1.35}" data-k="lh" data-n="1"></div></div>
+    <div class="pg"><label>ಅಕ್ಷರದ ಬಣ್ಣ</label>${swatches('fc', e.fc)}</div>
+    <div class="pg"><label>ಡಬ್ಬಿಯ ಬಣ್ಣ</label>${swatches('fill', e.fill, true)}
+      <div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="80" value="${e.rad || 0}" data-k="rad" data-n="1"></div>
+      <div class="rw">ಒಳ ಅಂತರ <input type="range" min="0" max="60" value="${e.pad || 0}" data-k="pad" data-n="1"></div></div>
+    <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="16" value="${e.bw || 0}" data-k="bw" data-n="1"></div></div>` + common(e);
+  } else if (e.t === 'img') {
+    h = `<div class="pt">🖼️ ಚಿತ್ರ</div>
+    <div class="pg" style="border:0;padding-top:0"><div class="btnrow"><button class="sb" data-a="imgch">🔍 ಚಿತ್ರ ಬದಲಿಸು</button><button class="sb" data-a="imgup">⬆ ನನ್ನ ಚಿತ್ರ</button></div>
+    ${e.q ? `<div class="lbl" style="margin-top:10px">ಇತರ ಸಲಹೆಗಳು: "${esc(e.q)}"</div><div class="sugg" id="sugg"><span class="hint">⏳</span></div>` : ''}</div>
+    <div class="pg"><label>ಹೊಂದಿಸುವಿಕೆ</label><div class="rw"><button class="sb${e.fit !== 'contain' ? ' on' : ''}" data-s="fit" data-v="cover">ಡಬ್ಬಿ ತುಂಬಿಸು</button><button class="sb${e.fit === 'contain' ? ' on' : ''}" data-s="fit" data-v="contain">ಪೂರ್ತಿ ತೋರಿಸು</button></div>
+      <div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="${Math.round(Math.min(e.w, e.h) / 2)}" value="${e.rad || 0}" data-k="rad" data-n="1"></div>
+      <div class="rw"><button class="sb" data-a="circle">⚪ ವೃತ್ತಾಕಾರ</button><button class="sb" data-a="nocredit">${e.credit ? 'ಮೂಲ ಹೆಸರು ಮರೆಮಾಡು' : ''}</button></div></div>
+    <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="20" value="${e.bw || 0}" data-k="bw" data-n="1"></div></div>` + common(e);
+  } else {
+    h = `<div class="pt">⬛ ಆಕಾರ</div>
+    <div class="pg" style="border:0;padding-top:0"><label>ಆಕಾರ</label><div class="rw">${[['rect', '▭'], ['ellipse', '◯'], ['triangle', '△'], ['arrow', '➜'], ['star', '☆']].map(([k, i]) => `<button class="sb${e.shape === k ? ' on' : ''}" data-s="shape" data-v="${k}">${i}</button>`).join('')}</div></div>
+    <div class="pg"><label>ಬಣ್ಣ</label>${swatches('fill', e.fill, true)}<div class="rw">ಮೂಲೆ ದುಂಡು <input type="range" min="0" max="120" value="${e.rad || 0}" data-k="rad" data-n="1"></div></div>
+    <div class="pg"><label>ಅಂಚು (border)</label>${swatches('bc', e.bc, true)}<div class="rw">ದಪ್ಪ <input type="range" min="0" max="20" value="${e.bw || 0}" data-k="bw" data-n="1"></div></div>` + common(e);
+  }
+  P.innerHTML = h;
+  if (e && e.t === 'img' && e.q) loadSugg(e);
+}
+async function loadSugg(e) {
+  const box = $('#sugg'); if (!box) return;
+  try { const res = await wikiSearch(e.q); if (selEl() !== e) return; box.innerHTML = res.slice(0, 9).map((r, i) => `<img src="${esc(r.thumb)}" data-si="${i}" title="${esc(r.title)}" loading="lazy">`).join('') || '<span class="hint">ಸಲಹೆಗಳು ಸಿಗಲಿಲ್ಲ</span>'; box.onclick = ev => { const i = ev.target.dataset.si; if (i == null) return; const r = res[+i]; e.src = r.full; e.credit = r.credit; renderStage(); commit(); }; }
+  catch (err) { box.innerHTML = '<span class="hint">ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದಿರುವಂತಿದೆ</span>'; }
+}
+function initPanel() {
+  const P = $('#panel');
+  P.addEventListener('input', ev => {
+    const t = ev.target;
+    if (t.id === 'etext') { const e = selEl(); if (e) { e.text = t.value; refit(e); renderStage(); updThumbLater(); } return; }
+    if (t.id === 'notes') { curSlide().notes = t.value; return; }
+    if (t.dataset.cc) { applyColor(t.dataset.cc, t.value, true); return; }
+    if (t.dataset.k && t.type !== 'checkbox' && t.tagName !== 'SELECT') { const v = t.dataset.n ? parseFloat(t.value) : t.value; if (isNaN(v)) return; setProp(t.dataset.k, v, true); }
+  });
+  P.addEventListener('change', ev => {
+    const t = ev.target;
+    if (t.id === 'etext' || t.id === 'notes') { renderPanel(); commit(); return; }
+    if (t.dataset.cc) { applyColor(t.dataset.cc, t.value); return; }
+    if (t.dataset.k) { const v = t.type === 'checkbox' ? t.checked : t.dataset.n ? parseFloat(t.value) : t.value; setProp(t.dataset.k, v); }
+  });
+  P.addEventListener('click', ev => {
+    const b = ev.target.closest('button'); if (!b) return; const e = selEl(); const s = curSlide();
+    if (b.dataset.c) { applyColor(b.dataset.c, b.dataset.v || null); return; }
+    if (b.dataset.t && e) { setProp(b.dataset.t, !e[b.dataset.t]); return; }
+    if (b.dataset.s && e) { setProp(b.dataset.s, b.dataset.v); return; }
+    const a = b.dataset.a; if (!a) return;
+    if (a === 'fs-' || a === 'fs+') { setProp('fs', clamp(e.fs + (a === 'fs+' ? 2 : -2), 8, 200)); return; }
+    if (a === 'cx') { e.x = Math.round((W - e.w) / 2); renderStage(); renderPanel(); commit(); return; }
+    if (a === 'cy') { e.y = Math.round((H - e.h) / 2); renderStage(); renderPanel(); commit(); return; }
+    if (['front', 'back', 'up', 'down'].includes(a)) return layer(a);
+    if (a === 'dup') return dupSel(); if (a === 'del') return delSel();
+    if (a === 'imgch') return openImageDialog(e); if (a === 'imgup') { imgTarget = e; $('#fImg').click(); return; }
+    if (a === 'circle') { const m = Math.min(e.w, e.h); e.w = e.h = m; e.rad = m / 2; renderStage(); renderPanel(); commit(); return; }
+    if (a === 'nocredit') { e.credit = ''; renderStage(); renderPanel(); commit(); return; }
+    if (a === 'bgsolid') { s.bg = { k: 'solid', c: s.bg && s.bg.c1 || '$bg' }; renderStage(); renderPanel(); commit(); return; }
+    if (a === 'bggrad') { s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 135 }; renderStage(); renderPanel(); commit(); return; }
+    if (a === 'sdup') return slideOp('dup', st.cur); if (a === 'sdel') return slideOp('del', st.cur);
+    if (a === 'sup') return slideOp('up', st.cur); if (a === 'sdown') return slideOp('down', st.cur);
+    if (a === 'chrome') { s.noChrome = !s.noChrome; s.els = s.els.filter(x => !x.chrome); if (!s.noChrome) s.els.unshift(...chromeEls(s.kind || 'content', thNow())); renderStage(); renderPanel(); commit(); return; }
+    if (a === 'imgs') return openImageDialog(null);
+  });
+}
+function applyColor(key, v, live) {
+  const s = curSlide();
+  if (key === 'bg') { s.bg = { k: 'solid', c: v || '$bg' }; renderStage(); if (!live) { renderPanel(); commit(); } return; }
+  if (key === 'bg1' || key === 'bg2') { s.bg[key === 'bg1' ? 'c1' : 'c2'] = v || '$bg'; renderStage(); if (!live) { renderPanel(); commit(); } return; }
+  const e = selEl(); if (!e) return;
+  if (key === 'bc' && v && !e.bw) e.bw = 3;
+  setProp(key, v, live);
+}
+
+/* ----------------------------------------------------- slides list */
+function slideOp(op, i) {
+  if (op === 'dup') { const c = JSON.parse(JSON.stringify(D.slides[i])); c.id = uid(); c.els.forEach(e => e.id = uid()); D.slides.splice(i + 1, 0, c); st.cur = i + 1; }
+  if (op === 'del') { if (D.slides.length <= 1) { toast('ಕನಿಷ್ಠ ಒಂದು ಸ್ಲೈಡ್ ಇರಬೇಕು'); return; } D.slides.splice(i, 1); st.cur = Math.min(i, D.slides.length - 1); }
+  if (op === 'up' && i > 0) { [D.slides[i - 1], D.slides[i]] = [D.slides[i], D.slides[i - 1]]; st.cur = i - 1; }
+  if (op === 'down' && i < D.slides.length - 1) { [D.slides[i + 1], D.slides[i]] = [D.slides[i], D.slides[i + 1]]; st.cur = i + 1; }
+  st.sel = null; renderThumbs(); renderStage(); renderPanel(); commit({ noThumb: true });
+}
+function goSlide(i) { st.cur = clamp(i, 0, D.slides.length - 1); st.sel = null; $$('#thumbs .th').forEach(t => t.classList.toggle('on', +t.dataset.i === st.cur)); const on = $('#thumbs .th.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'nearest' }); renderStage(); renderPanel(); }
+function initThumbs() {
+  const T0 = $('#thumbs'); let dragI = null;
+  T0.addEventListener('click', ev => {
+    if (ev.target.id === 'addSlide') return addSlideMenu(ev.target);
+    const th = ev.target.closest('.th'); if (!th) return; const i = +th.dataset.i; const a = ev.target.closest('button');
+    if (a) { slideOp(a.dataset.a, i); return; } goSlide(i);
+  });
+  T0.addEventListener('dragstart', ev => { const th = ev.target.closest('.th'); if (!th) return; dragI = +th.dataset.i; ev.dataTransfer.effectAllowed = 'move'; });
+  T0.addEventListener('dragover', ev => { const th = ev.target.closest('.th'); if (dragI == null || !th) return; ev.preventDefault(); $$('.th.drop', T0).forEach(x => x.classList.remove('drop')); th.classList.add('drop'); });
+  T0.addEventListener('drop', ev => { const th = ev.target.closest('.th'); if (dragI == null || !th) return; ev.preventDefault(); const to = +th.dataset.i; const [s] = D.slides.splice(dragI, 1); D.slides.splice(to, 0, s); st.cur = to; dragI = null; renderThumbs(); renderStage(); renderPanel(); commit({ noThumb: true }); });
+  T0.addEventListener('dragend', () => { dragI = null; $$('.th.drop', T0).forEach(x => x.classList.remove('drop')); });
+}
+const NEWSL = [
+  ['blank', '⬜ ಖಾಲಿ ಸ್ಲೈಡ್'], ['content', '📄 ಶೀರ್ಷಿಕೆ + ಅಂಶಗಳು'], ['contentimg', '🖼️ ಅಂಶಗಳು + ಚಿತ್ರ'], ['cards', '🗃️ ಕಾರ್ಡ್‌ಗಳು'], ['compare', '⚖️ ಹೋಲಿಕೆ'], ['flow', '➡️ ಹಂತಗಳು (ಕ್ರಮ)'], ['timeline', '📅 ಕಾಲರೇಖೆ'], ['questions', '❓ ಪ್ರಶ್ನೆಗಳು'], ['quote', '❝ ಪದ್ಯ / ಉಕ್ತಿ'], ['section', '🔖 ಹೊಸ ಭಾಗ'], ['title', '🏷️ ಮುಖಪುಟ ಸ್ಲೈಡ್']];
+function addSlideMenu(anchor) {
+  popMenu(anchor, NEWSL.map(([k, n]) => ({ label: n, fn: () => addSlide(k) })));
+}
+function addSlide(k) {
+  const th = thNow(); let sl;
+  const P = ['ಮೊದಲ ಅಂಶ', 'ಎರಡನೇ ಅಂಶ', 'ಮೂರನೇ ಅಂಶ'];
+  const ctx = { n: st.cur + 1 };
+  if (k === 'blank') { sl = [mkSlide('content')]; }
+  else if (k === 'content') sl = bContent({ type: 'content', heading: 'ಶೀರ್ಷಿಕೆ', points: P }, th, { n: 0 });
+  else if (k === 'contentimg') sl = bContent({ type: 'content', heading: 'ಶೀರ್ಷಿಕೆ', points: P, imageQuery: ' ' }, th, ctx);
+  else if (k === 'cards') sl = bCards({ type: 'cards', heading: 'ಶೀರ್ಷಿಕೆ', points: P }, th, ctx);
+  else if (k === 'compare') sl = bCompare({ heading: 'ಹೋಲಿಕೆ', left: { title: 'ಮೊದಲನೆಯದು', points: P.slice(0, 2) }, right: { title: 'ಎರಡನೆಯದು', points: P.slice(0, 2) } }, th);
+  else if (k === 'flow') sl = bFlow({ heading: 'ಹಂತಗಳು', points: ['ಹಂತ 1 – ವಿವರ', 'ಹಂತ 2 – ವಿವರ', 'ಹಂತ 3 – ವಿವರ'] }, th);
+  else if (k === 'timeline') sl = bTimeline({ heading: 'ಕಾಲರೇಖೆ', points: ['ಇಸವಿ – ಘಟನೆ', 'ಇಸವಿ – ಘಟನೆ', 'ಇಸವಿ – ಘಟನೆ'] }, th);
+  else if (k === 'questions') sl = bList({ type: 'questions', heading: 'ಪ್ರಶ್ನೆಗಳು', points: ['ಮೊದಲ ಪ್ರಶ್ನೆ?', 'ಎರಡನೇ ಪ್ರಶ್ನೆ?'] }, th, ctx);
+  else if (k === 'quote') sl = bQuote({ heading: 'ಪದ್ಯ', lines: ['ಮೊದಲ ಸಾಲು', 'ಎರಡನೇ ಸಾಲು'], explain: 'ಅರ್ಥ' }, th);
+  else if (k === 'section') sl = bSection({ heading: 'ಹೊಸ ಭಾಗ', subtitle: 'ಉಪಶೀರ್ಷಿಕೆ' }, th);
+  else sl = bTitle({ title: D.title, subtitle: 'ಅಧ್ಯಾಯ' }, th);
+  sl.forEach(s => { s.els.forEach(e => { if (e.t === 'img' && e.q === ' ') e.q = ''; }); if (!s.noChrome) s.els.unshift(...chromeEls(s.kind, th)); });
+  D.slides.splice(st.cur + 1, 0, ...sl); st.cur++; st.sel = null; renderThumbs(); renderStage(); renderPanel(); commit({ noThumb: true });
+}
+
+/* ----------------------------------------------------- popover menu */
+let popEl = null;
+function closePop() { if (popEl) { popEl.remove(); popEl = null; } }
+function popMenu(anchor, items, html) {
+  closePop(); const p = document.createElement('div'); p.className = 'pop';
+  if (html) p.innerHTML = html; else items.forEach(it => { if (it === '-') { p.insertAdjacentHTML('beforeend', '<div class="sep"></div>'); return; } const b = document.createElement('button'); b.className = 'mi'; b.innerHTML = it.label; b.onclick = () => { closePop(); it.fn(); }; p.appendChild(b); });
+  document.body.appendChild(p); const r = anchor.getBoundingClientRect();
+  let x = r.left, y = r.bottom + 6; const pr = p.getBoundingClientRect();
+  if (x + pr.width > innerWidth - 8) x = innerWidth - pr.width - 8; if (y + pr.height > innerHeight - 8) y = Math.max(8, r.top - pr.height - 6);
+  p.style.left = x + 'px'; p.style.top = y + 'px'; popEl = p; return p;
+}
+document.addEventListener('pointerdown', ev => { if (popEl && !popEl.contains(ev.target) && !ev.target.closest('[data-ins],#bDown,#addSlide')) closePop(); });
+
+/* ----------------------------------------------------- insert */
+const EMO = {
+  'ಶಾಲೆ': '📚📖✏️🖊️📝📐📏🎒🏫👩‍🏫👨‍🏫🧑‍🎓📓🗒️📌📎🔖🏆🥇🎓💡🧠🔍🗣️👂👀',
+  'ವಿಜ್ಞಾನ': '🔬🧪⚗️🧲⚡🔋💧🔥🌡️🧬🦠🫀🫁🦴🦷🌞🌙⭐🪐🌍🌋🌈☁️🌧️❄️🌪️',
+  'ಪ್ರಕೃತಿ': '🌳🌴🌵🌱🍃🌾🌻🌸🍎🍌🥭🥕🌽🐘🐅🦚🐄🐓🐟🦋🐝🐍🐸🐒🐦🦜',
+  'ಇತಿಹಾಸ / ಸ್ಥಳ': '🛕🏯🏰🕌⛪🏛️🗿⚔️🛡️👑🪙📜🗺️🧭⛵🚢🐎🏹⛰️🏞️🏝️🌊🛤️🏘️🌆',
+  'ಚಿಹ್ನೆಗಳು': '✅❌❓❗⭐✨💯➡️⬅️⬆️⬇️🔄🔢🔴🟠🟡🟢🔵🟣⚪⚫📍🎯⏰📅🔔👍👏🙏',
+};
+function insertMenu(kind, anchor) {
+  if (!D) return; const th = thNow();
+  if (kind === 'title') return addEl(T('ಶೀರ್ಷಿಕೆ ಬರೆಯಿರಿ', 140, 300, 1000, 100, { ff: 'h', fs: 52, bold: true, fc: '$p', align: 'center', va: 'middle', auto: false }));
+  if (kind === 'text') return addEl(T('ಇಲ್ಲಿ ಪಠ್ಯ ಬರೆಯಿರಿ', 340, 320, 600, 80, { fs: 30, auto: false }));
+  if (kind === 'bullets') return addEl(T('ಮೊದಲ ಅಂಶ\nಎರಡನೇ ಅಂಶ\nಮೂರನೇ ಅಂಶ', 300, 240, 680, 240, { fs: 30, bullets: true, auto: false }));
+  if (kind === 'image') return openImageDialog(null);
+  if (kind === 'shape') return popMenu(anchor, [['rect', '▭ ಆಯತ'], ['round', '▢ ದುಂಡು ಮೂಲೆ'], ['ellipse', '◯ ವೃತ್ತ'], ['triangle', '△ ತ್ರಿಭುಜ'], ['arrow', '➜ ಬಾಣ'], ['star', '☆ ನಕ್ಷತ್ರ'], ['line', '― ಗೆರೆ']].map(([k, n]) => ({
+    label: n, fn: () => addEl(k === 'line' ? S('rect', 440, 356, 400, 8, { fill: '$p', rad: 4 }) : k === 'round' ? S('rect', 490, 260, 300, 200, { fill: '$a', rad: 28 }) : S(k, 520, 240, k === 'arrow' ? 260 : 240, k === 'arrow' ? 120 : 240, { fill: k === 'star' ? '$a' : '$p' }))
+  })));
+  if (kind === 'icon') {
+    let h = '<div class="emg">'; for (const c in EMO) { h += `<div class="emh">${c}</div>`; (SEG ? [...SEG.segment(EMO[c])].map(x => x.segment) : [...EMO[c]]).forEach(g => h += `<button data-em="${g}">${g}</button>`); } h += '</div>';
+    const p = popMenu(anchor, null, h); p.onclick = ev => { const b = ev.target.closest('[data-em]'); if (!b) return; closePop(); addEl(T(b.dataset.em, 570, 290, 140, 140, { fs: 100, align: 'center', va: 'middle', auto: false, lh: 1.1 })); };
+  }
+}
+
+/* ----------------------------------------------------- image dialog */
+let imgTarget = null;
+function modal(title, body, foot, opts = {}) {
+  const bg = document.createElement('div'); bg.className = 'mbg';
+  bg.innerHTML = `<div class="mdl" style="${opts.w ? 'width:min(' + opts.w + 'px,100%)' : ''}"><div class="mh"><h2>${title}</h2><button class="mx" data-close>✕</button></div><div class="mb">${body}</div>${foot ? `<div class="mf">${foot}</div>` : ''}</div>`;
+  document.body.appendChild(bg);
+  const close = () => { bg.remove(); if (opts.onClose) opts.onClose(); };
+  bg.addEventListener('click', ev => { if (ev.target === bg && !opts.sticky || ev.target.closest('[data-close]')) close(); });
+  bg.close = close; return bg;
+}
+function applyImage(r, target) {
+  if (target) { target.src = r.src; target.credit = r.credit || ''; if (r.q) target.q = r.q; target._loading = false; st.sel = target.id; renderStage(); renderPanel(); commit(); return; }
+  const im = new Image(); im.onload = () => { let w = 520, h = Math.round(520 * im.naturalHeight / Math.max(1, im.naturalWidth)); if (h > 560) { h = 560; w = Math.round(560 * im.naturalWidth / im.naturalHeight); } addEl(I(r.q || '', Math.round((W - w) / 2), Math.round((H - h) / 2), w, h, { src: r.src, credit: r.credit || '', rad: 16 })); };
+  im.onerror = () => addEl(I(r.q || '', 380, 160, 520, 400, { src: r.src, credit: r.credit || '', rad: 16 }));
+  im.src = r.src.startsWith('asset:') ? D.assets[r.src.slice(6)] : r.src;
+}
+let libCache = null;
+function openImageDialog(target) {
+  imgTarget = target;
+  const s = curSlide(); const hdT = (s.els.find(e => e.t === 'text' && e.fc === '$p' && e.ff === 'h') || {}).text || '';
+  const q0 = (target && target.q) || guessQuery(hdT, '') || '';
+  const m = modal('🖼️ ಚಿತ್ರ ಸೇರಿಸಿ', `
+    <div class="tabs"><button class="on" data-tab="w">🔍 ಹುಡುಕಿ (Wikimedia)</button><button data-tab="l">📁 ನಮ್ಮ ಚಿತ್ರ ಸಂಗ್ರಹ</button><button data-tab="u">⬆ ನಿಮ್ಮ ಫೋನ್/ಕಂಪ್ಯೂಟರ್‌ನಿಂದ</button></div>
+    <div data-pane="w"><div class="srch"><input id="wq" value="${esc(q0)}" placeholder="ಇಂಗ್ಲಿಷ್ ಪದ ಬರೆದರೆ ಹೆಚ್ಚು ಚಿತ್ರಗಳು ಸಿಗುತ್ತವೆ (ಉದಾ: Badami temple)"><button class="btn pri" id="wgo">ಹುಡುಕು</button></div><div class="igrid" id="wres"></div><p class="hint">ಚಿತ್ರಗಳು Wikimedia Commons ನಿಂದ (ಉಚಿತ ಪರವಾನಗಿ). ಸ್ಲೈಡ್‌ನಲ್ಲಿ ಮೂಲದ ಹೆಸರು ಚಿಕ್ಕದಾಗಿ ತಾನೇ ಬರುತ್ತದೆ.</p></div>
+    <div data-pane="l" class="hide"><div id="lres" class="igrid"></div></div>
+    <div data-pane="u" class="hide"><div style="text-align:center;padding:30px;border:2px dashed #C9CEE0;border-radius:16px"><div style="font-size:44px">📷</div><p>ಫೋನ್ ಅಥವಾ ಕಂಪ್ಯೂಟರ್‌ನಿಂದ ಯಾವುದೇ ಚಿತ್ರ ಆರಿಸಿ</p><button class="btn cta" id="upbtn">ಚಿತ್ರ ಆರಿಸಿ</button></div></div>`, '', { w: 940 });
+  const tabs = $$('[data-tab]', m); tabs.forEach(b => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); $$('[data-pane]', m).forEach(p => p.classList.toggle('hide', p.dataset.pane !== b.dataset.tab)); if (b.dataset.tab === 'l') loadLib(); });
+  const go = async () => {
+    const q = $('#wq', m).value.trim(); const box = $('#wres', m); if (!q) return; box.innerHTML = '<p class="hint">⏳ ಹುಡುಕುತ್ತಿದೆ…</p>';
+    try { const res = await wikiSearch(q); box.innerHTML = res.length ? res.map((r, i) => `<div class="it" data-i="${i}"><img src="${esc(r.thumb)}" loading="lazy"><span>${esc(r.title)}</span></div>`).join('') : '<p class="hint">ಚಿತ್ರಗಳು ಸಿಗಲಿಲ್ಲ. ಬೇರೆ ಪದ (ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ) ಪ್ರಯತ್ನಿಸಿ.</p>'; box.onclick = ev => { const it = ev.target.closest('.it'); if (!it) return; const r = res[+it.dataset.i]; m.close(); applyImage({ src: r.full, credit: r.credit, q }, imgTarget); }; }
+    catch (e) { box.innerHTML = '<p class="hint">⚠️ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಸಿಗಲಿಲ್ಲ.</p>'; }
+  };
+  $('#wgo', m).onclick = go; $('#wq', m).onkeydown = ev => { if (ev.key === 'Enter') go(); };
+  $('#upbtn', m).onclick = () => { m.close(); $('#fImg').click(); };
+  const loadLib = async () => {
+    const box = $('#lres', m);
+    try { if (!libCache) { const r = await fetch('images/list.json', { cache: 'no-cache' }); if (!r.ok) throw 0; libCache = await r.json(); } }
+    catch (e) { box.outerHTML = `<div class="step"><h4>📁 ನಿಮ್ಮದೇ ಚಿತ್ರ ಸಂಗ್ರಹ ಹೇಗೆ ಮಾಡುವುದು?</h4><div class="hint">1) GitHub repo ದಲ್ಲಿ <b>images</b> ಎಂಬ folder ಮಾಡಿ ಚಿತ್ರಗಳನ್ನು upload ಮಾಡಿ.<br>2) ಅದೇ folder ನಲ್ಲಿ <b>list.json</b> ಫೈಲ್ ಮಾಡಿ, ಹೀಗೆ ಬರೆಯಿರಿ:<br><code>[{"file":"images/badami.jpg","name":"ಬಾದಾಮಿ ಗುಹೆ","cat":"ಸಮಾಜ"}]</code><br>3) ನಂತರ ಇಲ್ಲಿ ಎಲ್ಲಾ ಶಿಕ್ಷಕರಿಗೂ ಆ ಚಿತ್ರಗಳು ಕಾಣುತ್ತವೆ.</div></div>`; return; }
+    const cats = [...new Set(libCache.map(x => x.cat || 'ಇತರೆ'))];
+    const draw = c => { box.innerHTML = libCache.filter(x => !c || (x.cat || 'ಇತರೆ') === c).map(x => `<div class="it" data-f="${esc(x.file)}" data-n="${esc(x.name || '')}"><img src="${esc(x.file)}" loading="lazy"><span>${esc(x.name || x.file)}</span></div>`).join('') || '<p class="hint">ಚಿತ್ರಗಳಿಲ್ಲ</p>'; };
+    box.insertAdjacentHTML('beforebegin', `<div class="tabs" id="lcat"><button class="on" data-c="">ಎಲ್ಲಾ</button>${cats.map(c => `<button data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>`);
+    $('#lcat', m).onclick = ev => { const b = ev.target.closest('button'); if (!b) return; $$('#lcat button', m).forEach(x => x.classList.toggle('on', x === b)); draw(b.dataset.c); };
+    draw(''); box.onclick = ev => { const it = ev.target.closest('.it'); if (!it) return; m.close(); applyImage({ src: it.dataset.f, credit: '', q: '' }, imgTarget); };
+  };
+  if (q0) go(); else setTimeout(() => $('#wq', m).focus(), 50);
+}
+function readImageFile(file) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader(); fr.onerror = rej;
+    fr.onload = () => { const im = new Image(); im.onload = () => { const mx = 1600; let w = im.naturalWidth, h = im.naturalHeight; if (file.type === 'image/png' && file.size < 450000 && w <= mx && h <= mx) return res(fr.result); const k = Math.min(1, mx / Math.max(w, h)); w = Math.round(w * k); h = Math.round(h * k); const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h); res(c.toDataURL('image/jpeg', .86)); }; im.onerror = rej; im.src = fr.result; };
+    fr.readAsDataURL(file);
+  });
+}
+
+/* ----------------------------------------------------- themes dialog */
+function themeCard(t, on) { return `<button class="thc${on ? ' on' : ''}" data-th="${t.id}"><div class="pv" style="background:${t.bg}"><i style="background:${t.p}"></i><b style="background:${t.a}"></b><u style="background:linear-gradient(135deg,${t.g1},${t.g2})"></u></div><span>${t.n}</span></button>`; }
+function openThemes() {
+  if (!D) return;
+  const m = modal('🎨 ವಿನ್ಯಾಸ ಆರಿಸಿ', `<p class="hint" style="margin-top:0">ಒಂದು ಕ್ಲಿಕ್‌ನಲ್ಲಿ ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಬಣ್ಣ, ಅಕ್ಷರ ಶೈಲಿ ಮತ್ತು ಅಲಂಕಾರ ಬದಲಾಗುತ್ತದೆ. ನೀವು ಕೈಯಾರೆ ಆರಿಸಿದ ಬಣ್ಣಗಳು ಹಾಗೆಯೇ ಉಳಿಯುತ್ತವೆ.</p><div class="thg">${THEMES.map(t => themeCard(t, t.id === D.theme)).join('')}</div>
+  <div class="pg" style="margin-top:14px"><label>ಎಲ್ಲಾ ಸ್ಲೈಡ್‌ಗಳ ಅಕ್ಷರ ಶೈಲಿ</label><div class="g2"><div class="fld"><label>ಶೀರ್ಷಿಕೆ ಫಾಂಟ್</label><select id="hfS">${FONTS.map(f => `<option value="${f}">${FONT_KN[f]}</option>`).join('')}</select></div><div class="fld"><label>ಪಠ್ಯ ಫಾಂಟ್</label><select id="bfS">${FONTS.map(f => `<option value="${f}">${FONT_KN[f]}</option>`).join('')}</select></div></div></div>`, '<button class="btn" data-close>ಮುಚ್ಚಿ</button>', { w: 760 });
+  const th = thNow(); $('#hfS', m).value = D.fonts && D.fonts.hf || th.hf; $('#bfS', m).value = D.fonts && D.fonts.bf || th.bf;
+  m.querySelector('.thg').onclick = async ev => { const b = ev.target.closest('[data-th]'); if (!b) return; $$('.thc', m).forEach(x => x.classList.toggle('on', x === b)); await setTheme(b.dataset.th); $('#hfS', m).value = thNow().hf; $('#bfS', m).value = thNow().bf; };
+  const fch = async () => { D.fonts = { hf: $('#hfS', m).value, bf: $('#bfS', m).value }; await setTheme(D.theme, true); };
+  $('#hfS', m).onchange = fch; $('#bfS', m).onchange = fch;
+}
+const baseTheme = id => THEMES.find(t => t.id === id) || THEMES[0];
+async function setTheme(id, keepFonts) {
+  if (!keepFonts) delete D.fonts;
+  D.theme = id; await ensureFonts(thNow());
+  applyChrome(D); D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && !e.dyn) fit(e, thNow())}));
+  renderAll(); commit({ noThumb: true });
+}
+/* theme with per-deck font overrides */
+function thFor(d) { const b = baseTheme(d.theme); return d.fonts ? { ...b, hf: d.fonts.hf, bf: d.fonts.bf } : b; }
+
+/* ----------------------------------------------------- generate dialog */
+const SUBJ = ['ಕನ್ನಡ', 'ಇಂಗ್ಲಿಷ್', 'ಹಿಂದಿ', 'ಗಣಿತ', 'ವಿಜ್ಞಾನ', 'ಸಮಾಜ ವಿಜ್ಞಾನ', 'ಪರಿಸರ ಅಧ್ಯಯನ', 'ದೈಹಿಕ ಶಿಕ್ಷಣ', 'ಇತರೆ'];
+function openGenerate(mode = 'auto') {
+  const last = (() => { try { return JSON.parse(localStorage.getItem('dp_meta') || '{}'); } catch (e) { return {}; } })();
+  let themeSel = last.theme || 'neela';
+  const m = modal('✨ ಹೊಸ ಪಾಠದ ಪ್ರಸ್ತುತಿ', `
+    <div class="tabs"><button data-m="auto" class="${mode === 'auto' ? 'on' : ''}">📄 ಪಠ್ಯದಿಂದ ತಕ್ಷಣ (AI ಇಲ್ಲದೆ)</button><button data-m="ai" class="${mode === 'ai' ? 'on' : ''}">✨ AI ಸಹಾಯದಿಂದ (ಉಚಿತ)</button></div>
+    <div class="g2"><div class="fld"><label>ಪಾಠದ ಹೆಸರು</label><input id="gTitle" placeholder="ಉದಾ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು"></div>
+    <div class="fld"><label>ಅಧ್ಯಾಯ / ಉಪಶೀರ್ಷಿಕೆ (ಐಚ್ಛಿಕ)</label><input id="gSub" placeholder="ಉದಾ: ಅಧ್ಯಾಯ–19"></div></div>
+    <div class="g3"><div class="fld"><label>ತರಗತಿ</label><select id="gCls"><option value="">—</option>${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => `<option>${n}</option>`).join('')}</select></div>
+    <div class="fld"><label>ವಿಷಯ</label><select id="gSubj"><option value="">—</option>${SUBJ.map(s => `<option>${s}</option>`).join('')}</select></div>
+    <div class="fld"><label>ಶಿಕ್ಷಕರು / ಶಾಲೆ (ಐಚ್ಛಿಕ)</label><input id="gTeach" placeholder="ಉದಾ: ಸ.ಹಿ.ಪ್ರಾ. ಶಾಲೆ, …"></div></div>
+    <div class="fld"><label>ವಿನ್ಯಾಸ</label><div class="thg" id="gTh">${THEMES.map(t => themeCard(t, t.id === themeSel)).join('')}</div></div>
+    <div data-pm="auto"><div class="fld"><label>ಪಾಠದ ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ)</label><textarea id="gText" placeholder="ಪಾಠದ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ paste ಮಾಡಿ.\nಚಿಕ್ಕ ಸಾಲುಗಳನ್ನು (ಉಪಶೀರ್ಷಿಕೆ) ತಾನೇ ಗುರುತಿಸಿ ಪ್ರತ್ಯೇಕ ಸ್ಲೈಡ್ ಮಾಡುತ್ತದೆ.\nಯಾವ ವಾಕ್ಯವೂ ಬಿಟ್ಟುಹೋಗುವುದಿಲ್ಲ."></textarea></div>
+      <p class="hint">💡 ಉಪಶೀರ್ಷಿಕೆಗಳನ್ನು ಪ್ರತ್ಯೇಕ ಸಾಲಿನಲ್ಲಿ ಬರೆದರೆ ಸ್ಲೈಡ್‌ಗಳು ಇನ್ನೂ ಚೆನ್ನಾಗಿ ವಿಂಗಡಣೆಯಾಗುತ್ತವೆ. ಪ್ಯಾರಾಗಳ ನಡುವೆ ಒಂದು ಖಾಲಿ ಸಾಲು ಬಿಡಿ.</p></div>
+    <div data-pm="ai" class="hide">
+      <div class="step"><h4>① ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gTextAI" placeholder="ಪಾಠದ ಪೂರ್ಣ ಪಠ್ಯ (ಪ್ರಶ್ನೆಗಳು, ಚಟುವಟಿಕೆಗಳೂ ಸೇರಿ)" style="min-height:140px"></textarea></div></div>
+      <div class="step"><h4>② ಒಂದು button ಒತ್ತಿ — ಸೂಚನೆ copy ಆಗಿ AI ತೆರೆಯುತ್ತದೆ. ಅಲ್ಲಿ paste (Ctrl+V) ಮಾಡಿ Enter ಒತ್ತಿ.</h4>
+        <div class="rw"><button class="btn cta" data-ai="https://gemini.google.com/app">📋 Copy + Gemini ತೆರೆಯಿರಿ</button><button class="btn" data-ai="https://chatgpt.com/">📋 Copy + ChatGPT</button><button class="btn" data-ai="https://claude.ai/new">📋 Copy + Claude</button><button class="btn" data-ai="">📋 Copy ಮಾತ್ರ</button></div></div>
+      <div class="step"><h4>③ AI ಕೊಟ್ಟ ಉತ್ತರವನ್ನು (ಸಂಪೂರ್ಣ) copy ಮಾಡಿ ಇಲ್ಲಿ paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gReply" placeholder='{ "title": ..., "slides": [ ... ] }' style="min-height:120px;font-family:monospace;font-size:12px"></textarea></div></div>
+    </div>`, `<button class="btn" data-close>ರದ್ದು</button><button class="btn cta" id="gGo">🚀 ಸ್ಲೈಡ್‌ಗಳನ್ನು ತಯಾರಿಸಿ</button>`, { w: 980, sticky: true });
+  const f = id => $('#' + id, m);
+  f('gCls').value = last.cls || ''; f('gSubj').value = last.subject || ''; f('gTeach').value = last.teacher || '';
+  let md = mode; const setM = v => { md = v; $$('[data-m]', m).forEach(b => b.classList.toggle('on', b.dataset.m === v)); $$('[data-pm]', m).forEach(p => p.classList.toggle('hide', p.dataset.pm !== v)); };
+  setM(mode); $$('[data-m]', m).forEach(b => b.onclick = () => { const a = f('gText'), b2 = f('gTextAI'); if (b.dataset.m === 'ai' && !b2.value) b2.value = a.value; if (b.dataset.m === 'auto' && !a.value) a.value = b2.value; setM(b.dataset.m); });
+  f('gTh').onclick = ev => { const b = ev.target.closest('[data-th]'); if (!b) return; themeSel = b.dataset.th; $$('#gTh .thc', m).forEach(x => x.classList.toggle('on', x === b)); };
+  const meta = () => ({ title: f('gTitle').value.trim(), subtitle: f('gSub').value.trim(), cls: f('gCls').value, subject: f('gSubj').value, teacher: f('gTeach').value.trim() });
+  $$('[data-ai]', m).forEach(b => b.onclick = async () => {
+    const txt = f('gTextAI').value.trim(); if (!txt) { toast('ಮೊದಲು ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿ'); f('gTextAI').focus(); return; }
+    const ok = await copyText(aiPrompt({ ...meta(), text: txt }));
+    toast(ok ? '✅ ಸೂಚನೆ copy ಆಯಿತು. AI ನಲ್ಲಿ paste ಮಾಡಿ.' : '⚠️ Copy ಆಗಲಿಲ್ಲ — ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ', 4000);
+    if (b.dataset.ai) window.open(b.dataset.ai, '_blank', 'noopener');
+  });
+  f('gGo').onclick = async () => {
+    const mt = meta(); try { localStorage.setItem('dp_meta', JSON.stringify({ cls: mt.cls, subject: mt.subject, teacher: mt.teacher, theme: themeSel })); } catch (e) { }
+    let spec, src;
+    try {
+      if (md === 'auto') {
+        src = f('gText').value.trim(); if (!src) { toast('ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿ'); return; }
+        spec = textToSpec(src, mt);
+      } else {
+        const rep = f('gReply').value.trim(); if (!rep) { toast('AI ಉತ್ತರವನ್ನು ③ ರಲ್ಲಿ paste ಮಾಡಿ'); return; }
+        try { spec = parseAI(rep); } catch (e) { toast('⚠️ AI ಉತ್ತರ ಸರಿಯಾಗಿ copy ಆಗಿಲ್ಲ. ಉತ್ತರದ ಸಂಪೂರ್ಣ ಭಾಗವನ್ನು copy ಮಾಡಿ (ಮೊದಲ { ಯಿಂದ ಕೊನೆಯ } ವರೆಗೆ).', 6000); return; }
+        if (!Array.isArray(spec.slides)) { toast('⚠️ ಉತ್ತರದಲ್ಲಿ "slides" ಇಲ್ಲ'); return; }
+        if (mt.title) spec.title = mt.title; if (mt.subtitle) spec.subtitle = mt.subtitle;
+        spec.cls = mt.cls; spec.subject = mt.subject; spec.teacher = mt.teacher; src = f('gTextAI').value.trim();
+      }
+    } catch (e) { console.error(e); toast('⚠️ ದೋಷ: ' + e.message, 5000); return; }
+    f('gGo').disabled = true; f('gGo').textContent = '⏳ ತಯಾರಾಗುತ್ತಿದೆ…';
+    const d = await buildDeck(spec, themeSel, src); m.close();
+    await openDeck(d);
+    if (src) setTimeout(() => showCoverage(true), 300);
+  };
+}
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); return true; } catch (e) { }
+  try { const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e) { return false; }
+}
+function showCoverage(auto) {
+  if (!D) return;
+  if (!D.source) { modal('✅ ಮಾಹಿತಿ ಪರಿಶೀಲನೆ', `<p>ಈ ಪ್ರಸ್ತುತಿಗೆ ಮೂಲ ಪಾಠದ ಪಠ್ಯ ಜೋಡಣೆಯಾಗಿಲ್ಲ. ಪಾಠದ ಪಠ್ಯ paste ಮಾಡಿದರೆ, ಅದರ ಪ್ರತಿಯೊಂದು ವಾಕ್ಯ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆಯೇ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ.</p><div class="fld"><textarea id="cvSrc" placeholder="ಮೂಲ ಪಾಠದ ಪಠ್ಯ"></textarea></div>`, '<button class="btn" data-close>ಮುಚ್ಚಿ</button><button class="btn pri" id="cvGo">ಪರೀಕ್ಷಿಸಿ</button>').querySelector('#cvGo').onclick = ev => { const v = $('#cvSrc').value.trim(); if (!v) return; D.source = v; saveLater(); ev.target.closest('.mbg').close(); showCoverage(); }; return; }
+  const c = coverage(D.source, D); const ok = c.pct >= 98 && !c.missNums.length;
+  const m = modal('✅ ಮಾಹಿತಿ ಪೂರ್ಣತೆ ಪರಿಶೀಲನೆ', `
+   <div class="cov ${ok ? 'ok' : 'warn'}"><div class="big">${c.pct}%</div><div>ಪಾಠದ ${c.tot} ವಾಕ್ಯಗಳಲ್ಲಿ ${c.tot - c.miss.length} ವಾಕ್ಯಗಳ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಇದೆ.</div>
+   ${ok ? '<div style="margin-top:6px">🎉 ಪಾಠದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಬಂದಿದೆ.</div>' : ''}</div>
+   ${c.missNums.length ? `<p><b>⚠️ ಈ ಸಂಖ್ಯೆ/ಇಸವಿಗಳು ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ:</b> ${c.missNums.map(esc).join(', ')}</p>` : ''}
+   ${c.miss.length ? `<p><b>ಈ ವಾಕ್ಯಗಳು ಸ್ಲೈಡ್‌ಗಳಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ (ಅಥವಾ ಬೇರೆ ಪದಗಳಲ್ಲಿ ಬರೆಯಲಾಗಿದೆ) — ಪರಿಶೀಲಿಸಿ:</b></p><ol class="miss">${c.miss.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}`,
+    `<button class="btn" data-close>ಸರಿ</button>${c.miss.length ? '<button class="btn cta" id="cvAdd">➕ ಇವುಗಳನ್ನು ಹೊಸ ಸ್ಲೈಡ್‌ಗಳಿಗೆ ಸೇರಿಸಿ</button>' : ''}`, { w: 760 });
+  const a = $('#cvAdd', m); if (a) a.onclick = () => { const th = thNow(); const sl = bContent({ type: 'content', heading: 'ಹೆಚ್ಚುವರಿ ಅಂಶಗಳು', points: c.miss }, th, { n: 0 }); sl.forEach(s => s.els.unshift(...chromeEls('content', th))); const at = D.slides.length; D.slides.push(...sl); st.cur = at; m.close(); renderAll(); commit({ noThumb: true }); toast(`✅ ${sl.length} ಹೊಸ ಸ್ಲೈಡ್ ಸೇರಿತು (ಕೊನೆಯಲ್ಲಿ). ಬೇಕಾದ ಜಾಗಕ್ಕೆ ಎಳೆದು ಸರಿಸಿ.`, 4500); };
+  if (auto && ok) { setTimeout(() => { if (document.body.contains(m)) m.close(); }, 2600); }
+}
+
+/* ----------------------------------------------------- present mode */
+const PR = { on: false, i: 0, notes: false, t: null };
+function presLayout() { const s = Math.min(innerWidth / W, innerHeight / H); const p = $('#pst'); p.style.transform = `scale(${s})`; p.style.left = (innerWidth - W * s) / 2 + 'px'; p.style.top = (innerHeight - H * s) / 2 + 'px'; }
+function presShow() {
+  const s = D.slides[PR.i]; $('#pst').innerHTML = slideHTML(s, PR.i, 'view');
+  const sl = $('#pst .sl'); sl.style.opacity = 0; requestAnimationFrame(() => sl.style.opacity = 1);
+  $('#pnum').textContent = `${PR.i + 1} / ${D.slides.length}`; $('#pbar').style.width = ((PR.i + 1) / D.slides.length * 100) + '%';
+  const n = $('#pnotes'); n.textContent = s.notes || '(ಈ ಸ್ಲೈಡ್‌ಗೆ ಟಿಪ್ಪಣಿ ಇಲ್ಲ)'; n.style.display = PR.notes ? 'block' : 'none';
+}
+function presStart(from) {
+  if (!D) return; closePop(); PR.on = true; PR.i = from ?? st.cur; $('#pres').classList.add('on'); presLayout(); presShow();
+  const el = document.documentElement; if (el.requestFullscreen) el.requestFullscreen().catch(() => { });
+}
+function presStop() { PR.on = false; $('#pres').classList.remove('on'); $('#pblack').style.display = 'none'; if (document.fullscreenElement) document.exitFullscreen().catch(() => { }); goSlide(PR.i); }
+function presGo(d) { const n = clamp(PR.i + d, 0, D.slides.length - 1); if (n !== PR.i) { PR.i = n; presShow(); } }
+function initPres() {
+  const P = $('#pres');
+  P.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-p]');
+    if (b) { const a = b.dataset.p; if (a === 'prev') presGo(-1); if (a === 'next') presGo(1); if (a === 'exit') presStop(); if (a === 'notes') { PR.notes = !PR.notes; presShow(); } if (a === 'fs') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => { }); } return; }
+    if (ev.target.closest('#pnotes')) return;
+    presGo(ev.clientX < innerWidth * .3 ? -1 : 1);
+  });
+  P.addEventListener('mousemove', () => { P.classList.add('cur'); clearTimeout(PR.t); PR.t = setTimeout(() => P.classList.remove('cur'), 2200); });
+  let tx = null; P.addEventListener('touchstart', ev => { tx = ev.touches[0].clientX; }, { passive: true });
+  P.addEventListener('touchend', ev => { if (tx == null) return; const dx = ev.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) presGo(dx < 0 ? 1 : -1); tx = null; });
+  addEventListener('resize', () => { if (PR.on) presLayout(); });
+  document.addEventListener('fullscreenchange', () => { if (PR.on) presLayout(); });
+}
+
+/* ===================================================== EXPORT (canvas) */
+const imgCache = new Map();
+function loadImg(url) {
+  if (!url) return Promise.resolve(null);
+  if (imgCache.has(url)) return imgCache.get(url);
+  const p = new Promise(res => { const im = new Image(); if (!url.startsWith('data:')) im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => res(null); im.src = url; });
+  imgCache.set(url, p); return p;
+}
+function rrPath(c, x, y, w, h, r) { r = Math.max(0, Math.min(r || 0, w / 2, h / 2)); c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+function cssGradPts(ang, w, h) { const a = ang * Math.PI / 180, dx = Math.sin(a), dy = -Math.cos(a); const L = Math.abs(w * dx) + Math.abs(h * dy); return [w / 2 - dx * L / 2, h / 2 - dy * L / 2, w / 2 + dx * L / 2, h / 2 + dy * L / 2]; }
+async function drawSlide(c, s, idx, th) {
+  if (s.bg && s.bg.k === 'grad') { const g = c.createLinearGradient(...cssGradPts(s.bg.ang || 135, W, H)); g.addColorStop(0, col(s.bg.c1, th)); g.addColorStop(1, col(s.bg.c2, th)); c.fillStyle = g; } else c.fillStyle = col(s.bg && s.bg.c || '$bg', th);
+  c.fillRect(0, 0, W, H);
+  for (const e of s.els) {
+    c.save(); c.globalAlpha = e.op ?? 1;
+    if (e.rot) { c.translate(e.x + e.w / 2, e.y + e.h / 2); c.rotate(e.rot * Math.PI / 180); c.translate(-(e.x + e.w / 2), -(e.y + e.h / 2)); }
+    if (e.t === 'shape') {
+      const pts = polyPts(e); c.beginPath();
+      if (e.shape === 'ellipse') c.ellipse(e.x + e.w / 2, e.y + e.h / 2, e.w / 2, e.h / 2, 0, 0, Math.PI * 2);
+      else if (pts) { c.moveTo(e.x + pts[0][0], e.y + pts[0][1]); pts.slice(1).forEach(p => c.lineTo(e.x + p[0], e.y + p[1])); c.closePath(); }
+      else rrPath(c, e.x, e.y, e.w, e.h, e.rad);
+      const f = col(e.fill, th); if (f) { c.fillStyle = f; c.fill(); }
+      const bc = col(e.bc, th); if (bc && e.bw && !pts) { c.save(); c.clip(); c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); c.restore(); }
+    } else if (e.t === 'img') {
+      const src = srcOf(e); const im = await loadImg(src);
+      if (im) {
+        c.save(); rrPath(c, e.x, e.y, e.w, e.h, e.rad); c.clip();
+        const iw = im.naturalWidth, ih = im.naturalHeight;
+        if (e.fit === 'contain') { const k = Math.min(e.w / iw, e.h / ih); c.drawImage(im, e.x + (e.w - iw * k) / 2, e.y + (e.h - ih * k) / 2, iw * k, ih * k); }
+        else { const k = Math.max(e.w / iw, e.h / ih); const sw = e.w / k, sh = e.h / k; c.drawImage(im, (iw - sw) / 2, (ih - sh) / 2, sw, sh, e.x, e.y, e.w, e.h); }
+        const bc = col(e.bc, th); if (bc && e.bw) { c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); }
+        if (e.credit) { c.font = '11px "Noto Sans Kannada", sans-serif'; const tw = Math.min(c.measureText(e.credit).width, e.w * .9); const rc = (e.rad || 0) > Math.min(e.w, e.h) / 4; const bx = rc ? e.x + (e.w - tw) / 2 - 6 : e.x + e.w - tw - 18, by = rc ? e.y + e.h * .86 - 18 : e.y + e.h - 23; c.fillStyle = 'rgba(0,0,0,.45)'; rrPath(c, bx, by, tw + 12, 18, 6); c.fill(); c.fillStyle = '#fff'; c.textBaseline = 'middle'; c.fillText(e.credit, bx + 6, by + 9, tw); }
+        c.restore();
+      }
+    } else if (e.t === 'text') {
+      const f = col(e.fill, th), bc = col(e.bc, th);
+      if (f || (bc && e.bw)) { rrPath(c, e.x, e.y, e.w, e.h, e.rad); if (f) { c.fillStyle = f; c.fill(); } if (bc && e.bw) { c.save(); c.clip(); c.lineWidth = e.bw * 2; c.strokeStyle = bc; c.stroke(); c.restore(); } }
+      const L = layoutText(e, th, e.fs, c, idx); const pad = e.pad || 0, iw = e.w - 2 * pad, ih = e.h - 2 * pad;
+      let oy = e.y + pad; if (L.h < ih) oy += (ih - L.h) * (e.va === 'middle' ? .5 : e.va === 'bottom' ? 1 : 0);
+      c.font = fontStr(e, th, e.fs); c.textBaseline = 'middle'; const fc = col(e.fc, th);
+      for (const ln of L.lines) {
+        const y = oy + ln.y + L.lh / 2; const w = c.measureText(ln.t).width; const avail = iw - ln.ind;
+        let x = e.x + pad + ln.x; if (e.align === 'center') x += (avail - w) / 2; else if (e.align === 'right') x += avail - w;
+        if (ln.bul) { c.fillStyle = th.a; c.fillText('•', e.x + pad + e.fs * .15, y); }
+        c.fillStyle = fc; c.fillText(ln.t, x, y);
+      }
+    }
+    c.restore();
+  }
+}
+async function slideCanvas(s, idx, scale) {
+  const cv = document.createElement('canvas'); cv.width = Math.round(W * scale); cv.height = Math.round(H * scale);
+  const c = cv.getContext('2d'); c.scale(scale, scale); await drawSlide(c, s, idx, thNow()); return cv;
+}
+function cvBytes(cv, type, q) { return new Promise(res => cv.toBlob(b => b.arrayBuffer().then(a => res(new Uint8Array(a))), type, q)); }
+/* --- tiny ZIP writer (store) --- */
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+const enc = new TextEncoder();
+function zip(files) {
+  const parts = [], cen = []; let off = 0;
+  for (const f of files) {
+    const name = enc.encode(f.name), data = typeof f.data === 'string' ? enc.encode(f.data) : f.data, crc = crc32(data);
+    const lh = new DataView(new ArrayBuffer(30)); lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true); lh.setUint16(10, 0, true); lh.setUint16(12, 0x21, true); lh.setUint32(14, crc, true); lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true); lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), name, data);
+    const ch = new DataView(new ArrayBuffer(46)); ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true); ch.setUint16(12, 0, true); ch.setUint16(14, 0x21, true); ch.setUint32(16, crc, true); ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true); ch.setUint16(28, name.length, true); ch.setUint16(30, 0, true); ch.setUint16(32, 0, true); ch.setUint16(34, 0, true); ch.setUint16(36, 0, true); ch.setUint32(38, 0, true); ch.setUint32(42, off, true);
+    cen.push(new Uint8Array(ch.buffer), name); off += 30 + name.length + data.length;
+  }
+  const csz = cen.reduce((a, b) => a + b.length, 0);
+  const end = new DataView(new ArrayBuffer(22)); end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, csz, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...cen, new Uint8Array(end.buffer)], { type: 'application/zip' });
+}
+/* --- PDF writer (one JPEG per page) --- */
+function makePDF(pages) { // pages: [{jpg:Uint8Array,w,h}]
+  const chunks = []; let len = 0; const offs = [];
+  const put = x => { const b = typeof x === 'string' ? enc.encode(x) : x; chunks.push(b); len += b.length; };
+  const obj = (n, body) => { offs[n] = len; put(`${n} 0 obj\n`); body(); put('\nendobj\n'); };
+  put('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n'.replace(/[\xE2\xE3\xCF\xD3]/g, 'x'));
+  const N = pages.length; const kids = pages.map((_, i) => `${3 + i * 3} 0 R`).join(' ');
+  obj(1, () => put('<< /Type /Catalog /Pages 2 0 R >>'));
+  obj(2, () => put(`<< /Type /Pages /Kids [${kids}] /Count ${N} >>`));
+  pages.forEach((p, i) => {
+    const pn = 3 + i * 3, cn = pn + 1, im = pn + 2; const content = `q 960 0 0 540 0 0 cm /Im${i} Do Q`;
+    obj(pn, () => put(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /XObject << /Im${i} ${im} 0 R >> >> /Contents ${cn} 0 R >>`));
+    obj(cn, () => put(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`));
+    obj(im, () => { put(`<< /Type /XObject /Subtype /Image /Width ${p.w} /Height ${p.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.jpg.length} >>\nstream\n`); put(p.jpg); put('\nendstream'); });
+  });
+  const xo = len; const total = 3 + N * 3;
+  let x = `xref\n0 ${total}\n0000000000 65535 f \n`; for (let i = 1; i < total; i++) x += String(offs[i]).padStart(10, '0') + ' 00000 n \n';
+  put(x); put(`trailer\n<< /Size ${total} /Root 1 0 R >>\nstartxref\n${xo}\n%%EOF`);
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+/* --- PPTX writer --- */
+const xe = s => String(s ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const EMU = px => Math.round(px * 9525);
+const hx = c => { c = (c || '#000000').replace('#', ''); if (c.length === 3) c = c.split('').map(x => x + x).join(''); return c.slice(0, 6).toUpperCase(); };
+const NS = 'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"';
+const XH = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+const GRP = '<p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>';
+function solid(c, op) { return `<a:solidFill><a:srgbClr val="${hx(c)}">${op != null && op < 1 ? `<a:alpha val="${Math.round(op * 100000)}"/>` : ''}</a:srgbClr></a:solidFill>`; }
+function xfrm(e) { return `<a:xfrm${e.rot ? ` rot="${Math.round(((e.rot % 360) + 360) % 360 * 60000)}"` : ''}><a:off x="${EMU(e.x)}" y="${EMU(e.y)}"/><a:ext cx="${EMU(Math.max(1, e.w))}" cy="${EMU(Math.max(1, e.h))}"/></a:xfrm>`; }
+function geom(e) {
+  if (e.t === 'shape' && e.shape === 'ellipse') return '<a:prstGeom prst="ellipse"><a:avLst/></a:prstGeom>';
+  if (e.t === 'shape' && e.shape === 'triangle') return '<a:prstGeom prst="triangle"><a:avLst/></a:prstGeom>';
+  if (e.t === 'shape' && e.shape === 'arrow') return '<a:prstGeom prst="rightArrow"><a:avLst/></a:prstGeom>';
+  if (e.t === 'shape' && e.shape === 'star') return '<a:prstGeom prst="star5"><a:avLst/></a:prstGeom>';
+  if (e.rad) { const v = Math.min(50000, Math.round(e.rad / Math.min(e.w, e.h) * 100000)); return `<a:prstGeom prst="roundRect"><a:avLst><a:gd name="adj" fmla="val ${v}"/></a:avLst></a:prstGeom>`; }
+  return '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom>';
+}
+function lineX(e, th) { const bc = col(e.bc, th); return bc && e.bw ? `<a:ln w="${EMU(e.bw)}">${solid(bc)}</a:ln>` : '<a:ln><a:noFill/></a:ln>'; }
+function parasX(e, th, idx) {
+  const fam = xe(famName(e.ff, th)); const fs = e.fs; const sz = Math.round(fs * 75); const fc = col(e.fc, th);
+  const algn = { left: 'l', center: 'ctr', right: 'r' }[e.align || 'left'];
+  const ln = `<a:lnSpc><a:spcPts val="${Math.round(fs * (e.lh || 1.35) * 75)}"/></a:lnSpc>`;
+  const paras = dynText(e, idx).split('\n');
+  return paras.map((p, i) => {
+    const t = p.trim(); const bul = e.bullets && t;
+    const ppr = `<a:pPr algn="${algn}"${bul ? ` marL="${EMU(fs * 1.1)}" indent="-${EMU(fs * 1.1)}"` : ' marL="0" indent="0"'}>${ln}<a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="${i < paras.length - 1 ? Math.round(fs * .35 * 75) : 0}"/></a:spcAft>${bul ? `<a:buClr><a:srgbClr val="${hx(th.a)}"/></a:buClr><a:buFont typeface="Arial"/><a:buChar char="•"/>` : '<a:buNone/>'}</a:pPr>`;
+    const rpr = `lang="kn-IN" altLang="en-US" sz="${sz}" b="${e.bold ? 1 : 0}" i="${e.italic ? 1 : 0}" dirty="0"`;
+    const font = `<a:latin typeface="${fam}"/><a:ea typeface="${fam}"/><a:cs typeface="${fam}"/>`;
+    if (!t) return `<a:p>${ppr}<a:endParaRPr ${rpr}>${solid(fc)}${font}</a:endParaRPr></a:p>`;
+    return `<a:p>${ppr}<a:r><a:rPr ${rpr}>${solid(fc)}${font}</a:rPr><a:t>${xe(t)}</a:t></a:r></a:p>`;
+  }).join('');
+}
+async function imgBytesFor(e, scale = 2) {
+  const im = await loadImg(srcOf(e)); if (!im) return null;
+  const w = Math.max(2, Math.round(Math.min(e.w * scale, 1800))), h = Math.max(2, Math.round(e.h * w / e.w));
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h; const c = cv.getContext('2d');
+  const iw = im.naturalWidth, ih = im.naturalHeight;
+  try {
+    if (e.fit === 'contain') { const k = Math.min(w / iw, h / ih); c.drawImage(im, (w - iw * k) / 2, (h - ih * k) / 2, iw * k, ih * k); return { data: await cvBytes(cv, 'image/png'), ext: 'png' }; }
+    const k = Math.max(w / iw, h / ih); const sw = w / k, sh = h / k; c.drawImage(im, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, w, h);
+    return { data: await cvBytes(cv, 'image/jpeg', .9), ext: 'jpeg' };
+  } catch (err) { return null; }
+}
+function themeXml() {
+  return XH + `<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Drushyapaata"><a:themeElements><a:clrScheme name="Drushyapaata"><a:dk1><a:srgbClr val="000000"/></a:dk1><a:lt1><a:srgbClr val="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="1F2430"/></a:dk2><a:lt2><a:srgbClr val="EEECE1"/></a:lt2><a:accent1><a:srgbClr val="4472C4"/></a:accent1><a:accent2><a:srgbClr val="ED7D31"/></a:accent2><a:accent3><a:srgbClr val="A5A5A5"/></a:accent3><a:accent4><a:srgbClr val="FFC000"/></a:accent4><a:accent5><a:srgbClr val="5B9BD5"/></a:accent5><a:accent6><a:srgbClr val="70AD47"/></a:accent6><a:hlink><a:srgbClr val="0563C1"/></a:hlink><a:folHlink><a:srgbClr val="954F72"/></a:folHlink></a:clrScheme><a:fontScheme name="Drushyapaata"><a:majorFont><a:latin typeface="Calibri"/><a:ea typeface=""/><a:cs typeface="Nirmala UI"/></a:majorFont><a:minorFont><a:latin typeface="Calibri"/><a:ea typeface=""/><a:cs typeface="Nirmala UI"/></a:minorFont></a:fontScheme><a:fmtScheme name="Office"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="12700"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="19050"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/></a:theme>`;
+}
+async function buildPPTX(asImages, progress) {
+  const th = thNow(); const files = []; const N = D.slides.length; const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  let ct = `<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Default Extension="jpeg" ContentType="image/jpeg"/><Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/><Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/><Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/><Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/><Override PartName="/ppt/presProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presProps+xml"/><Override PartName="/ppt/viewProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.viewProps+xml"/><Override PartName="/ppt/tableStyles.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.tableStyles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>`;
+  let media = 0, failed = 0;
+  for (let i = 0; i < N; i++) {
+    progress(i, N); const s = D.slides[i]; const rels = [`<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>`];
+    let tree = '', id = 2, bg;
+    if (asImages) {
+      const cv = await slideCanvas(s, i, 1.5); const data = await cvBytes(cv, 'image/jpeg', .9); media++; files.push({ name: `ppt/media/image${media}.jpeg`, data });
+      rels.push(`<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image${media}.jpeg"/>`);
+      tree = `<p:pic><p:nvPicPr><p:cNvPr id="2" name="Slide ${i + 1}"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="rId2"/><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="12192000" cy="6858000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>`;
+      bg = '<a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill>';
+    } else {
+      if (s.bg && s.bg.k === 'grad') { const ang = ((((s.bg.ang || 135) - 90) % 360) + 360) % 360; bg = `<a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:srgbClr val="${hx(col(s.bg.c1, th))}"/></a:gs><a:gs pos="100000"><a:srgbClr val="${hx(col(s.bg.c2, th))}"/></a:gs></a:gsLst><a:lin ang="${ang * 60000}" scaled="0"/></a:gradFill>`; }
+      else bg = solid(col(s.bg && s.bg.c || '$bg', th));
+      for (const e of s.els) {
+        const op = e.op ?? 1; const nid = id++;
+        if (e.t === 'img') {
+          if (!srcOf(e)) continue; const b = await imgBytesFor(e); if (!b) { failed++; continue; }
+          media++; const rid = 'rId' + (rels.length + 1); files.push({ name: `ppt/media/image${media}.${b.ext}`, data: b.data });
+          rels.push(`<Relationship Id="${rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image${media}.${b.ext}"/>`);
+          tree += `<p:pic><p:nvPicPr><p:cNvPr id="${nid}" name="Picture ${nid}"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="${rid}">${op < 1 ? `<a:alphaModFix amt="${Math.round(op * 100000)}"/>` : ''}</a:blip><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>${xfrm(e)}${geom(e)}${lineX(e, th)}</p:spPr></p:pic>`;
+          if (e.credit) tree += `<p:sp><p:nvSpPr><p:cNvPr id="${id++}" name="Credit"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${EMU(e.x + 6)}" y="${EMU(e.y + e.h - 24)}"/><a:ext cx="${EMU(e.w - 12)}" cy="${EMU(20)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" anchor="b"><a:noAutofit/></a:bodyPr><a:lstStyle/><a:p><a:pPr algn="r"/><a:r><a:rPr lang="en-US" sz="800" dirty="0">${solid('#FFFFFF')}</a:rPr><a:t>${xe(e.credit)}</a:t></a:r></a:p></p:txBody></p:sp>`;
+          continue;
+        }
+        const isT = e.t === 'text'; const fill = col(e.fill, th);
+        const fillX = fill ? solid(fill, op) : '<a:noFill/>';
+        let body;
+        if (isT) { const pad = EMU(e.pad || 0); body = `<p:txBody><a:bodyPr wrap="square" lIns="${pad}" tIns="${pad}" rIns="${pad}" bIns="${pad}" anchor="${e.va === 'middle' ? 'ctr' : e.va === 'bottom' ? 'b' : 't'}" rtlCol="0"><a:noAutofit/></a:bodyPr><a:lstStyle/>${parasX(e, th, i)}</p:txBody>`; }
+        else body = `<p:txBody><a:bodyPr rtlCol="0" anchor="ctr"/><a:lstStyle/><a:p><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody>`;
+        let ln = lineX(e, th); if (op < 1 && col(e.bc, th) && e.bw) ln = `<a:ln w="${EMU(e.bw)}">${solid(col(e.bc, th), op)}</a:ln>`;
+        tree += `<p:sp><p:nvSpPr><p:cNvPr id="${nid}" name="${isT ? 'Text' : 'Shape'} ${nid}"/><p:cNvSpPr${isT ? ' txBox="1"' : ''}/><p:nvPr/></p:nvSpPr><p:spPr>${xfrm(e)}${geom(e)}${fillX}${ln}</p:spPr>${body}</p:sp>`;
+      }
+    }
+    files.push({ name: `ppt/slides/slide${i + 1}.xml`, data: XH + `<p:sld ${NS}><p:cSld><p:bg><p:bgPr>${bg}<a:effectLst/></p:bgPr></p:bg><p:spTree>${GRP}${tree}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>` });
+    files.push({ name: `ppt/slides/_rels/slide${i + 1}.xml.rels`, data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${rels.join('')}</Relationships>` });
+    ct += `<Override PartName="/ppt/slides/slide${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`;
+  }
+  const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  files.push({ name: '[Content_Types].xml', data: XH + `<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">${ct}</Types>` });
+  files.push({ name: '_rels/.rels', data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="ppt/presentation.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="${R}/extended-properties" Target="docProps/app.xml"/></Relationships>` });
+  files.push({ name: 'docProps/core.xml', data: XH + `<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(D.title)}</dc:title><dc:creator>ದೃಶ್ಯಪಾಠ</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>` });
+  files.push({ name: 'docProps/app.xml', data: XH + `<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>Drushyapaata</Application><Slides>${N}</Slides></Properties>` });
+  files.push({ name: 'ppt/presentation.xml', data: XH + `<p:presentation ${NS} saveSubsetFonts="1"><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst>${D.slides.map((_, i) => `<p:sldId id="${256 + i}" r:id="rId${i + 2}"/>`).join('')}</p:sldIdLst><p:sldSz cx="12192000" cy="6858000"/><p:notesSz cx="6858000" cy="9144000"/><p:defaultTextStyle><a:defPPr><a:defRPr lang="kn-IN"/></a:defPPr></p:defaultTextStyle></p:presentation>` });
+  files.push({ name: 'ppt/_rels/presentation.xml.rels', data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/slideMaster" Target="slideMasters/slideMaster1.xml"/>${D.slides.map((_, i) => `<Relationship Id="rId${i + 2}" Type="${R}/slide" Target="slides/slide${i + 1}.xml"/>`).join('')}<Relationship Id="rId${N + 2}" Type="${R}/presProps" Target="presProps.xml"/><Relationship Id="rId${N + 3}" Type="${R}/viewProps" Target="viewProps.xml"/><Relationship Id="rId${N + 4}" Type="${R}/theme" Target="theme/theme1.xml"/><Relationship Id="rId${N + 5}" Type="${R}/tableStyles" Target="tableStyles.xml"/></Relationships>` });
+  files.push({ name: 'ppt/presProps.xml', data: XH + `<p:presentationPr ${NS}/>` });
+  files.push({ name: 'ppt/viewProps.xml', data: XH + `<p:viewPr ${NS}><p:normalViewPr><p:restoredLeft sz="15620"/><p:restoredTop sz="94660"/></p:normalViewPr><p:gridSpacing cx="76200" cy="76200"/></p:viewPr>` });
+  files.push({ name: 'ppt/tableStyles.xml', data: XH + `<a:tblStyleLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" def="{5C22544A-7EE6-4342-B048-85BDC9FD1C3A}"/>` });
+  files.push({ name: 'ppt/theme/theme1.xml', data: themeXml() });
+  files.push({ name: 'ppt/slideMasters/slideMaster1.xml', data: XH + `<p:sldMaster ${NS}><p:cSld><p:bg><p:bgRef idx="1001"><a:schemeClr val="bg1"/></p:bgRef></p:bg><p:spTree>${GRP}</p:spTree></p:cSld><p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/><p:sldLayoutIdLst><p:sldLayoutId id="2147483649" r:id="rId1"/></p:sldLayoutIdLst><p:txStyles><p:titleStyle><a:lvl1pPr><a:defRPr sz="4400"/></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr><a:defRPr sz="2000"/></a:lvl1pPr></p:bodyStyle><p:otherStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:otherStyle></p:txStyles></p:sldMaster>` });
+  files.push({ name: 'ppt/slideMasters/_rels/slideMaster1.xml.rels', data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/slideLayout" Target="../slideLayouts/slideLayout1.xml"/><Relationship Id="rId2" Type="${R}/theme" Target="../theme/theme1.xml"/></Relationships>` });
+  files.push({ name: 'ppt/slideLayouts/slideLayout1.xml', data: XH + `<p:sldLayout ${NS} type="blank" preserve="1"><p:cSld name="Blank"><p:spTree>${GRP}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>` });
+  files.push({ name: 'ppt/slideLayouts/_rels/slideLayout1.xml.rels', data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/slideMaster" Target="../slideMasters/slideMaster1.xml"/></Relationships>` });
+  files.sort((a, b) => (a.name === '[Content_Types].xml' ? -1 : b.name === '[Content_Types].xml' ? 1 : 0));
+  return { blob: zip(files), failed };
+}
+function fileName(ext) { return (D.title || 'presentation').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 80) + '.' + ext; }
+function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); }
+let busy = false;
+async function doExport(kind) {
+  if (!D || busy) return; busy = true; closePop();
+  try {
+    await ensureFonts(thNow()); await (document.fonts ? document.fonts.ready : null);
+    const prog = (i, n) => toast(`⏳ ತಯಾರಾಗುತ್ತಿದೆ… ${i + 1}/${n}`, 0);
+    if (kind === 'pdf') {
+      const pages = []; for (let i = 0; i < D.slides.length; i++) { prog(i, D.slides.length); const cv = await slideCanvas(D.slides[i], i, 1.5); pages.push({ jpg: await cvBytes(cv, 'image/jpeg', .9), w: cv.width, h: cv.height }); }
+      download(makePDF(pages), fileName('pdf')); toast('✅ PDF ಡೌನ್‌ಲೋಡ್ ಆಯಿತು');
+    } else if (kind === 'pptimg' || kind === 'ppt') {
+      const r = await buildPPTX(kind === 'pptimg', prog); download(r.blob, fileName('pptx'));
+      toast(r.failed ? `✅ PPT ಡೌನ್‌ಲೋಡ್ ಆಯಿತು (⚠️ ${r.failed} ಚಿತ್ರ ಸೇರಿಸಲು ಆಗಲಿಲ್ಲ)` : '✅ PPT ಡೌನ್‌ಲೋಡ್ ಆಯಿತು', 4000);
+    } else if (kind === 'png') {
+      const cv = await slideCanvas(curSlide(), st.cur, 1.5); cv.toBlob(b => download(b, fileName('png').replace('.png', `-${st.cur + 1}.png`)), 'image/png'); toast('✅ ಚಿತ್ರ ಡೌನ್‌ಲೋಡ್ ಆಯಿತು');
+    } else if (kind === 'json') {
+      download(new Blob([JSON.stringify(cleanDeck(D))], { type: 'application/json' }), fileName('drushyapaata.json')); toast('✅ ಯೋಜನೆ ಫೈಲ್ ಉಳಿಯಿತು. ನಂತರ "ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ" ಮೂಲಕ ಮತ್ತೆ ತಿದ್ದಬಹುದು.', 4500);
+    }
+  } catch (e) { console.error(e); toast('⚠️ ಡೌನ್‌ಲೋಡ್‌ನಲ್ಲಿ ದೋಷ: ' + e.message, 6000); }
+  busy = false;
+}
+function downMenu(anchor) {
+  popMenu(anchor, [
+    { label: '🖼️ <div><b>PPT (ಚಿತ್ರ ರೂಪ)</b><br><small style="color:#6B7285">ಯಾವ ಕಂಪ್ಯೂಟರ್/TV ಯಲ್ಲೂ ಒಂದೇ ತರಹ ಕಾಣುತ್ತದೆ — ತರಗತಿಗೆ ಉತ್ತಮ</small></div>', fn: () => doExport('pptimg') },
+    { label: '✏️ <div><b>PPT (ತಿದ್ದಬಹುದಾದ)</b><br><small style="color:#6B7285">PowerPoint ನಲ್ಲಿ ಪಠ್ಯ ತಿದ್ದಬಹುದು; ಫಾಂಟ್ ಬದಲಾಗಬಹುದು</small></div>', fn: () => doExport('ppt') },
+    { label: '📄 <div><b>PDF</b><br><small style="color:#6B7285">ಮುದ್ರಣಕ್ಕೆ / WhatsApp ನಲ್ಲಿ ಕಳುಹಿಸಲು</small></div>', fn: () => doExport('pdf') },
+    { label: '🖼️ ಈ ಸ್ಲೈಡ್ ಚಿತ್ರವಾಗಿ (PNG)', fn: () => doExport('png') },
+    '-',
+    { label: '💾 <div><b>ಯೋಜನೆ ಫೈಲ್ ಉಳಿಸಿ (.json)</b><br><small style="color:#6B7285">ನಂತರ ಅಥವಾ ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಮತ್ತೆ ತಿದ್ದಲು</small></div>', fn: () => doExport('json') },
+  ]);
+}
+
+/* ----------------------------------------------------- home screen */
+async function renderHome() {
+  let rec = []; try { rec = (await DB.all()) || []; } catch (e) { }
+  rec.sort((a, b) => (b.updated || 0) - (a.updated || 0));
+  $('#home').innerHTML = `<div class="hin">
+   <div class="hhead"><div class="lg">📽️</div><div><h1>ದೃಶ್ಯಪಾಠ</h1><p>ಪಾಠದಿಂದ ಆಕರ್ಷಕ ಪ್ರಸ್ತುತಿ — ಮಾಹಿತಿ ಒಂದೂ ಬಿಡದೆ · ಸಂಪೂರ್ಣ ಉಚಿತ</p></div></div>
+   <div class="hero">ಇಂದು ಯಾವ ಪಾಠ ಮಾಡೋಣ?</div>
+   <div class="cards">
+    <button class="hc" data-h="auto"><div class="ic" style="background:#FFF0E6">📄</div><h3>ಪಾಠದ ಪಠ್ಯದಿಂದ ತಕ್ಷಣ</h3><p>ಪಾಠವನ್ನು paste ಮಾಡಿ. ಪ್ರತಿ ವಾಕ್ಯವೂ ಸ್ಲೈಡ್‌ಗೆ ಬರುತ್ತದೆ, ಚಿತ್ರಗಳು ತಾನಾಗಿಯೇ ಸೇರುತ್ತವೆ. AI ಬೇಕಿಲ್ಲ.</p></button>
+    <button class="hc" data-h="ai"><div class="ic" style="background:#ECEBFF">✨</div><h3>AI ಸಹಾಯದಿಂದ</h3><p>Gemini/ChatGPT ಉಚಿತ website ಬಳಸಿ — ಉದ್ದೇಶಗಳು, ಪ್ರಮುಖ ಪದಗಳು, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳು ಸಹಿತ. API key ಬೇಕಿಲ್ಲ.</p></button>
+    <button class="hc" data-h="blank"><div class="ic" style="background:#E7F6EE">🎨</div><h3>ಖಾಲಿ ಪ್ರಸ್ತುತಿ</h3><p>Canva ತರಹ ನೀವೇ ವಿನ್ಯಾಸ ಮಾಡಿ — ಪಠ್ಯ, ಚಿತ್ರ, ಆಕಾರ, ಚಿಹ್ನೆ, ಬಣ್ಣ ಎಲ್ಲವೂ ಕೈಯಾರೆ.</p></button>
+    <button class="hc" data-h="open"><div class="ic" style="background:#E9F1FF">📂</div><h3>ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ</h3><p>ಹಿಂದೆ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ".drushyapaata.json" ಯೋಜನೆ ಫೈಲ್ ತೆರೆದು ಮುಂದುವರಿಸಿ.</p></button>
+   </div>
+   <button class="sample" data-h="sample"><span class="ic">🛕</span><div><b>ಮಾದರಿ ನೋಡಿ: ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು</b><span>8ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ, ಅಧ್ಯಾಯ–19 · ಪಾಠದ ಎಲ್ಲಾ ಅಂಶಗಳು, ನಕ್ಷೆ, ತ್ರಿಪದಿ, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗಳ ಸಹಿತ</span></div></button>
+   ${rec.length ? `<div class="recent"><h3>🕘 ಇತ್ತೀಚಿನ ಪ್ರಸ್ತುತಿಗಳು (ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿದಿವೆ)</h3><div class="rl">${rec.map(r => `<div class="ri"><div class="t" data-open="${r.id}"><b>${esc(r.title)}</b><small>${(r.slides || []).length} ಸ್ಲೈಡ್ · ${new Date(r.updated || r.created).toLocaleString('kn-IN')}</small></div><button data-delp="${r.id}" title="ಅಳಿಸು">🗑</button></div>`).join('')}</div></div>` : ''}
+   <div class="foot">💡 ಸಲಹೆಗಳು: ಪ್ರದರ್ಶನದಲ್ಲಿ ← → ಬಾಣದ ಗುರುತು ಅಥವಾ ಪರದೆಯ ಮೇಲೆ ಒತ್ತಿ ಮುಂದಿನ ಸ್ಲೈಡ್; N = ಶಿಕ್ಷಕರ ಟಿಪ್ಪಣಿ; B = ಕಪ್ಪು ಪರದೆ; Esc = ನಿರ್ಗಮನ.<br>ನಿಮ್ಮ ಪ್ರಸ್ತುತಿಗಳು ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಉಳಿಯುತ್ತವೆ — ಯಾವುದೇ server ಗೆ ಹೋಗುವುದಿಲ್ಲ. ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ಗೆ ತೆಗೆದುಕೊಂಡು ಹೋಗಲು "ಯೋಜನೆ ಫೈಲ್" ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.</div>
+  </div>`;
+}
+function showHome() { closePop(); $('#home').classList.remove('hide'); renderHome(); }
+function initHome() {
+  $('#home').addEventListener('click', async ev => {
+    const b = ev.target.closest('[data-h],[data-open],[data-delp]'); if (!b) return;
+    if (b.dataset.delp) { if (!confirm('ಈ ಪ್ರಸ್ತುತಿಯನ್ನು ಅಳಿಸಬೇಕೇ?')) return; await DB.del(b.dataset.delp); if (D && D.id === b.dataset.delp) D = null; renderHome(); return; }
+    if (b.dataset.open) { const d = await DB.get(b.dataset.open); if (d) openDeck(d); return; }
+    const h = b.dataset.h;
+    if (h === 'auto' || h === 'ai') openGenerate(h);
+    if (h === 'blank') { const d = await buildDeck({ title: 'ಹೊಸ ಪ್ರಸ್ತುತಿ', subtitle: '', slides: [] }, 'neela'); openDeck(d, { fetchImgs: false }); }
+    if (h === 'open') $('#fProj').click();
+    if (h === 'sample') { toast('⏳ ಮಾದರಿ ತಯಾರಾಗುತ್ತಿದೆ…', 0); const d = await buildDeck(JSON.parse(JSON.stringify(SAMPLE)), 'itihasa'); toast('', 1); openDeck(d); }
+  });
+}
+
+/* ----------------------------------------------------- keyboard */
+function initKeys() {
+  document.addEventListener('keydown', ev => {
+    if (PR.on) {
+      const k = ev.key;
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(k)) { ev.preventDefault(); presGo(1); }
+      else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { ev.preventDefault(); presGo(-1); }
+      else if (k === 'Home') { PR.i = 0; presShow(); } else if (k === 'End') { PR.i = D.slides.length - 1; presShow(); }
+      else if (k === 'Escape') presStop();
+      else if (k === 'n' || k === 'N') { PR.notes = !PR.notes; presShow(); }
+      else if (k === 'b' || k === 'B' || k === '.') { const b = $('#pblack'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; }
+      else if (k === 'f' || k === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => { }); }
+      return;
+    }
+    if (!D || !$('#home').classList.contains('hide') || $('.mbg')) return;
+    const tg = ev.target; if (tg.matches('input,textarea,select,[contenteditable]')) return;
+    const mod = ev.ctrlKey || ev.metaKey;
+    if (mod && ev.key.toLowerCase() === 'z') { ev.preventDefault(); ev.shiftKey ? redo() : undo(); return; }
+    if (mod && ev.key.toLowerCase() === 'y') { ev.preventDefault(); redo(); return; }
+    if (ev.key === 'F5') { ev.preventDefault(); presStart(ev.shiftKey ? st.cur : 0); return; }
+    const e = selEl();
+    if (mod && ev.key.toLowerCase() === 'd' && e) { ev.preventDefault(); dupSel(); return; }
+    if (mod && ev.key.toLowerCase() === 'c' && e) { clip = JSON.parse(JSON.stringify(e)); return; }
+    if (mod && ev.key.toLowerCase() === 'v' && clip) { const c = JSON.parse(JSON.stringify(clip)); c.id = uid(); c.x += 20; c.y += 20; delete c.lock; delete c.chrome; addEl(c); return; }
+    if (e && (ev.key === 'Delete' || ev.key === 'Backspace')) { ev.preventDefault(); delSel(); return; }
+    if (e && ev.key === 'Enter' && e.t === 'text') { ev.preventDefault(); startTextEdit(e); return; }
+    if (e && ev.key.startsWith('Arrow')) { ev.preventDefault(); const d = ev.shiftKey ? 10 : 1; if (ev.key === 'ArrowLeft') e.x -= d; if (ev.key === 'ArrowRight') e.x += d; if (ev.key === 'ArrowUp') e.y -= d; if (ev.key === 'ArrowDown') e.y += d; renderStage(); commitLater(); return; }
+    if (!e && (ev.key === 'ArrowDown' || ev.key === 'PageDown')) { ev.preventDefault(); goSlide(st.cur + 1); return; }
+    if (!e && (ev.key === 'ArrowUp' || ev.key === 'PageUp')) { ev.preventDefault(); goSlide(st.cur - 1); return; }
+    if (ev.key === 'Escape') { st.sel = null; drawSel(); renderPanel(); }
+  });
+}
+const commitLater = debounce(() => { renderPanel(); commit(); }, 400);
+
+/* ----------------------------------------------------- init */
+async function init() {
+  initStage(); initPanel(); initThumbs(); initPres(); initKeys(); initHome();
+  $('#goHome').onclick = showHome;
+  $('#bUndo').onclick = undo; $('#bRedo').onclick = redo;
+  $('#bTheme').onclick = openThemes; $('#bCheck').onclick = () => showCoverage(false);
+  $('#bDown').onclick = ev => downMenu(ev.currentTarget); $('#bPlay').onclick = () => presStart(0);
+  $('#bNew').onclick = () => openGenerate('auto');
+  $('#mtog').onclick = () => $('#panel').classList.toggle('open');
+  $('#ins').addEventListener('click', ev => { const b = ev.target.closest('[data-ins]'); if (b) insertMenu(b.dataset.ins, b); });
+  $('#deckTitle').addEventListener('input', ev => { if (!D) return; D.title = ev.target.value; renderStage(); updThumbLater(); });
+  $('#deckTitle').addEventListener('change', () => { if (D) { renderThumbs(); commit({ noThumb: true }); } });
+  $('#fImg').addEventListener('change', async ev => { const f = ev.target.files[0]; ev.target.value = ''; if (!f || !D) return; try { const url = await readImageFile(f); const id = uid(); D.assets[id] = url; applyImage({ src: 'asset:' + id, credit: '', q: '' }, imgTarget); } catch (e) { toast('⚠️ ಚಿತ್ರ ತೆರೆಯಲು ಆಗಲಿಲ್ಲ'); } });
+  $('#fProj').addEventListener('change', async ev => { const f = ev.target.files[0]; ev.target.value = ''; if (!f) return; try { const d = JSON.parse(await f.text()); if (!d.slides) throw 0; d.id = d.id || uid(); openDeck(d); toast('✅ ಫೈಲ್ ತೆರೆಯಿತು'); } catch (e) { toast('⚠️ ಇದು ದೃಶ್ಯಪಾಠ ಯೋಜನೆ ಫೈಲ್ ಅಲ್ಲ'); } });
+  addEventListener('resize', layoutStage);
+  new ResizeObserver(layoutStage).observe($('#wrap'));
+  if (document.fonts) document.fonts.addEventListener('loadingdone', debounce(() => { if (!D) return; D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && e.auto && !e.dyn) fit(e, thNow()); })); renderStage(); renderThumbs(); }, 300));
+  await renderHome();
+}
+</script>
+<script id="sample-data">
+/* ============ ಮಾದರಿ ಪಾಠ: 8ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ ಭಾಗ–2, ಅಧ್ಯಾಯ–19 ============ */
+const SAMPLE = {
+  title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಅಧ್ಯಾಯ–19', cls: '8', subject: 'ಸಮಾಜ ವಿಜ್ಞಾನ – ಇತಿಹಾಸ', imageQuery: 'Pattadakal temples',
+  slides: [
+    { type: 'objectives', heading: 'ಈ ಅಧ್ಯಾಯದಲ್ಲಿ ನಾವು ತಿಳಿಯುವುದು', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆರಂಭ, ಪ್ರಸಿದ್ಧ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ಕಾಲದಲ್ಲಿನ ಸಾಮ್ರಾಜ್ಯ ವಿಸ್ತರಣೆ.', 'ಧಾರ್ಮಿಕ, ಸಾಮಾಜಿಕ, ಸೇನಾಡಳಿತ ಹಾಗೂ ನ್ಯಾಯಾಡಳಿತ ವ್ಯವಸ್ಥೆ.', 'ಭೂಪಟದಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ವ್ಯಾಪ್ತಿಯನ್ನು ಗುರುತಿಸುವುದು.', 'ಕಂಚಿಯ ಪಲ್ಲವರು ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣ ಕ್ಷೇತ್ರಕ್ಕೆ ನೀಡಿದ ಕೊಡುಗೆಗಳು.'] },
+    { type: 'section', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', subtitle: 'ಸಾ.ಶ. 540 – 753' },
+    { type: 'content', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು – ಪರಿಚಯ', imageQuery: 'Badami cave temples', points: ['ಸಾ.ಶ. 6ನೇ ಶತಮಾನದಲ್ಲಿ ಕರ್ನಾಟಕದಲ್ಲಿ ಮಹಾನ್ ಶಕ್ತಿಶಾಲಿ ರಾಜರುಗಳು ಆಳಿದರು. ಅವರೇ ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು.', 'ಕರ್ನಾಟಕದಲ್ಲಿ ತಮ್ಮ ಸಾರ್ವಭೌಮಾಧಿಕಾರವನ್ನು ಸ್ಥಾಪಿಸಿ ಸುಮಾರು ಎರಡು ಶತಮಾನಗಳ ಕಾಲ ಅವಿಚ್ಛಿನ್ನವಾಗಿ, ಅಪಾರ ವೈಭವದಿಂದ ರಾಜ್ಯಭಾರ ಮಾಡಿದರು.', 'ದಕ್ಷಿಣ ಭಾರತದ ಇತಿಹಾಸದಲ್ಲಿ ಪ್ರಮುಖ ಪಾತ್ರ ವಹಿಸಿದ ಚಾಳುಕ್ಯ ರಾಜಮನೆತನವು ಭಾರತದ ಪ್ರಬಲ ರಾಜಮನೆತನಗಳಲ್ಲೊಂದು.', 'ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರನೆಯ ಶತಮಾನದಿಂದ ಆರಂಭಗೊಂಡು ಎಂಟನೆಯ ಶತಮಾನದ ಮಧ್ಯಭಾಗದಲ್ಲಿ ಕೊನೆಗೊಂಡಿತು.'] },
+    { type: 'content', heading: 'ಸ್ಥಾಪಕ ಮತ್ತು ಪ್ರಸಿದ್ಧ ಚಕ್ರವರ್ತಿ', imageQuery: 'Pulakeshin II', highlight: 'ಸಂಸ್ಥಾಪಕ: ರಾಜಾ ಜಯಸಿಂಹ  •  ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಚಕ್ರವರ್ತಿ: ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', points: ['ರಾಜಾ ಜಯಸಿಂಹನು ಈ ವಂಶದ ಸಂಸ್ಥಾಪಕನು.', 'ಈ ರಾಜವಂಶದ ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಮತ್ತು ಹೆಸರಾಂತ ಚಕ್ರವರ್ತಿಯೆಂದರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ.', 'ಗಂಗರು, ಕದಂಬರು ಮತ್ತು ಅಳುಪರನ್ನು ಗೆದ್ದು, ಈತನು ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವನ್ನು ವಿಸ್ತರಿಸಿದನು.'] },
+    { type: 'content', heading: 'ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ವಿಜಯಗಳು', imageQuery: 'Narmada river', points: ['ದಕ್ಷಿಣ ದಖ್ಖನ್ನಿನಲ್ಲಿ ಪಲ್ಲವರು ತಮ್ಮ ವೈಭವ ಕಾಲದಲ್ಲಿದ್ದರು.', 'ದೊರೆ ಮಹೇಂದ್ರವರ್ಮನು ಪುಲಕೇಶಿಯ ಪರಮಾಧಿಕಾರತ್ವವನ್ನು ಒಪ್ಪಿಕೊಳ್ಳದ ಕಾರಣ ಪುಲಕೇಶಿಯು ಆತನನ್ನು ಸೋಲಿಸಿದನು.', 'ಉತ್ತರ ಭಾರತವನ್ನು ಆಳುತ್ತಿದ್ದ ಹರ್ಷವರ್ಧನನನ್ನು ನರ್ಮದಾ ನದಿಯ ದಂಡೆಯಲ್ಲಿ ತಡೆಗಟ್ಟಿ ಸೋಲಿಸಿದನು.'], highlight: 'ಬಿರುದುಗಳು: ‘ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ’, ‘ತ್ರಿಸಾಗರಗಳಿಂದಾವೃತವಾದ ಪ್ರದೇಶದ ಅಧಿಪತಿ’' },
+    { type: 'content', heading: 'ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಗೆ ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವೆಲ್ಲವನ್ನೂ ಒಂದೇ ಕೇಂದ್ರದಿಂದ ಆಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.', 'ಆದುದರಿಂದ ತನ್ನ ತಮ್ಮನಾದ ಕುಬ್ಜ ವಿಷ್ಣುವರ್ಧನನನ್ನು ವೆಂಗಿಗೆ ಮತ್ತು ಜಯಸಿಂಹನನ್ನು ಗುಜರಾತ್ ಪ್ರಾಂತ್ಯಕ್ಕೆ ಅಧಿಕಾರಿಗಳನ್ನಾಗಿ ನೇಮಿಸಿದನು.', 'ಮುಂದಿನ ವರ್ಷಗಳಲ್ಲಿ ಇದು ‘ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು’ ಎನ್ನುವ ಹೆಸರಿನಲ್ಲಿ ಸುಮಾರು ಐದು ಶತಮಾನಗಳ ಕಾಲ ರಾಜ್ಯಭಾರ ನಡೆಸಿತು.'] },
+    { type: 'content', heading: 'ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನ ವಿವರಣೆ', imageQuery: 'Xuanzang', points: ['ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಚಾಳುಕ್ಯ ರಾಜಧಾನಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು. ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ ಮತ್ತು ಚಾಳುಕ್ಯ ರಾಜ್ಯದ ಬಗ್ಗೆ ವಿವರಣೆಗಳನ್ನು ನೀಡಿದ್ದಾನೆ.', 'ದೊರೆಯು ನ್ಯಾಯವಾದಿ ಹಾಗೂ ಕರುಣಾಳುವಾಗಿದ್ದನು.', 'ಸೈನ್ಯವು ಶಿಸ್ತಿನಿಂದ ಕೂಡಿದ್ದು, ಸೈನಿಕರು ಮರಣಕ್ಕೆ ಹೆದರದೆ ಕಾದಾಡುವ ಯೋಧರಾಗಿದ್ದರು.', 'ಪ್ರಜೆಗಳು ಸತ್ಯಪ್ರಿಯರು, ಸಂತೋಷಚಿತ್ತರು, ಸ್ವಾಭಿಮಾನಿಗಳು, ಸಂಪದ್ಭರಿತರು, ಗೌರವ ಪ್ರಿಯರು ಮತ್ತು ರಾಜನಿಷ್ಠರಾಗಿದ್ದರು.', 'ರಾಜನಲ್ಲಿ ಅತ್ಯಂತ ಗೌರವ, ಅಂತೆಯೇ ರಾಜನಿಗೆ ಪ್ರಜೆಗಳಲ್ಲಿ ಅಪಾರ ಪ್ರೀತಿ ಇದ್ದಿತು ಎಂದು ಬರೆದಿದ್ದಾನೆ.'] },
+    { type: 'content', heading: 'ವಿದೇಶಿ ಸಂಬಂಧಗಳು ಮತ್ತು ಚಾಳುಕ್ಯರ ಪತನ', imageQuery: 'Ajanta Persian embassy painting', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಆಶಾವಾದಿ ಚಕ್ರವರ್ತಿಯಾಗಿದ್ದನು. ವಿದೇಶಿ ದೊರೆಗಳೊಂದಿಗೂ ಸ್ನೇಹಮಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಪರ್ಷಿಯನ್ ದೊರೆಯಾದ ಇಮ್ಮಡಿ ಖುಸ್ರುವಿನೊಡನೆ ರಾಯಭಾರಿ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನೆಂದು ಅರಬ್ ಇತಿಹಾಸಕಾರರು ತಿಳಿಸುತ್ತಾರೆ.', 'ತಂದೆ ಮಹೇಂದ್ರವರ್ಮನಿಗೆ ಉಂಟಾದ ಸೋಲಿಗೆ ಪಲ್ಲವರ ದೊರೆಯಾದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಸೇಡು ತೀರಿಸಿಕೊಂಡನು; ಚಾಳುಕ್ಯ ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.', 'ಚಾಳುಕ್ಯರ ಕಡೆಯ ದೊರೆ ಕೀರ್ತಿವರ್ಮನ ಕಾಲದಲ್ಲಿ ರಾಷ್ಟ್ರಕೂಟರು ಈ ಸಾಮ್ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿದರು.'] },
+    { type: 'map', heading: 'ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ನಕ್ಷೆ', imageQuery: 'Chalukya Empire map', points: ['ಭೂಪಟದಲ್ಲಿ ಗುರುತಿಸಿ: ಬಾದಾಮಿ (ವಾತಾಪಿ), ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು', 'ವೆಂಗಿ – ವೆಂಗಿಯ ಚಾಳುಕ್ಯರ ಕೇಂದ್ರ', 'ನರ್ಮದಾ ನದಿ – ಹರ್ಷವರ್ಧನನನ್ನು ತಡೆದ ಸ್ಥಳ', 'ಕಂಚಿ – ಪಲ್ಲವರ ರಾಜಧಾನಿ'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಪುಟ 20 ರ ನಕ್ಷೆಯನ್ನೂ ಮಕ್ಕಳಿಗೆ ತೋರಿಸಿ. ಮಕ್ಕಳಿಂದಲೇ ಸ್ಥಳಗಳನ್ನು ಗುರುತಿಸುವಂತೆ ಹೇಳಿ.' },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕೊಡುಗೆಗಳು', points: ['ಕನ್ನಡ ನಾಡು, ನುಡಿ, ಸಂಸ್ಕೃತಿಗಳನ್ನು ಬೆಳೆಸಿ, ಪೋಷಿಸಿ, ರಕ್ಷಿಸಿ, ಧರ್ಮ, ಸಾಹಿತ್ಯ, ಕಲೆ, ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಅಗಾಧ ಕೊಡುಗೆ ನೀಡಿದವರು.', 'ಅವರ ಸೈನ್ಯವನ್ನು ‘ಕರ್ಣಾಟಬಲ’ ಎಂದು ಕರೆಯಲಾಗಿತ್ತು.', 'ಕರ್ನಾಟಕ ಚರಿತ್ರೆಯಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಅತ್ಯಂತ ಶ್ರೇಷ್ಠವೂ ವೈಭವಯುಕ್ತವೂ ಆದ ಒಂದು ಯುಗ.', 'ಈ ಯುಗವು ಸೈನಿಕ ಕ್ಷೇತ್ರದಲ್ಲಿ ಅಲ್ಲದೆ ಕಲೆ ಮತ್ತು ಸಾಹಿತ್ಯ ರಂಗಗಳಲ್ಲಿಯೂ ಹಾಗೆಯೇ ಗಮನಾರ್ಹವಾದುದು.'] },
+    { type: 'flow', heading: 'ಚಾಳುಕ್ಯರ ಆಡಳಿತ ವ್ಯವಸ್ಥೆ', points: ['ರಾಜ – ಸಕ್ರಿಯವಾಗಿ ಆಡಳಿತದಲ್ಲಿ ಭಾಗವಹಿಸುತ್ತಿದ್ದನು', 'ವಿಷಯ (ಜಿಲ್ಲೆ) – ರಾಜ್ಯವನ್ನು ವಿಷಯಗಳಾಗಿ ವಿಂಗಡಿಸಲಾಗಿತ್ತು; ವಿಷಯಾಧಿಪತಿಯು ಉಸ್ತುವಾರಿ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದನು', 'ಗ್ರಾಮ – ಆಡಳಿತ ಘಟಕಗಳಲ್ಲಿ ಅತ್ಯಂತ ಚಿಕ್ಕದು; ಗ್ರಾಮ ಮುಖ್ಯಸ್ಥರು ಲೆಕ್ಕಪತ್ರಗಳ ವಹಿವಾಟನ್ನು ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದರು'], highlight: 'ಚಾಳುಕ್ಯರು ಸುಮಾರು 200 ವರ್ಷಗಳ ಕಾಲ ಆಡಳಿತ ನಡೆಸಿದರು.' },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕಾಲದ ಧರ್ಮ', imageQuery: 'Meguti Jain temple Aihole', points: ['ಚಾಳುಕ್ಯರು ಶೈವ, ವೈಷ್ಣವ, ಜೈನ ಮುಂತಾದ ಎಲ್ಲ ಪಂಥಗಳ ಸಂಪ್ರದಾಯಗಳನ್ನು ಪ್ರೋತ್ಸಾಹಿಸಿದರು.', 'ಜೈನ ದೇವಾಲಯಗಳ ನಿರ್ಮಾಣಕ್ಕೆ ಇವರು ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.', 'ಬೌದ್ಧ ವಿಹಾರಗಳೂ ಕೂಡ ಪ್ರೋತ್ಸಾಹಿಸಲ್ಪಟ್ಟವು.'] },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕಾಲದ ಸಾಹಿತ್ಯ', imageQuery: 'Kappe Arabhatta inscription Badami', points: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಸಾಹಿತ್ಯಕ್ಕೆ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು. ಕನ್ನಡ ಹಾಗೂ ಸಂಸ್ಕೃತ ಭಾಷೆಗಳು ಚೆನ್ನಾಗಿ ಬೆಳೆದವು.', 'ಕನ್ನಡವು ಅವರ ದೇಶ ಭಾಷೆಯಾಗಿತ್ತು.', 'ಈ ಕಾಲದ ಕಾವ್ಯದಲ್ಲಿ ತ್ರಿಪದಿ ಶೈಲಿಯು ಬೆಳವಣಿಗೆಯಾಯಿತು.', 'ಕನ್ನಡದಲ್ಲಿ ಕೃತಿಗಳು ಇಲ್ಲವಾದರೂ ಅನೇಕ ಶಾಸನಗಳು ಕನ್ನಡದಲ್ಲಿ ಬರೆಯಲ್ಪಟ್ಟಿವೆ.', 'ಬಾದಾಮಿಯ ಕಪ್ಪೆ ಅರಭಟ್ಟನ ಶಾಸನದ ಒಂದು ಪದ್ಯವು ತ್ರಿಪದಿ ಶೈಲಿಯಲ್ಲಿರುವುದು ಕಂಡುಬರುತ್ತದೆ.'] },
+    { type: 'quote', heading: 'ಕಪ್ಪೆ ಅರಭಟ್ಟನ ಶಾಸನದ ತ್ರಿಪದಿ ಪದ್ಯ', lines: ['ಸಾಧುಂಗೆ ಸಾಧು ಮಾಧುರ್ಯಂಗೆ ಮಾಧುರ್ಯಂ', 'ಬಾಧಿಪ್ಪ ಕಲಿಗೆ ಕಲಿಯುಗ ವಿಪರೀತನ್', 'ಮಾಧವನೀತನ್ ಪೆರನಲ್ಲ'], explain: 'ಅರ್ಥ: ಒಳ್ಳೆಯವರಿಗೆ ಒಳ್ಳೆಯವನು. ಮಧುರಗುಣ ಉಳ್ಳವರಿಗೆ ಮಧುರವಾಗಿ ವರ್ತಿಸುವವನು. ತೊಂದರೆಪಡಿಸುವ ದುಷ್ಟರಿಗೆ ದುಷ್ಟನಂತೆ ಕಾಣಿಸುವವನು. ಈತನು ಅಸಾಮಾನ್ಯನಾದ ಮಾಧವನೇ ಆಗಿರುವವನು.', notes: 'ಪದ್ಯವನ್ನು ರಾಗವಾಗಿ ಓದಿ, ಮಕ್ಕಳಿಂದ ಪುನರುಚ್ಚರಿಸಿ. ತ್ರಿಪದಿ = ಮೂರು ಪಾದಗಳ ಪದ್ಯ.' },
+    { type: 'keywords', heading: 'ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು ಮತ್ತು ನಾಟಕಗಳು', points: ['ರವಿಕೀರ್ತಿ, ವಿಜ್ಜಿಕ, ಅಕಳಂಕ – ಈ ಕಾಲದ ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು', 'ವಿಜ್ಜಿಕ – ಎರಡನೇ ಪುಲಕೇಶಿಯ ಸೊಸೆಯಾದ ಕವಯಿತ್ರಿ; ‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’ ಬರೆದವಳು', 'ಶಿವಭಟ್ಟಾರಕ – ‘ಹರ ಪಾರ್ವತೀಯ’ ಬರೆದವನು', '‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’, ‘ಹರ ಪಾರ್ವತೀಯ’ – ಮುಖ್ಯವಾದ ಸಂಸ್ಕೃತ ನಾಟಕಗಳು'] },
+    { type: 'content', heading: 'ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ', imageQuery: 'Badami cave temple sculpture', points: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮಹಾನ್ ನಿರ್ಮಾಪಕರು ಹಾಗೂ ಕಲಾ ಪ್ರೇಮಿಗಳೂ ಆಗಿದ್ದರು.', 'ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲುಗಳಲ್ಲಿ ಸೊಗಸಾದ ಅತ್ಯುತ್ಕೃಷ್ಟವಾದ ದೇವಾಲಯಗಳನ್ನು ನಿರ್ಮಿಸಿದರು.', 'ಇವರು ‘ಚಾಳುಕ್ಯ ಶೈಲಿ’ ಅಥವಾ ‘ವೇಸರ ಶೈಲಿ’ ಎಂಬ ವಿಶಿಷ್ಟ ಶಿಲ್ಪಕಲಾ ಶೈಲಿಯನ್ನು ಭಾರತೀಯ ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿದರು.', 'ಬಾದಾಮಿಯಲ್ಲಿರುವ ಶಿಲೆಯಲ್ಲಿ ಕೊರೆದ ಗುಹಾಂತರ ದೇವಾಲಯಗಳನ್ನು ಇವರು ನಿರ್ಮಿಸಿದರು.', 'ಅನೇಕ ಕಲಾವಿದರು ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಕಲಾಕಾರರಿಗೆ ಇವರು ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.'] },
+    { type: 'content', heading: 'ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲು', imageQuery: 'Durga temple Aihole', points: ['ಚಾಳುಕ್ಯ ಶೈಲಿಯ ಅತ್ಯುತ್ತಮ ದೇವಾಲಯಗಳು ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿವೆ.', 'ದೇವಾಲಯ ವಾಸ್ತುಶಿಲ್ಪದ ತೊಟ್ಟಿಲುಗಳಲ್ಲಿ ಐಹೊಳೆಯು ಒಂದಾಗಿದೆ.', 'ದೇವಾಲಯ ವಾಸ್ತುಶಿಲ್ಪದ ಕ್ರಮ ಸರಣಿಯ ವಿಕಾಸದಲ್ಲಿನ ಪ್ರಯೋಗಗಳನ್ನು ಇಲ್ಲಿ ನಡೆಸಲಾಯಿತು.', 'ಈ ಶೈಲಿಯು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿ ಸಂಪೂರ್ಣ ವಿಕಾಸ ಹೊಂದಿತು.'] },
+    { type: 'content', heading: 'ಪ್ರಸಿದ್ಧ ದೇವಾಲಯಗಳು ಮತ್ತು ವಿಗ್ರಹಗಳು', imageQuery: 'Virupaksha Temple Pattadakal', points: ['ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿ ಲೋಕೇಶ್ವರ (ವಿರೂಪಾಕ್ಷ) ಮತ್ತು ತ್ರೈಲೋಕೇಶ್ವರ (ಮಲ್ಲಿಕಾರ್ಜುನ) ಮುಂತಾದ ಪ್ರಸಿದ್ಧ ದೇವಾಲಯಗಳನ್ನು ಕಾಣಬಹುದು.', 'ಬಾದಾಮಿಯ ಗುಹೆಗಳಲ್ಲಿರುವ ವಿಷ್ಣು, ವರಾಹ, ಹರಿಹರ, ಅರ್ಧನಾರೀಶ್ವರರ ಎತ್ತರದ ವಿಗ್ರಹಗಳು ಚಾಳುಕ್ಯರ ಕಲಾತ್ಮಕ ಸಾಧನೆಯ ಅತ್ಯುತ್ತಮ ಕುರುಹುಗಳಾಗಿವೆ.', 'ಚಿತ್ರಕಲೆಗೂ ಇಲ್ಲಿ ಪ್ರೋತ್ಸಾಹ ಸಿಕ್ಕಿತು.'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಚಿತ್ರ: ವಿರೂಪಾಕ್ಷ ದೇವಾಲಯ, ಪಟ್ಟದಕಲ್ಲು (ಪುಟ 21).' },
+    { type: 'section', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಸಾ.ಶ. 350 – 895' },
+    { type: 'content', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು – ಪರಿಚಯ', imageQuery: 'Kanchipuram Kailasanathar temple', points: ['ಪಲ್ಲವರು ತಮಿಳುನಾಡಿನ ಪ್ರಪ್ರಥಮ ರಾಜರುಗಳು. ದಕ್ಷಿಣ ಭಾರತವನ್ನು ಆಳಿದ ವಂಶಗಳಲ್ಲಿ ಇವರಿಗೆ ವಿಶೇಷ ಸ್ಥಾನವಿದೆ.', 'ಸಾ.ಶ. 4ನೇ ಶತಮಾನದಿಂದ ಸಾ.ಶ. 9ನೇ ಶತಮಾನದವರೆಗೆ ಆಳಿದರು.', 'ಪ್ರಾರಂಭದಲ್ಲಿ ಇವರು ಶಾತವಾಹನರ ಅಧಿಕಾರಿಗಳಾಗಿದ್ದರು. ಶಾತವಾಹನ ರಾಜ್ಯವು ಅವನತಿಯಾದಾಗ ಪಲ್ಲವರು ತಮ್ಮನ್ನು ತಾವೇ ಸ್ಥಳೀಯ ರಾಜರುಗಳೆಂದು ಘೋಷಿಸಿಕೊಂಡರು.', 'ಶಿವಸ್ಕಂದವರ್ಮನು ಈ ಸಂತತಿಯ ಮೊದಲ ದೊರೆ ಹಾಗೂ ಈ ವಂಶದ ಆಳ್ವಿಕೆಯ ಸ್ಥಾಪಕನು.'] },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯ – ಪಲ್ಲವ ಸಂಘರ್ಷ', points: ['ಪಲ್ಲವರು ಮತ್ತು ಕದಂಬರು ನಿರಂತರ ವೈರ ಹೊಂದಿದ್ದರು.', 'ಚಾಳುಕ್ಯ ವಂಶದ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಪಲ್ಲವರ ಮಹೇಂದ್ರವರ್ಮನನ್ನು ಸೋಲಿಸಿದನು.', 'ಮುಂದೆ ಬಂದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಪಲ್ಲವ ರಾಜರುಗಳಲ್ಲಿ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧನು.', 'ತನಗೆ ಚಾಳುಕ್ಯರ ಮೇಲಿದ್ದ ಸೇಡನ್ನು ತೀರಿಸಿಕೊಂಡು, ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯನ್ನು ಸೋಲಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.'] },
+    { type: 'content', heading: 'ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', imageQuery: 'Mahabalipuram monuments', highlight: 'ಬಿರುದುಗಳು: ‘ಮಹಾಮಲ್ಲ’ ಮತ್ತು ‘ವಾತಾಪಿಕೊಂಡ’', points: ['ಈತನು ‘ಮಹಾಮಲ್ಲ’ ಮತ್ತು ‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದುಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಈತನ ಆಳ್ವಿಕೆಯ ಕಾಲದಲ್ಲಿ ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಕಂಚಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು.', 'ಕಂಚಿ ಬಳಿಯಲ್ಲಿನ ಸಮುದ್ರ ತೀರದಲ್ಲಿ ನರಸಿಂಹವರ್ಮನು ಒಂದು ನಗರವನ್ನು ನಿರ್ಮಿಸಿ, ಅದಕ್ಕೆ ‘ಮಹಾಬಲಿಪುರಂ’ ಎಂಬ ಹೆಸರನ್ನು ಇಟ್ಟನು.', 'ಅನೇಕ ಏಕಶಿಲಾ ದೇವಾಲಯಗಳು ಈತನಿಂದ ನಿರ್ಮಾಣವಾದವು.', 'ಅಪರಾಜಿತ ಪಲ್ಲವನ ಆಳ್ವಿಕೆಯ ಕಾಲದಲ್ಲಿ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯ ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಕೊನೆಗೊಂಡಿತು.'] },
+    { type: 'content', heading: 'ಪಲ್ಲವರ ಕೊಡುಗೆಗಳು – ಆಡಳಿತ', points: ['ಪಲ್ಲವರು ತಮಿಳುನಾಡಿನಲ್ಲಿ ಆಡಳಿತವನ್ನು ವ್ಯವಸ್ಥೆಗೊಳಿಸಿದ್ದರು.', 'ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣಗಳಲ್ಲಿ ಇವರ ಕಾಣಿಕೆಯು ಗಮನಾರ್ಹವಾದುದು.', 'ವಾತಾಪಿಯಲ್ಲಿ ಚಾಳುಕ್ಯರೂ, ಕಂಚಿಯಲ್ಲಿ ಪಲ್ಲವರೂ ಆಳುತ್ತಿದ್ದ ಕಾಲವೇ ದಕ್ಷಿಣದಲ್ಲಿ ವೀರಯುಗ.', 'ಇವರ ರಾಜ್ಯವು ಸದೃಢ, ಸುವ್ಯವಸ್ಥಿತವಾಗಿದ್ದು, ಮಂತ್ರಿ ಮತ್ತು ಪ್ರಾಂತಾಧಿಕಾರಿಗಳಿದ್ದರು.'] },
+    { type: 'flow', heading: 'ಪಲ್ಲವರ ಆಡಳಿತ ವಿಭಾಗಗಳು', points: ['ರಾಜ್ಯ – ಮಂತ್ರಿ ಮತ್ತು ಪ್ರಾಂತಾಧಿಕಾರಿಗಳಿದ್ದರು', 'ಮಂಡಲ – ರಾಜ್ಯದ ದೊಡ್ಡ ವಿಭಾಗ', 'ನಾಡು – ಮಂಡಲದ ಉಪವಿಭಾಗ', 'ಗ್ರಾಮ – ಗ್ರಾಮ ಸಭೆಯು ಗ್ರಾಮದ ಸಮಸ್ಯೆಗಳನ್ನು ಗಮನಿಸುತ್ತಿತ್ತು; ಗ್ರಾಮಭೋಜಕ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದನು'], highlight: 'ರಾಜ್ಯವನ್ನು ಮಂಡಲ, ನಾಡು ಮತ್ತು ಗ್ರಾಮಗಳಾಗಿ ವಿಭಾಗಿಸಿದ್ದರು.' },
+    { type: 'keywords', heading: 'ಪಲ್ಲವರ ಕಾಲದ ಸಾಹಿತ್ಯ', highlight: 'ಪಲ್ಲವರು ಸಂಸ್ಕೃತ ಮತ್ತು ತಮಿಳು ಭಾಷೆಗಳೆರಡಕ್ಕೂ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು. ಕಂಚಿಯು ಸಂಸ್ಕೃತ ಸಾಹಿತ್ಯದ ಕೇಂದ್ರವಾಗಿತ್ತು.', points: ['ಭಾರವಿ – ಪಲ್ಲವರ ಆಸ್ಥಾನ ಕವಿ; ‘ಕಿರಾತಾರ್ಜುನೀಯ’ ಕೃತಿಯ ಕರ್ತೃ', 'ದಂಡಿ – ಪಲ್ಲವರ ಆಸ್ಥಾನ ಕವಿ; ‘ದಶಕುಮಾರ ಚರಿತ’ ಕೃತಿಯ ಕರ್ತೃ', 'ರಾಜ ಮಹೇಂದ್ರವರ್ಮ – ಸ್ವತಃ ‘ಮತ್ತ ವಿಲಾಸ ಪ್ರಹಸನ’ ಎಂಬ ಸಾಮಾಜಿಕ ನಾಟಕವನ್ನು ಹಾಗೂ ‘ಭಗವದಜ್ಜುಕಂ’ ಗ್ರಂಥವನ್ನು ರಚಿಸಿದ್ದಾನೆ'] },
+    { type: 'content', heading: 'ಪಲ್ಲವರ ಕಾಲದ ಧರ್ಮ', points: ['ಪಲ್ಲವರು ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೂ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.', 'ಮೊದಲು ಪಲ್ಲವ ದೊರೆಗಳು ಬೌದ್ಧಧರ್ಮೀಯರಾಗಿದ್ದರು.', 'ನಳಂದ ವಿದ್ಯಾನಿಲಯದ ಮಹಾನ್ ವಿದ್ವಾಂಸ ಧರ್ಮಪಾಲನು ಕಂಚಿಯಲ್ಲಿ ಜನಿಸಿದವನು.', 'ಮಹೇಂದ್ರವರ್ಮನು ಜೈನ ಧರ್ಮಾವಲಂಬಿಯಾದುದರಿಂದ ನಾಡಿನಲ್ಲಿ ಅನೇಕ ಜೈನರಿದ್ದರು.'] },
+    { type: 'compare', heading: 'ಭಕ್ತಿ ಚಳುವಳಿ – ಶೈವ ಮತ್ತು ವೈಷ್ಣವ', left: { title: 'ನಾಯನ್ನಾರರು', points: ['63 ಯತಿ ಶ್ರೇಷ್ಠರು', 'ಶೈವ ಮತವನ್ನು ಪ್ರಚಾರಗೊಳಿಸಿದರು'] }, right: { title: 'ಆಳ್ವಾರರು', points: ['12 ಮಂದಿ ಆಳ್ವಾರರುಗಳು', 'ವೈಷ್ಣವ ಮತವನ್ನು ಪ್ರಚಾರಗೊಳಿಸಿದರು'] }, highlight: '7ನೇ ಶತಮಾನದಲ್ಲಿ ಶೈವ – ವೈಷ್ಣವ ಭಕ್ತಿ ಪಂಥಗಳು ಜನಪ್ರಿಯವಾದವು.' },
+    { type: 'content', heading: 'ಭಕ್ತಿ ಚಳುವಳಿಯ ಪರಿಣಾಮ', points: ['ಈ ಯುಗವು ಭಕ್ತಿ ಚಳುವಳಿಯ ಉದಯವನ್ನು ಕಂಡಿತು.', 'ವೈದಿಕ ಧರ್ಮದ ಪುನರುಜ್ಜೀವನಕ್ಕೂ ಸಹಾಯ ಮಾಡಿತು.', 'ತಮಿಳಿನಲ್ಲಿ ಶ್ಲೋಕಗಳು ರಚನೆಯಾದವು. ಇದೇ ತಮಿಳು ಸಾಹಿತ್ಯದ ನಿಧಿಯಾಗಿದೆ.'] },
+    { type: 'content', heading: 'ಪಲ್ಲವರ ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ', imageQuery: 'Pancha Rathas Mahabalipuram', points: ['ಪಲ್ಲವರು ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪದ ಪ್ರೇಮಿಗಳಾಗಿದ್ದರು. ತಮ್ಮ ರಾಜ್ಯದಲ್ಲಿ ಇವರು ಅನೇಕ ದೇವಾಲಯಗಳನ್ನು ನಿರ್ಮಿಸಿದರು.', 'ಈ ದೇವಾಲಯಗಳಲ್ಲಿ ಅತ್ಯುತ್ತಮ ಕಲಾಕೌಶಲತೆಯನ್ನು ಕಾಣಬಹುದು.', 'ಪಲ್ಲವರ ವಾಸ್ತುಶಿಲ್ಪವನ್ನು ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದು ಮಾಡಿದ ದೇವಾಲಯಗಳು ಮತ್ತು ರಚನಾ ವಿನ್ಯಾಸದ ದೇವಾಲಯಗಳು ಎಂಬುದಾಗಿ ವಿಂಗಡಿಸಬಹುದು.'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಚಿತ್ರ: ಮಹಾಬಲಿಪುರ ಪಂಚರಥಗಳು (ಪುಟ 23).' },
+    { type: 'content', heading: 'ಮಹಾಬಲಿಪುರದ ಶಿಲ್ಪಕಲೆ', imageQuery: "Arjuna's Penance Mahabalipuram", points: ['ಮಹಾಬಲಿಪುರದಲ್ಲಿ ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದು ಮಾಡಿದ ಅನೇಕ ದೇವಾಲಯಗಳನ್ನು ಕಾಣಬಹುದು.', 'ಏಕಶಿಲೆಗಳಲ್ಲಿ ಅದ್ಭುತ ವಿಗ್ರಹಗಳನ್ನು ಕೆತ್ತಿ, ಬಿಡಿಸಲಾಗಿದೆ. ಇವುಗಳು ಮಹಾಭಾರತದ ಹಾಗೂ ಭಾಗವತದ ಕಥೆಗಳನ್ನು ಹೊಂದಿವೆ.', 'ಇಲ್ಲಿನ ಪಂಚ ರಥಗಳು ಸುಪ್ರಸಿದ್ಧ ಏಕಶಿಲಾ ದೇವಾಲಯಗಳಾಗಿವೆ.', '‘ಅರ್ಜುನನ ತಪಸ್ಸು’ ಎನ್ನುವ ಕೆತ್ತನೆ ದೃಶ್ಯವು ಅತ್ಯುತ್ತಮ ಕಲಾಕೃತಿಯಾಗಿದೆ.'] },
+    { type: 'content', heading: 'ಪ್ರಾಚೀನ ವಾಸ್ತುಶಿಲ್ಪದ ಅತ್ಯುತ್ತಮ ನಿದರ್ಶನಗಳು', imageQuery: 'Shore Temple Mahabalipuram', points: ['ಕಂಚಿಯಲ್ಲಿನ ಕೈಲಾಸನಾಥ, ಏಕಾಂಬರನಾಥ ಮತ್ತು ವೈಕುಂಠ ಪೆರುಮಾಳರ ದೇವಾಲಯಗಳು', 'ಮಹಾಬಲಿಪುರದ ಕಡಲದಂಡೆಯ ದೇವಾಲಯ', 'ಇವು ಪ್ರಾಚೀನ ಭಾರತ ವಾಸ್ತುಶಿಲ್ಪದ ಅತ್ಯುತ್ತಮ ನಿದರ್ಶನಗಳಾಗಿವೆ.'] },
+    { type: 'content', heading: 'ದೇವಾಲಯಗಳು – ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳು', imageQuery: 'Ekambareswarar Temple Kanchipuram', points: ['ದೇವಾಲಯಗಳು ಧಾರ್ಮಿಕ ಹಾಗೂ ಕಲಾತ್ಮಕ ಚಟುವಟಿಕೆಗಳ ಕೇಂದ್ರಗಳಾದವು.', 'ದೇವಾಲಯದ ಅಂಗಳಗಳಲ್ಲಿ ಸಂಜೆ ಸಮಯದಲ್ಲಿ ಗ್ರಾಮೀಣ ಜನರು ಕಲೆತು ಅನೇಕ ವಿಷಯಗಳನ್ನು ಚರ್ಚಿಸುತ್ತಿದ್ದರು.', 'ವಿರಾಮ ವೇಳೆಯಲ್ಲಿ ಜನರು ಇಲ್ಲಿ ಸಭೆ ಸೇರುತ್ತಿದ್ದು ಹಾಗೂ ಪುರಾಣ ಕೇಳುವುದು ಮತ್ತು ಭಕ್ತಿ ಗೀತೆಗಳನ್ನು ಹಾಡುತ್ತಿದ್ದರು.', 'ಹೀಗಾಗಿ ದೇವಾಲಯಗಳು ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳಾಗಿದ್ದವು.'] },
+    { type: 'content', heading: 'ನೌಕಾಬಲ ಮತ್ತು ವಿದೇಶಿ ವ್ಯಾಪಾರ', imageQuery: 'Southeast Asia map', points: ['ಪಲ್ಲವರು ಒಳ್ಳೆಯ ನೌಕಾಬಲವನ್ನು ಹೊಂದಿದ್ದರು.', 'ಇಲ್ಲಿನ ವರ್ತಕರು ಮಲಯ, ಇಂಡೋನೇಷಿಯಾ ಹಾಗೂ ಇತರ ಆಗ್ನೇಯ ಏಷ್ಯಾ ರಾಷ್ಟ್ರಗಳೊಡನೆ ವಾಣಿಜ್ಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದರು.', 'ಭಾರತೀಯ ಭಾಷೆ, ಧರ್ಮ, ಸಂಪ್ರದಾಯ, ಸಂಸ್ಕೃತಿಗಳು ಆ ದೇಶಗಳಲ್ಲಿಯೂ ಪ್ರಭಾವ ಬೀರಿರುವುದನ್ನು ಕಾಣಬಹುದು.'] },
+    { type: 'timeline', heading: 'ಕಾಲರೇಖೆ', points: ['ಸಾ.ಶ. 350 – ಕಂಚಿಯ ಪಲ್ಲವರ ಆಳ್ವಿಕೆ ಆರಂಭ', 'ಸಾ.ಶ. 540 – ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರಂಭ', '7ನೇ ಶತಮಾನ – ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ, ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ; ಭಕ್ತಿ ಪಂಥಗಳು ಜನಪ್ರಿಯ', 'ಸಾ.ಶ. 753 – ರಾಷ್ಟ್ರಕೂಟರಿಂದ ಚಾಳುಕ್ಯ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ', 'ಸಾ.ಶ. 895 – ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ'] },
+    { type: 'compare', heading: 'ಹೋಲಿಸಿ ನೋಡೋಣ', left: { title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', points: ['ಕಾಲ: ಸಾ.ಶ. 540 – 753', 'ಸ್ಥಾಪಕ: ಜಯಸಿಂಹ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', 'ಆಡಳಿತ: ವಿಷಯ (ಜಿಲ್ಲೆ), ಗ್ರಾಮ', 'ಶೈಲಿ: ಚಾಳುಕ್ಯ / ವೇಸರ ಶೈಲಿ', 'ಕೇಂದ್ರಗಳು: ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು'] }, right: { title: 'ಕಂಚಿಯ ಪಲ್ಲವರು', points: ['ಕಾಲ: ಸಾ.ಶ. 350 – 895', 'ಸ್ಥಾಪಕ: ಶಿವಸ್ಕಂದವರ್ಮ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', 'ಆಡಳಿತ: ಮಂಡಲ, ನಾಡು, ಗ್ರಾಮ', 'ಶೈಲಿ: ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದ ಮತ್ತು ರಚನಾ ದೇವಾಲಯಗಳು', 'ಕೇಂದ್ರಗಳು: ಕಂಚಿ, ಮಹಾಬಲಿಪುರ'] } },
+    { type: 'keywords', heading: 'ಪ್ರಮುಖ ಪದಗಳು ಮತ್ತು ಬಿರುದುಗಳು', points: ['ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ – ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ಬಿರುದು', 'ಕರ್ಣಾಟಬಲ – ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸೈನ್ಯದ ಹೆಸರು', 'ವೇಸರ ಶೈಲಿ – ಚಾಳುಕ್ಯರು ಪ್ರಾರಂಭಿಸಿದ ಶಿಲ್ಪಕಲಾ ಶೈಲಿ', 'ತ್ರಿಪದಿ – ಈ ಕಾಲದಲ್ಲಿ ಬೆಳೆದ ಕನ್ನಡ ಕಾವ್ಯ ಶೈಲಿ', 'ಮಹಾಮಲ್ಲ, ವಾತಾಪಿಕೊಂಡ – ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನ ಬಿರುದುಗಳು', 'ಗ್ರಾಮಭೋಜಕ – ಪಲ್ಲವರ ಕಾಲದಲ್ಲಿ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದವನು'] },
+    { type: 'questions', heading: 'ಅಭ್ಯಾಸ I – ಸೂಕ್ತ ಪದಗಳಿಂದ ಪೂರ್ಣಗೊಳಿಸಿ', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಸೋಲಿಸಿದ ಪಲ್ಲವರ ದೊರೆ ________ .', 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಸೈನ್ಯಕ್ಕೆ ________ ಎಂಬ ಹೆಸರಿತ್ತು.', '‘ಹರ ಪಾರ್ವತೀಯ’ ಸಂಸ್ಕೃತ ನಾಟಕದ ಕರ್ತೃ ________ .', '‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದು ಪಡೆದ ಪಲ್ಲವರ ರಾಜ ________ .', '‘ಅರ್ಜುನನ ತಪಸ್ಸು’ ಎಂಬ ಕಲಾಕೃತಿಯು ________ ದಲ್ಲಿದೆ.'], notes: 'ಉತ್ತರಗಳು: 1) ಮಹೇಂದ್ರವರ್ಮ  2) ಕರ್ಣಾಟಬಲ  3) ಶಿವಭಟ್ಟಾರಕ  4) ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ  5) ಮಹಾಬಲಿಪುರ' },
+    { type: 'questions', heading: 'ಅಭ್ಯಾಸ II – ಸಂಕ್ಷಿಪ್ತವಾಗಿ ಉತ್ತರಿಸಿ', points: ['ಎರಡನೇ ಪುಲಕೇಶಿಯು ಸಾಮ್ರಾಜ್ಯವನ್ನು ಹೇಗೆ ವಿಸ್ತರಿಸಿದನು?', 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಡಳಿತ ವ್ಯವಸ್ಥೆ ಬಗ್ಗೆ ತಿಳಿಸಿ.', 'ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು ಸಾಹಿತ್ಯ ಪ್ರಿಯರು ಎನ್ನುವುದನ್ನು ಉದಾಹರಣೆ ಸಹಿತ ವಿವರಿಸಿ.', 'ಸಂಸ್ಕೃತ ಮತ್ತು ತಮಿಳು ಭಾಷೆಗಳಿಗೆ ಪಲ್ಲವರು ಯಾವ ರೀತಿ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು?', 'ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪಕ್ಕೆ ಪಲ್ಲವರ ಕೊಡುಗೆಗಳನ್ನು ವಿವರಿಸಿ.'] },
+    { type: 'activity', heading: 'ಚಟುವಟಿಕೆಗಳು ಮತ್ತು ಯೋಜನೆಗಳು', points: ['ಕನ್ನಡ ಭಾಷೆಗೆ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಕೊಡುಗೆಗಳೇನೆಂಬುದನ್ನು ಗುಂಪಿನಲ್ಲಿ ಚರ್ಚಿಸಿ.', 'ತ್ರಿಪದಿಯ ಬಗ್ಗೆ ಕನ್ನಡ ಭಾಷಾ ಶಿಕ್ಷಕರು ಮತ್ತು ಕನ್ನಡ ಪುಸ್ತಕಗಳಿಂದ ಹೆಚ್ಚಿನ ಮಾಹಿತಿಯನ್ನು ಸಂಗ್ರಹಿಸಿ.', 'ಕಂಚಿಪುರ – ಮಹಾಬಲಿಪುರ ಪ್ರದೇಶಗಳಿಗೆ ಒಂದು ಶೈಕ್ಷಣಿಕ ಪ್ರವಾಸವನ್ನು ಏರ್ಪಡಿಸುವುದು.', 'ಯೋಜನೆ: ಯಾವುದಾದರೂ ಸ್ಥಳೀಯ ಐತಿಹಾಸಿಕ ಸ್ಥಳಗಳಿಗೆ ಭೇಟಿ ನೀಡಿ ವಿಷಯ ಸಂಗ್ರಹಿಸಿ.', 'ಯೋಜನೆ: ಬಾದಾಮಿ, ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿರುವ ಪ್ರಮುಖ ದೇವಾಲಯಗಳ ಚಿತ್ರ ಬಿಡಿಸಿ ಒಂದು ಆಲ್ಬಂ ತಯಾರಿಸಿ.'] },
+    { type: 'summary', heading: 'ಸಾರಾಂಶ', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು (540–753): ಸ್ಥಾಪಕ ಜಯಸಿಂಹ; ಶ್ರೇಷ್ಠ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', 'ಕರ್ಣಾಟಬಲ ಸೈನ್ಯ; ವಿಷಯ–ಗ್ರಾಮ ಆಡಳಿತ; ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೆ ಪ್ರೋತ್ಸಾಹ', 'ಕನ್ನಡ ಶಾಸನಗಳು, ತ್ರಿಪದಿ; ವೇಸರ ಶೈಲಿಯ ದೇವಾಲಯಗಳು', 'ಕಂಚಿಯ ಪಲ್ಲವರು (350–895): ಶಿವಸ್ಕಂದವರ್ಮ ಸ್ಥಾಪಕ; ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ ಪ್ರಸಿದ್ಧ', 'ಸಂಸ್ಕೃತ–ತಮಿಳು ಸಾಹಿತ್ಯ, ಭಕ್ತಿ ಚಳುವಳಿ (ನಾಯನ್ನಾರರು, ಆಳ್ವಾರರು)', 'ಮಹಾಬಲಿಪುರ, ಕಂಚಿಯ ದೇವಾಲಯಗಳು; ನೌಕಾಬಲ ಮತ್ತು ಆಗ್ನೇಯ ಏಷ್ಯಾ ವ್ಯಾಪಾರ'] },
+  ],
+};
+init();
+</script>
+</body>
+</html>
