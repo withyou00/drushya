@@ -42,11 +42,11 @@ input,select,textarea{font-family:inherit;font-size:14px}
 .ib:hover{background:#E8EAF5;border-color:#CDD2E5}
 .ib:disabled{opacity:.4}
 #wrap{flex:1;position:relative;overflow:hidden}
-#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;box-shadow:0 10px 40px rgba(20,25,50,.18);touch-action:none}
+#stage{position:absolute;left:0;top:0;width:var(--W,1280px);height:var(--H,720px);transform-origin:0 0;box-shadow:0 10px 40px rgba(20,25,50,.18);touch-action:none}
 #panel{background:#fff;border-left:1px solid var(--line);overflow:auto;padding:14px 14px 90px}
 
 /* ---------- slide rendering ---------- */
-.sl{position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden}
+.sl{position:absolute;left:0;top:0;width:var(--W,1280px);height:var(--H,720px);overflow:hidden}
 .el{position:absolute;user-select:none;-webkit-user-select:none}
 .el .bx{position:absolute;inset:0;display:flex;flex-direction:column}
 .el .tx{overflow-wrap:anywhere;word-break:normal}
@@ -77,9 +77,9 @@ input,select,textarea{font-family:inherit;font-size:14px}
 /* thumbs */
 .th{position:relative;margin:0 0 12px 22px;border-radius:8px;cursor:pointer}
 .th .n{position:absolute;left:-20px;top:2px;font-size:12px;color:var(--mut);width:16px;text-align:right}
-.th .box{width:150px;height:84.375px;border-radius:7px;overflow:hidden;position:relative;border:2px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,.12);background:#fff}
+.th .box{width:150px;height:var(--thh,84.375px);border-radius:7px;overflow:hidden;position:relative;border:2px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,.12);background:#fff}
 .th.on .box{border-color:var(--ui)}
-.th .mini{position:absolute;left:0;top:0;width:1280px;height:720px;transform:scale(.1171875);transform-origin:0 0;pointer-events:none}
+.th .mini{position:absolute;left:0;top:0;width:var(--W,1280px);height:var(--H,720px);transform:scale(var(--ts,.1171875));transform-origin:0 0;pointer-events:none}
 .th .ta{position:absolute;right:4px;top:4px;display:none;gap:3px}
 .th:hover .ta,.th.on .ta{display:flex}
 .th .ta button{border:0;background:rgba(20,25,45,.75);color:#fff;border-radius:6px;width:24px;height:24px;font-size:12px;padding:0}
@@ -141,6 +141,25 @@ textarea.nt{width:100%;min-height:90px;border:1px solid var(--line);border-radiu
 .btn.pri:hover{background:var(--ui2)}
 .btn.cta{background:var(--cta);color:#fff}
 .btn.cta:hover{background:#DB5B10}
+.upbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#FFF7EC;border:1px dashed #F0B36A;border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.upbar .hint{margin:0;flex:1;min-width:220px}
+textarea.drop{outline:3px dashed var(--ui);outline-offset:-3px;background:#F3F6FF}
+.btn.sm{padding:5px 10px;font-size:12.5px}
+.ppg{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;max-height:52vh;overflow:auto;padding:4px}
+.pp{position:relative;border:3px solid transparent;border-radius:10px;cursor:pointer;background:#F2F3F8;padding:4px;text-align:center;user-select:none}
+.pp .pc{aspect-ratio:1/1.41;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;overflow:hidden}
+.pp .pc canvas{width:100%;height:auto;display:block}
+.pp span{font-size:12px;font-weight:700;color:var(--mut)}
+.pp.on{border-color:#16A34A;background:#E8F8EE}
+.pp.on::after{content:'✓';position:absolute;right:6px;top:6px;background:#16A34A;color:#fff;border-radius:50%;width:22px;height:22px;font-size:14px;line-height:22px}
+.crop{position:relative;max-height:62vh;overflow:auto;border:1px solid var(--line);border-radius:10px;touch-action:none;cursor:crosshair;background:#EEF0F6;text-align:center}
+.crop img{display:block;width:100%;height:auto;user-select:none;pointer-events:none}
+.csel{position:absolute;border:3px solid #E4405F;background:rgba(228,64,95,.12);box-shadow:0 0 0 9999px rgba(0,0,0,.35);pointer-events:none}
+.psz{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:6px 0 14px}
+.psz button{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid var(--line);background:#fff;border-radius:14px;padding:10px 8px;text-align:center}
+.psz button i{display:block;height:46px;max-width:90px;background:linear-gradient(135deg,#FFB400,#E4405F);border-radius:4px}
+.psz button small{color:var(--mut);font-size:11.5px}
+.psz button.on{border-color:var(--ui);background:#EEF2FF;box-shadow:0 0 0 3px rgba(79,70,229,.15)}
 .tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 .tabs button{border:1px solid var(--line);background:#F6F7FB;border-radius:999px;padding:8px 14px;font-weight:600}
 .tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -204,7 +223,7 @@ textarea.nt{width:100%;min-height:90px;border:1px solid var(--line);border-radiu
 #pres{position:fixed;inset:0;background:#000;z-index:100;display:none;cursor:none}
 #pres.on{display:block}
 #pres.cur{cursor:default}
-#pst{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0}
+#pst{position:absolute;left:0;top:0;width:var(--W,1280px);height:var(--H,720px);transform-origin:0 0}
 #pst .sl{transition:opacity .35s}
 #pnav{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(20,22,35,.75);color:#fff;padding:6px 10px;border-radius:12px;opacity:0;transition:opacity .3s}
 #pres.cur #pnav{opacity:1}
@@ -283,7 +302,8 @@ textarea.nt{width:100%;min-height:90px;border:1px solid var(--line);border-radiu
    ದೃಶ್ಯಪಾಠ — ಪಾಠದ ಪ್ರಸ್ತುತಿ ತಯಾರಕ
    ಒಂದೇ HTML ಫೈಲ್. GitHub Pages ನಲ್ಲಿ ಉಚಿತವಾಗಿ ಹಾಕಬಹುದು.
    ===================================================================== */
-const W = 1280, H = 720, MX = 60;
+let W = 1280, H = 720; const MX = 60;
+function useSize(d) { const z = (d && d.size) || { w: 1280, h: 720 }; W = z.w; H = z.h; const r = document.documentElement.style; r.setProperty('--W', W + 'px'); r.setProperty('--H', H + 'px'); r.setProperty('--ts', String(150 / W)); r.setProperty('--thh', (150 * H / W).toFixed(3) + 'px'); }
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const uid = () => Math.random().toString(36).slice(2, 10);
@@ -425,11 +445,11 @@ function genTex(th, v, Wd, Hd) {
   return cv;
 }
 const TEXC = new Map(), TEXCSS = new Set(), TEXPV = new Map();
-function texCanvas(th, v) { const key = th.id + '-' + v; if (!TEXC.has(key)) TEXC.set(key, genTex(th, v, 1280, 720)); return TEXC.get(key); }
+function texCanvas(th, v) { const key = th.id + '-' + v + '-' + W + 'x' + H; if (!TEXC.has(key)) TEXC.set(key, genTex(th, v, W, H)); return TEXC.get(key); }
 function bgVariant(bg) { if (!bg) return 'l'; if (bg.k === 'solid' && bg.c === '$bg') return 'l'; if (bg.k === 'grad' && bg.c1 === '$g1' && bg.c2 === '$g2') return 'd'; return null; }
 function bgClass(bg, th) {
   const v = th.tex && bgVariant(bg); if (!v) return '';
-  const key = th.id + '-' + v, cls = 'tx-' + key;
+  const key = th.id + '-' + v + '-' + W + 'x' + H, cls = 'tx-' + key;
   if (!TEXCSS.has(key)) { TEXCSS.add(key); let el = $('#texcss'); if (!el) { el = document.createElement('style'); el.id = 'texcss'; document.head.appendChild(el); } el.appendChild(document.createTextNode(`.${cls}{background-image:url(${texCanvas(th, v).toDataURL('image/jpeg', .86)})!important;background-size:100% 100%!important}`)); }
   return cls;
 }
@@ -527,7 +547,7 @@ function hlOf(sp) { return [sp.highlight ? '💡 ' + sp.highlight : '', sp.quest
 function aiImgPrompt(s, th) {
   const hdE = s.els.find(e => e.role === 'h' || e.role === 'tt') || s.els.find(e => e.t === 'text' && !e.dyn && e.text) || {};
   const body = s.els.filter(e => e.t === 'text' && !e.dyn && e !== hdE).map(e => e.text).join(' ').replace(/\s+/g, ' ').slice(0, 600);
-  return `Create one beautiful, detailed illustration (16:9 landscape) for a school lesson slide in Karnataka, India.
+  return `Create one beautiful, detailed illustration (${W > H * 1.2 ? '16:9 landscape' : W < H * .9 ? 'portrait' : 'square'}) for a school ${D && D.size ? 'poster' : 'lesson slide'} in Karnataka, India.
 Lesson: ${D.title}
 Slide topic: ${hdE.text || D.title}
 ${s.aiq ? 'Scene to show: ' + s.aiq + '\n' : ''}Slide content (for context, Kannada): ${body}
@@ -851,6 +871,7 @@ function applyChromeSlide(s, th) {
 }
 function applyChrome(deck) { const th = thFor(deck); deck.slides.forEach(s => applyChromeSlide(s, th)); }
 async function buildDeck(spec, themeId, source) {
+  useSize(null);
   const th = themeById(themeId); await ensureFonts(th);
   SLANG = spec.lang === 'en' ? 'en' : 'kn';
   const deck = { id: uid(), v: 1, lang: SLANG, title: spec.title || LB().untitled, theme: th.id, slides: [], assets: {}, source: source || '', created: Date.now(), updated: Date.now() };
@@ -1143,7 +1164,7 @@ const saveLater = debounce(async () => { if (!D) return; try { await DB.put(clea
 
 /* ----------------------------------------------------- open a deck */
 async function openDeck(d, { fetchImgs = true } = {}) {
-  D = d; D.assets = D.assets || {}; st.cur = 0; st.sel = null; SLANG = D.lang || 'kn';
+  D = d; D.assets = D.assets || {}; st.cur = 0; st.sel = null; SLANG = D.lang || 'kn'; useSize(D);
   $('#home').classList.add('hide');
   await ensureFonts(thNow());
   D.slides.forEach(s => s.els.forEach(e => { if (e.t === 'text' && !e.dyn) fit(e, thNow()); }));
@@ -1330,7 +1351,7 @@ function renderPanel() {
     <div class="pg"><label>ಸ್ಲೈಡ್ ಕ್ರಿಯೆಗಳು</label><div class="btnrow">
       <button class="sb" data-a="sdup">⧉ ಸ್ಲೈಡ್ ನಕಲು</button><button class="sb danger" data-a="sdel">🗑 ಸ್ಲೈಡ್ ಅಳಿಸು</button>
       <button class="sb" data-a="sup">⬆ ಮೇಲೆ ಸರಿಸು</button><button class="sb" data-a="sdown">⬇ ಕೆಳಗೆ ಸರಿಸು</button>
-      <button class="sb" data-a="chrome">${s.noChrome ? '✨ ಅಲಂಕಾರ ಹಾಕು' : '🧹 ಅಲಂಕಾರ ತೆಗೆ'}</button><button class="sb" data-a="imgs">🖼️ ಚಿತ್ರ ಹುಡುಕು</button>
+      ${D.size ? '' : `<button class="sb" data-a="chrome">${s.noChrome ? '✨ ಅಲಂಕಾರ ಹಾಕು' : '🧹 ಅಲಂಕಾರ ತೆಗೆ'}</button>`}<button class="sb" data-a="imgs">🖼️ ಚಿತ್ರ ಹುಡುಕು</button>
     </div></div>`;
   } else if (e.t === 'text') {
     h = `<div class="pt">✏️ ಪಠ್ಯ</div>
@@ -1529,11 +1550,12 @@ function openImageDialog(target) {
   const s = curSlide(); const hdT = (s.els.find(e => e.t === 'text' && e.fc === '$p' && e.ff === 'h') || {}).text || '';
   const q0 = (target && target.q) || guessQuery(hdT, '') || '';
   const m = modal('🖼️ ಚಿತ್ರ ಸೇರಿಸಿ', `
-    <div class="tabs"><button class="on" data-tab="w">🔍 ಹುಡುಕಿ (Wikimedia)</button><button data-tab="l">📁 ನಮ್ಮ ಚಿತ್ರ ಸಂಗ್ರಹ</button><button data-tab="u">⬆ ನಿಮ್ಮ ಫೋನ್/ಕಂಪ್ಯೂಟರ್‌ನಿಂದ</button></div>
+    <div class="tabs"><button class="on" data-tab="w">🔍 ಹುಡುಕಿ (Wikimedia)</button><button data-tab="l">📁 ನಮ್ಮ ಚಿತ್ರ ಸಂಗ್ರಹ</button><button data-tab="u">⬆ ನಿಮ್ಮ ಫೋನ್/ಕಂಪ್ಯೂಟರ್‌ನಿಂದ</button><button data-tab="d">📄 ದಾಖಲೆಯಿಂದ (PDF/Word)</button></div>
+    <div data-pane="d" class="hide"></div>
     <div data-pane="w"><div class="srch"><input id="wq" value="${esc(q0)}" placeholder="ಇಂಗ್ಲಿಷ್ ಪದ ಬರೆದರೆ ಹೆಚ್ಚು ಚಿತ್ರಗಳು ಸಿಗುತ್ತವೆ (ಉದಾ: Badami temple)"><button class="btn pri" id="wgo">ಹುಡುಕು</button></div><div class="igrid" id="wres"></div><p class="hint">ಚಿತ್ರಗಳು Wikimedia Commons ನಿಂದ (ಉಚಿತ ಪರವಾನಗಿ). ಸ್ಲೈಡ್‌ನಲ್ಲಿ ಮೂಲದ ಹೆಸರು ಚಿಕ್ಕದಾಗಿ ತಾನೇ ಬರುತ್ತದೆ.</p></div>
     <div data-pane="l" class="hide"><div id="lres" class="igrid"></div></div>
     <div data-pane="u" class="hide"><div style="text-align:center;padding:30px;border:2px dashed #C9CEE0;border-radius:16px"><div style="font-size:44px">📷</div><p>ಫೋನ್ ಅಥವಾ ಕಂಪ್ಯೂಟರ್‌ನಿಂದ ಯಾವುದೇ ಚಿತ್ರ ಆರಿಸಿ</p><button class="btn cta" id="upbtn">ಚಿತ್ರ ಆರಿಸಿ</button></div></div>`, '', { w: 940 });
-  const tabs = $$('[data-tab]', m); tabs.forEach(b => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); $$('[data-pane]', m).forEach(p => p.classList.toggle('hide', p.dataset.pane !== b.dataset.tab)); if (b.dataset.tab === 'l') loadLib(); });
+  const tabs = $$('[data-tab]', m); tabs.forEach(b => b.onclick = () => { tabs.forEach(x => x.classList.toggle('on', x === b)); $$('[data-pane]', m).forEach(p => p.classList.toggle('hide', p.dataset.pane !== b.dataset.tab)); if (b.dataset.tab === 'l') loadLib(); if (b.dataset.tab === 'd') docImagePane(m, r => { m.close(); applyImage(r, imgTarget); }); });
   const go = async () => {
     const q = $('#wq', m).value.trim(); const box = $('#wres', m); if (!q) return; box.innerHTML = '<p class="hint">⏳ ಹುಡುಕುತ್ತಿದೆ…</p>';
     try { const res = await wikiSearch(q); box.innerHTML = res.length ? res.map((r, i) => `<div class="it" data-i="${i}"><img src="${esc(r.thumb)}" loading="lazy"><span>${esc(r.title)}</span></div>`).join('') : '<p class="hint">ಚಿತ್ರಗಳು ಸಿಗಲಿಲ್ಲ. ಬೇರೆ ಪದ (ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ) ಪ್ರಯತ್ನಿಸಿ.</p>'; box.onclick = ev => { const it = ev.target.closest('.it'); if (!it) return; const r = res[+it.dataset.i]; m.close(); applyImage({ src: r.full, credit: r.credit, q }, imgTarget); }; }
@@ -1607,11 +1629,11 @@ function openGenerate(mode = 'auto') {
       <div class="fld"><label>ಪ್ರಸ್ತುತಪಡಿಸುವವರು / ಶಾಲೆ (ಐಚ್ಛಿಕ)</label><input id="gTeach" placeholder="ಉದಾ: ಸ.ಹಿ.ಪ್ರಾ. ಶಾಲೆ, …"></div>
     </div>
     <div class="fld"><label>ವಿನ್ಯಾಸ (ನಂತರವೂ ಒಂದು click ನಲ್ಲಿ ಬದಲಿಸಬಹುದು)</label><div class="thg" id="gTh">${THEMES.map(t => themeCard(t, t.id === themeSel)).join('')}</div></div>
-    <div data-pm="auto"><div class="fld"><label>ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ)</label><textarea id="gText" placeholder="ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ paste ಮಾಡಿ — ಕನ್ನಡ ಅಥವಾ English.\nಚಿಕ್ಕ ಸಾಲುಗಳನ್ನು (ಉಪಶೀರ್ಷಿಕೆ) ತಾನೇ ಗುರುತಿಸಿ ಪ್ರತ್ಯೇಕ ಸ್ಲೈಡ್ ಮಾಡುತ್ತದೆ.\nಯಾವ ವಾಕ್ಯವೂ ಬಿಟ್ಟುಹೋಗುವುದಿಲ್ಲ."></textarea></div>
+    <div data-pm="auto"><div class="upbar"><button class="btn cta" data-docup>📂 PDF / Word / TXT ಫೈಲ್ ಹಾಕಿ</button><span class="hint">ಪಠ್ಯಪುಸ್ತಕದ PDF (ನುಡಿ / ಯೂನಿಕೋಡ್), Word (.docx) ಅಥವಾ .txt — ಪಠ್ಯ ತಾನಾಗಿ ಕೆಳಗೆ ಬರುತ್ತದೆ. ಅಥವಾ ಫೈಲ್ ಅನ್ನು ಕೆಳಗಿನ ಡಬ್ಬಿಗೆ ಎಳೆದು ಬಿಡಿ.</span></div><div class="fld"><label>ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ ಅಥವಾ ಮೇಲಿನ button ನಿಂದ ಫೈಲ್ ಹಾಕಿ)</label><textarea id="gText" placeholder="ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ paste ಮಾಡಿ — ಕನ್ನಡ ಅಥವಾ English.\nಚಿಕ್ಕ ಸಾಲುಗಳನ್ನು (ಉಪಶೀರ್ಷಿಕೆ) ತಾನೇ ಗುರುತಿಸಿ ಪ್ರತ್ಯೇಕ ಸ್ಲೈಡ್ ಮಾಡುತ್ತದೆ.\nಯಾವ ವಾಕ್ಯವೂ ಬಿಟ್ಟುಹೋಗುವುದಿಲ್ಲ."></textarea></div>
       <label style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><input type="checkbox" id="gThanks"> ಕೊನೆಯಲ್ಲಿ "ಧನ್ಯವಾದಗಳು" ಸ್ಲೈಡ್ ಸೇರಿಸಿ</label>
       <p class="hint">💡 ಉಪಶೀರ್ಷಿಕೆಗಳನ್ನು ಪ್ರತ್ಯೇಕ ಸಾಲಿನಲ್ಲಿ ಬರೆದರೆ ಸ್ಲೈಡ್‌ಗಳು ಇನ್ನೂ ಚೆನ್ನಾಗಿ ವಿಂಗಡಣೆಯಾಗುತ್ತವೆ. ಪ್ಯಾರಾಗಳ ನಡುವೆ ಒಂದು ಖಾಲಿ ಸಾಲು ಬಿಡಿ.</p></div>
     <div data-pm="ai" class="hide">
-      <div class="step"><h4>① ಪೂರ್ಣ ಪಠ್ಯವನ್ನು paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gTextAI" placeholder="ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪೂರ್ಣ ಪಠ್ಯ (ಕನ್ನಡ ಅಥವಾ English)" style="min-height:140px"></textarea></div></div>
+      <div class="step"><h4>① ಪೂರ್ಣ ಪಠ್ಯವನ್ನು paste ಮಾಡಿ — ಅಥವಾ <button class="btn sm cta" data-docup>📂 PDF / Word / TXT ಫೈಲ್ ಹಾಕಿ</button></h4><div class="fld" style="margin:0"><textarea id="gTextAI" placeholder="ಪಾಠ / ವರದಿ / ಭಾಷಣದ ಪೂರ್ಣ ಪಠ್ಯ (ಕನ್ನಡ ಅಥವಾ English)" style="min-height:140px"></textarea></div></div>
       <div class="step"><h4>② ಒಂದು button ಒತ್ತಿ — ಸೂಚನೆ copy ಆಗಿ AI ತೆರೆಯುತ್ತದೆ. ಅಲ್ಲಿ paste (Ctrl+V) ಮಾಡಿ Enter ಒತ್ತಿ.</h4>
         <div class="rw"><button class="btn cta" data-ai="https://gemini.google.com/app">📋 Copy + Gemini ತೆರೆಯಿರಿ</button><button class="btn" data-ai="https://chatgpt.com/">📋 Copy + ChatGPT</button><button class="btn" data-ai="https://claude.ai/new">📋 Copy + Claude</button><button class="btn" data-ai="">📋 Copy ಮಾತ್ರ</button></div></div>
       <div class="step"><h4>③ AI ಕೊಟ್ಟ ಉತ್ತರವನ್ನು (ಸಂಪೂರ್ಣ) copy ಮಾಡಿ ಇಲ್ಲಿ paste ಮಾಡಿ</h4><div class="fld" style="margin:0"><textarea id="gReply" placeholder='{ "title": ..., "slides": [ ... ] }' style="min-height:120px;font-family:monospace;font-size:12px"></textarea></div></div>
@@ -1622,6 +1644,7 @@ function openGenerate(mode = 'auto') {
   setK(kind); f('gKind').onchange = () => setK(f('gKind').value);
   let md = mode; const setM = v => { md = v; $$('[data-m]', m).forEach(b => b.classList.toggle('on', b.dataset.m === v)); $$('[data-pm]', m).forEach(p => p.classList.toggle('hide', p.dataset.pm !== v)); };
   setM(mode); $$('[data-m]', m).forEach(b => b.onclick = () => { const a = f('gText'), b2 = f('gTextAI'); if (b.dataset.m === 'ai' && !b2.value) b2.value = a.value; if (b.dataset.m === 'auto' && !a.value) a.value = b2.value; setM(b.dataset.m); });
+  hookDocInput(m, [f('gText'), f('gTextAI')]);
   f('gTh').onclick = ev => { const b = ev.target.closest('[data-th]'); if (!b) return; themeSel = b.dataset.th; $$('#gTh .thc', m).forEach(x => x.classList.toggle('on', x === b)); };
   const meta = () => {
     const gen = kind === 'general';
@@ -1793,8 +1816,8 @@ function makePDF(pages) { // pages: [{jpg:Uint8Array,w,h}]
   obj(1, () => put('<< /Type /Catalog /Pages 2 0 R >>'));
   obj(2, () => put(`<< /Type /Pages /Kids [${kids}] /Count ${N} >>`));
   pages.forEach((p, i) => {
-    const pn = 3 + i * 3, cn = pn + 1, im = pn + 2; const content = `q 960 0 0 540 0 0 cm /Im${i} Do Q`;
-    obj(pn, () => put(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /XObject << /Im${i} ${im} 0 R >> >> /Contents ${cn} 0 R >>`));
+    const pn = 3 + i * 3, cn = pn + 1, im = pn + 2; const asp = p.h / p.w, pw = asp > .6 ? (asp > 1 ? +(842 / asp).toFixed(2) : 842) : 960, ph = +(pw * asp).toFixed(2); const content = `q ${pw} 0 0 ${ph} 0 0 cm /Im${i} Do Q`;
+    obj(pn, () => put(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph}] /Resources << /XObject << /Im${i} ${im} 0 R >> >> /Contents ${cn} 0 R >>`));
     obj(cn, () => put(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`));
     obj(im, () => { put(`<< /Type /XObject /Subtype /Image /Width ${p.w} /Height ${p.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.jpg.length} >>\nstream\n`); put(p.jpg); put('\nendstream'); });
   });
@@ -1899,7 +1922,7 @@ async function buildPPTX(asImages, progress) {
   files.push({ name: '_rels/.rels', data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="ppt/presentation.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="${R}/extended-properties" Target="docProps/app.xml"/></Relationships>` });
   files.push({ name: 'docProps/core.xml', data: XH + `<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(D.title)}</dc:title><dc:creator>ದೃಶ್ಯಪಾಠ</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>` });
   files.push({ name: 'docProps/app.xml', data: XH + `<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>Drushyapaata</Application><Slides>${N}</Slides></Properties>` });
-  files.push({ name: 'ppt/presentation.xml', data: XH + `<p:presentation ${NS} saveSubsetFonts="1"><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst>${D.slides.map((_, i) => `<p:sldId id="${256 + i}" r:id="rId${i + 2}"/>`).join('')}</p:sldIdLst><p:sldSz cx="12192000" cy="6858000"/><p:notesSz cx="6858000" cy="9144000"/><p:defaultTextStyle><a:defPPr><a:defRPr lang="kn-IN"/></a:defPPr></p:defaultTextStyle></p:presentation>` });
+  files.push({ name: 'ppt/presentation.xml', data: XH + `<p:presentation ${NS} saveSubsetFonts="1"><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst>${D.slides.map((_, i) => `<p:sldId id="${256 + i}" r:id="rId${i + 2}"/>`).join('')}</p:sldIdLst><p:sldSz cx="${EMU(W)}" cy="${EMU(H)}"/><p:notesSz cx="6858000" cy="9144000"/><p:defaultTextStyle><a:defPPr><a:defRPr lang="kn-IN"/></a:defPPr></p:defaultTextStyle></p:presentation>` });
   files.push({ name: 'ppt/_rels/presentation.xml.rels', data: XH + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/slideMaster" Target="slideMasters/slideMaster1.xml"/>${D.slides.map((_, i) => `<Relationship Id="rId${i + 2}" Type="${R}/slide" Target="slides/slide${i + 1}.xml"/>`).join('')}<Relationship Id="rId${N + 2}" Type="${R}/presProps" Target="presProps.xml"/><Relationship Id="rId${N + 3}" Type="${R}/viewProps" Target="viewProps.xml"/><Relationship Id="rId${N + 4}" Type="${R}/theme" Target="theme/theme1.xml"/><Relationship Id="rId${N + 5}" Type="${R}/tableStyles" Target="tableStyles.xml"/></Relationships>` });
   files.push({ name: 'ppt/presProps.xml', data: XH + `<p:presentationPr ${NS}/>` });
   files.push({ name: 'ppt/viewProps.xml', data: XH + `<p:viewPr ${NS}><p:normalViewPr><p:restoredLeft sz="15620"/><p:restoredTop sz="94660"/></p:normalViewPr><p:gridSpacing cx="76200" cy="76200"/></p:viewPr>` });
@@ -1921,13 +1944,15 @@ async function doExport(kind) {
     await ensureFonts(thNow()); await (document.fonts ? document.fonts.ready : null);
     const prog = (i, n) => toast(`⏳ ತಯಾರಾಗುತ್ತಿದೆ… ${i + 1}/${n}`, 0);
     if (kind === 'pdf') {
-      const pages = []; for (let i = 0; i < D.slides.length; i++) { prog(i, D.slides.length); const cv = await slideCanvas(D.slides[i], i, 1.5); pages.push({ jpg: await cvBytes(cv, 'image/jpeg', .9), w: cv.width, h: cv.height }); }
+      const pages = []; for (let i = 0; i < D.slides.length; i++) { prog(i, D.slides.length); const cv = await slideCanvas(D.slides[i], i, D.size ? 2 : 1.5); pages.push({ jpg: await cvBytes(cv, 'image/jpeg', .9), w: cv.width, h: cv.height }); }
       download(makePDF(pages), fileName('pdf')); toast('✅ PDF ಡೌನ್‌ಲೋಡ್ ಆಯಿತು');
     } else if (kind === 'pptimg' || kind === 'ppt') {
       const r = await buildPPTX(kind === 'pptimg', prog); download(r.blob, fileName('pptx'));
       toast(r.failed ? `✅ PPT ಡೌನ್‌ಲೋಡ್ ಆಯಿತು (⚠️ ${r.failed} ಚಿತ್ರ ಸೇರಿಸಲು ಆಗಲಿಲ್ಲ)` : '✅ PPT ಡೌನ್‌ಲೋಡ್ ಆಯಿತು', 4000);
     } else if (kind === 'png') {
-      const cv = await slideCanvas(curSlide(), st.cur, 1.5); cv.toBlob(b => download(b, fileName('png').replace('.png', `-${st.cur + 1}.png`)), 'image/png'); toast('✅ ಚಿತ್ರ ಡೌನ್‌ಲೋಡ್ ಆಯಿತು');
+      const cv = await slideCanvas(curSlide(), st.cur, D.size ? 2 : 1.5); cv.toBlob(b => download(b, fileName('png').replace('.png', `-${st.cur + 1}.png`)), 'image/png'); toast('✅ ಚಿತ್ರ ಡೌನ್‌ಲೋಡ್ ಆಯಿತು');
+    } else if (kind === 'jpg') {
+      const cv = await slideCanvas(curSlide(), st.cur, D.size ? 2 : 1.5); cv.toBlob(b => download(b, fileName('jpg').replace('.jpg', D.slides.length > 1 ? `-${st.cur + 1}.jpg` : '.jpg')), 'image/jpeg', .9); toast('✅ ಚಿತ್ರ ಡೌನ್‌ಲೋಡ್ ಆಯಿತು');
     } else if (kind === 'json') {
       download(new Blob([JSON.stringify(cleanDeck(D))], { type: 'application/json' }), fileName('drushyapaata.json')); toast('✅ ಯೋಜನೆ ಫೈಲ್ ಉಳಿಯಿತು. ನಂತರ "ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ" ಮೂಲಕ ಮತ್ತೆ ತಿದ್ದಬಹುದು.', 4500);
     }
@@ -1935,6 +1960,14 @@ async function doExport(kind) {
   busy = false;
 }
 function downMenu(anchor) {
+  if (D && D.size) return popMenu(anchor, [
+    { label: '🖼️ <div><b>ಚಿತ್ರವಾಗಿ (PNG)</b><br><small style="color:#6B7285">WhatsApp / Facebook / Status ಗೆ ಕಳುಹಿಸಲು</small></div>', fn: () => doExport('png') },
+    { label: '📸 <div><b>ಚಿತ್ರವಾಗಿ (JPG – ಚಿಕ್ಕ ಫೈಲ್)</b><br><small style="color:#6B7285">ಬೇಗ ಕಳುಹಿಸಲು</small></div>', fn: () => doExport('jpg') },
+    { label: '📄 <div><b>PDF</b><br><small style="color:#6B7285">ಮುದ್ರಣಕ್ಕೆ (A4 ಗಾತ್ರ ಸರಿಯಾಗಿ ಬರುತ್ತದೆ)</small></div>', fn: () => doExport('pdf') },
+    { label: '✏️ <div><b>PPT (ತಿದ್ದಬಹುದಾದ)</b><br><small style="color:#6B7285">PowerPoint ನಲ್ಲಿ ತಿದ್ದಲು</small></div>', fn: () => doExport('ppt') },
+    '-',
+    { label: '💾 <div><b>ಯೋಜನೆ ಫೈಲ್ ಉಳಿಸಿ (.json)</b><br><small style="color:#6B7285">ನಂತರ ಮತ್ತೆ ತಿದ್ದಲು</small></div>', fn: () => doExport('json') },
+  ]);
   popMenu(anchor, [
     { label: '🖼️ <div><b>PPT (ಚಿತ್ರ ರೂಪ)</b><br><small style="color:#6B7285">ಯಾವ ಕಂಪ್ಯೂಟರ್/TV ಯಲ್ಲೂ ಒಂದೇ ತರಹ ಕಾಣುತ್ತದೆ — ತರಗತಿಗೆ ಉತ್ತಮ</small></div>', fn: () => doExport('pptimg') },
     { label: '✏️ <div><b>PPT (ತಿದ್ದಬಹುದಾದ)</b><br><small style="color:#6B7285">PowerPoint ನಲ್ಲಿ ಪಠ್ಯ ತಿದ್ದಬಹುದು; ಫಾಂಟ್ ಬದಲಾಗಬಹುದು</small></div>', fn: () => doExport('ppt') },
@@ -1943,6 +1976,620 @@ function downMenu(anchor) {
     '-',
     { label: '💾 <div><b>ಯೋಜನೆ ಫೈಲ್ ಉಳಿಸಿ (.json)</b><br><small style="color:#6B7285">ನಂತರ ಅಥವಾ ಬೇರೆ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಮತ್ತೆ ತಿದ್ದಲು</small></div>', fn: () => doExport('json') },
   ]);
+}
+
+/* ----------------------------------------------------- Nudi converter */
+// Nudi (KGP) ASCII → Kannada Unicode converter (rule based)
+const NU = (() => {
+  const BASE = { P: 'ಕ', S: 'ಖ', U: 'ಗ', W: 'ಘ', Z: 'ಚ', b: 'ಛ', e: 'ಜ', g: 'ರ', m: 'ಟ', o: 'ಠ', q: 'ಡ', u: 'ಣ', v: 'ತ', x: 'ಥ', z: 'ದ', '£': 'ನ', '¥': 'ಪ', '¨': 'ಬ', 'ª': 'ವ', '¯': 'ಲ', '±': 'ಶ', 'µ': 'ಷ', 'μ': 'ಷ', '¸': 'ಸ', 'º': 'ಹ', '¼': 'ಳ', Y: 'ಙ', k: 'ಞ' };
+  const FULL = { R: 'ಖ', d: 'ಜ', l: 'ಟ', t: 'ಣ', '§': 'ಬ', '®': 'ಲ' };
+  const IFORM = { Q: 'ಕ', T: 'ಖ', V: 'ಗ', X: 'ಘ', a: 'ಚ', c: 'ಛ', f: 'ಜ', j: 'ರ', n: 'ಟ', p: 'ಠ', r: 'ಡ', w: 'ತ', y: 'ಥ', '¢': 'ದ', '¤': 'ನ', '¦': 'ಪ', '©': 'ಬ', '«': 'ವ', '°': 'ಲ', '²': 'ಶ', '¶': 'ಷ', '¹': 'ಸ', '»': 'ಹ', '½': 'ಳ' };
+  const OTTU = { 'Ì': 'ಕ', 'Í': 'ಖ', 'Î': 'ಗ', 'Ï': 'ಘ', 'Ñ': 'ಚ', 'Ò': 'ಛ', 'Ó': 'ಜ', 'Ô': 'ಝ', 'Õ': 'ಞ', 'Ö': 'ಟ', '×': 'ಠ', 'Ø': 'ಡ', 'Ù': 'ಢ', 'Ú': 'ಣ', 'Û': 'ತ', 'Ü': 'ಥ', 'Ý': 'ದ', 'Þ': 'ಧ', 'ß': 'ನ', 'à': 'ಪ', 'á': 'ಫ', 'â': 'ಬ', 'ã': 'ಭ', 'ä': 'ಮ', 'å': 'ಯ', 'æ': 'ರ', 'ç': 'ರ', 'è': 'ಲ', 'é': 'ವ', 'ê': 'ಶ', 'ë': 'ಷ', 'ì': 'ಸ', 'í': 'ಹ', 'î': 'ಳ' };
+  const VOW = { C: 'ಅ', D: 'ಆ', E: 'ಇ', F: 'ಈ', G: 'ಉ', H: 'ಊ', J: 'ಎ', K: 'ಏ', L: 'ಐ', M: 'ಒ', N: 'ಓ', O: 'ಔ' };
+  const ASP = { 'ಕ': 'ಖ', 'ಗ': 'ಘ', 'ಚ': 'ಛ', 'ಜ': 'ಝ', 'ಟ': 'ಠ', 'ಡ': 'ಢ', 'ತ': 'ಥ', 'ದ': 'ಧ', 'ಪ': 'ಫ', 'ಬ': 'ಭ' };
+  // multi-glyph letters (longest first)
+  const MULTI = [
+    ['ªÀÄ', { c: 'ಮ' }], ['ªÀi', { c: 'ಮ' }], ['ªÉÄ', { c: 'ಮ', m: 'ೆ' }], ['ªÉÆ', { c: 'ಮ', m: 'ೊ' }], ['«Ä', { c: 'ಮ', m: 'ಿ' }],
+    ['AiÀÄ', { c: 'ಯ' }], ['AiÀi', { c: 'ಯ' }], ['AiÉÄ', { c: 'ಯ', m: 'ೆ' }], ['AiÉÆ', { c: 'ಯ', m: 'ೊ' }], ['¬Ä', { c: 'ಯ', m: 'ಿ' }],
+    ['gÀhÄ', { c: 'ಝ' }], ['gÀhi', { c: 'ಝ' }], ['gÉhÄ', { c: 'ಝ', m: 'ೆ' }], ['jhÄ', { c: 'ಝ', m: 'ಿ' }],
+    ['gÉhÆ', { c: 'ಝ', m: 'ೊ' }], ['IÄ', { v: 'ಋ' }], ['IÆ', { v: 'ೠ' }],
+  ];
+  function convert(src) {
+    const out = []; let cur = null;
+    const flush = () => { if (!cur) return; if (cur.lit != null) out.push(cur.lit + cur.post); else out.push((cur.r ? 'ರ್' : '') + cur.c + cur.o.map(x => '್' + x).join('') + (cur.h ? '್' : '') + cur.m + cur.post); cur = null; };
+    const syl = (c, m) => { flush(); cur = { c, o: [], m: m || '', post: '', r: false, h: false }; };
+    let i = 0;
+    while (i < src.length) {
+      let hit = null;
+      for (const [k, v] of MULTI) if (src.startsWith(k, i)) { hit = [k, v]; break; }
+      if (hit) { const v = hit[1]; if (v.v) { flush(); cur = { lit: v.v, post: '' }; } else syl(v.c, v.m); i += hit[0].length; continue; }
+      const ch = src[i]; i++;
+      if (BASE[ch]) { syl(BASE[ch]); continue; }
+      if (FULL[ch]) { syl(FULL[ch]); continue; }
+      if (IFORM[ch]) { syl(IFORM[ch], 'ಿ'); continue; }
+      if (VOW[ch]) { flush(); cur = { lit: VOW[ch], post: '' }; continue; }
+      const C = cur && cur.lit == null ? cur : null;
+      if (ch === 'À' || ch === 'ö' || ch === '÷') continue;
+      if (C) {
+        if (ch === 's' || ch === 'ü') { if (ASP[C.c]) C.c = ASP[C.c]; continue; }
+        if (ch === 'Á') { C.m = 'ಾ'; continue; }
+        if (ch === 'Â') { C.m = 'ಿ'; continue; }
+        if (ch === 'Ä' || ch === 'Å') { C.m = C.m === 'ೆ' ? 'ೊ' : 'ು'; continue; }
+        if (ch === 'Æ' || ch === 'Ç') { C.m = C.m === 'ೆ' ? 'ೊ' : 'ೂ'; continue; }
+        if (ch === 'É') { C.m = 'ೆ'; continue; }
+        if (ch === 'Ê') { C.m = 'ೈ'; continue; }
+        if (ch === 'Ë') { C.m = 'ೌ'; continue; }
+        if (ch === 'È' || ch === 'ø') { C.m = 'ೃ'; continue; }
+        if (ch === 'Ã') { C.m = { 'ಿ': 'ೀ', 'ೆ': 'ೇ', 'ೊ': 'ೋ' }[C.m] || C.m; continue; }
+        if (ch === 'ï') { C.h = true; continue; }
+        if (OTTU[ch]) { if (C.o[C.o.length - 1] !== OTTU[ch]) C.o.push(OTTU[ch]); continue; }
+        if (ch === 'ð') { C.r = true; continue; }
+      }
+      if (ch === 'A' && cur) { cur.post += 'ಂ'; continue; }
+      if (ch === 'B' && cur) { cur.post += 'ಃ'; continue; }
+      if (ch === 'A') { flush(); out.push('ಂ'); continue; }
+      if (ch === 'B') { flush(); out.push('ಃ'); continue; }
+      flush(); out.push(ch);
+    }
+    flush(); return out.join('');
+  }
+  const NUDI_CH = /[À-ÿ¡-¿μ]/;
+  function looksNudi(s) { if (!NUDI_CH.test(s)) return false; const n = (s.match(/[À-ÿ¡-¿μ]/g) || []).length, l = (s.match(/[A-Za-z]/g) || []).length; return n >= 1 && n + l >= s.replace(/[\s\d.,:;!?()\[\]'"‘’“”–\-_`/=+*&%$#@|]/g, '').length * .8; }
+  return { convert, looksNudi };
+})();
+
+// Build readable text (paragraphs, headings, bullets) from pdf.js text items
+function pdfPagesToText(pages, NU) {
+  const MATRA = /^[À-ËÌ-îïðöø÷Ä]/;
+  const allLines = [];
+  // 1. line fragments per page
+  const pagesFr = [];
+  for (const pg of pages) {
+    const its = pg.items.filter(i => i.s && i.s.trim() !== '').filter(i => Math.abs(i.t[1]) < .01 && Math.abs(i.t[2]) < .01);
+    const lines = [];
+    for (const it of its) {
+      const fs = Math.abs(it.t[3]) || Math.abs(it.t[0]) || 10, y = it.t[5], x = it.t[4];
+      let L = lines.find(l => Math.abs(l.y - y) < Math.max(2, Math.min(l.fs, fs) * .4));
+      if (!L) { L = { y, fs, items: [] }; lines.push(L); }
+      L.items.push({ x, w: it.w, s: /^(?:\S ){2,}\S$/.test(it.s) ? it.s.replace(/ /g, '') : it.s, f: it.f, fs }); L.fs = Math.max(L.fs, fs);
+    }
+    lines.sort((a, b) => b.y - a.y);
+    const frags = [];
+    for (const L of lines) {
+      L.items.sort((a, b) => a.x - b.x);
+      const shortShare = L.items.filter(i => i.s.trim().length <= 2).length / L.items.length;
+      const gs = []; for (let i = 1; i < L.items.length; i++) gs.push(L.items[i].x - (L.items[i - 1].x + L.items[i - 1].w));
+      const sg = gs.filter(g => g > 0).sort((a, b) => a - b); const medGap = sg[Math.floor(sg.length / 2)] || 0;
+      const spaced = L.items.length > 6 && shortShare > .6;
+      let segs = [], prevEnd = null;
+      const push = () => { if (segs.length) frags.push({ y: L.y, fs: Math.max(...segs.map(s => s.fs)), segs, x: segs[0].x, end: segs[segs.length - 1].end, page: pg.p }); segs = []; };
+      for (const it of L.items) {
+        const gap = prevEnd == null ? 0 : it.x - prevEnd;
+        if (prevEnd != null && gap > Math.max(it.fs * 2.2, 22) && !(spaced && gap < medGap * 3)) push();
+        const last = segs[segs.length - 1];
+        const sp = last && (spaced ? gap > medGap * 1.8 + it.fs * .1 : gap > it.fs * .18) ? ' ' : '';
+        if (last && last.f === it.f) { last.s += sp + it.s; last.end = it.x + it.w; }
+        else segs.push({ f: it.f, s: sp + it.s, end: it.x + it.w, x: it.x, fs: it.fs });
+        prevEnd = it.x + it.w;
+      }
+      push();
+    }
+    pagesFr.push(frags);
+  }
+  // 2. body statistics
+  const flat = pagesFr.flat(); if (!flat.length) return '';
+  const fsCount = {}, fCount = {};
+  flat.forEach(L => L.segs.forEach(s => { const n = s.s.length; fsCount[Math.round(s.fs)] = (fsCount[Math.round(s.fs)] || 0) + n; fCount[s.f] = (fCount[s.f] || 0) + n; }));
+  const bodyFs = +Object.entries(fsCount).sort((a, b) => b[1] - a[1])[0][0];
+  const totC = Object.values(fCount).reduce((a, b) => a + b, 0); const bodyFonts = new Set(Object.entries(fCount).filter(([f, n]) => n >= totC * .1).map(([f]) => f));
+  const widths = flat.filter(L => Math.abs(L.fs - bodyFs) < 1.5).map(L => L.end - L.x).sort((a, b) => a - b);
+  const fullW = widths[Math.floor(widths.length * .85)] || 400;
+  // side boxes: right-hand fragments that run beside real body text on the left
+  for (const frags of pagesFr) {
+    if (!frags.length) continue;
+    const m = Math.min(...frags.map(f => f.x)), pw = Math.max(...frags.map(f => f.end)) - m;
+    const isBody = f => Math.abs(f.fs - bodyFs) < 2 && f.x < m + pw * .2 && (f.end - f.x) > pw * .42;
+    const lefts = frags.filter(isBody);
+    const side = f => f.x > m + pw * .4 && (f.end - f.x) < pw * .58 && lefts.some(l => Math.abs(l.y - f.y) < bodyFs * 2.2 && l.end < f.x);
+    frags.forEach(f => f.side = side(f));
+    frags.filter(f => !f.side).forEach(f => allLines.push(f));
+    frags.filter(f => f.side).forEach(f => allLines.push(f));
+  }
+  const xCount = {};
+  // 3. drop noise: page numbers, tiny map labels, lone letters
+  const keep = allLines.filter(L => {
+    const txt = L.segs.map(s => s.s).join('').trim();
+    if (/^\d{1,3}$/.test(txt)) return false;
+    if (L.fs < bodyFs * .78 && txt.length < 30) return false;
+    if (txt.length <= 2 && !/^[•●▪\-–]$/.test(txt)) return false;
+    return true;
+  });
+  // 4. join glyphs broken across lines (line starts with a vowel sign)
+  for (let i = 1; i < keep.length; i++) {
+    const a = keep[i - 1], b = keep[i]; const s0 = b.segs[0];
+    if (s0 && MATRA.test(s0.s) && a.segs[a.segs.length - 1].f === s0.f) { const m = s0.s.match(/^\S+/)[0]; a.segs[a.segs.length - 1].s += m; s0.s = s0.s.slice(m.length).trimStart(); }
+  }
+  // 5. convert + classify lines
+  const conv = s => (NU && NU.looksNudi(s)) ? NU.convert(s) : s;
+  const out = []; let prev = null;
+  const gaps = []; for (let i = 1; i < keep.length; i++) if (keep[i].page === keep[i - 1].page) { const g = keep[i - 1].y - keep[i].y; if (g > 0) gaps.push(g); }
+  gaps.sort((a, b) => a - b); const lead = gaps[Math.floor(gaps.length / 2)] || bodyFs * 1.3;
+  for (const L of keep) {
+    let segs = L.segs.filter(s => s.s.trim());
+    if (!segs.length) continue;
+    let bullet = false;
+    let lx = L.x;
+    if (segs.length > 1 && segs[0].s.trim().length === 1 && segs[0].f !== segs[1].f) { bullet = true; segs = segs.slice(1); lx = segs[0].x; }
+    let txt = segs.map(s => conv(s.s)).join('').replace(/\s+/g, ' ').trim();
+    if (!txt) continue;
+    if (/^[•●▪]\s*/.test(txt)) { bullet = true; txt = txt.replace(/^[•●▪]\s*/, ''); }
+    const width = L.end - lx;
+    const big = L.fs >= bodyFs * 1.15;
+    const otherFont = segs.every(s => !bodyFonts.has(s.f));
+    const gapH = prev && prev.page === L.page ? prev.y - L.y : 99;
+    const afterPara = !prev || prev.heading || /[.।?!:]$/.test(prev.txt) || gapH > lead * 1.3 || prev.page !== L.page;
+    const heading = !bullet && afterPara && (big || (otherFont && width < fullW * .7 && !/[.।,;]$/.test(txt) && txt.length < 80));
+    const gap = prev && prev.page === L.page ? prev.y - L.y : lead;
+    const indent = prev && !prev.bullet && lx > prev.x + bodyFs * 1.2 && (prev.end - prev.x) > fullW * .8;
+    const numbered = /^\(?\d{1,2}[.)]\s/.test(txt) || /^\(?[೦-೯]{1,2}[.)]\s/.test(txt);
+    const newPara = !prev || heading || prev.heading || bullet || numbered || (L.side !== prev.side) || gap > lead * 1.45 || indent || (prev && /[.।?!:]$/.test(prev.txt) && (prev.end - prev.x) < fullW * .75);
+    if (newPara && out.length) out.push('');
+    if (heading) out.push(txt);
+    else if (bullet) out.push('• ' + txt);
+    else if (!newPara && out.length) { const lastI = out.length - 1; out[lastI] = /[\p{L}\p{M}][-–]$/u.test(out[lastI]) ? out[lastI].slice(0, -1) + txt : out[lastI] + ' ' + txt; }
+    else out.push(txt);
+    prev = { y: L.y, x: lx, end: L.end, page: L.page, heading, txt, bullet, side: L.side };
+  }
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+/* ----------------------------------------------------- file upload: PDF / Word / TXT (+ Nudi → Unicode) */
+const PDFJS_V = '6.2.108', PDFJS_CDN = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_V}/`;
+let pdfjsP = null;
+function loadPDFJS() {
+  if (!pdfjsP) pdfjsP = (async () => {
+    const lib = await import(PDFJS_CDN + 'build/pdf.min.mjs');
+    try {
+      const wurl = URL.createObjectURL(new Blob([`import "${PDFJS_CDN}build/pdf.worker.min.mjs";`], { type: 'text/javascript' }));
+      lib.GlobalWorkerOptions.workerPort = new Worker(wurl, { type: 'module' });
+    } catch (e) { lib.GlobalWorkerOptions.workerSrc = PDFJS_CDN + 'build/pdf.worker.min.mjs'; }
+    return lib;
+  })().catch(e => { pdfjsP = null; throw e; });
+  return pdfjsP;
+}
+let DOCSRC = null;   // last loaded document: {name, kind:'pdf'|'docx', pdf?, pages?, imgs:[{name,url}]}
+
+/* Nudi text pasted / typed anywhere → Unicode */
+function nudiFix(text) {
+  let n = 0; const out = text.split('\n').map(l => { if (NU.looksNudi(l)) { n++; return NU.convert(l); } return l; }).join('\n');
+  return { text: out, n };
+}
+function hookNudiPaste(ta) {
+  ta.addEventListener('paste', ev => {
+    const t = ev.clipboardData && ev.clipboardData.getData('text/plain'); if (!t) return;
+    const r = nudiFix(t); if (!r.n) return;
+    ev.preventDefault(); const s = ta.selectionStart, e = ta.selectionEnd;
+    ta.value = ta.value.slice(0, s) + r.text + ta.value.slice(e); ta.selectionStart = ta.selectionEnd = s + r.text.length;
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+    toast('🔤 ನುಡಿ (Nudi) ಅಕ್ಷರಗಳನ್ನು ಯೂನಿಕೋಡ್ ಕನ್ನಡಕ್ಕೆ ಬದಲಿಸಲಾಗಿದೆ — ಒಮ್ಮೆ ಓದಿ ಪರಿಶೀಲಿಸಿ', 5000);
+  });
+}
+
+/* ---- tiny unzip (for .docx) ---- */
+async function inflateRaw(u8) {
+  const ds = new DecompressionStream('deflate-raw'); const w = ds.writable.getWriter(); w.write(u8); w.close();
+  return new Uint8Array(await new Response(ds.readable).arrayBuffer());
+}
+async function unzip(buf) {
+  const u8 = new Uint8Array(buf), dv = new DataView(buf); let e = -1;
+  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 70000); i--) if (dv.getUint32(i, true) === 0x06054b50) { e = i; break; }
+  if (e < 0) throw new Error('zip');
+  const n = dv.getUint16(e + 10, true); let p = dv.getUint32(e + 16, true); const files = {};
+  const dec = new TextDecoder();
+  for (let k = 0; k < n; k++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const meth = dv.getUint16(p + 10, true), csz = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), lo = dv.getUint32(p + 42, true);
+    const name = dec.decode(u8.subarray(p + 46, p + 46 + nl)); p += 46 + nl + xl + cl;
+    files[name] = { meth, csz, lo };
+  }
+  return {
+    names: Object.keys(files),
+    async get(name) {
+      const f = files[name]; if (!f) return null;
+      const ln = dv.getUint16(f.lo + 26, true), lx = dv.getUint16(f.lo + 28, true), st = f.lo + 30 + ln + lx;
+      const raw = u8.subarray(st, st + f.csz); return f.meth === 8 ? inflateRaw(raw) : raw.slice();
+    },
+    async text(name) { const b = await this.get(name); return b ? new TextDecoder().decode(b) : null; }
+  };
+}
+
+/* ---- .docx → text (headings, lists, tables, text boxes, Nudi runs) + images ---- */
+async function docxToText(buf) {
+  const z = await unzip(buf);
+  const docX = await z.text('word/document.xml'); if (!docX) throw new Error('nodoc');
+  const P = s => new DOMParser().parseFromString(s, 'application/xml');
+  const doc = P(docX), att = (el, n) => el && (el.getAttribute('w:' + n) || el.getAttribute(n));
+  const kids = (el, ln) => el ? [...el.children].filter(c => c.localName === ln) : [];
+  const kid = (el, ln) => kids(el, ln)[0] || null;
+  // styles: id → {font, heading, basedOn}
+  const sty = {}; let defFont = '';
+  const sx = await z.text('word/styles.xml');
+  if (sx) {
+    const sd = P(sx);
+    const dd = sd.getElementsByTagName('w:docDefaults')[0]; if (dd) { const rf = dd.getElementsByTagName('w:rFonts')[0]; if (rf) defFont = att(rf, 'ascii') || att(rf, 'hAnsi') || ''; }
+    for (const s of sd.getElementsByTagName('w:style')) {
+      const id = att(s, 'styleId'), nm = att(kid(s, 'name'), 'val') || '', rf = s.getElementsByTagName('w:rFonts')[0], ol = s.getElementsByTagName('w:outlineLvl')[0];
+      sty[id] = { list: !!s.getElementsByTagName('w:numPr')[0] || /^list (bullet|number)/i.test(nm), font: rf ? (att(rf, 'ascii') || att(rf, 'hAnsi') || '') : '', head: /^(heading|title|subtitle)/i.test(nm) || /^(heading|title)/i.test(id || '') || !!ol, based: att(kid(s, 'basedOn'), 'val') };
+    }
+  }
+  const styFont = id => { for (let i = 0, s = sty[id]; s && i < 8; i++, s = sty[s.based]) if (s.font) return s.font; return ''; };
+  const styList = id => { for (let i = 0, s = sty[id]; s && i < 4; i++, s = sty[s.based]) if (s.list) return true; return false; };
+  const styHead = id => { for (let i = 0, s = sty[id]; s && i < 4; i++, s = sty[s.based]) if (s.head) return true; return false; };
+  // relationships → media
+  const rels = {}; const rx = await z.text('word/_rels/document.xml.rels');
+  if (rx) for (const r of P(rx).getElementsByTagName('Relationship')) rels[r.getAttribute('Id')] = r.getAttribute('Target');
+  const imgIds = [];
+  const isNudiFont = f => /nudi|kgp/i.test(f || '');
+  const out = [], extra = [];
+  const runsText = (p, pFont) => {
+    const segs = []; // {t, nudi}
+    const walk = el => {
+      for (const c of el.children) {
+        const ln = c.localName;
+        if (ln === 'Fallback' || ln === 'pPr' || ln === 'rPr' || ln === 'del' || ln === 'instrText') continue;
+        if (ln === 'txbxContent') { for (const q of kids(c, 'p')) extra.push(q); continue; }
+        if (ln === 'blip') { const id = c.getAttribute('r:embed'); if (id && rels[id]) imgIds.push(rels[id]); continue; }
+        if (ln === 'r') {
+          const rp = kid(c, 'rPr'), rf = rp && kid(rp, 'rFonts'); const font = (rf && (att(rf, 'ascii') || att(rf, 'hAnsi'))) || pFont || defFont;
+          let t = '';
+          for (const x of c.children) { if (x.localName === 't') t += x.textContent; else if (x.localName === 'tab') t += ' '; else if (x.localName === 'br' || x.localName === 'cr') t += '\n'; }
+          if (t) { const nd = isNudiFont(font); const last = segs[segs.length - 1]; if (last && last.nudi === nd) last.t += t; else segs.push({ t, nudi: nd }); }
+          walk(c); continue;
+        }
+        walk(c);
+      }
+    };
+    walk(p);
+    return segs.map(s => s.nudi || NU.looksNudi(s.t) ? NU.convert(s.t) : s.t).join('').replace(/[ \t]+/g, ' ').trim();
+  };
+  const para = p => {
+    const pp = kid(p, 'pPr'), sid = att(kid(pp, 'pStyle'), 'val'), pFont = styFont(sid);
+    let t = runsText(p, pFont); if (!t) return;
+    const head = styHead(sid) || !!(pp && kid(pp, 'outlineLvl'));
+    const num = (pp && kid(pp, 'numPr')) || styList(sid);
+    if (head) out.push('', t, ''); else if (num && !/^\s*([•\-–*]|\d+[.)])/.test(t)) out.push('• ' + t); else out.push(t);
+  };
+  const table = tb => {
+    out.push('');
+    for (const tr of kids(tb, 'tr')) {
+      const cells = kids(tr, 'tc').map(tc => kids(tc, 'p').map(p => runsText(p, styFont(att(kid(kid(p, 'pPr'), 'pStyle'), 'val')))).filter(Boolean).join(' ')).filter(Boolean);
+      if (cells.length) out.push(cells.join(' – '));
+    }
+    out.push('');
+  };
+  const body = doc.getElementsByTagName('w:body')[0];
+  const block = el => { for (const c of el.children) { if (c.localName === 'p') para(c); else if (c.localName === 'tbl') table(c); else if (c.localName === 'sdt') { const sc = kid(c, 'sdtContent'); if (sc) block(sc); } } };
+  if (body) block(body);
+  while (extra.length) { const q = extra.shift(); para(q); }
+  // images
+  const imgs = [];
+  for (const tg of [...new Set(imgIds)].slice(0, 60)) {
+    const path = tg.startsWith('/') ? tg.slice(1) : 'word/' + tg.replace(/^\.\//, '');
+    const b = await z.get(path); if (!b) continue;
+    const ext = (path.split('.').pop() || '').toLowerCase(), mime = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', bmp: 'image/bmp', webp: 'image/webp' }[ext];
+    if (!mime || b.length < 2500) continue;
+    imgs.push({ name: path.split('/').pop(), url: URL.createObjectURL(new Blob([b], { type: mime })) });
+  }
+  const text = out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  return { text, imgs };
+}
+
+/* ---- PDF → text ---- */
+async function pdfOpen(buf) {
+  const lib = await loadPDFJS();
+  return lib.getDocument({ data: new Uint8Array(buf), cMapUrl: PDFJS_CDN + 'cmaps/', cMapPacked: true, standardFontDataUrl: PDFJS_CDN + 'standard_fonts/', verbosity: 0 }).promise;
+}
+async function pdfExtract(pdf, list, prog) {
+  const pages = [];
+  for (let k = 0; k < list.length; k++) {
+    if (prog) prog(k, list.length);
+    const page = await pdf.getPage(list[k]); const tc = await page.getTextContent();
+    pages.push({ p: list[k], items: tc.items.filter(i => i.str != null).map(i => ({ s: i.str, t: i.transform, w: i.width, h: i.height, eol: i.hasEOL, f: i.fontName })) });
+    page.cleanup && page.cleanup();
+  }
+  return pdfPagesToText(pages, NU);
+}
+function textQuality(text, nPages) {
+  const t = text.replace(/\s+/g, ''), kn = (t.match(/[ಀ-೿]/g) || []).length, en = (t.match(/[A-Za-z]/g) || []).length;
+  const junk = (t.match(/[À-ÿ -]/g) || []).length;
+  return { chars: t.length, perPage: t.length / Math.max(1, nPages), junk: junk / Math.max(1, t.length), letters: (kn + en) / Math.max(1, t.length) };
+}
+function parsePageList(s, n) {
+  const set = new Set();
+  String(s || '').replace(/[೦-೯]/g, d => '೦೧೨೩೪೫೬೭೮೯'.indexOf(d)).split(/[,\s]+/).forEach(part => {
+    const m = part.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if (!m) return;
+    let a = +m[1], b = m[2] ? +m[2] : a; if (a > b) [a, b] = [b, a];
+    for (let i = Math.max(1, a); i <= Math.min(n, b); i++) set.add(i);
+  });
+  return [...set].sort((a, b) => a - b);
+}
+async function renderPdfPage(pdf, pno, width) {
+  const page = await pdf.getPage(pno); const vp0 = page.getViewport({ scale: 1 }); const vp = page.getViewport({ scale: width / vp0.width });
+  const cv = document.createElement('canvas'); cv.width = Math.round(vp.width); cv.height = Math.round(vp.height);
+  const c = cv.getContext('2d'); c.fillStyle = '#fff'; c.fillRect(0, 0, cv.width, cv.height);
+  await page.render({ canvasContext: c, canvas: cv, viewport: vp }).promise; return cv;
+}
+/* Page picker for a PDF; resolves with the chosen page numbers (or null) */
+function pdfPagePicker(pdf, name) {
+  return new Promise(resolve => {
+    const n = pdf.numPages; const sel = new Set(n <= 12 ? Array.from({ length: n }, (_, i) => i + 1) : []);
+    const m = modal('📄 PDF ನಿಂದ ಪುಟಗಳನ್ನು ಆರಿಸಿ', `
+      <p class="hint" style="margin-top:0"><b class="noi">${esc(name)}</b> — ${n} ${UIL === 'en' ? 'pages' : 'ಪುಟಗಳು'}.</p><p class="hint">ಪಾಠ ಇರುವ ಪುಟಗಳನ್ನು ಮಾತ್ರ ಆರಿಸಿ (ಚಿತ್ರದ ಮೇಲೆ ಒತ್ತಿ, ಅಥವಾ ಕೆಳಗೆ ಪುಟ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ). ಪುಸ್ತಕದಲ್ಲಿ ಮುದ್ರಿತ ಪುಟ ಸಂಖ್ಯೆ ಬೇರೆ ಇರಬಹುದು — ಚಿತ್ರ ನೋಡಿ ಆರಿಸಿ.</p>
+      <div class="srch"><input id="ppR" placeholder="ಉದಾ: 21-27  ಅಥವಾ  3, 5, 8-10"><button class="btn" id="ppSet">ಆರಿಸು</button><button class="btn" id="ppAll">ಎಲ್ಲಾ</button><button class="btn" id="ppNone">ಯಾವುದೂ ಬೇಡ</button></div>
+      <div class="ppg" id="ppG">${Array.from({ length: n }, (_, i) => `<div class="pp${sel.has(i + 1) ? ' on' : ''}" data-p="${i + 1}"><div class="pc"></div><span>${i + 1}</span></div>`).join('')}</div>`,
+      `<span class="hint" id="ppN" style="margin-right:auto"></span><button class="btn" data-close>ರದ್ದು</button><button class="btn cta" id="ppGo">✅ ಈ ಪುಟಗಳ ಪಠ್ಯ ತೆಗೆ</button>`, { w: 980, sticky: true, onClose: () => resolve(null) });
+    const g = $('#ppG', m), upd = () => { $$('.pp', g).forEach(d => d.classList.toggle('on', sel.has(+d.dataset.p))); $('#ppN', m).textContent = `${sel.size} ${UIL === 'en' ? 'pages selected' : 'ಪುಟ ಆರಿಸಲಾಗಿದೆ'}`; };
+    let last = null;
+    g.onclick = ev => { const d = ev.target.closest('.pp'); if (!d) return; const p = +d.dataset.p; if (ev.shiftKey && last) { const [a, b] = [Math.min(last, p), Math.max(last, p)]; for (let i = a; i <= b; i++) sel.add(i); } else { sel.has(p) ? sel.delete(p) : sel.add(p); } last = p; upd(); };
+    $('#ppSet', m).onclick = () => { const l = parsePageList($('#ppR', m).value, n); if (!l.length) { toast('ಪುಟ ಸಂಖ್ಯೆ ಸರಿಯಾಗಿ ಬರೆಯಿರಿ (ಉದಾ: 21-27)'); return; } sel.clear(); l.forEach(p => sel.add(p)); upd(); const d = g.querySelector(`[data-p="${l[0]}"]`); if (d) d.scrollIntoView({ block: 'nearest' }); };
+    $('#ppR', m).onkeydown = ev => { if (ev.key === 'Enter') $('#ppSet', m).click(); };
+    $('#ppAll', m).onclick = () => { for (let i = 1; i <= n; i++) sel.add(i); upd(); };
+    $('#ppNone', m).onclick = () => { sel.clear(); upd(); };
+    $('#ppGo', m).onclick = () => { if (!sel.size) { toast('ಕನಿಷ್ಠ ಒಂದು ಪುಟ ಆರಿಸಿ'); return; } const l = [...sel].sort((a, b) => a - b); m.remove(); resolve(l); };
+    upd();
+    // lazy thumbnails
+    const q = []; let running = 0;
+    const pump = () => { while (running < 2 && q.length) { const d = q.shift(); running++; renderPdfPage(pdf, +d.dataset.p, 130).then(cv => { const pc = d.querySelector('.pc'); pc.innerHTML = ''; pc.appendChild(cv); }).catch(() => { }).finally(() => { running--; pump(); }); } };
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); q.push(e.target); pump(); } }), { root: m.querySelector('.mb') });
+    $$('.pp', g).forEach(d => io.observe(d));
+  });
+}
+/* Read any supported file → {text, title?} ; returns null when cancelled */
+async function readDocFile(file) {
+  const name = file.name || 'file', ext = (name.split('.').pop() || '').toLowerCase();
+  if (ext === 'doc') { modal('⚠️ ಹಳೆಯ Word (.doc) ಫೈಲ್', `<p>ಈ ಫೈಲ್ ಹಳೆಯ <b>.doc</b> ರೂಪದಲ್ಲಿದೆ. Word ನಲ್ಲಿ ತೆರೆದು <b>File → Save As → Word Document (.docx)</b> ಆರಿಸಿ ಉಳಿಸಿ, ನಂತರ ಆ .docx ಫೈಲ್ ಅನ್ನು ಇಲ್ಲಿ ಹಾಕಿ.<br><br>ಅಥವಾ Word ನಲ್ಲಿ ಎಲ್ಲಾ ಪಠ್ಯ (Ctrl+A) copy ಮಾಡಿ ಇಲ್ಲಿ paste ಮಾಡಿ — ನುಡಿ ಅಕ್ಷರಗಳಿದ್ದರೂ ತಾನೇ ಯೂನಿಕೋಡ್‌ಗೆ ಬದಲಾಗುತ್ತವೆ.</p>`, '<button class="btn pri" data-close>ಸರಿ</button>'); return null; }
+  const buf = await file.arrayBuffer();
+  if (ext === 'pdf' || (new Uint8Array(buf.slice(0, 5)).join(',') === '37,80,68,70,45')) {
+    toast('⏳ PDF ತೆರೆಯುತ್ತಿದೆ…', 0);
+    let pdf; try { pdf = await pdfOpen(buf); } catch (e) { console.error(e); toast(/password/i.test(e && e.name || '') ? '⚠️ ಈ PDF ಗೆ password ಇದೆ — ತೆರೆಯಲು ಆಗದು' : '⚠️ PDF ತೆರೆಯಲು ಆಗಲಿಲ್ಲ (ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಬೇಕು / ಫೈಲ್ ಹಾಳಾಗಿರಬಹುದು)', 6000); return null; }
+    toast('', 1);
+    const list = await pdfPagePicker(pdf, name); if (!list) return null;
+    const text = await pdfExtract(pdf, list, (i, n) => toast(`⏳ ಪಠ್ಯ ತೆಗೆಯುತ್ತಿದೆ… ${i + 1}/${n}`, 0));
+    DOCSRC = { name, kind: 'pdf', pdf, pages: list, imgs: [] };
+    const q = textQuality(text, list.length);
+    if (q.chars < 40 * list.length && q.chars < 400) {
+      toast('', 1);
+      modal('📷 ಇದು scan ಮಾಡಿದ (ಚಿತ್ರ ರೂಪದ) PDF', `<p>ಈ ಪುಟಗಳಲ್ಲಿ ಓದಬಹುದಾದ ಪಠ್ಯ ಇಲ್ಲ — ಪುಟಗಳು ಫೋಟೋ/scan ರೂಪದಲ್ಲಿವೆ. ಇವುಗಳಿಂದ ಅಕ್ಷರ ತೆಗೆಯಲು OCR ಬೇಕು.</p><p class="hint">ಸುಲಭ ಉಪಾಯ: PDF ಅನ್ನು Google Drive ಗೆ upload ಮಾಡಿ → ಬಲ-click → <b>Open with → Google Docs</b>. ಅಲ್ಲಿ ಬರುವ ಪಠ್ಯವನ್ನು copy ಮಾಡಿ ಇಲ್ಲಿ paste ಮಾಡಿ (ಕನ್ನಡಕ್ಕೂ ಕೆಲಸ ಮಾಡುತ್ತದೆ).<br>ಪುಟದ ಚಿತ್ರಗಳನ್ನು ಸ್ಲೈಡ್‌ಗೆ ಬೇಕಾದರೆ: ಚಿತ್ರ ಸೇರಿಸಿ → <b>📄 ದಾಖಲೆಯಿಂದ</b>.</p>`, '<button class="btn pri" data-close>ಸರಿ</button>');
+      return null;
+    }
+    return { text, kind: 'pdf', warn: q.junk > .04 || q.letters < .6 };
+  }
+  if (ext === 'docx' || ext === 'docm' || ext === 'dotx') {
+    toast('⏳ Word ಫೈಲ್ ಓದುತ್ತಿದೆ…', 0);
+    try { const r = await docxToText(buf); DOCSRC = { name, kind: 'docx', imgs: r.imgs }; toast('', 1); if (!r.text) { toast('⚠️ ಈ Word ಫೈಲ್‌ನಲ್ಲಿ ಪಠ್ಯ ಸಿಗಲಿಲ್ಲ', 5000); return null; } return { text: r.text, kind: 'docx', imgs: r.imgs.length }; }
+    catch (e) { console.error(e); toast('⚠️ Word ಫೈಲ್ ಓದಲು ಆಗಲಿಲ್ಲ — .docx ಫೈಲ್ ಆರಿಸಿ', 6000); return null; }
+  }
+  if (ext === 'txt' || ext === 'md' || ext === 'csv' || (file.type || '').startsWith('text/')) {
+    let text; try { text = new TextDecoder('utf-8', { fatal: true }).decode(buf); } catch (e) { text = new TextDecoder('windows-1252').decode(buf); }
+    return { text: nudiFix(text.replace(/^﻿/, '').replace(/\r\n?/g, '\n')).text, kind: 'txt' };
+  }
+  toast('⚠️ ಈ ಫೈಲ್ ರೂಪ ಬೆಂಬಲಿತವಿಲ್ಲ — PDF, Word (.docx) ಅಥವಾ .txt ಆರಿಸಿ', 6000); return null;
+}
+function pickFile(accept) {
+  return new Promise(res => { const i = document.createElement('input'); i.type = 'file'; i.accept = accept; i.onchange = () => res(i.files[0] || null); i.click(); });
+}
+const DOC_ACCEPT = '.pdf,.docx,.doc,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain';
+/* hook the generator dialog: button + drag-drop + Nudi paste */
+function hookDocInput(m, tas, onTitle) {
+  const load = async file => {
+    if (!file) return;
+    const r = await readDocFile(file); if (!r) return;
+    tas.forEach(ta => { ta.value = r.text; ta.dispatchEvent(new Event('input', { bubbles: true })); });
+    if (onTitle) onTitle(r.text, file.name);
+    const words = r.text.split(/\s+/).filter(Boolean).length;
+    toast(`✅ ${words} ${UIL === 'en' ? 'words loaded' : 'ಪದಗಳು ಬಂದವು'}${r.imgs ? ` · ${r.imgs} ${UIL === 'en' ? 'images (Add image → From document)' : 'ಚಿತ್ರಗಳು (ಚಿತ್ರ ಸೇರಿಸಿ → 📄 ದಾಖಲೆಯಿಂದ)'}` : ''}. ${r.warn ? '⚠️ ಕೆಲವು ಅಕ್ಷರ ಸರಿಯಾಗಿ ಬಂದಿಲ್ಲದಿರಬಹುದು — ' : ''}${UIL === 'en' ? 'Please read it through once.' : 'ಒಮ್ಮೆ ಓದಿ ಪರಿಶೀಲಿಸಿ, ಬೇಡದ ಭಾಗ ಅಳಿಸಿ.'}`, 7000);
+  };
+  $$('[data-docup]', m).forEach(b => b.onclick = async () => load(await pickFile(DOC_ACCEPT)));
+  tas.forEach(ta => {
+    hookNudiPaste(ta);
+    ta.addEventListener('dragover', ev => { ev.preventDefault(); ta.classList.add('drop'); });
+    ta.addEventListener('dragleave', () => ta.classList.remove('drop'));
+    ta.addEventListener('drop', ev => { ta.classList.remove('drop'); const f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0]; if (!f) return; ev.preventDefault(); load(f); });
+  });
+}
+function firstHeading(text) {
+  const l = text.split('\n').map(x => x.trim()).filter(Boolean)[0] || '';
+  return l.length <= 70 && !/[.।:]$/.test(l) ? l : '';
+}
+
+/* ---- image dialog pane: images from the loaded document / crop from a PDF page ---- */
+async function docImagePane(m, done) {
+  const box = $('[data-pane="d"]', m);
+  const draw = () => {
+    if (!DOCSRC) { box.innerHTML = `<div style="text-align:center;padding:26px;border:2px dashed #C9CEE0;border-radius:16px"><div style="font-size:40px">📄</div><p>ಪಠ್ಯಪುಸ್ತಕದ PDF ಅಥವಾ Word ಫೈಲ್ ಆರಿಸಿ — ಅದರಲ್ಲಿರುವ ಚಿತ್ರ/ನಕ್ಷೆಯನ್ನು ನೇರವಾಗಿ ಸ್ಲೈಡ್‌ಗೆ ಹಾಕಬಹುದು.</p><button class="btn cta" id="dfPick">PDF / Word ಆರಿಸಿ</button></div>`; $('#dfPick', m).onclick = pick; return; }
+    if (DOCSRC.kind === 'docx') {
+      box.innerHTML = `<p class="hint" style="margin-top:0">📄 <b class="noi">${esc(DOCSRC.name)}</b> — ${DOCSRC.imgs.length} ${UIL === 'en' ? 'images' : 'ಚಿತ್ರಗಳು'} <button class="btn sm" id="dfPick">ಬೇರೆ ಫೈಲ್</button></p><div class="igrid" id="dImgs">${DOCSRC.imgs.map((x, i) => `<div class="it" data-i="${i}"><img src="${x.url}"><span class="noi">${esc(x.name)}</span></div>`).join('') || '<p class="hint">ಈ ಫೈಲ್‌ನಲ್ಲಿ ಚಿತ್ರಗಳಿಲ್ಲ</p>'}</div>`;
+      $('#dfPick', m).onclick = pick;
+      $('#dImgs', m).onclick = async ev => { const it = ev.target.closest('.it'); if (!it) return; const x = DOCSRC.imgs[+it.dataset.i]; const b = await (await fetch(x.url)).blob(); const url = await readImageFile(new File([b], x.name, { type: b.type })); const id = uid(); D.assets[id] = url; done({ src: 'asset:' + id, credit: '', q: '' }); };
+      return;
+    }
+    const pdf = DOCSRC.pdf, n = pdf.numPages; let pno = DOCSRC.pages && DOCSRC.pages[0] || 1;
+    box.innerHTML = `<div class="srch" style="align-items:center"><span class="hint noi" style="margin:0">📄 ${esc(DOCSRC.name)}</span><button class="btn" id="dPrev">◀</button><input id="dPg" type="number" min="1" max="${n}" value="${pno}" style="width:80px;flex:none"><span class="hint" style="margin:0">/ ${n}</span><button class="btn" id="dNext">▶</button><button class="btn sm" id="dfPick">ಬೇರೆ ಫೈಲ್</button></div>
+      <p class="hint">ಬೇಕಾದ ಚಿತ್ರದ ಸುತ್ತ <b>ಮೌಸ್/ಬೆರಳಿನಿಂದ ಚೌಕ ಎಳೆಯಿರಿ</b>, ನಂತರ "ಸೇರಿಸಿ" ಒತ್ತಿ. (ಚೌಕ ಎಳೆಯದಿದ್ದರೆ ಪೂರ್ಣ ಪುಟ ಸೇರುತ್ತದೆ)</p>
+      <div class="crop" id="dCrop"><div class="hint">⏳</div></div>
+      <div class="rw" style="justify-content:flex-end;margin-top:10px"><button class="btn cta" id="dAdd">✂️ ಆಯ್ದ ಭಾಗ ಸೇರಿಸಿ</button></div>`;
+    $('#dfPick', m).onclick = pick;
+    let cv = null, rect = null;
+    const show = async p => {
+      pno = Math.min(n, Math.max(1, p)); $('#dPg', m).value = pno; const cb = $('#dCrop', m); cb.innerHTML = '<div class="hint">⏳</div>'; rect = null;
+      cv = await renderPdfPage(pdf, pno, 1400); const im = document.createElement('img'); im.src = cv.toDataURL('image/jpeg', .85); im.draggable = false;
+      const sel = document.createElement('div'); sel.className = 'csel hide'; const wrap = document.createElement('div'); wrap.style.position = 'relative'; wrap.append(im, sel); cb.innerHTML = ''; cb.append(wrap);
+      let s0 = null;
+      const pt = ev => { const r = im.getBoundingClientRect(); return { x: Math.min(1, Math.max(0, (ev.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (ev.clientY - r.top) / r.height)) }; };
+      cb.onpointerdown = ev => { ev.preventDefault(); s0 = pt(ev); cb.setPointerCapture(ev.pointerId); };
+      cb.onpointermove = ev => { if (!s0) return; const p2 = pt(ev); rect = { x: Math.min(s0.x, p2.x), y: Math.min(s0.y, p2.y), w: Math.abs(p2.x - s0.x), h: Math.abs(p2.y - s0.y) }; Object.assign(sel.style, { left: rect.x * 100 + '%', top: rect.y * 100 + '%', width: rect.w * 100 + '%', height: rect.h * 100 + '%' }); sel.classList.remove('hide'); };
+      cb.onpointerup = () => { s0 = null; if (rect && (rect.w < .02 || rect.h < .02)) { rect = null; sel.classList.add('hide'); } };
+    };
+    $('#dPrev', m).onclick = () => show(pno - 1); $('#dNext', m).onclick = () => show(pno + 1); $('#dPg', m).onchange = () => show(+$('#dPg', m).value || 1);
+    $('#dAdd', m).onclick = () => {
+      if (!cv) return; const r = rect || { x: 0, y: 0, w: 1, h: 1 };
+      const sx = Math.round(r.x * cv.width), sy = Math.round(r.y * cv.height), sw = Math.max(4, Math.round(r.w * cv.width)), sh = Math.max(4, Math.round(r.h * cv.height));
+      const k = Math.min(1, 1600 / Math.max(sw, sh)); const o = document.createElement('canvas'); o.width = Math.round(sw * k); o.height = Math.round(sh * k);
+      o.getContext('2d').drawImage(cv, sx, sy, sw, sh, 0, 0, o.width, o.height);
+      const id = uid(); D.assets[id] = o.toDataURL('image/jpeg', .88); done({ src: 'asset:' + id, credit: '', q: '' });
+    };
+    show(pno);
+  };
+  const pick = async () => {
+    const f = await pickFile('.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'); if (!f) return;
+    const ext = f.name.split('.').pop().toLowerCase(); const buf = await f.arrayBuffer();
+    try {
+      if (ext === 'pdf') { toast('⏳ PDF ತೆರೆಯುತ್ತಿದೆ…', 0); const pdf = await pdfOpen(buf); DOCSRC = { name: f.name, kind: 'pdf', pdf, pages: [1], imgs: [] }; toast('', 1); }
+      else { const r = await docxToText(buf); DOCSRC = { name: f.name, kind: 'docx', imgs: r.imgs }; }
+    } catch (e) { console.error(e); toast('⚠️ ಫೈಲ್ ತೆರೆಯಲು ಆಗಲಿಲ್ಲ', 5000); return; }
+    draw();
+  };
+  draw();
+}
+
+/* ----------------------------------------------------- posters / invitations / notices */
+const PSIZES = [
+  { id: 'a4', n: '📄 A4 ನಿಲುವು', d: 'ಮುದ್ರಣ / ನೋಟೀಸ್ ಬೋರ್ಡ್', w: 1280, h: 1810 },
+  { id: 'sq', n: '⬛ ಚೌಕ', d: 'WhatsApp / Instagram / Facebook', w: 1280, h: 1280 },
+  { id: 'story', n: '📱 Status / Story', d: 'WhatsApp Status (9:16)', w: 1080, h: 1920 },
+  { id: 'a4l', n: '📃 A4 ಅಡ್ಡ', d: 'ಮುದ್ರಣ (ಅಡ್ಡ)', w: 1810, h: 1280 },
+  { id: 'banner', n: '🎌 ಬ್ಯಾನರ್', d: 'ಫ್ಲೆಕ್ಸ್ / ವೇದಿಕೆ ಬ್ಯಾನರ್ (3:1)', w: 1920, h: 640 },
+  { id: 'wide', n: '🖥️ 16:9 ಅಡ್ಡ', d: 'TV / YouTube ಥಂಬ್‌ನೇಲ್', w: 1280, h: 720 },
+];
+const PLAYOUTS = [
+  { id: 'hero', n: 'ಮೇಲೆ ದೊಡ್ಡ ಚಿತ್ರ', ic: '🖼️' },
+  { id: 'full', n: 'ಪೂರ್ಣ ಹಿನ್ನೆಲೆ ಚಿತ್ರ', ic: '🌄' },
+  { id: 'classic', n: 'ಅಲಂಕಾರಿಕ ಚೌಕಟ್ಟು', ic: '🏵️' },
+];
+function posterLayout(p, th, Wd, Hd, k) {
+  const L = p.layout || 'hero', hasImg = !!(p.imageQuery || p.image), wide = Wd > Hd * 1.25;
+  const s = mkSlide('poster'); s.noChrome = true; const E = s.els; s.notes = '';
+  const dark = L === 'full', TXT = dark ? '#FFFFFF' : '$t', TTL = dark ? '#FFFFFF' : '$p';
+  if (dark) s.bg = { k: 'grad', c1: '$g1', c2: '$g2', ang: 150 };
+  // image column / area
+  let rx = 0, rw = Wd, top = 0, bottom = Hd;
+  const img = (x, y, w, h, o = {}) => I(p.imageQuery || '', x, y, w, h, Object.assign({ src: p.image || '', role: 'ppic' }, o));
+  if (dark && hasImg) { E.push(img(0, 0, Wd, Hd, { role: 'pbg' }), S('rect', 0, 0, Wd, Hd, { fill: '#000000', op: .5, lock: true, role: 'pshade' })); }
+  if (wide && hasImg && !dark) { const iw = Math.round(Wd * (Wd / Hd > 2.2 ? .36 : .42)); if (L === 'classic') E.push(img(Math.round(Hd * .06), Math.round(Hd * .06), iw - Math.round(Hd * .06), Hd - Math.round(Hd * .12), { frame: th.frame || 'clean', rad: 14 })); else E.push(img(0, 0, iw, Hd)); rx = iw; rw = Wd - iw; }
+  const u = (wide ? Math.min(rw / 900, Hd / 820) : Math.min(Wd / 1280, Hd / 1480)) * k;
+  const pad = Math.round((wide ? Math.min(rw, Hd) * .07 : Wd * .065));
+  if (L === 'classic') { const b = Math.round(Math.min(Wd, Hd) * .025); E.push(S('rect', b, b, Wd - 2 * b, Hd - 2 * b, { fill: null, bc: '$a', bw: Math.max(4, Math.round(8 * u)), rad: 10, lock: true, role: 'pfr' }), S('rect', b + 14, b + 14, Wd - 2 * b - 28, Hd - 2 * b - 28, { fill: null, bc: '$p', bw: 2, rad: 6, lock: true, role: 'pfr' })); }
+  const x0 = rx + pad, w = rw - 2 * pad;
+  // footer band
+  const blocks = [];
+  let foot = null;
+  if (p.contact) { foot = T(p.contact, rx + pad, 0, w, 200, { fs: Math.round(28 * u), min: 13, bold: true, fc: dark ? '#FFFFFF' : '$hc', align: 'center', va: 'middle', role: 'pfoot' }); fit(foot, th); shrinkH(foot, th, Math.round(40 * u)); foot.h += Math.round(18 * u); bottom = Hd - foot.h - (L === 'classic' ? Math.round(Math.min(Wd, Hd) * .03) : 0); }
+  if (L === 'classic') { top = Math.round(Math.min(Wd, Hd) * .05); if (!foot) bottom = Hd - top; }
+  // hero image on top (portrait)
+  let heroH = 0;
+  const flexImg = hasImg && !dark && !wide;
+  const tb = (text, o, maxH) => { const e = T(text, x0, 0, w, maxH || 600, o); fit(e, th); shrinkH(e, th, 10); return e; };
+  if (p.org) blocks.push({ els: [tb(p.org, { fs: Math.round(32 * u), min: 13, bold: true, fc: dark ? '#FFE08A' : '$a', align: 'center', role: 'porg', tsh: dark }, 180 * u)], gap: 14 * u });
+  if (p.kicker) { const e = T(p.kicker, x0, 0, 300, Math.round(58 * u), { fs: Math.round(30 * u), min: 13, bold: true, fill: '$a', fc: '#FFFFFF', rad: Math.round(29 * u), pad: Math.round(8 * u), align: 'center', va: 'middle', auto: false, role: 'pkick' }); e.w = Math.min(w, Math.round(textW(p.kicker, e, th, e.fs) + 70 * u)); e.x = Math.round(x0 + (w - e.w) / 2); blocks.push({ els: [e], gap: 18 * u }); }
+  if (p.title) blocks.push({ els: [tb(p.title, { ff: 'h', fs: Math.round(96 * u), min: 22, bold: true, fc: TTL, align: 'center', lh: 1.18, role: 'ptitle', tsh: dark }, 360 * u)], gap: 12 * u });
+  if (p.tagline) blocks.push({ els: [tb(p.tagline, { fs: Math.round(38 * u), min: 14, fc: TXT, align: 'center', lh: 1.3, role: 'ptag', tsh: dark, op: .95 }, 200 * u)], gap: 22 * u });
+  const imgIdx = blocks.length;
+  if (p.highlight) {
+    const sc = th.hl === 'scroll', pl = th.hl === 'plaque' || dark;
+    const inset = sc ? 70 * u : pl ? 34 * u : 0;
+    const e = T(p.highlight, x0 + inset, 0, w - 2 * inset, 300 * u, { fs: Math.round(40 * u), min: 14, bold: true, fc: sc || pl ? '$hc' : '$t', align: 'center', va: 'middle', role: 'phl', fill: sc || pl ? null : '$s', rad: 16, pad: Math.round((sc ? 10 : 18) * u) });
+    fit(e, th); shrinkH(e, th, 50 * u); const vpad = Math.round((sc ? 26 : 16) * u);
+    const sh = sc ? S('scroll', x0, 0, w, e.h + 2 * vpad, { fill: '$sf', bc: '$tr', role: 'phlbg' }) : pl ? S('plaque', x0 + 10 * u, 0, w - 20 * u, e.h + 2 * vpad, { fill: '$pf', bc: '$tr', role: 'phlbg' }) : null;
+    blocks.push({ els: sh ? [sh, e] : [e], off: sh ? [0, vpad] : [0], h: sh ? sh.h : e.h, gap: 22 * u });
+  }
+  const info = [['📅', p.date], ['⏰', p.time], ['📍', p.venue]].filter(x => x[1] && String(x[1]).trim());
+  if (info.length) {
+    const g = Math.round(16 * u), row = info.length > 1 && w / info.length >= 260 * u && info.every(x => x[1].length < 60);
+    const cards = info.map(([ic, t]) => T(`${ic} ${t}`, 0, 0, row ? (w - g * (info.length - 1)) / info.length : w, 260 * u, { fs: Math.round(32 * u), min: 13, bold: true, fc: dark ? '#1D2233' : '$t', fill: dark ? '#FFFFFF' : '$card', op: dark ? .93 : 1, rad: Math.round(18 * u), pad: Math.round(14 * u), align: 'center', va: 'middle', sh: true, bc: dark ? null : '$a', bw: dark ? 0 : 2, role: 'pinfo' }));
+    cards.forEach(c => { fit(c, th); shrinkH(c, th, 50 * u); });
+    if (row) { const hh = Math.max(...cards.map(c => c.h)); cards.forEach((c, i) => { c.h = hh; c.x = Math.round(x0 + i * (c.w + g)); }); blocks.push({ els: cards, off: cards.map(() => 0), h: hh, gap: 22 * u }); }
+    else { let yy = 0; const off = cards.map(c => { const o = yy; c.x = x0; yy += c.h + g; return o; }); blocks.push({ els: cards, off, h: yy - g, gap: 22 * u }); }
+  }
+  const pts = String(p.points || '').split('\n').map(x => x.trim().replace(/^[•\-–*]\s*/, '')).filter(Boolean);
+  if (pts.length) { const e = tb(pts.join('\n'), { fs: Math.round(33 * u), min: 13, fc: dark ? '#1D2233' : '$t', bullets: pts.length > 1, align: pts.length > 1 ? 'left' : 'center', fill: dark ? '#FFFFFF' : '$card', op: dark ? .93 : 1, rad: Math.round(20 * u), pad: Math.round(22 * u), sh: true, role: 'ppts' }, 900 * u); blocks.push({ els: [e], gap: 22 * u }); }
+  // measure
+  const bh = b => b.h != null ? b.h : b.els[0].h;
+  let need = blocks.reduce((a, b, i) => a + bh(b) + (i < blocks.length - 1 ? b.gap : 0), 0);
+  const avail = bottom - top - 2 * pad;
+  let imgH = 0;
+  if (flexImg) {
+    const minH = Hd * (L === 'hero' ? .2 : .16), maxH = Hd * (L === 'hero' ? .42 : .36);
+    imgH = Math.min(maxH, avail - need - (L === 'hero' ? 0 : 24 * u));
+    if (imgH < minH) return { s, ok: false };
+  } else if (need > avail) return { s, ok: false };
+  // place
+  let y;
+  if (flexImg && L === 'hero') { heroH = Math.round(imgH + pad * .6); E.push(img(0, 0, Wd, heroH), S('rect', 0, heroH - 6, Wd, 10, { fill: '$a', role: 'pbar' })); top = heroH; }
+  const free = bottom - top - 2 * pad - need - (flexImg && L !== 'hero' ? imgH + 24 * u : 0);
+  const gapAdd = blocks.length > 1 ? Math.min(free / (blocks.length + 1), 40 * u) : 0;
+  y = top + pad + Math.max(0, (free - gapAdd * Math.max(0, blocks.length - 1)) / 2);
+  blocks.forEach((b, i) => {
+    if (i === imgIdx && flexImg && L !== 'hero') { E.push(img(x0 + w * .04, Math.round(y), w * .92, Math.round(imgH), { frame: th.frame || 'clean', rad: 16 })); y += imgH + 24 * u; }
+    b.els.forEach((e, j) => { e.y = Math.round(y + (b.off ? b.off[j] || 0 : 0)); E.push(e); });
+    y += bh(b) + b.gap + gapAdd;
+  });
+  if (flexImg && L !== 'hero' && imgIdx >= blocks.length) E.push(img(x0 + w * .04, Math.round(y), w * .92, Math.round(imgH), { frame: th.frame || 'clean', rad: 16 }));
+  if (foot) { const fy = Hd - foot.h - (L === 'classic' ? Math.round(Math.min(Wd, Hd) * .035) : 0); if (L !== 'classic') E.push(S('rect', rx, fy, rw, Hd - fy, { fill: dark ? '#000000' : '$p', op: dark ? .45 : 1, role: 'pfootbg' })); else E.push(S('rect', rx + pad, fy, w, 2, { fill: '$a', role: 'pfootbg' })); foot.y = fy; foot.fc = L === 'classic' ? '$hc' : '#FFFFFF'; E.push(foot); }
+  return { s, ok: true };
+}
+function buildPoster(p, themeId) {
+  const th = THEMES.find(t => t.id === themeId) || THEMES[0], z = PSIZES.find(x => x.id === p.size) || PSIZES[0];
+  const flex = !!(p.imageQuery || p.image) && p.layout !== 'full' && !(z.w > z.h * 1.25);
+  let r = null; for (let k = flex ? 1 : 1.4; k >= .5; k -= .05) { r = posterLayout(p, th, z.w, z.h, k); if (r.ok) break; }
+  const s = r.s; s.notes = '';
+  return { id: uid(), v: 2, kind: 'poster', lang: SLANG, title: p.title || 'Poster', theme: th.id, size: { id: z.id, w: z.w, h: z.h }, poster: p, slides: [s], assets: p._assets || {}, source: '', created: Date.now(), updated: Date.now() };
+}
+function openPoster() {
+  const last = (() => { try { return JSON.parse(localStorage.getItem('dp_poster') || '{}'); } catch (e) { return {}; } })();
+  let size = last.size || 'a4', lay = last.layout || 'hero', themeSel = last.theme || 'makkala', upImg = '';
+  const m = modal('🪧 ಪೋಸ್ಟರ್ / ಆಹ್ವಾನ / ಸೂಚನೆ ತಯಾರಿಸಿ', `
+    <div class="lbl">① ಗಾತ್ರ</div><div class="psz" id="pSz">${PSIZES.map(z => `<button data-z="${z.id}"><i style="aspect-ratio:${z.w}/${z.h}"></i><b>${z.n}</b><small>${z.d}</small></button>`).join('')}</div>
+    <div class="lbl">② ಶೈಲಿ</div><div class="psz" id="pLy">${PLAYOUTS.map(l => `<button data-l="${l.id}"><span style="font-size:26px">${l.ic}</span><b>${l.n}</b></button>`).join('')}</div>
+    <div class="g3">
+      <div class="fld"><label>ಸಂಸ್ಥೆ / ಶಾಲೆಯ ಹೆಸರು (ಮೇಲೆ)</label><input id="pOrg" placeholder="ಉದಾ: ಸರ್ಕಾರಿ ಹಿರಿಯ ಪ್ರಾಥಮಿಕ ಶಾಲೆ, …"></div>
+      <div class="fld"><label>ಮೇಲಿನ ಪಟ್ಟಿ</label><input id="pKick" list="pKickL" placeholder="ಉದಾ: ಆಹ್ವಾನ"><datalist id="pKickL"><option>ಆಹ್ವಾನ</option><option>ಸೂಚನೆ</option><option>ಪ್ರಕಟಣೆ</option><option>ಅಭಿನಂದನೆಗಳು</option><option>ಸ್ಪರ್ಧೆ</option><option>ಜಾಗೃತಿ</option><option>ಪ್ರವೇಶ ಆರಂಭ</option><option>Invitation</option><option>Notice</option><option>Congratulations</option></datalist></div>
+      <div class="fld"><label>ಭಾಷೆ</label><select id="pLang"><option value="auto">ಸ್ವಯಂ</option><option value="kn">ಕನ್ನಡ</option><option value="en">English</option></select></div>
+    </div>
+    <div class="fld"><label>ಮುಖ್ಯ ಶೀರ್ಷಿಕೆ *</label><input id="pTitle" placeholder="ಉದಾ: ಶಾಲಾ ವಾರ್ಷಿಕೋತ್ಸವ – 2026" style="font-size:18px;font-weight:700"></div>
+    <div class="fld"><label>ಉಪಶೀರ್ಷಿಕೆ / ಒಂದು ಸಾಲಿನ ವಿವರ</label><input id="pTag" placeholder="ಉದಾ: ಮಕ್ಕಳ ಪ್ರತಿಭೆಯ ಹಬ್ಬಕ್ಕೆ ತಮಗೆ ಆತ್ಮೀಯ ಸ್ವಾಗತ"></div>
+    <div class="g3">
+      <div class="fld"><label>📅 ದಿನಾಂಕ</label><input id="pDate" placeholder="ಉದಾ: 26 ಜನವರಿ 2027, ಮಂಗಳವಾರ"></div>
+      <div class="fld"><label>⏰ ಸಮಯ</label><input id="pTime" placeholder="ಉದಾ: ಬೆಳಿಗ್ಗೆ 10 ಗಂಟೆಗೆ"></div>
+      <div class="fld"><label>📍 ಸ್ಥಳ</label><input id="pVenue" placeholder="ಉದಾ: ಶಾಲಾ ಆವರಣ"></div>
+    </div>
+    <div class="g2">
+      <div class="fld"><label>ಮುಖ್ಯ ಅಂಶಗಳು / ಕಾರ್ಯಕ್ರಮಗಳು (ಪ್ರತಿ ಸಾಲು = ಒಂದು ಅಂಶ)</label><textarea id="pPts" style="min-height:120px" placeholder="ಉದಾ:\nಮುಖ್ಯ ಅತಿಥಿಗಳು: …\nಸಾಂಸ್ಕೃತಿಕ ಕಾರ್ಯಕ್ರಮಗಳು\nಬಹುಮಾನ ವಿತರಣೆ"></textarea></div>
+      <div><div class="fld"><label>💡 ಎದ್ದು ಕಾಣುವ ಸಾಲು (ಫಲಕದಲ್ಲಿ)</label><input id="pHl" placeholder="ಉದಾ: ತಾವೆಲ್ಲರೂ ಬನ್ನಿ, ಮಕ್ಕಳನ್ನು ಹರಸಿ"></div>
+      <div class="fld"><label>ಕೆಳಗಿನ ಪಟ್ಟಿ (ಸಂಪರ್ಕ / ಆಯೋಜಕರು)</label><input id="pFoot" placeholder="ಉದಾ: ಮುಖ್ಯ ಶಿಕ್ಷಕರು ಮತ್ತು ಸಿಬ್ಬಂದಿ · 98xxxxxx"></div></div>
+    </div>
+    <div class="fld"><label>🖼️ ಚಿತ್ರ — ಇಂಗ್ಲಿಷ್ ಪದ ಬರೆದರೆ ತಾನೇ ಹುಡುಕುತ್ತದೆ, ಅಥವಾ ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಖಾಲಿ ಬಿಟ್ಟರೆ ಚಿತ್ರ ಇಲ್ಲದೆ)</label><div class="srch" style="margin:0"><input id="pImg" placeholder="ಉದಾ: school children dance stage"><button class="btn" id="pUp">📷 ನನ್ನ ಫೋಟೋ</button></div><div class="hint" id="pUpN"></div></div>
+    <div class="fld"><label>ವಿನ್ಯಾಸ</label><div class="thg" id="pTh">${THEMES.map(t => themeCard(t, t.id === themeSel)).join('')}</div></div>`,
+    `<button class="btn" data-close>ರದ್ದು</button><button class="btn cta" id="pGo">🪧 ಪೋಸ್ಟರ್ ತಯಾರಿಸಿ</button>`, { w: 1000, sticky: true });
+  const f = id => $('#' + id, m);
+  ['org', 'kicker', 'contact', 'lang'].forEach(k => { const el = { org: 'pOrg', kicker: 'pKick', contact: 'pFoot', lang: 'pLang' }[k]; if (last[k]) f(el).value = last[k]; });
+  const mark = () => { $$('#pSz button', m).forEach(b => b.classList.toggle('on', b.dataset.z === size)); $$('#pLy button', m).forEach(b => b.classList.toggle('on', b.dataset.l === lay)); };
+  f('pSz').onclick = ev => { const b = ev.target.closest('[data-z]'); if (b) { size = b.dataset.z; mark(); } };
+  f('pLy').onclick = ev => { const b = ev.target.closest('[data-l]'); if (b) { lay = b.dataset.l; mark(); } };
+  f('pTh').onclick = ev => { const b = ev.target.closest('[data-th]'); if (!b) return; themeSel = b.dataset.th; $$('#pTh .thc', m).forEach(x => x.classList.toggle('on', x === b)); };
+  mark();
+  [f('pPts')].forEach(hookNudiPaste);
+  $$('input', m).forEach(inp => inp.addEventListener('paste', ev => { const t = ev.clipboardData && ev.clipboardData.getData('text/plain'); if (!t || !NU.looksNudi(t)) return; ev.preventDefault(); inp.value = NU.convert(t); }));
+  f('pUp').onclick = async () => { const fl = await pickFile('image/*'); if (!fl) return; try { upImg = await readImageFile(fl); f('pUpN').textContent = '✅ ' + fl.name; } catch (e) { toast('⚠️ ಚಿತ್ರ ಓದಲು ಆಗಲಿಲ್ಲ'); } };
+  f('pGo').onclick = async () => {
+    const p = { size, layout: lay, org: f('pOrg').value.trim(), kicker: f('pKick').value.trim(), title: f('pTitle').value.trim(), tagline: f('pTag').value.trim(), date: f('pDate').value.trim(), time: f('pTime').value.trim(), venue: f('pVenue').value.trim(), points: f('pPts').value.trim(), highlight: f('pHl').value.trim(), contact: f('pFoot').value.trim(), imageQuery: f('pImg').value.trim() };
+    if (!p.title) { toast('ಮುಖ್ಯ ಶೀರ್ಷಿಕೆ ಬರೆಯಿರಿ'); f('pTitle').focus(); return; }
+    try { localStorage.setItem('dp_poster', JSON.stringify({ size, layout: lay, theme: themeSel, org: p.org, kicker: p.kicker, contact: p.contact, lang: f('pLang').value })); } catch (e) { }
+    const lv = f('pLang').value; SLANG = lv === 'auto' ? detectLang([p.title, p.tagline, p.points].join(' ')) : lv;
+    if (upImg) { const id = uid(); p.image = 'asset:' + id; p._assets = { [id]: upImg }; }
+    await ensureFonts(THEMES.find(t => t.id === themeSel) || THEMES[0]);
+    const d = buildPoster(p, themeSel); delete d.poster._assets; m.close(); await openDeck(d);
+  };
+  setTimeout(() => f('pTitle').focus(), 60);
 }
 
 /* ----------------------------------------------------- home screen */
@@ -1955,6 +2602,7 @@ async function renderHome() {
    <div class="cards">
     <button class="hc" data-h="auto"><div class="ic" style="background:#FFF0E6">📄</div><h3>ಪಠ್ಯದಿಂದ ತಕ್ಷಣ</h3><p>ಪಾಠ, ವರದಿ, ಭಾಷಣ, ತರಬೇತಿ — ಯಾವುದೇ ಪಠ್ಯ (ಕನ್ನಡ / English) paste ಮಾಡಿ. ಪ್ರತಿ ವಾಕ್ಯವೂ ಸ್ಲೈಡ್‌ಗೆ ಬರುತ್ತದೆ, ಚಿತ್ರಗಳು ತಾನಾಗಿಯೇ ಸೇರುತ್ತವೆ. AI ಬೇಕಿಲ್ಲ.</p></button>
     <button class="hc" data-h="ai"><div class="ic" style="background:#ECEBFF">✨</div><h3>AI ಸಹಾಯದಿಂದ</h3><p>Gemini/ChatGPT ಉಚಿತ website ಬಳಸಿ — ಗ್ಯಾಲರಿ, ಹಂತಗಳು, ಕಾಲರೇಖೆ, ಹೋಲಿಕೆ, ಪ್ರಶ್ನೆಗಳು ಸಹಿತ ಸುಂದರ ಸ್ಲೈಡ್‌ಗಳು. API key ಬೇಕಿಲ್ಲ.</p></button>
+    <button class="hc" data-h="poster"><div class="ic" style="background:#FFE9F0">🪧</div><h3>ಪೋಸ್ಟರ್ / ಆಹ್ವಾನ</h3><p>ಕಾರ್ಯಕ್ರಮದ ಆಹ್ವಾನ, ಸೂಚನೆ, ಜಾಗೃತಿ, ಅಭಿನಂದನೆ — A4 ಮುದ್ರಣ, WhatsApp ಚೌಕ, Status, ಬ್ಯಾನರ್ ಗಾತ್ರಗಳಲ್ಲಿ.</p></button>
     <button class="hc" data-h="blank"><div class="ic" style="background:#E7F6EE">🎨</div><h3>ಖಾಲಿ ಪ್ರಸ್ತುತಿ</h3><p>Canva ತರಹ ನೀವೇ ವಿನ್ಯಾಸ ಮಾಡಿ — ಪಠ್ಯ, ಚಿತ್ರ, ಆಕಾರ, ಫಲಕ, ಚಿಹ್ನೆ, ಬಣ್ಣ ಎಲ್ಲವೂ ಕೈಯಾರೆ.</p></button>
     <button class="hc" data-h="open"><div class="ic" style="background:#E9F1FF">📂</div><h3>ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆಯಿರಿ</h3><p>ಹಿಂದೆ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ".drushyapaata.json" ಯೋಜನೆ ಫೈಲ್ ತೆರೆದು ಮುಂದುವರಿಸಿ.</p></button>
    </div>
@@ -1975,6 +2623,7 @@ function initHome() {
     if (b.dataset.open) { const d = await DB.get(b.dataset.open); if (d) openDeck(d); return; }
     const h = b.dataset.h;
     if (h === 'auto' || h === 'ai') openGenerate(h);
+    if (h === 'poster') openPoster();
     if (h === 'blank') { const d = await buildDeck({ title: 'ಹೊಸ ಪ್ರಸ್ತುತಿ', subtitle: '', slides: [] }, 'neela'); openDeck(d, { fetchImgs: false }); }
     if (h === 'open') $('#fProj').click();
     if (h === 'sample-en') { toast('⏳ …', 0); const d = await buildDeck(JSON.parse(JSON.stringify(SAMPLE_EN)), 'prayoga'); toast('', 1); openDeck(d); }
@@ -2019,6 +2668,91 @@ const commitLater = debounce(() => { renderPanel(); commit(); }, 400);
 /* ----------------------------------------------------- interface language (ಕನ್ನಡ / English) */
 let UIL = (() => { try { return localStorage.getItem('dp_uil') || 'kn'; } catch (e) { return 'kn'; } })();
 const EN = {
+  ", ನಂತರ \"ಸೇರಿಸಿ\" ಒತ್ತಿ. (ಚೌಕ ಎಳೆಯದಿದ್ದರೆ ಪೂರ್ಣ ಪುಟ ಸೇರುತ್ತದೆ)": ", then press \"Add\". (Without a box, the whole page is added)",
+  "ಉದಾ:\nಮುಖ್ಯ ಅತಿಥಿಗಳು: …\nಸಾಂಸ್ಕೃತಿಕ ಕಾರ್ಯಕ್ರಮಗಳು\nಬಹುಮಾನ ವಿತರಣೆ": "e.g.\nChief guest: …\nCultural programmes\nPrize distribution",
+  "ಉದಾ: 21-27  ಅಥವಾ  3, 5, 8-10": "e.g. 21-27  or  3, 5, 8-10",
+  "ಉದಾ: 26 ಜನವರಿ 2027, ಮಂಗಳವಾರ": "e.g. 26 January 2027, Tuesday",
+  "ಉದಾ: school children dance stage": "e.g. school children dance stage",
+  "ಉದಾ: ಆಹ್ವಾನ": "e.g. Invitation",
+  "ಉದಾ: ತಾವೆಲ್ಲರೂ ಬನ್ನಿ, ಮಕ್ಕಳನ್ನು ಹರಸಿ": "e.g. Come and bless our children",
+  "ಉದಾ: ಬೆಳಿಗ್ಗೆ 10 ಗಂಟೆಗೆ": "e.g. 10 AM",
+  "ಉದಾ: ಮಕ್ಕಳ ಪ್ರತಿಭೆಯ ಹಬ್ಬಕ್ಕೆ ತಮಗೆ ಆತ್ಮೀಯ ಸ್ವಾಗತ": "e.g. A warm welcome to our festival of talent",
+  "ಉದಾ: ಮುಖ್ಯ ಶಿಕ್ಷಕರು ಮತ್ತು ಸಿಬ್ಬಂದಿ · 98xxxxxx": "e.g. Head teacher and staff · 98xxxxxx",
+  "ಉದಾ: ಶಾಲಾ ಆವರಣ": "e.g. School grounds",
+  "ಉದಾ: ಶಾಲಾ ವಾರ್ಷಿಕೋತ್ಸವ – 2026": "e.g. School Annual Day – 2026",
+  "ಉದಾ: ಸರ್ಕಾರಿ ಹಿರಿಯ ಪ್ರಾಥಮಿಕ ಶಾಲೆ, …": "e.g. Government Higher Primary School, …",
+  "PDF / Word ಆರಿಸಿ": "Choose PDF / Word",
+  "PowerPoint ನಲ್ಲಿ ತಿದ್ದಲು": "To edit in PowerPoint",
+  "TV / YouTube ಥಂಬ್‌ನೇಲ್": "TV / YouTube thumbnail",
+  "WhatsApp / Facebook / Status ಗೆ ಕಳುಹಿಸಲು": "To share on WhatsApp / Facebook / Status",
+  "ಅಲಂಕಾರಿಕ ಚೌಕಟ್ಟು": "Decorative border",
+  "ಆರಿಸು": "Select",
+  "ಉಪಶೀರ್ಷಿಕೆ / ಒಂದು ಸಾಲಿನ ವಿವರ": "Subtitle / one-line description",
+  "ಕಾರ್ಯಕ್ರಮದ ಆಹ್ವಾನ, ಸೂಚನೆ, ಜಾಗೃತಿ, ಅಭಿನಂದನೆ — A4 ಮುದ್ರಣ, WhatsApp ಚೌಕ, Status, ಬ್ಯಾನರ್ ಗಾತ್ರಗಳಲ್ಲಿ.": "Event invitations, notices, awareness, congratulations — in A4 print, WhatsApp square, Status and banner sizes.",
+  "ಕೆಳಗಿನ ಪಟ್ಟಿ (ಸಂಪರ್ಕ / ಆಯೋಜಕರು)": "Bottom strip (contact / organisers)",
+  "ಚಿತ್ರವಾಗಿ (JPG – ಚಿಕ್ಕ ಫೈಲ್)": "As image (JPG – small file)",
+  "ಚಿತ್ರವಾಗಿ (PNG)": "As image (PNG)",
+  "ನಂತರ ಮತ್ತೆ ತಿದ್ದಲು": "To edit again later",
+  "ಪಠ್ಯಪುಸ್ತಕದ PDF (ನುಡಿ / ಯೂನಿಕೋಡ್), Word (.docx) ಅಥವಾ .txt — ಪಠ್ಯ ತಾನಾಗಿ ಕೆಳಗೆ ಬರುತ್ತದೆ. ಅಥವಾ ಫೈಲ್ ಅನ್ನು ಕೆಳಗಿನ ಡಬ್ಬಿಗೆ ಎಳೆದು ಬಿಡಿ.": "Textbook PDF (Nudi / Unicode), Word (.docx) or .txt — the text comes into the box below automatically. Or drag the file onto the box.",
+  "ಪಠ್ಯಪುಸ್ತಕದ PDF ಅಥವಾ Word ಫೈಲ್ ಆರಿಸಿ — ಅದರಲ್ಲಿರುವ ಚಿತ್ರ/ನಕ್ಷೆಯನ್ನು ನೇರವಾಗಿ ಸ್ಲೈಡ್‌ಗೆ ಹಾಕಬಹುದು.": "Choose a textbook PDF or Word file — you can put its pictures and maps straight onto the slide.",
+  "ಪೂರ್ಣ ಪಠ್ಯ (copy–paste ಮಾಡಿ ಅಥವಾ ಮೇಲಿನ button ನಿಂದ ಫೈಲ್ ಹಾಕಿ)": "Full text (copy–paste, or add a file with the button above)",
+  "ಪೂರ್ಣ ಹಿನ್ನೆಲೆ ಚಿತ್ರ": "Full background picture",
+  "ಪೋಸ್ಟರ್ / ಆಹ್ವಾನ": "Poster / Invitation",
+  "ಫ್ಲೆಕ್ಸ್ / ವೇದಿಕೆ ಬ್ಯಾನರ್ (3:1)": "Flex / stage banner (3:1)",
+  "ಬೇಕಾದ ಚಿತ್ರದ ಸುತ್ತ": "Around the picture you want,",
+  "ಬೇಗ ಕಳುಹಿಸಲು": "Quick to send",
+  "ಬೇರೆ ಫೈಲ್": "Other file",
+  "ಭಾಷೆ": "Language",
+  "ಮುಖ್ಯ ಅಂಶಗಳು / ಕಾರ್ಯಕ್ರಮಗಳು (ಪ್ರತಿ ಸಾಲು = ಒಂದು ಅಂಶ)": "Main points / programme (one per line)",
+  "ಮುಖ್ಯ ಶೀರ್ಷಿಕೆ *": "Main title *",
+  "ಮುದ್ರಣ (ಅಡ್ಡ)": "Print (landscape)",
+  "ಮುದ್ರಣ / ನೋಟೀಸ್ ಬೋರ್ಡ್": "Print / notice board",
+  "ಮುದ್ರಣಕ್ಕೆ (A4 ಗಾತ್ರ ಸರಿಯಾಗಿ ಬರುತ್ತದೆ)": "For printing (exact A4 size)",
+  "ಮೇಲಿನ ಪಟ್ಟಿ": "Top label",
+  "ಮೇಲೆ ದೊಡ್ಡ ಚಿತ್ರ": "Big picture on top",
+  "ಮೌಸ್/ಬೆರಳಿನಿಂದ ಚೌಕ ಎಳೆಯಿರಿ": "drag a box with the mouse/finger",
+  "ಯಾವುದೂ ಬೇಡ": "None",
+  "ಸಂಸ್ಥೆ / ಶಾಲೆಯ ಹೆಸರು (ಮೇಲೆ)": "Organisation / school name (top)",
+  "⏰ ಸಮಯ": "⏰ Time",
+  "① ಪೂರ್ಣ ಪಠ್ಯವನ್ನು paste ಮಾಡಿ — ಅಥವಾ": "① Paste the full text — or",
+  "② ಶೈಲಿ": "② Style",
+  "① ಗಾತ್ರ": "① Size",
+  "✂️ ಆಯ್ದ ಭಾಗ ಸೇರಿಸಿ": "✂️ Add selected part",
+  "✅ ಈ ಪುಟಗಳ ಪಠ್ಯ ತೆಗೆ": "✅ Take text from these pages",
+  "⬛ ಚೌಕ": "⬛ Square",
+  "🎌 ಬ್ಯಾನರ್": "🎌 Banner",
+  "💡 ಎದ್ದು ಕಾಣುವ ಸಾಲು (ಫಲಕದಲ್ಲಿ)": "💡 Highlight line (on a plaque)",
+  "📂 PDF / Word / TXT ಫೈಲ್ ಹಾಕಿ": "📂 Add PDF / Word / TXT file",
+  "📃 A4 ಅಡ್ಡ": "📃 A4 landscape",
+  "📄 A4 ನಿಲುವು": "📄 A4 portrait",
+  "📄 PDF ನಿಂದ ಪುಟಗಳನ್ನು ಆರಿಸಿ": "📄 Choose pages from the PDF",
+  "📄 ದಾಖಲೆಯಿಂದ (PDF/Word)": "📄 From document (PDF/Word)",
+  "📅 ದಿನಾಂಕ": "📅 Date",
+  "📍 ಸ್ಥಳ": "📍 Venue",
+  "📷 ನನ್ನ ಫೋಟೋ": "📷 My photo",
+  "🖥️ 16:9 ಅಡ್ಡ": "🖥️ 16:9 landscape",
+  "🖼️ ಚಿತ್ರ — ಇಂಗ್ಲಿಷ್ ಪದ ಬರೆದರೆ ತಾನೇ ಹುಡುಕುತ್ತದೆ, ಅಥವಾ ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಖಾಲಿ ಬಿಟ್ಟರೆ ಚಿತ್ರ ಇಲ್ಲದೆ)": "🖼️ Picture — type English words to search automatically, or add your photo (leave empty for no picture)",
+  "🪧 ಪೋಸ್ಟರ್ / ಆಹ್ವಾನ / ಸೂಚನೆ ತಯಾರಿಸಿ": "🪧 Make a poster / invitation / notice",
+  "🪧 ಪೋಸ್ಟರ್ ತಯಾರಿಸಿ": "🪧 Make poster",
+  "ಪಾಠ ಇರುವ ಪುಟಗಳನ್ನು ಮಾತ್ರ ಆರಿಸಿ (ಚಿತ್ರದ ಮೇಲೆ ಒತ್ತಿ, ಅಥವಾ ಕೆಳಗೆ ಪುಟ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ). ಪುಸ್ತಕದಲ್ಲಿ ಮುದ್ರಿತ ಪುಟ ಸಂಖ್ಯೆ ಬೇರೆ ಇರಬಹುದು — ಚಿತ್ರ ನೋಡಿ ಆರಿಸಿ.": "Choose only the pages you need (tap the thumbnails, or type page numbers). Printed page numbers in the book may differ — go by the pictures.",
+  "🔤 ನುಡಿ (Nudi) ಅಕ್ಷರಗಳನ್ನು ಯೂನಿಕೋಡ್ ಕನ್ನಡಕ್ಕೆ ಬದಲಿಸಲಾಗಿದೆ — ಒಮ್ಮೆ ಓದಿ ಪರಿಶೀಲಿಸಿ": "🔤 Nudi letters were converted to Unicode Kannada — please read it through once",
+  "⏳ PDF ತೆರೆಯುತ್ತಿದೆ…": "⏳ Opening PDF…",
+  "⏳ Word ಫೈಲ್ ಓದುತ್ತಿದೆ…": "⏳ Reading Word file…",
+  "⚠️ ಈ PDF ಗೆ password ಇದೆ — ತೆರೆಯಲು ಆಗದು": "⚠️ This PDF has a password — cannot open it",
+  "⚠️ PDF ತೆರೆಯಲು ಆಗಲಿಲ್ಲ (ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಬೇಕು / ಫೈಲ್ ಹಾಳಾಗಿರಬಹುದು)": "⚠️ Could not open the PDF (needs internet / the file may be damaged)",
+  "⚠️ ಈ Word ಫೈಲ್‌ನಲ್ಲಿ ಪಠ್ಯ ಸಿಗಲಿಲ್ಲ": "⚠️ No text found in this Word file",
+  "⚠️ Word ಫೈಲ್ ಓದಲು ಆಗಲಿಲ್ಲ — .docx ಫೈಲ್ ಆರಿಸಿ": "⚠️ Could not read the Word file — choose a .docx file",
+  "⚠️ ಈ ಫೈಲ್ ರೂಪ ಬೆಂಬಲಿತವಿಲ್ಲ — PDF, Word (.docx) ಅಥವಾ .txt ಆರಿಸಿ": "⚠️ This file type is not supported — choose PDF, Word (.docx) or .txt",
+  "⚠️ ಫೈಲ್ ತೆರೆಯಲು ಆಗಲಿಲ್ಲ": "⚠️ Could not open the file",
+  "ಪುಟ ಸಂಖ್ಯೆ ಸರಿಯಾಗಿ ಬರೆಯಿರಿ (ಉದಾ: 21-27)": "Type the page numbers correctly (e.g. 21-27)",
+  "ಕನಿಷ್ಠ ಒಂದು ಪುಟ ಆರಿಸಿ": "Choose at least one page",
+  "ಮುಖ್ಯ ಶೀರ್ಷಿಕೆ ಬರೆಯಿರಿ": "Type the main title",
+  "⚠️ ಚಿತ್ರ ಓದಲು ಆಗಲಿಲ್ಲ": "⚠️ Could not read the picture",
+  "⚠️ ಹಳೆಯ Word (.doc) ಫೈಲ್": "⚠️ Old Word (.doc) file",
+  "📷 ಇದು scan ಮಾಡಿದ (ಚಿತ್ರ ರೂಪದ) PDF": "📷 This is a scanned (image-only) PDF",
+  "ಈ ಫೈಲ್‌ನಲ್ಲಿ ಚಿತ್ರಗಳಿಲ್ಲ": "No pictures in this file",
+  "✅ ಚಿತ್ರ ಡೌನ್‌ಲೋಡ್ ಆಯಿತು": "✅ Picture downloaded",
+  "ಸರಿ": "OK",
   'ದೃಶ್ಯಪಾಠ': 'Drushyapaata', 'ಮುಖಪುಟ': 'Home', 'ಪ್ರಸ್ತುತಿಯ ಹೆಸರು': 'Presentation name', 'ಹಿಂದಕ್ಕೆ (Ctrl+Z)': 'Undo (Ctrl+Z)', 'ಮುಂದಕ್ಕೆ (Ctrl+Y)': 'Redo (Ctrl+Y)',
   'ವಿನ್ಯಾಸ': 'Design', 'ಮಾಹಿತಿ ಪರಿಶೀಲನೆ': 'Content check', 'ಮೂಲ ಪಠ್ಯದ ಎಲ್ಲಾ ಮಾಹಿತಿ ಬಂದಿದೆಯೇ ಪರೀಕ್ಷಿಸಿ': 'Check that all information from the source is on the slides', 'ಡೌನ್‌ಲೋಡ್': 'Download', 'ಪ್ರದರ್ಶನ': 'Present',
   'ಶೀರ್ಷಿಕೆ': 'Heading', 'ಪಠ್ಯ': 'Text', 'ಅಂಶಗಳ ಪಟ್ಟಿ': 'Bullet list', 'ಚಿತ್ರ': 'Image', 'ಆಕಾರ': 'Shape', 'ಚಿಹ್ನೆ': 'Icon', 'ಹೊಸ ಪ್ರಸ್ತುತಿ': 'New presentation',
@@ -2097,6 +2831,10 @@ const EN = {
   '⚠️ ಉತ್ತರದಲ್ಲಿ "slides" ಇಲ್ಲ': '⚠️ The answer has no "slides"', 'ಈ ಪ್ರಸ್ತುತಿಯನ್ನು ಅಳಿಸಬೇಕೇ?': 'Delete this presentation?',
 };
 const ENRX = [
+  [/^⏳ ಪಠ್ಯ ತೆಗೆಯುತ್ತಿದೆ… (\d+)\/(\d+)$/, '⏳ Extracting text… $1/$2'],
+  [/^(\d+) ಪುಟ ಆರಿಸಲಾಗಿದೆ$/, '$1 pages selected'],
+  [/^✅ (\d+) ಪದಗಳು ಬಂದವು(?: · (\d+) ಚಿತ್ರಗಳು \(ಚಿತ್ರ ಸೇರಿಸಿ → 📄 ದಾಖಲೆಯಿಂದ\))?\. (⚠️ )?.*$/, '✅ $1 words loaded. $3Please read it through once and delete unwanted parts.'],
+
   [/^ಸ್ಲೈಡ್ (\d+) \/ (\d+)$/, 'Slide $1 / $2'],
   [/^✅ (\d+) ಚಿತ್ರಗಳು ಸೇರಿದವು\..*$/, '✅ $1 pictures added. Click a picture → other suggestions on the right.'],
   [/^🖼️ ಚಿತ್ರಗಳನ್ನು ಹುಡುಕುತ್ತಿದೆ… (\d+)\/(\d+)$/, '🖼️ Finding pictures… $1/$2'],
@@ -2167,28 +2905,28 @@ async function init() {
 const SAMPLE = {
   title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮತ್ತು ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಅಧ್ಯಾಯ–19', cls: '8', subject: 'ಸಮಾಜ ವಿಜ್ಞಾನ – ಇತಿಹಾಸ', lang: 'kn', titleImages: ['Badami cave temples', 'Shore Temple Mahabalipuram'], tagline: 'ದಕ್ಷಿಣ ಭಾರತದ ಎರಡು ಶ್ರೇಷ್ಠ ರಾಜವಂಶಗಳ ಪರಿಚಯ', tags: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', 'ಕಂಚಿಯ ಪಲ್ಲವರು'],
   slides: [
-    { type: 'objectives', heading: 'ಈ ಅಧ್ಯಾಯದಲ್ಲಿ ನಾವು ತಿಳಿಯುವುದು', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆರಂಭ, ಪ್ರಸಿದ್ಧ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ಕಾಲದಲ್ಲಿನ ಸಾಮ್ರಾಜ್ಯ ವಿಸ್ತರಣೆ.', 'ಧಾರ್ಮಿಕ, ಸಾಮಾಜಿಕ, ಸೇನಾಡಳಿತ ಹಾಗೂ ನ್ಯಾಯಾಡಳಿತ ವ್ಯವಸ್ಥೆ.', 'ಭೂಪಟದಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ವ್ಯಾಪ್ತಿಯನ್ನು ಗುರುತಿಸುವುದು.', 'ಕಂಚಿಯ ಪಲ್ಲವರು ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣ ಕ್ಷೇತ್ರಕ್ಕೆ ನೀಡಿದ ಕೊಡುಗೆಗಳು.'] },
+    { type: 'objectives', heading: 'ಈ ಅಧ್ಯಾಯದಲ್ಲಿ ನಾವು ತಿಳಿಯುವುದು', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆರಂಭ, ಪ್ರಸಿದ್ಧ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯ ಕಾಲದಲ್ಲಿನ ಸಾಮ್ರಾಜ್ಯ ವಿಸ್ತರಣೆ.', 'ಧಾರ್ಮಿಕ, ಸಾಮಾಜಿಕ, ಸೇನಾಡಳಿತ ಹಾಗೂ ನ್ಯಾಯಾಡಳಿತ ವ್ಯವಸ್ಥೆ.', 'ಭೂಪಟದಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ವ್ಯಾಪ್ತಿಯನ್ನು ಗುರುತಿಸುವುದು.', 'ಕಂಚಿಯ ಪಲ್ಲವರು ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣ ಕ್ಷೇತ್ರಕ್ಕೆ ನೀಡಿದ ಕೊಡುಗೆಗಳು.'] },
     { type: 'section', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', subtitle: 'ಸಾ.ಶ. 540 – 753', imageQuery: 'Badami fort cave temples' },
     { type: 'content', heading: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು – ಪರಿಚಯ', imageQuery: 'Badami cave temples', points: ['ಸಾ.ಶ. 6ನೇ ಶತಮಾನದಲ್ಲಿ ಕರ್ನಾಟಕದಲ್ಲಿ ಮಹಾನ್ ಶಕ್ತಿಶಾಲಿ ರಾಜರುಗಳು ಆಳಿದರು. ಅವರೇ ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು.', 'ಕರ್ನಾಟಕದಲ್ಲಿ ತಮ್ಮ ಸಾರ್ವಭೌಮಾಧಿಕಾರವನ್ನು ಸ್ಥಾಪಿಸಿ ಸುಮಾರು ಎರಡು ಶತಮಾನಗಳ ಕಾಲ ಅವಿಚ್ಛಿನ್ನವಾಗಿ, ಅಪಾರ ವೈಭವದಿಂದ ರಾಜ್ಯಭಾರ ಮಾಡಿದರು.', 'ದಕ್ಷಿಣ ಭಾರತದ ಇತಿಹಾಸದಲ್ಲಿ ಪ್ರಮುಖ ಪಾತ್ರ ವಹಿಸಿದ ಚಾಳುಕ್ಯ ರಾಜಮನೆತನವು ಭಾರತದ ಪ್ರಬಲ ರಾಜಮನೆತನಗಳಲ್ಲೊಂದು.', 'ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರನೆಯ ಶತಮಾನದಿಂದ ಆರಂಭಗೊಂಡು ಎಂಟನೆಯ ಶತಮಾನದ ಮಧ್ಯಭಾಗದಲ್ಲಿ ಕೊನೆಗೊಂಡಿತು.'] },
-    { type: 'content', heading: 'ಸ್ಥಾಪಕ ಮತ್ತು ಪ್ರಸಿದ್ಧ ಚಕ್ರವರ್ತಿ', imageQuery: 'Pulakeshin II', highlight: 'ಸಂಸ್ಥಾಪಕ: ರಾಜಾ ಜಯಸಿಂಹ  •  ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಚಕ್ರವರ್ತಿ: ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', points: ['ರಾಜಾ ಜಯಸಿಂಹನು ಈ ವಂಶದ ಸಂಸ್ಥಾಪಕನು.', 'ಈ ರಾಜವಂಶದ ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಮತ್ತು ಹೆಸರಾಂತ ಚಕ್ರವರ್ತಿಯೆಂದರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ.', 'ಗಂಗರು, ಕದಂಬರು ಮತ್ತು ಅಳುಪರನ್ನು ಗೆದ್ದು, ಈತನು ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವನ್ನು ವಿಸ್ತರಿಸಿದನು.'] },
-    { type: 'content', heading: 'ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ವಿಜಯಗಳು', imageQuery: 'Narmada river', imagePrompt: 'Two ancient Indian armies with war elephants facing each other across the wide Narmada river, 7th century, epic historical painting', caption: 'ನರ್ಮದಾ ನದಿ', points: ['ದಕ್ಷಿಣ ದಖ್ಖನ್ನಿನಲ್ಲಿ ಪಲ್ಲವರು ತಮ್ಮ ವೈಭವ ಕಾಲದಲ್ಲಿದ್ದರು.', 'ದೊರೆ ಮಹೇಂದ್ರವರ್ಮನು ಪುಲಕೇಶಿಯ ಪರಮಾಧಿಕಾರತ್ವವನ್ನು ಒಪ್ಪಿಕೊಳ್ಳದ ಕಾರಣ ಪುಲಕೇಶಿಯು ಆತನನ್ನು ಸೋಲಿಸಿದನು.', 'ಉತ್ತರ ಭಾರತವನ್ನು ಆಳುತ್ತಿದ್ದ ಹರ್ಷವರ್ಧನನನ್ನು ನರ್ಮದಾ ನದಿಯ ದಂಡೆಯಲ್ಲಿ ತಡೆಗಟ್ಟಿ ಸೋಲಿಸಿದನು.'], highlight: 'ಬಿರುದುಗಳು: ‘ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ’, ‘ತ್ರಿಸಾಗರಗಳಿಂದಾವೃತವಾದ ಪ್ರದೇಶದ ಅಧಿಪತಿ’' },
-    { type: 'content', heading: 'ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಗೆ ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವೆಲ್ಲವನ್ನೂ ಒಂದೇ ಕೇಂದ್ರದಿಂದ ಆಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.', 'ಆದುದರಿಂದ ತನ್ನ ತಮ್ಮನಾದ ಕುಬ್ಜ ವಿಷ್ಣುವರ್ಧನನನ್ನು ವೆಂಗಿಗೆ ಮತ್ತು ಜಯಸಿಂಹನನ್ನು ಗುಜರಾತ್ ಪ್ರಾಂತ್ಯಕ್ಕೆ ಅಧಿಕಾರಿಗಳನ್ನಾಗಿ ನೇಮಿಸಿದನು.', 'ಮುಂದಿನ ವರ್ಷಗಳಲ್ಲಿ ಇದು ‘ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು’ ಎನ್ನುವ ಹೆಸರಿನಲ್ಲಿ ಸುಮಾರು ಐದು ಶತಮಾನಗಳ ಕಾಲ ರಾಜ್ಯಭಾರ ನಡೆಸಿತು.'] },
-    { type: 'content', heading: 'ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನ ವಿವರಣೆ', imageQuery: 'Xuanzang', imagePrompt: 'A 7th-century Chinese Buddhist traveller monk carrying scrolls, being welcomed at the royal court of a Chalukya king, red sandstone cliffs of Badami behind', caption: 'ಚೀನಾ ಯಾತ್ರಿಕ ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗ್', points: ['ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಚಾಳುಕ್ಯ ರಾಜಧಾನಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು. ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ ಮತ್ತು ಚಾಳುಕ್ಯ ರಾಜ್ಯದ ಬಗ್ಗೆ ವಿವರಣೆಗಳನ್ನು ನೀಡಿದ್ದಾನೆ.', 'ದೊರೆಯು ನ್ಯಾಯವಾದಿ ಹಾಗೂ ಕರುಣಾಳುವಾಗಿದ್ದನು.', 'ಸೈನ್ಯವು ಶಿಸ್ತಿನಿಂದ ಕೂಡಿದ್ದು, ಸೈನಿಕರು ಮರಣಕ್ಕೆ ಹೆದರದೆ ಕಾದಾಡುವ ಯೋಧರಾಗಿದ್ದರು.', 'ಪ್ರಜೆಗಳು ಸತ್ಯಪ್ರಿಯರು, ಸಂತೋಷಚಿತ್ತರು, ಸ್ವಾಭಿಮಾನಿಗಳು, ಸಂಪದ್ಭರಿತರು, ಗೌರವ ಪ್ರಿಯರು ಮತ್ತು ರಾಜನಿಷ್ಠರಾಗಿದ್ದರು.', 'ರಾಜನಲ್ಲಿ ಅತ್ಯಂತ ಗೌರವ, ಅಂತೆಯೇ ರಾಜನಿಗೆ ಪ್ರಜೆಗಳಲ್ಲಿ ಅಪಾರ ಪ್ರೀತಿ ಇದ್ದಿತು ಎಂದು ಬರೆದಿದ್ದಾನೆ.'] },
-    { type: 'content', heading: 'ವಿದೇಶಿ ಸಂಬಂಧಗಳು ಮತ್ತು ಚಾಳುಕ್ಯರ ಪತನ', imageQuery: 'Ajanta Persian embassy painting', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಆಶಾವಾದಿ ಚಕ್ರವರ್ತಿಯಾಗಿದ್ದನು. ವಿದೇಶಿ ದೊರೆಗಳೊಂದಿಗೂ ಸ್ನೇಹಮಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಪರ್ಷಿಯನ್ ದೊರೆಯಾದ ಇಮ್ಮಡಿ ಖುಸ್ರುವಿನೊಡನೆ ರಾಯಭಾರಿ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನೆಂದು ಅರಬ್ ಇತಿಹಾಸಕಾರರು ತಿಳಿಸುತ್ತಾರೆ.', 'ತಂದೆ ಮಹೇಂದ್ರವರ್ಮನಿಗೆ ಉಂಟಾದ ಸೋಲಿಗೆ ಪಲ್ಲವರ ದೊರೆಯಾದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಸೇಡು ತೀರಿಸಿಕೊಂಡನು; ಚಾಳುಕ್ಯ ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.', 'ಚಾಳುಕ್ಯರ ಕಡೆಯ ದೊರೆ ಕೀರ್ತಿವರ್ಮನ ಕಾಲದಲ್ಲಿ ರಾಷ್ಟ್ರಕೂಟರು ಈ ಸಾಮ್ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿದರು.'] },
+    { type: 'content', heading: 'ಸ್ಥಾಪಕ ಮತ್ತು ಪ್ರಸಿದ್ಧ ಚಕ್ರವರ್ತಿ', imageQuery: 'Pulakeshin II', highlight: 'ಸಂಸ್ಥಾಪಕ: ರಾಜಾ ಜಯಸಿಂಹ  •  ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಚಕ್ರವರ್ತಿ: ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ', points: ['ರಾಜಾ ಜಯಸಿಂಹನು ಈ ವಂಶದ ಸಂಸ್ಥಾಪಕನು.', 'ಈ ರಾಜವಂಶದ ಅತ್ಯಂತ ಶಕ್ತಿಶಾಲಿ ಮತ್ತು ಹೆಸರಾಂತ ಚಕ್ರವರ್ತಿಯೆಂದರೆ ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ.', 'ಗಂಗರು, ಕದಂಬರು ಮತ್ತು ಅಳುಪರನ್ನು ಗೆದ್ದು, ಈತನು ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವನ್ನು ವಿಸ್ತರಿಸಿದನು.'] },
+    { type: 'content', heading: 'ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯ ವಿಜಯಗಳು', imageQuery: 'Narmada river', imagePrompt: 'Two ancient Indian armies with war elephants facing each other across the wide Narmada river, 7th century, epic historical painting', caption: 'ನರ್ಮದಾ ನದಿ', points: ['ದಕ್ಷಿಣ ದಖ್ಖನ್ನಿನಲ್ಲಿ ಪಲ್ಲವರು ತಮ್ಮ ವೈಭವ ಕಾಲದಲ್ಲಿದ್ದರು.', 'ದೊರೆ ಮಹೇಂದ್ರವರ್ಮನು ಪುಲಿಕೇಶಿಯ ಪರಮಾಧಿಕಾರತ್ವವನ್ನು ಒಪ್ಪಿಕೊಳ್ಳದ ಕಾರಣ ಪುಲಿಕೇಶಿಯು ಆತನನ್ನು ಸೋಲಿಸಿದನು.', 'ಉತ್ತರ ಭಾರತವನ್ನು ಆಳುತ್ತಿದ್ದ ಹರ್ಷವರ್ಧನನನ್ನು ನರ್ಮದಾ ನದಿಯ ದಂಡೆಯಲ್ಲಿ ತಡೆಗಟ್ಟಿ ಸೋಲಿಸಿದನು.'], highlight: 'ಬಿರುದುಗಳು: ‘ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ’, ‘ತ್ರಿಸಾಗರಗಳಿಂದಾವೃತವಾದ ಪ್ರದೇಶದ ಅಧಿಪತಿ’' },
+    { type: 'content', heading: 'ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು', points: ['ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಗೆ ತನ್ನ ಚಕ್ರಾಧಿಪತ್ಯವೆಲ್ಲವನ್ನೂ ಒಂದೇ ಕೇಂದ್ರದಿಂದ ಆಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.', 'ಆದುದರಿಂದ ತನ್ನ ತಮ್ಮನಾದ ಕುಬ್ಜ ವಿಷ್ಣುವರ್ಧನನನ್ನು ವೆಂಗಿಗೆ ಮತ್ತು ಜಯಸಿಂಹನನ್ನು ಗುಜರಾತ್ ಪ್ರಾಂತ್ಯಕ್ಕೆ ಅಧಿಕಾರಿಗಳನ್ನಾಗಿ ನೇಮಿಸಿದನು.', 'ಮುಂದಿನ ವರ್ಷಗಳಲ್ಲಿ ಇದು ‘ವೆಂಗಿಯ ಚಾಳುಕ್ಯರು’ ಎನ್ನುವ ಹೆಸರಿನಲ್ಲಿ ಸುಮಾರು ಐದು ಶತಮಾನಗಳ ಕಾಲ ರಾಜ್ಯಭಾರ ನಡೆಸಿತು.'] },
+    { type: 'content', heading: 'ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನ ವಿವರಣೆ', imageQuery: 'Xuanzang', imagePrompt: 'A 7th-century Chinese Buddhist traveller monk carrying scrolls, being welcomed at the royal court of a Chalukya king, red sandstone cliffs of Badami behind', caption: 'ಚೀನಾ ಯಾತ್ರಿಕ ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗ್', points: ['ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಚಾಳುಕ್ಯ ರಾಜಧಾನಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು. ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ ಮತ್ತು ಚಾಳುಕ್ಯ ರಾಜ್ಯದ ಬಗ್ಗೆ ವಿವರಣೆಗಳನ್ನು ನೀಡಿದ್ದಾನೆ.', 'ದೊರೆಯು ನ್ಯಾಯವಾದಿ ಹಾಗೂ ಕರುಣಾಳುವಾಗಿದ್ದನು.', 'ಸೈನ್ಯವು ಶಿಸ್ತಿನಿಂದ ಕೂಡಿದ್ದು, ಸೈನಿಕರು ಮರಣಕ್ಕೆ ಹೆದರದೆ ಕಾದಾಡುವ ಯೋಧರಾಗಿದ್ದರು.', 'ಪ್ರಜೆಗಳು ಸತ್ಯಪ್ರಿಯರು, ಸಂತೋಷಚಿತ್ತರು, ಸ್ವಾಭಿಮಾನಿಗಳು, ಸಂಪದ್ಭರಿತರು, ಗೌರವ ಪ್ರಿಯರು ಮತ್ತು ರಾಜನಿಷ್ಠರಾಗಿದ್ದರು.', 'ರಾಜನಲ್ಲಿ ಅತ್ಯಂತ ಗೌರವ, ಅಂತೆಯೇ ರಾಜನಿಗೆ ಪ್ರಜೆಗಳಲ್ಲಿ ಅಪಾರ ಪ್ರೀತಿ ಇದ್ದಿತು ಎಂದು ಬರೆದಿದ್ದಾನೆ.'] },
+    { type: 'content', heading: 'ವಿದೇಶಿ ಸಂಬಂಧಗಳು ಮತ್ತು ಚಾಳುಕ್ಯರ ಪತನ', imageQuery: 'Ajanta Persian embassy painting', points: ['ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯು ಆಶಾವಾದಿ ಚಕ್ರವರ್ತಿಯಾಗಿದ್ದನು. ವಿದೇಶಿ ದೊರೆಗಳೊಂದಿಗೂ ಸ್ನೇಹಮಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಪರ್ಷಿಯನ್ ದೊರೆಯಾದ ಇಮ್ಮಡಿ ಖುಸ್ರುವಿನೊಡನೆ ರಾಯಭಾರಿ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದನೆಂದು ಅರಬ್ ಇತಿಹಾಸಕಾರರು ತಿಳಿಸುತ್ತಾರೆ.', 'ತಂದೆ ಮಹೇಂದ್ರವರ್ಮನಿಗೆ ಉಂಟಾದ ಸೋಲಿಗೆ ಪಲ್ಲವರ ದೊರೆಯಾದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಸೇಡು ತೀರಿಸಿಕೊಂಡನು; ಚಾಳುಕ್ಯ ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.', 'ಚಾಳುಕ್ಯರ ಕಡೆಯ ದೊರೆ ಕೀರ್ತಿವರ್ಮನ ಕಾಲದಲ್ಲಿ ರಾಷ್ಟ್ರಕೂಟರು ಈ ಸಾಮ್ರಾಜ್ಯವನ್ನು ಆಕ್ರಮಿಸಿದರು.'] },
     { type: 'map', heading: 'ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸಾಮ್ರಾಜ್ಯದ ನಕ್ಷೆ', imageQuery: 'Chalukya Empire map', points: ['ಭೂಪಟದಲ್ಲಿ ಗುರುತಿಸಿ: ಬಾದಾಮಿ (ವಾತಾಪಿ), ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು', 'ವೆಂಗಿ – ವೆಂಗಿಯ ಚಾಳುಕ್ಯರ ಕೇಂದ್ರ', 'ನರ್ಮದಾ ನದಿ – ಹರ್ಷವರ್ಧನನನ್ನು ತಡೆದ ಸ್ಥಳ', 'ಕಂಚಿ – ಪಲ್ಲವರ ರಾಜಧಾನಿ'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಪುಟ 20 ರ ನಕ್ಷೆಯನ್ನೂ ಮಕ್ಕಳಿಗೆ ತೋರಿಸಿ. ಮಕ್ಕಳಿಂದಲೇ ಸ್ಥಳಗಳನ್ನು ಗುರುತಿಸುವಂತೆ ಹೇಳಿ.' },
     { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕೊಡುಗೆಗಳು', question: 'ಸೈನ್ಯಕ್ಕೆ ‘ಕರ್ಣಾಟಬಲ’ ಎಂಬ ಹೆಸರು ಏಕೆ ಹೆಮ್ಮೆಯ ಹೆಸರು? ಯೋಚಿಸಿ.', points: ['ಕನ್ನಡ ನಾಡು, ನುಡಿ, ಸಂಸ್ಕೃತಿಗಳನ್ನು ಬೆಳೆಸಿ, ಪೋಷಿಸಿ, ರಕ್ಷಿಸಿ, ಧರ್ಮ, ಸಾಹಿತ್ಯ, ಕಲೆ, ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಅಗಾಧ ಕೊಡುಗೆ ನೀಡಿದವರು.', 'ಅವರ ಸೈನ್ಯವನ್ನು ‘ಕರ್ಣಾಟಬಲ’ ಎಂದು ಕರೆಯಲಾಗಿತ್ತು.', 'ಕರ್ನಾಟಕ ಚರಿತ್ರೆಯಲ್ಲಿ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಅತ್ಯಂತ ಶ್ರೇಷ್ಠವೂ ವೈಭವಯುಕ್ತವೂ ಆದ ಒಂದು ಯುಗ.', 'ಈ ಯುಗವು ಸೈನಿಕ ಕ್ಷೇತ್ರದಲ್ಲಿ ಅಲ್ಲದೆ ಕಲೆ ಮತ್ತು ಸಾಹಿತ್ಯ ರಂಗಗಳಲ್ಲಿಯೂ ಹಾಗೆಯೇ ಗಮನಾರ್ಹವಾದುದು.'] },
     { type: 'flow', heading: 'ಚಾಳುಕ್ಯರ ಆಡಳಿತ ವ್ಯವಸ್ಥೆ', points: ['ರಾಜ – ಸಕ್ರಿಯವಾಗಿ ಆಡಳಿತದಲ್ಲಿ ಭಾಗವಹಿಸುತ್ತಿದ್ದನು', 'ವಿಷಯ (ಜಿಲ್ಲೆ) – ರಾಜ್ಯವನ್ನು ವಿಷಯಗಳಾಗಿ ವಿಂಗಡಿಸಲಾಗಿತ್ತು; ವಿಷಯಾಧಿಪತಿಯು ಉಸ್ತುವಾರಿ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದನು', 'ಗ್ರಾಮ – ಆಡಳಿತ ಘಟಕಗಳಲ್ಲಿ ಅತ್ಯಂತ ಚಿಕ್ಕದು; ಗ್ರಾಮ ಮುಖ್ಯಸ್ಥರು ಲೆಕ್ಕಪತ್ರಗಳ ವಹಿವಾಟನ್ನು ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದರು'], highlight: 'ಚಾಳುಕ್ಯರು ಸುಮಾರು 200 ವರ್ಷಗಳ ಕಾಲ ಆಡಳಿತ ನಡೆಸಿದರು.' },
     { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕಾಲದ ಧರ್ಮ', imageQuery: 'Meguti Jain temple Aihole', points: ['ಚಾಳುಕ್ಯರು ಶೈವ, ವೈಷ್ಣವ, ಜೈನ ಮುಂತಾದ ಎಲ್ಲ ಪಂಥಗಳ ಸಂಪ್ರದಾಯಗಳನ್ನು ಪ್ರೋತ್ಸಾಹಿಸಿದರು.', 'ಜೈನ ದೇವಾಲಯಗಳ ನಿರ್ಮಾಣಕ್ಕೆ ಇವರು ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.', 'ಬೌದ್ಧ ವಿಹಾರಗಳೂ ಕೂಡ ಪ್ರೋತ್ಸಾಹಿಸಲ್ಪಟ್ಟವು.'] },
     { type: 'content', heading: 'ಚಾಳುಕ್ಯರ ಕಾಲದ ಸಾಹಿತ್ಯ', imageQuery: 'Kappe Arabhatta inscription Badami', points: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಸಾಹಿತ್ಯಕ್ಕೆ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು. ಕನ್ನಡ ಹಾಗೂ ಸಂಸ್ಕೃತ ಭಾಷೆಗಳು ಚೆನ್ನಾಗಿ ಬೆಳೆದವು.', 'ಕನ್ನಡವು ಅವರ ದೇಶ ಭಾಷೆಯಾಗಿತ್ತು.', 'ಈ ಕಾಲದ ಕಾವ್ಯದಲ್ಲಿ ತ್ರಿಪದಿ ಶೈಲಿಯು ಬೆಳವಣಿಗೆಯಾಯಿತು.', 'ಕನ್ನಡದಲ್ಲಿ ಕೃತಿಗಳು ಇಲ್ಲವಾದರೂ ಅನೇಕ ಶಾಸನಗಳು ಕನ್ನಡದಲ್ಲಿ ಬರೆಯಲ್ಪಟ್ಟಿವೆ.', 'ಬಾದಾಮಿಯ ಕಪ್ಪೆ ಅರಭಟ್ಟನ ಶಾಸನದ ಒಂದು ಪದ್ಯವು ತ್ರಿಪದಿ ಶೈಲಿಯಲ್ಲಿರುವುದು ಕಂಡುಬರುತ್ತದೆ.'] },
     { type: 'quote', heading: 'ಕಪ್ಪೆ ಅರಭಟ್ಟನ ಶಾಸನದ ತ್ರಿಪದಿ ಪದ್ಯ', lines: ['ಸಾಧುಂಗೆ ಸಾಧು ಮಾಧುರ್ಯಂಗೆ ಮಾಧುರ್ಯಂ', 'ಬಾಧಿಪ್ಪ ಕಲಿಗೆ ಕಲಿಯುಗ ವಿಪರೀತನ್', 'ಮಾಧವನೀತನ್ ಪೆರನಲ್ಲ'], explain: 'ಅರ್ಥ: ಒಳ್ಳೆಯವರಿಗೆ ಒಳ್ಳೆಯವನು. ಮಧುರಗುಣ ಉಳ್ಳವರಿಗೆ ಮಧುರವಾಗಿ ವರ್ತಿಸುವವನು. ತೊಂದರೆಪಡಿಸುವ ದುಷ್ಟರಿಗೆ ದುಷ್ಟನಂತೆ ಕಾಣಿಸುವವನು. ಈತನು ಅಸಾಮಾನ್ಯನಾದ ಮಾಧವನೇ ಆಗಿರುವವನು.', notes: 'ಪದ್ಯವನ್ನು ರಾಗವಾಗಿ ಓದಿ, ಮಕ್ಕಳಿಂದ ಪುನರುಚ್ಚರಿಸಿ. ತ್ರಿಪದಿ = ಮೂರು ಪಾದಗಳ ಪದ್ಯ.' },
-    { type: 'keywords', heading: 'ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು ಮತ್ತು ನಾಟಕಗಳು', points: ['ರವಿಕೀರ್ತಿ, ವಿಜ್ಜಿಕ, ಅಕಳಂಕ – ಈ ಕಾಲದ ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು', 'ವಿಜ್ಜಿಕ – ಎರಡನೇ ಪುಲಕೇಶಿಯ ಸೊಸೆಯಾದ ಕವಯಿತ್ರಿ; ‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’ ಬರೆದವಳು', 'ಶಿವಭಟ್ಟಾರಕ – ‘ಹರ ಪಾರ್ವತೀಯ’ ಬರೆದವನು', '‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’, ‘ಹರ ಪಾರ್ವತೀಯ’ – ಮುಖ್ಯವಾದ ಸಂಸ್ಕೃತ ನಾಟಕಗಳು'] },
+    { type: 'keywords', heading: 'ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು ಮತ್ತು ನಾಟಕಗಳು', points: ['ರವಿಕೀರ್ತಿ, ವಿಜ್ಜಿಕ, ಅಕಳಂಕ – ಈ ಕಾಲದ ಸಂಸ್ಕೃತ ವಿದ್ವಾಂಸರು', 'ವಿಜ್ಜಿಕ – ಎರಡನೇ ಪುಲಿಕೇಶಿಯ ಸೊಸೆಯಾದ ಕವಯಿತ್ರಿ; ‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’ ಬರೆದವಳು', 'ಶಿವಭಟ್ಟಾರಕ – ‘ಹರ ಪಾರ್ವತೀಯ’ ಬರೆದವನು', '‘ಕೌಮುದೀ ಮಹೋತ್ಸವ’, ‘ಹರ ಪಾರ್ವತೀಯ’ – ಮುಖ್ಯವಾದ ಸಂಸ್ಕೃತ ನಾಟಕಗಳು'] },
     { type: 'content', heading: 'ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ', imageQuery: 'Badami cave temple sculpture', points: ['ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು ಮಹಾನ್ ನಿರ್ಮಾಪಕರು ಹಾಗೂ ಕಲಾ ಪ್ರೇಮಿಗಳೂ ಆಗಿದ್ದರು.', 'ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲುಗಳಲ್ಲಿ ಸೊಗಸಾದ ಅತ್ಯುತ್ಕೃಷ್ಟವಾದ ದೇವಾಲಯಗಳನ್ನು ನಿರ್ಮಿಸಿದರು.', 'ಇವರು ‘ಚಾಳುಕ್ಯ ಶೈಲಿ’ ಅಥವಾ ‘ವೇಸರ ಶೈಲಿ’ ಎಂಬ ವಿಶಿಷ್ಟ ಶಿಲ್ಪಕಲಾ ಶೈಲಿಯನ್ನು ಭಾರತೀಯ ವಾಸ್ತುಶಿಲ್ಪದಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿದರು.', 'ಬಾದಾಮಿಯಲ್ಲಿರುವ ಶಿಲೆಯಲ್ಲಿ ಕೊರೆದ ಗುಹಾಂತರ ದೇವಾಲಯಗಳನ್ನು ಇವರು ನಿರ್ಮಿಸಿದರು.', 'ಅನೇಕ ಕಲಾವಿದರು ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಕಲಾಕಾರರಿಗೆ ಇವರು ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು.'] },
     { type: 'content', heading: 'ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲು', imageQuery: 'Durga temple Aihole', points: ['ಚಾಳುಕ್ಯ ಶೈಲಿಯ ಅತ್ಯುತ್ತಮ ದೇವಾಲಯಗಳು ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿವೆ.', 'ದೇವಾಲಯ ವಾಸ್ತುಶಿಲ್ಪದ ತೊಟ್ಟಿಲುಗಳಲ್ಲಿ ಐಹೊಳೆಯು ಒಂದಾಗಿದೆ.', 'ದೇವಾಲಯ ವಾಸ್ತುಶಿಲ್ಪದ ಕ್ರಮ ಸರಣಿಯ ವಿಕಾಸದಲ್ಲಿನ ಪ್ರಯೋಗಗಳನ್ನು ಇಲ್ಲಿ ನಡೆಸಲಾಯಿತು.', 'ಈ ಶೈಲಿಯು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿ ಸಂಪೂರ್ಣ ವಿಕಾಸ ಹೊಂದಿತು.'] },
     { type: 'gallery', heading: 'ಚಾಳುಕ್ಯರ ಕಲಾ ವೈಭವ', images: [{ imageQuery: 'Badami cave temple', caption: 'ಬಾದಾಮಿ – ಗುಹಾಂತರ ದೇವಾಲಯ' }, { imageQuery: 'Durga temple Aihole', caption: 'ಐಹೊಳೆ – ವಾಸ್ತುಶಿಲ್ಪದ ತೊಟ್ಟಿಲು' }, { imageQuery: 'Virupaksha Temple Pattadakal', caption: 'ಪಟ್ಟದಕಲ್ಲು – ವಿರೂಪಾಕ್ಷ ದೇವಾಲಯ' }], highlight: '‘ಚಾಳುಕ್ಯ ಶೈಲಿ’ = ‘ವೇಸರ ಶೈಲಿ’' },
     { type: 'content', heading: 'ಪ್ರಸಿದ್ಧ ದೇವಾಲಯಗಳು ಮತ್ತು ವಿಗ್ರಹಗಳು', imageQuery: 'Virupaksha Temple Pattadakal', points: ['ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿ ಲೋಕೇಶ್ವರ (ವಿರೂಪಾಕ್ಷ) ಮತ್ತು ತ್ರೈಲೋಕೇಶ್ವರ (ಮಲ್ಲಿಕಾರ್ಜುನ) ಮುಂತಾದ ಪ್ರಸಿದ್ಧ ದೇವಾಲಯಗಳನ್ನು ಕಾಣಬಹುದು.', 'ಬಾದಾಮಿಯ ಗುಹೆಗಳಲ್ಲಿರುವ ವಿಷ್ಣು, ವರಾಹ, ಹರಿಹರ, ಅರ್ಧನಾರೀಶ್ವರರ ಎತ್ತರದ ವಿಗ್ರಹಗಳು ಚಾಳುಕ್ಯರ ಕಲಾತ್ಮಕ ಸಾಧನೆಯ ಅತ್ಯುತ್ತಮ ಕುರುಹುಗಳಾಗಿವೆ.', 'ಚಿತ್ರಕಲೆಗೂ ಇಲ್ಲಿ ಪ್ರೋತ್ಸಾಹ ಸಿಕ್ಕಿತು.'], notes: 'ಪಠ್ಯಪುಸ್ತಕದ ಚಿತ್ರ: ವಿರೂಪಾಕ್ಷ ದೇವಾಲಯ, ಪಟ್ಟದಕಲ್ಲು (ಪುಟ 21).' },
     { type: 'section', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು', subtitle: 'ಸಾ.ಶ. 350 – 895', imageQuery: 'Kailasanathar Temple Kanchipuram' },
     { type: 'content', heading: 'ಕಂಚಿಯ ಪಲ್ಲವರು – ಪರಿಚಯ', imageQuery: 'Kanchipuram Kailasanathar temple', points: ['ಪಲ್ಲವರು ತಮಿಳುನಾಡಿನ ಪ್ರಪ್ರಥಮ ರಾಜರುಗಳು. ದಕ್ಷಿಣ ಭಾರತವನ್ನು ಆಳಿದ ವಂಶಗಳಲ್ಲಿ ಇವರಿಗೆ ವಿಶೇಷ ಸ್ಥಾನವಿದೆ.', 'ಸಾ.ಶ. 4ನೇ ಶತಮಾನದಿಂದ ಸಾ.ಶ. 9ನೇ ಶತಮಾನದವರೆಗೆ ಆಳಿದರು.', 'ಪ್ರಾರಂಭದಲ್ಲಿ ಇವರು ಶಾತವಾಹನರ ಅಧಿಕಾರಿಗಳಾಗಿದ್ದರು. ಶಾತವಾಹನ ರಾಜ್ಯವು ಅವನತಿಯಾದಾಗ ಪಲ್ಲವರು ತಮ್ಮನ್ನು ತಾವೇ ಸ್ಥಳೀಯ ರಾಜರುಗಳೆಂದು ಘೋಷಿಸಿಕೊಂಡರು.', 'ಶಿವಸ್ಕಂದವರ್ಮನು ಈ ಸಂತತಿಯ ಮೊದಲ ದೊರೆ ಹಾಗೂ ಈ ವಂಶದ ಆಳ್ವಿಕೆಯ ಸ್ಥಾಪಕನು.'] },
-    { type: 'content', heading: 'ಚಾಳುಕ್ಯ – ಪಲ್ಲವ ಸಂಘರ್ಷ', fact: 'ವಾತಾಪಿ ಎಂಬುದು ಬಾದಾಮಿಯ ಹಳೆಯ ಹೆಸರು. ಅದನ್ನು ವಶಪಡಿಸಿಕೊಂಡದ್ದರಿಂದಲೇ ನರಸಿಂಹವರ್ಮನಿಗೆ ‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದು ಬಂತು.', points: ['ಪಲ್ಲವರು ಮತ್ತು ಕದಂಬರು ನಿರಂತರ ವೈರ ಹೊಂದಿದ್ದರು.', 'ಚಾಳುಕ್ಯ ವಂಶದ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಪಲ್ಲವರ ಮಹೇಂದ್ರವರ್ಮನನ್ನು ಸೋಲಿಸಿದನು.', 'ಮುಂದೆ ಬಂದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಪಲ್ಲವ ರಾಜರುಗಳಲ್ಲಿ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧನು.', 'ತನಗೆ ಚಾಳುಕ್ಯರ ಮೇಲಿದ್ದ ಸೇಡನ್ನು ತೀರಿಸಿಕೊಂಡು, ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯನ್ನು ಸೋಲಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.'] },
+    { type: 'content', heading: 'ಚಾಳುಕ್ಯ – ಪಲ್ಲವ ಸಂಘರ್ಷ', fact: 'ವಾತಾಪಿ ಎಂಬುದು ಬಾದಾಮಿಯ ಹಳೆಯ ಹೆಸರು. ಅದನ್ನು ವಶಪಡಿಸಿಕೊಂಡದ್ದರಿಂದಲೇ ನರಸಿಂಹವರ್ಮನಿಗೆ ‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದು ಬಂತು.', points: ['ಪಲ್ಲವರು ಮತ್ತು ಕದಂಬರು ನಿರಂತರ ವೈರ ಹೊಂದಿದ್ದರು.', 'ಚಾಳುಕ್ಯ ವಂಶದ ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯು ಪಲ್ಲವರ ಮಹೇಂದ್ರವರ್ಮನನ್ನು ಸೋಲಿಸಿದನು.', 'ಮುಂದೆ ಬಂದ ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನು ಪಲ್ಲವ ರಾಜರುಗಳಲ್ಲಿ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧನು.', 'ತನಗೆ ಚಾಳುಕ್ಯರ ಮೇಲಿದ್ದ ಸೇಡನ್ನು ತೀರಿಸಿಕೊಂಡು, ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯನ್ನು ಸೋಲಿಸಿ ವಾತಾಪಿಯನ್ನು ವಶಪಡಿಸಿಕೊಂಡನು.'] },
     { type: 'content', heading: 'ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', imageQuery: 'Mahabalipuram monuments', highlight: 'ಬಿರುದುಗಳು: ‘ಮಹಾಮಲ್ಲ’ ಮತ್ತು ‘ವಾತಾಪಿಕೊಂಡ’', points: ['ಈತನು ‘ಮಹಾಮಲ್ಲ’ ಮತ್ತು ‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದುಗಳನ್ನು ಹೊಂದಿದ್ದನು.', 'ಈತನ ಆಳ್ವಿಕೆಯ ಕಾಲದಲ್ಲಿ ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗನು ಕಂಚಿಗೆ ಭೇಟಿ ನೀಡಿದ್ದನು.', 'ಕಂಚಿ ಬಳಿಯಲ್ಲಿನ ಸಮುದ್ರ ತೀರದಲ್ಲಿ ನರಸಿಂಹವರ್ಮನು ಒಂದು ನಗರವನ್ನು ನಿರ್ಮಿಸಿ, ಅದಕ್ಕೆ ‘ಮಹಾಬಲಿಪುರಂ’ ಎಂಬ ಹೆಸರನ್ನು ಇಟ್ಟನು.', 'ಅನೇಕ ಏಕಶಿಲಾ ದೇವಾಲಯಗಳು ಈತನಿಂದ ನಿರ್ಮಾಣವಾದವು.', 'ಅಪರಾಜಿತ ಪಲ್ಲವನ ಆಳ್ವಿಕೆಯ ಕಾಲದಲ್ಲಿ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯ ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಕೊನೆಗೊಂಡಿತು.'] },
     { type: 'content', heading: 'ಪಲ್ಲವರ ಕೊಡುಗೆಗಳು – ಆಡಳಿತ', points: ['ಪಲ್ಲವರು ತಮಿಳುನಾಡಿನಲ್ಲಿ ಆಡಳಿತವನ್ನು ವ್ಯವಸ್ಥೆಗೊಳಿಸಿದ್ದರು.', 'ಸಾಹಿತ್ಯ, ಧರ್ಮ, ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ಹಾಗೂ ಶಿಕ್ಷಣಗಳಲ್ಲಿ ಇವರ ಕಾಣಿಕೆಯು ಗಮನಾರ್ಹವಾದುದು.', 'ವಾತಾಪಿಯಲ್ಲಿ ಚಾಳುಕ್ಯರೂ, ಕಂಚಿಯಲ್ಲಿ ಪಲ್ಲವರೂ ಆಳುತ್ತಿದ್ದ ಕಾಲವೇ ದಕ್ಷಿಣದಲ್ಲಿ ವೀರಯುಗ.', 'ಇವರ ರಾಜ್ಯವು ಸದೃಢ, ಸುವ್ಯವಸ್ಥಿತವಾಗಿದ್ದು, ಮಂತ್ರಿ ಮತ್ತು ಪ್ರಾಂತಾಧಿಕಾರಿಗಳಿದ್ದರು.'] },
     { type: 'flow', heading: 'ಪಲ್ಲವರ ಆಡಳಿತ ವಿಭಾಗಗಳು', points: ['ರಾಜ್ಯ – ಮಂತ್ರಿ ಮತ್ತು ಪ್ರಾಂತಾಧಿಕಾರಿಗಳಿದ್ದರು', 'ಮಂಡಲ – ರಾಜ್ಯದ ದೊಡ್ಡ ವಿಭಾಗ', 'ನಾಡು – ಮಂಡಲದ ಉಪವಿಭಾಗ', 'ಗ್ರಾಮ – ಗ್ರಾಮ ಸಭೆಯು ಗ್ರಾಮದ ಸಮಸ್ಯೆಗಳನ್ನು ಗಮನಿಸುತ್ತಿತ್ತು; ಗ್ರಾಮಭೋಜಕ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದನು'], highlight: 'ರಾಜ್ಯವನ್ನು ಮಂಡಲ, ನಾಡು ಮತ್ತು ಗ್ರಾಮಗಳಾಗಿ ವಿಭಾಗಿಸಿದ್ದರು.' },
@@ -2202,13 +2940,13 @@ const SAMPLE = {
     { type: 'content', heading: 'ಪ್ರಾಚೀನ ವಾಸ್ತುಶಿಲ್ಪದ ಅತ್ಯುತ್ತಮ ನಿದರ್ಶನಗಳು', imageQuery: 'Shore Temple Mahabalipuram', points: ['ಕಂಚಿಯಲ್ಲಿನ ಕೈಲಾಸನಾಥ, ಏಕಾಂಬರನಾಥ ಮತ್ತು ವೈಕುಂಠ ಪೆರುಮಾಳರ ದೇವಾಲಯಗಳು', 'ಮಹಾಬಲಿಪುರದ ಕಡಲದಂಡೆಯ ದೇವಾಲಯ', 'ಇವು ಪ್ರಾಚೀನ ಭಾರತ ವಾಸ್ತುಶಿಲ್ಪದ ಅತ್ಯುತ್ತಮ ನಿದರ್ಶನಗಳಾಗಿವೆ.'] },
     { type: 'content', heading: 'ದೇವಾಲಯಗಳು – ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳು', imageQuery: 'Ekambareswarar Temple Kanchipuram', question: 'ಇಂದು ನಮ್ಮ ಊರಿನ ಜನರು ಒಟ್ಟಾಗಿ ಸೇರಿ ಚರ್ಚಿಸುವ ಸ್ಥಳ ಯಾವುದು?', points: ['ದೇವಾಲಯಗಳು ಧಾರ್ಮಿಕ ಹಾಗೂ ಕಲಾತ್ಮಕ ಚಟುವಟಿಕೆಗಳ ಕೇಂದ್ರಗಳಾದವು.', 'ದೇವಾಲಯದ ಅಂಗಳಗಳಲ್ಲಿ ಸಂಜೆ ಸಮಯದಲ್ಲಿ ಗ್ರಾಮೀಣ ಜನರು ಕಲೆತು ಅನೇಕ ವಿಷಯಗಳನ್ನು ಚರ್ಚಿಸುತ್ತಿದ್ದರು.', 'ವಿರಾಮ ವೇಳೆಯಲ್ಲಿ ಜನರು ಇಲ್ಲಿ ಸಭೆ ಸೇರುತ್ತಿದ್ದು ಹಾಗೂ ಪುರಾಣ ಕೇಳುವುದು ಮತ್ತು ಭಕ್ತಿ ಗೀತೆಗಳನ್ನು ಹಾಡುತ್ತಿದ್ದರು.', 'ಹೀಗಾಗಿ ದೇವಾಲಯಗಳು ಸಾಮಾಜಿಕ, ಶೈಕ್ಷಣಿಕ ಕೇಂದ್ರಗಳಾಗಿದ್ದವು.'] },
     { type: 'content', heading: 'ನೌಕಾಬಲ ಮತ್ತು ವಿದೇಶಿ ವ್ಯಾಪಾರ', imageQuery: 'Southeast Asia map', question: 'ಇಂದು ಭಾರತದ ಹಡಗುಗಳು ಯಾವ ಯಾವ ದೇಶಗಳಿಗೆ ವ್ಯಾಪಾರಕ್ಕೆ ಹೋಗುತ್ತವೆ?', points: ['ಪಲ್ಲವರು ಒಳ್ಳೆಯ ನೌಕಾಬಲವನ್ನು ಹೊಂದಿದ್ದರು.', 'ಇಲ್ಲಿನ ವರ್ತಕರು ಮಲಯ, ಇಂಡೋನೇಷಿಯಾ ಹಾಗೂ ಇತರ ಆಗ್ನೇಯ ಏಷ್ಯಾ ರಾಷ್ಟ್ರಗಳೊಡನೆ ವಾಣಿಜ್ಯ ಸಂಬಂಧಗಳನ್ನು ಹೊಂದಿದ್ದರು.', 'ಭಾರತೀಯ ಭಾಷೆ, ಧರ್ಮ, ಸಂಪ್ರದಾಯ, ಸಂಸ್ಕೃತಿಗಳು ಆ ದೇಶಗಳಲ್ಲಿಯೂ ಪ್ರಭಾವ ಬೀರಿರುವುದನ್ನು ಕಾಣಬಹುದು.'] },
-    { type: 'timeline', heading: 'ಕಾಲರೇಖೆ', points: ['ಸಾ.ಶ. 350 – ಕಂಚಿಯ ಪಲ್ಲವರ ಆಳ್ವಿಕೆ ಆರಂಭ', 'ಸಾ.ಶ. 540 – ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರಂಭ', '7ನೇ ಶತಮಾನ – ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ, ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ; ಭಕ್ತಿ ಪಂಥಗಳು ಜನಪ್ರಿಯ', 'ಸಾ.ಶ. 753 – ರಾಷ್ಟ್ರಕೂಟರಿಂದ ಚಾಳುಕ್ಯ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ', 'ಸಾ.ಶ. 895 – ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ'] },
-    { type: 'compare', heading: 'ಹೋಲಿಸಿ ನೋಡೋಣ', left: { title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', points: ['ಕಾಲ: ಸಾ.ಶ. 540 – 753', 'ಸ್ಥಾಪಕ: ಜಯಸಿಂಹ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', 'ಆಡಳಿತ: ವಿಷಯ (ಜಿಲ್ಲೆ), ಗ್ರಾಮ', 'ಶೈಲಿ: ಚಾಳುಕ್ಯ / ವೇಸರ ಶೈಲಿ', 'ಕೇಂದ್ರಗಳು: ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು'] }, right: { title: 'ಕಂಚಿಯ ಪಲ್ಲವರು', points: ['ಕಾಲ: ಸಾ.ಶ. 350 – 895', 'ಸ್ಥಾಪಕ: ಶಿವಸ್ಕಂದವರ್ಮ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', 'ಆಡಳಿತ: ಮಂಡಲ, ನಾಡು, ಗ್ರಾಮ', 'ಶೈಲಿ: ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದ ಮತ್ತು ರಚನಾ ದೇವಾಲಯಗಳು', 'ಕೇಂದ್ರಗಳು: ಕಂಚಿ, ಮಹಾಬಲಿಪುರ'] } },
-    { type: 'keywords', heading: 'ಪ್ರಮುಖ ಪದಗಳು ಮತ್ತು ಬಿರುದುಗಳು', points: ['ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ – ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯ ಬಿರುದು', 'ಕರ್ಣಾಟಬಲ – ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸೈನ್ಯದ ಹೆಸರು', 'ವೇಸರ ಶೈಲಿ – ಚಾಳುಕ್ಯರು ಪ್ರಾರಂಭಿಸಿದ ಶಿಲ್ಪಕಲಾ ಶೈಲಿ', 'ತ್ರಿಪದಿ – ಈ ಕಾಲದಲ್ಲಿ ಬೆಳೆದ ಕನ್ನಡ ಕಾವ್ಯ ಶೈಲಿ', 'ಮಹಾಮಲ್ಲ, ವಾತಾಪಿಕೊಂಡ – ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನ ಬಿರುದುಗಳು', 'ಗ್ರಾಮಭೋಜಕ – ಪಲ್ಲವರ ಕಾಲದಲ್ಲಿ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದವನು'] },
-    { type: 'questions', heading: 'ಅಭ್ಯಾಸ I – ಸೂಕ್ತ ಪದಗಳಿಂದ ಪೂರ್ಣಗೊಳಿಸಿ', points: ['ಇಮ್ಮಡಿ ಪುಲಕೇಶಿಯು ಸೋಲಿಸಿದ ಪಲ್ಲವರ ದೊರೆ ________ .', 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಸೈನ್ಯಕ್ಕೆ ________ ಎಂಬ ಹೆಸರಿತ್ತು.', '‘ಹರ ಪಾರ್ವತೀಯ’ ಸಂಸ್ಕೃತ ನಾಟಕದ ಕರ್ತೃ ________ .', '‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದು ಪಡೆದ ಪಲ್ಲವರ ರಾಜ ________ .', '‘ಅರ್ಜುನನ ತಪಸ್ಸು’ ಎಂಬ ಕಲಾಕೃತಿಯು ________ ದಲ್ಲಿದೆ.'], notes: 'ಉತ್ತರಗಳು: 1) ಮಹೇಂದ್ರವರ್ಮ  2) ಕರ್ಣಾಟಬಲ  3) ಶಿವಭಟ್ಟಾರಕ  4) ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ  5) ಮಹಾಬಲಿಪುರ' },
-    { type: 'questions', heading: 'ಅಭ್ಯಾಸ II – ಸಂಕ್ಷಿಪ್ತವಾಗಿ ಉತ್ತರಿಸಿ', points: ['ಎರಡನೇ ಪುಲಕೇಶಿಯು ಸಾಮ್ರಾಜ್ಯವನ್ನು ಹೇಗೆ ವಿಸ್ತರಿಸಿದನು?', 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಡಳಿತ ವ್ಯವಸ್ಥೆ ಬಗ್ಗೆ ತಿಳಿಸಿ.', 'ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು ಸಾಹಿತ್ಯ ಪ್ರಿಯರು ಎನ್ನುವುದನ್ನು ಉದಾಹರಣೆ ಸಹಿತ ವಿವರಿಸಿ.', 'ಸಂಸ್ಕೃತ ಮತ್ತು ತಮಿಳು ಭಾಷೆಗಳಿಗೆ ಪಲ್ಲವರು ಯಾವ ರೀತಿ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು?', 'ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪಕ್ಕೆ ಪಲ್ಲವರ ಕೊಡುಗೆಗಳನ್ನು ವಿವರಿಸಿ.'] },
+    { type: 'timeline', heading: 'ಕಾಲರೇಖೆ', points: ['ಸಾ.ಶ. 350 – ಕಂಚಿಯ ಪಲ್ಲವರ ಆಳ್ವಿಕೆ ಆರಂಭ', 'ಸಾ.ಶ. 540 – ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಳ್ವಿಕೆ ಆರಂಭ', '7ನೇ ಶತಮಾನ – ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ, ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ; ಭಕ್ತಿ ಪಂಥಗಳು ಜನಪ್ರಿಯ', 'ಸಾ.ಶ. 753 – ರಾಷ್ಟ್ರಕೂಟರಿಂದ ಚಾಳುಕ್ಯ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ', 'ಸಾ.ಶ. 895 – ಚೋಳರ ಆದಿತ್ಯನಿಂದ ಪಲ್ಲವ ಸಾಮ್ರಾಜ್ಯದ ಅಂತ್ಯ'] },
+    { type: 'compare', heading: 'ಹೋಲಿಸಿ ನೋಡೋಣ', left: { title: 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರು', points: ['ಕಾಲ: ಸಾ.ಶ. 540 – 753', 'ಸ್ಥಾಪಕ: ಜಯಸಿಂಹ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ', 'ಆಡಳಿತ: ವಿಷಯ (ಜಿಲ್ಲೆ), ಗ್ರಾಮ', 'ಶೈಲಿ: ಚಾಳುಕ್ಯ / ವೇಸರ ಶೈಲಿ', 'ಕೇಂದ್ರಗಳು: ಬಾದಾಮಿ, ಐಹೊಳೆ, ಪಟ್ಟದಕಲ್ಲು'] }, right: { title: 'ಕಂಚಿಯ ಪಲ್ಲವರು', points: ['ಕಾಲ: ಸಾ.ಶ. 350 – 895', 'ಸ್ಥಾಪಕ: ಶಿವಸ್ಕಂದವರ್ಮ', 'ಪ್ರಸಿದ್ಧ ದೊರೆ: ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ', 'ಆಡಳಿತ: ಮಂಡಲ, ನಾಡು, ಗ್ರಾಮ', 'ಶೈಲಿ: ಕಲ್ಲಿನಲ್ಲಿ ಕೊರೆದ ಮತ್ತು ರಚನಾ ದೇವಾಲಯಗಳು', 'ಕೇಂದ್ರಗಳು: ಕಂಚಿ, ಮಹಾಬಲಿಪುರ'] } },
+    { type: 'keywords', heading: 'ಪ್ರಮುಖ ಪದಗಳು ಮತ್ತು ಬಿರುದುಗಳು', points: ['ದಕ್ಷಿಣಾ ಪಥೇಶ್ವರ – ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯ ಬಿರುದು', 'ಕರ್ಣಾಟಬಲ – ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಸೈನ್ಯದ ಹೆಸರು', 'ವೇಸರ ಶೈಲಿ – ಚಾಳುಕ್ಯರು ಪ್ರಾರಂಭಿಸಿದ ಶಿಲ್ಪಕಲಾ ಶೈಲಿ', 'ತ್ರಿಪದಿ – ಈ ಕಾಲದಲ್ಲಿ ಬೆಳೆದ ಕನ್ನಡ ಕಾವ್ಯ ಶೈಲಿ', 'ಮಹಾಮಲ್ಲ, ವಾತಾಪಿಕೊಂಡ – ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮನ ಬಿರುದುಗಳು', 'ಗ್ರಾಮಭೋಜಕ – ಪಲ್ಲವರ ಕಾಲದಲ್ಲಿ ಗ್ರಾಮದ ಆಡಳಿತ ನೋಡಿಕೊಳ್ಳುತ್ತಿದ್ದವನು'] },
+    { type: 'questions', heading: 'ಅಭ್ಯಾಸ I – ಸೂಕ್ತ ಪದಗಳಿಂದ ಪೂರ್ಣಗೊಳಿಸಿ', points: ['ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯು ಸೋಲಿಸಿದ ಪಲ್ಲವರ ದೊರೆ ________ .', 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಸೈನ್ಯಕ್ಕೆ ________ ಎಂಬ ಹೆಸರಿತ್ತು.', '‘ಹರ ಪಾರ್ವತೀಯ’ ಸಂಸ್ಕೃತ ನಾಟಕದ ಕರ್ತೃ ________ .', '‘ವಾತಾಪಿಕೊಂಡ’ ಎಂಬ ಬಿರುದು ಪಡೆದ ಪಲ್ಲವರ ರಾಜ ________ .', '‘ಅರ್ಜುನನ ತಪಸ್ಸು’ ಎಂಬ ಕಲಾಕೃತಿಯು ________ ದಲ್ಲಿದೆ.'], notes: 'ಉತ್ತರಗಳು: 1) ಮಹೇಂದ್ರವರ್ಮ  2) ಕರ್ಣಾಟಬಲ  3) ಶಿವಭಟ್ಟಾರಕ  4) ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ  5) ಮಹಾಬಲಿಪುರ' },
+    { type: 'questions', heading: 'ಅಭ್ಯಾಸ II – ಸಂಕ್ಷಿಪ್ತವಾಗಿ ಉತ್ತರಿಸಿ', points: ['ಎರಡನೇ ಪುಲಿಕೇಶಿಯು ಸಾಮ್ರಾಜ್ಯವನ್ನು ಹೇಗೆ ವಿಸ್ತರಿಸಿದನು?', 'ಬಾದಾಮಿಯ ಚಾಳುಕ್ಯರ ಆಡಳಿತ ವ್ಯವಸ್ಥೆ ಬಗ್ಗೆ ತಿಳಿಸಿ.', 'ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು ಸಾಹಿತ್ಯ ಪ್ರಿಯರು ಎನ್ನುವುದನ್ನು ಉದಾಹರಣೆ ಸಹಿತ ವಿವರಿಸಿ.', 'ಸಂಸ್ಕೃತ ಮತ್ತು ತಮಿಳು ಭಾಷೆಗಳಿಗೆ ಪಲ್ಲವರು ಯಾವ ರೀತಿ ಪ್ರೋತ್ಸಾಹ ನೀಡಿದರು?', 'ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪಕ್ಕೆ ಪಲ್ಲವರ ಕೊಡುಗೆಗಳನ್ನು ವಿವರಿಸಿ.'] },
     { type: 'activity', heading: 'ಚಟುವಟಿಕೆಗಳು ಮತ್ತು ಯೋಜನೆಗಳು', points: ['ಕನ್ನಡ ಭಾಷೆಗೆ ಬಾದಾಮಿ ಚಾಳುಕ್ಯರ ಕೊಡುಗೆಗಳೇನೆಂಬುದನ್ನು ಗುಂಪಿನಲ್ಲಿ ಚರ್ಚಿಸಿ.', 'ತ್ರಿಪದಿಯ ಬಗ್ಗೆ ಕನ್ನಡ ಭಾಷಾ ಶಿಕ್ಷಕರು ಮತ್ತು ಕನ್ನಡ ಪುಸ್ತಕಗಳಿಂದ ಹೆಚ್ಚಿನ ಮಾಹಿತಿಯನ್ನು ಸಂಗ್ರಹಿಸಿ.', 'ಕಂಚಿಪುರ – ಮಹಾಬಲಿಪುರ ಪ್ರದೇಶಗಳಿಗೆ ಒಂದು ಶೈಕ್ಷಣಿಕ ಪ್ರವಾಸವನ್ನು ಏರ್ಪಡಿಸುವುದು.', 'ಯೋಜನೆ: ಯಾವುದಾದರೂ ಸ್ಥಳೀಯ ಐತಿಹಾಸಿಕ ಸ್ಥಳಗಳಿಗೆ ಭೇಟಿ ನೀಡಿ ವಿಷಯ ಸಂಗ್ರಹಿಸಿ.', 'ಯೋಜನೆ: ಬಾದಾಮಿ, ಐಹೊಳೆ ಮತ್ತು ಪಟ್ಟದಕಲ್ಲಿನಲ್ಲಿರುವ ಪ್ರಮುಖ ದೇವಾಲಯಗಳ ಚಿತ್ರ ಬಿಡಿಸಿ ಒಂದು ಆಲ್ಬಂ ತಯಾರಿಸಿ.'] },
-    { type: 'summary', heading: 'ಸಾರಾಂಶ', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು (540–753): ಸ್ಥಾಪಕ ಜಯಸಿಂಹ; ಶ್ರೇಷ್ಠ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ', 'ಕರ್ಣಾಟಬಲ ಸೈನ್ಯ; ವಿಷಯ–ಗ್ರಾಮ ಆಡಳಿತ; ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೆ ಪ್ರೋತ್ಸಾಹ', 'ಕನ್ನಡ ಶಾಸನಗಳು, ತ್ರಿಪದಿ; ವೇಸರ ಶೈಲಿಯ ದೇವಾಲಯಗಳು', 'ಕಂಚಿಯ ಪಲ್ಲವರು (350–895): ಶಿವಸ್ಕಂದವರ್ಮ ಸ್ಥಾಪಕ; ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ ಪ್ರಸಿದ್ಧ', 'ಸಂಸ್ಕೃತ–ತಮಿಳು ಸಾಹಿತ್ಯ, ಭಕ್ತಿ ಚಳುವಳಿ (ನಾಯನ್ನಾರರು, ಆಳ್ವಾರರು)', 'ಮಹಾಬಲಿಪುರ, ಕಂಚಿಯ ದೇವಾಲಯಗಳು; ನೌಕಾಬಲ ಮತ್ತು ಆಗ್ನೇಯ ಏಷ್ಯಾ ವ್ಯಾಪಾರ'] },
+    { type: 'summary', heading: 'ಸಾರಾಂಶ', points: ['ಬಾದಾಮಿ ಚಾಳುಕ್ಯರು (540–753): ಸ್ಥಾಪಕ ಜಯಸಿಂಹ; ಶ್ರೇಷ್ಠ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ', 'ಕರ್ಣಾಟಬಲ ಸೈನ್ಯ; ವಿಷಯ–ಗ್ರಾಮ ಆಡಳಿತ; ಎಲ್ಲಾ ಧರ್ಮಗಳಿಗೆ ಪ್ರೋತ್ಸಾಹ', 'ಕನ್ನಡ ಶಾಸನಗಳು, ತ್ರಿಪದಿ; ವೇಸರ ಶೈಲಿಯ ದೇವಾಲಯಗಳು', 'ಕಂಚಿಯ ಪಲ್ಲವರು (350–895): ಶಿವಸ್ಕಂದವರ್ಮ ಸ್ಥಾಪಕ; ಪ್ರಥಮ ನರಸಿಂಹವರ್ಮ ಪ್ರಸಿದ್ಧ', 'ಸಂಸ್ಕೃತ–ತಮಿಳು ಸಾಹಿತ್ಯ, ಭಕ್ತಿ ಚಳುವಳಿ (ನಾಯನ್ನಾರರು, ಆಳ್ವಾರರು)', 'ಮಹಾಬಲಿಪುರ, ಕಂಚಿಯ ದೇವಾಲಯಗಳು; ನೌಕಾಬಲ ಮತ್ತು ಆಗ್ನೇಯ ಏಷ್ಯಾ ವ್ಯಾಪಾರ'] },
   ],
 };
 const SAMPLE_EN = {
